@@ -43,3 +43,8 @@ HEADERS += \
 FORMS += \
         mainwindow.ui \
     choosefiledialog.ui
+
+DISTFILES += \
+    .gitignore \
+    LICENSE \
+    README.md
