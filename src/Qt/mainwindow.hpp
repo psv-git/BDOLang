@@ -2,7 +2,6 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include "../Data/DataHandler.hpp"
 
 
 namespace Ui { class MainWindow; }

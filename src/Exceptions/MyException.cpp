@@ -1,7 +1,9 @@
 #include "MyException.hpp"
 
-MyException::MyException(const std::string& msg, uint8_t code) noexcept
-  : exceptionMessage(msg), exceptionCode(code) {}
+MyException::MyException(const std::string& msg, uint8_t code) noexcept {
+  exceptionMessage = msg;
+  exceptionCode = code;
+}
 
 MyException::~MyException() {}
 

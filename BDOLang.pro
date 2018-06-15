@@ -24,15 +24,12 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 
 SOURCES += \
-        main.cpp \
-        mainwindow.cpp \
+    main.cpp \
     src/Data/DataHandler.cpp \
     src/Data/DataRow.cpp \
     src/Exceptions/MyException.cpp \
     src/Functions/FileFunctions.cpp \
     src/Global/Global.cpp \
-    src/bintotextbutton.cpp \
-    src/Qt/bintotextbutton.cpp \
     src/Qt/mainwindow.cpp \
     src/Qt/choosefilewindow.cpp
 
@@ -42,15 +39,10 @@ HEADERS += \
     src/Exceptions/MyException.hpp \
     src/Functions/FileFunctions.hpp \
     src/Global/Global.hpp \
-    mainwindow.hpp \
-    src/bintotextbutton.hpp \
-    src/Qt/bintotextbutton.hpp \
     src/Qt/mainwindow.hpp \
     src/Qt/choosefilewindow.hpp
 
 FORMS += \
-        mainwindow.ui \
-    choosefiledialog.ui \
     forms/mainwindow.ui \
     forms/choosefilewindow.ui
 
@@ -58,3 +50,5 @@ DISTFILES += \
     .gitignore \
     LICENSE \
     README.md
+
+LIBS += -lz
