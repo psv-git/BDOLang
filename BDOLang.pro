@@ -25,10 +25,21 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         main.cpp \
-        mainwindow.cpp
+        mainwindow.cpp \
+    src/Data/DataHandler.cpp \
+    src/Data/DataRow.cpp \
+    src/Exceptions/MyException.cpp \
+    src/Functions/FileFunctions.cpp \
+    src/Global/Global.cpp
 
 HEADERS += \
-        mainwindow.h
+    src/Data/DataHandler.hpp \
+    src/Data/DataRow.hpp \
+    src/Exceptions/MyException.hpp \
+    src/Functions/FileFunctions.hpp \
+    src/Global/Global.hpp \
+    mainwindow.hpp
 
 FORMS += \
-        mainwindow.ui
+        mainwindow.ui \
+    choosefiledialog.ui
