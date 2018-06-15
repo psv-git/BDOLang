@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+//#include "mybutton.hpp"
 
 
 namespace Ui { class MainWindow; }
@@ -18,7 +19,7 @@ signals:
 
 
 public slots:
-
+  void onButtonClick();
 
 private:
   Ui::MainWindow *ui;
