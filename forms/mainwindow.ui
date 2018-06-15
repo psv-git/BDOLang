@@ -6,15 +6,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>738</width>
-    <height>409</height>
+    <width>701</width>
+    <height>407</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <widget class="QPushButton" name="binToTextButton">
+   <widget class="BinToTextButton" name="BinToTextButton">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -28,22 +28,6 @@
     </property>
    </widget>
   </widget>
-  <widget class="QMenuBar" name="menuBar">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>738</width>
-     <height>23</height>
-    </rect>
-   </property>
-   <widget class="QMenu" name="menuBDOLang">
-    <property name="title">
-     <string>&amp;Menu</string>
-    </property>
-   </widget>
-   <addaction name="menuBDOLang"/>
-  </widget>
   <widget class="QToolBar" name="mainToolBar">
    <attribute name="toolBarArea">
     <enum>TopToolBarArea</enum>
@@ -55,25 +39,15 @@
   <widget class="QStatusBar" name="statusBar"/>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>BinToTextButton</class>
+   <extends>QPushButton</extends>
+   <header>bintotextbutton.hpp</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
- <connections>
-  <connection>
-   <sender>binToTextButton</sender>
-   <signal>released()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>onButtonClick()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>75</x>
-     <y>75</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>368</x>
-     <y>204</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
+ <connections/>
  <slots>
   <slot>onButtonClick()</slot>
  </slots>
