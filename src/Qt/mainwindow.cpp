@@ -11,6 +11,7 @@ MainWindow::MainWindow(WindowsHandler *parent) : ui(new Ui::MainWindow) {
   connect(ui->button1, &MyButton::released, this, &MainWindow::onButtonClick);
   connect(ui->button2, &MyButton::released, this, &MainWindow::onButtonClick);
   connect(ui->button3, &MyButton::released, this, &MainWindow::onButtonClick);
+  connect(ui->exitButton, &MyButton::released, this, &MainWindow::onButtonClick);
 }
 
 
@@ -24,6 +25,7 @@ void MainWindow::onButtonClick() {
   MyButton* button = qobject_cast<MyButton*>(sender());
   if (button != NULL ) {
     QString name = button->objectName();
+    if (name == "exitButton") parent->onButtonClick(this, 0);
     if (name == "button1") parent->onButtonClick(this, 1);
   }
 }

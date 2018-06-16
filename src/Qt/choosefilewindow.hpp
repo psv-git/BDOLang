@@ -2,6 +2,7 @@
 #define CHOOSEFILEWINDOW_HPP
 
 #include <QDialog>
+#include <QFileDialog>
 
 namespace Ui { class ChooseFileWindow; }
 class WindowsHandler;
@@ -18,11 +19,14 @@ signals:
 
 
 public slots:
+  void show();
   void onButtonClick();
 
 private:
   WindowsHandler *parent;
   Ui::ChooseFileWindow *ui;
+
+  const QString getFileName(const char* s);
 
 };
 

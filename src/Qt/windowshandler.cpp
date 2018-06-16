@@ -19,8 +19,25 @@ WindowsHandler::~WindowsHandler() {
 // ===========================================================================
 
 void WindowsHandler::onButtonClick(QWidget *sender, int code) {
-  if (sender == mainWindow && code == 1) {
+  if (sender == mainWindow) {
+    if (code == 0) QApplication::quit();
+    if (code == 1) {
       mainWindow->hide();
       chooseFileWindow->show();
+    }
+  }
+  if (sender == chooseFileWindow) {
+    if (code == 0) {
+      chooseFileWindow->hide();
+      mainWindow->show();
+    }
+  }
+}
+
+
+void WindowsHandler::onButtonClick(QWidget *sender, const QString &inFile, const QString &outFile) {
+  if (sender == chooseFileWindow) {
+    chooseFileWindow->hide();
+    mainWindow->show();
   }
 }
