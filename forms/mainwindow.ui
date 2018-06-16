@@ -6,22 +6,54 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>275</width>
-    <height>378</height>
+    <width>420</width>
+    <height>440</height>
    </rect>
   </property>
+  <property name="minimumSize">
+   <size>
+    <width>420</width>
+    <height>440</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>420</width>
+    <height>440</height>
+   </size>
+  </property>
+  <property name="font">
+   <font>
+    <family>Arial Black</family>
+    <pointsize>16</pointsize>
+   </font>
+  </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string notr="true">BDOLang</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">background-color: rgb(50, 50, 50);</string>
   </property>
   <widget class="QWidget" name="centralWidget">
    <widget class="MyButton" name="button3">
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>160</y>
-      <width>231</width>
-      <height>61</height>
+      <y>190</y>
+      <width>380</width>
+      <height>60</height>
      </rect>
+    </property>
+    <property name="toolTip">
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:16pt;&quot;&gt;Translate .loc file&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    </property>
+    <property name="toolTipDuration">
+     <number>1</number>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(80, 80, 80);
+color: rgb(255, 255, 255);
+font: 16pt &quot;Arial Black&quot;;</string>
     </property>
     <property name="text">
      <string>TRANSLATE</string>
@@ -31,10 +63,15 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>20</y>
-      <width>231</width>
-      <height>61</height>
+      <y>30</y>
+      <width>380</width>
+      <height>60</height>
      </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(255, 255, 255);
+background-color: rgb(80, 80, 80);
+font: 16pt &quot;Arial Black&quot;;</string>
     </property>
     <property name="text">
      <string>MERGE TWO BIN FILES</string>
@@ -44,10 +81,15 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>90</y>
-      <width>231</width>
-      <height>61</height>
+      <y>110</y>
+      <width>380</width>
+      <height>60</height>
      </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(255, 255, 255);
+background-color: rgb(80, 80, 80);
+font: 16pt &quot;Arial Black&quot;;</string>
     </property>
     <property name="text">
      <string>BIN FILE TO TEXT</string>
@@ -56,14 +98,15 @@
    <widget class="MyButton" name="exitButton">
     <property name="geometry">
      <rect>
-      <x>20</x>
-      <y>260</y>
-      <width>231</width>
-      <height>61</height>
+      <x>100</x>
+      <y>320</y>
+      <width>220</width>
+      <height>60</height>
      </rect>
     </property>
     <property name="styleSheet">
      <string notr="true">background-color: rgb(85, 0, 0);
+font: 16pt &quot;Arial Black&quot;;
 color: rgb(255, 255, 255);</string>
     </property>
     <property name="text">
@@ -72,6 +115,12 @@ color: rgb(255, 255, 255);</string>
    </widget>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
+   <property name="movable">
+    <bool>false</bool>
+   </property>
+   <property name="floatable">
+    <bool>false</bool>
+   </property>
    <attribute name="toolBarArea">
     <enum>TopToolBarArea</enum>
    </attribute>
