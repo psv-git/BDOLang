@@ -38,7 +38,8 @@ SOURCES += \
     src/Global/Global.cpp \
     src/Qt/mainwindow.cpp \
     src/Qt/choosefilewindow.cpp \
-    src/Qt/mybutton.cpp
+    src/Qt/mybutton.cpp \
+    src/Qt/windowshandler.cpp
 
 HEADERS += \
     src/Data/DataHandler.hpp \
@@ -48,7 +49,8 @@ HEADERS += \
     src/Global/Global.hpp \
     src/Qt/mainwindow.hpp \
     src/Qt/choosefilewindow.hpp \
-    src/Qt/mybutton.hpp
+    src/Qt/mybutton.hpp \
+    src/Qt/windowshandler.hpp
 
 FORMS += \
     forms/mainwindow.ui \

@@ -1,13 +1,10 @@
-#include "./src/Qt/mainwindow.hpp"
-#include "./src/Qt/choosefilewindow.hpp"
+#include "./src/Qt/windowshandler.hpp"
 #include <QApplication>
 
 
 int main(int argc, char *argv[]) {
   QApplication a(argc, argv);
-  MainWindow w;
-  ChooseFileWindow cfw;
-  w.show();
+  WindowsHandler wh;
 
   return a.exec();
 }

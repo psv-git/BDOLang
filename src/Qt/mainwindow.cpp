@@ -1,10 +1,13 @@
 #include "mainwindow.hpp"
 #include "ui_mainwindow.h"
 #include "mybutton.hpp"
+#include "windowshandler.hpp"
 
 
-MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
+MainWindow::MainWindow(WindowsHandler *parent) : ui(new Ui::MainWindow) {
+  MainWindow::parent = parent;
   ui->setupUi(this);
+
   connect(ui->button1, &MyButton::released, this, &MainWindow::onButtonClick);
   connect(ui->button2, &MyButton::released, this, &MainWindow::onButtonClick);
   connect(ui->button3, &MyButton::released, this, &MainWindow::onButtonClick);
@@ -21,8 +24,6 @@ void MainWindow::onButtonClick() {
   MyButton* button = qobject_cast<MyButton*>(sender());
   if (button != NULL ) {
     QString name = button->objectName();
-    if (name == "button1") button->setText("button1");
-    if (name == "button2") button->setText("button2");
-    if (name == "button3") button->setText("button3");
+    if (name == "button1") parent->onButtonClick(this, 1);
   }
 }

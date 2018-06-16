@@ -1,8 +1,11 @@
 #include "choosefilewindow.hpp"
 #include "ui_choosefilewindow.h"
+#include "mybutton.hpp"
+#include "windowshandler.hpp"
 
 
-ChooseFileWindow::ChooseFileWindow(QWidget *parent) : QDialog(parent), ui(new Ui::ChooseFileWindow) {
+ChooseFileWindow::ChooseFileWindow(WindowsHandler *parent) : ui(new Ui::ChooseFileWindow) {
+  ChooseFileWindow::parent = parent;
   ui->setupUi(this);
 }
 
@@ -11,5 +14,6 @@ ChooseFileWindow::~ChooseFileWindow() {
   delete ui;
 }
 
+// ===========================================================================
 
-//void ChooseFileWindow::onClickButton () {}
+void ChooseFileWindow::onButtonClick () {}
