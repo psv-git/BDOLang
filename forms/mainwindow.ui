@@ -128,6 +128,14 @@ color: rgb(255, 255, 255);</string>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <widget class="QMenuBar" name="menuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>290</width>
+     <height>23</height>
+    </rect>
+   </property>
    <property name="focusPolicy">
     <enum>Qt::NoFocus</enum>
    </property>
@@ -141,10 +149,10 @@ color: rgb(255, 255, 255);</string>
    <widget class="QMenu" name="menuMenu">
     <property name="geometry">
      <rect>
-      <x>348</x>
-      <y>113</y>
-      <width>164</width>
-      <height>112</height>
+      <x>345</x>
+      <y>101</y>
+      <width>165</width>
+      <height>104</height>
      </rect>
     </property>
     <property name="focusPolicy">
@@ -153,14 +161,14 @@ color: rgb(255, 255, 255);</string>
     <property name="title">
      <string>&amp;Menu</string>
     </property>
-    <addaction name="preferences"/>
+    <addaction name="settings"/>
     <addaction name="about"/>
    </widget>
    <addaction name="menuMenu"/>
   </widget>
-  <action name="preferences">
+  <action name="settings">
    <property name="text">
-    <string>Preferences</string>
+    <string>Settings</string>
    </property>
   </action>
   <action name="about">

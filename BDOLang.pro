@@ -73,6 +73,3 @@ DISTFILES += \
     README.md
 
 LIBS += -lz
-
-RESOURCES += \
-    ../Qt/resources.qrc
