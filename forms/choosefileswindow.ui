@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>ChooseFileWindow</class>
- <widget class="QWidget" name="ChooseFileWindow">
+ <class>ChooseFilesWindow</class>
+ <widget class="QWidget" name="ChooseFilesWindow">
   <property name="windowModality">
    <enum>Qt::ApplicationModal</enum>
   </property>
@@ -10,49 +10,28 @@
     <x>0</x>
     <y>0</y>
     <width>650</width>
-    <height>220</height>
+    <height>300</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
     <width>650</width>
-    <height>220</height>
+    <height>300</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
     <width>650</width>
-    <height>220</height>
+    <height>300</height>
    </size>
   </property>
   <property name="windowTitle">
-   <string>Open file</string>
+   <string>Open files</string>
   </property>
   <property name="styleSheet">
    <string notr="true">background-color: rgb(50, 50, 50);</string>
   </property>
-  <widget class="MyButton" name="cancelButton">
-   <property name="geometry">
-    <rect>
-     <x>480</x>
-     <y>140</y>
-     <width>150</width>
-     <height>60</height>
-    </rect>
-   </property>
-   <property name="focusPolicy">
-    <enum>Qt::TabFocus</enum>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">font: 16pt &quot;Arial Black&quot;;
-color: rgb(255, 255, 255);
-background-color: rgb(85, 0, 0);</string>
-   </property>
-   <property name="text">
-    <string>CANCEL</string>
-   </property>
-  </widget>
-  <widget class="MyButton" name="chooseButton">
+  <widget class="MyButton" name="chooseButton1">
    <property name="geometry">
     <rect>
      <x>530</x>
@@ -73,7 +52,28 @@ color: rgb(255, 255, 255);</string>
     <string>...</string>
    </property>
   </widget>
-  <widget class="QLabel" name="label">
+  <widget class="MyButton" name="chooseButton2">
+   <property name="geometry">
+    <rect>
+     <x>530</x>
+     <y>100</y>
+     <width>100</width>
+     <height>60</height>
+    </rect>
+   </property>
+   <property name="focusPolicy">
+    <enum>Qt::TabFocus</enum>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(80, 80, 80);
+font: 16pt &quot;Arial Black&quot;;
+color: rgb(255, 255, 255);</string>
+   </property>
+   <property name="text">
+    <string>...</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label1">
    <property name="geometry">
     <rect>
      <x>20</x>
@@ -91,28 +91,7 @@ background-color: rgb(50, 50, 50);</string>
     <string>Choose source file:</string>
    </property>
   </widget>
-  <widget class="MyButton" name="okButton">
-   <property name="geometry">
-    <rect>
-     <x>20</x>
-     <y>140</y>
-     <width>150</width>
-     <height>60</height>
-    </rect>
-   </property>
-   <property name="focusPolicy">
-    <enum>Qt::TabFocus</enum>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">color: rgb(255, 255, 255);
-font: 16pt &quot;Arial Black&quot;;
-background-color: rgb(0, 85, 0);</string>
-   </property>
-   <property name="text">
-    <string>OK</string>
-   </property>
-  </widget>
-  <widget class="QLineEdit" name="lineEdit">
+  <widget class="QLineEdit" name="lineEdit1">
    <property name="geometry">
     <rect>
      <x>20</x>
@@ -130,6 +109,84 @@ color: rgb(255, 255, 255);
 background-color: rgb(60, 60, 60);</string>
    </property>
   </widget>
+  <widget class="QLabel" name="label2">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>100</y>
+     <width>490</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(50, 50, 50);
+color: rgb(255, 255, 255);
+font: 16pt &quot;Arial Black&quot;;</string>
+   </property>
+   <property name="text">
+    <string>Choose destination file:</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="lineEdit2">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>130</y>
+     <width>490</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="focusPolicy">
+    <enum>Qt::TabFocus</enum>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">font: 10pt &quot;Arial Black&quot;;
+color: rgb(255, 255, 255);
+background-color: rgb(60, 60, 60);</string>
+   </property>
+  </widget>
+  <widget class="MyButton" name="okButton">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>220</y>
+     <width>150</width>
+     <height>60</height>
+    </rect>
+   </property>
+   <property name="focusPolicy">
+    <enum>Qt::TabFocus</enum>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(255, 255, 255);
+font: 16pt &quot;Arial Black&quot;;
+background-color: rgb(0, 85, 0);</string>
+   </property>
+   <property name="text">
+    <string>OK</string>
+   </property>
+  </widget>
+  <widget class="MyButton" name="cancelButton">
+   <property name="geometry">
+    <rect>
+     <x>480</x>
+     <y>220</y>
+     <width>150</width>
+     <height>60</height>
+    </rect>
+   </property>
+   <property name="focusPolicy">
+    <enum>Qt::TabFocus</enum>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">font: 16pt &quot;Arial Black&quot;;
+color: rgb(255, 255, 255);
+background-color: rgb(85, 0, 0);</string>
+   </property>
+   <property name="text">
+    <string>CANCEL</string>
+   </property>
+  </widget>
  </widget>
  <customwidgets>
   <customwidget>
@@ -138,6 +195,14 @@ background-color: rgb(60, 60, 60);</string>
    <header>mybutton.hpp</header>
   </customwidget>
  </customwidgets>
+ <tabstops>
+  <tabstop>lineEdit1</tabstop>
+  <tabstop>chooseButton1</tabstop>
+  <tabstop>lineEdit2</tabstop>
+  <tabstop>chooseButton2</tabstop>
+  <tabstop>okButton</tabstop>
+  <tabstop>cancelButton</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

@@ -27,5 +27,7 @@ void MainWindow::onButtonClick() {
     QString name = button->objectName();
     if (name == "exitButton") parent->onButtonClick(this, 0);
     if (name == "button1") parent->onButtonClick(this, 1);
+    if (name == "button2") parent->onButtonClick(this, 2);
+    if (name == "button3") parent->onButtonClick(this, 3);
   }
 }

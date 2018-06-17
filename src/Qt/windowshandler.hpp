@@ -6,7 +6,9 @@
 class QWidget;
 class QString;
 class MainWindow;
+class TranslateWindow;
 class ChooseFileWindow;
+class ChooseFilesWindow;
 
 
 class WindowsHandler {
@@ -20,8 +22,11 @@ public:
 
 private:
   MainWindow *mainWindow;
+  TranslateWindow *translateWindow;
   ChooseFileWindow *chooseFileWindow;
+  ChooseFilesWindow *chooseFilesWindow;
 
 };
+
 
 #endif // WINDOWSHANDLER_HPP

@@ -37,9 +37,11 @@ SOURCES += \
     src/Functions/FileFunctions.cpp \
     src/Global/Global.cpp \
     src/Qt/mainwindow.cpp \
-    src/Qt/choosefilewindow.cpp \
     src/Qt/mybutton.cpp \
-    src/Qt/windowshandler.cpp
+    src/Qt/windowshandler.cpp \
+    src/Qt/translatewindow.cpp \
+    src/Qt/choosefileswindow.cpp \
+    src/Qt/choosefilewindow.cpp
 
 HEADERS += \
     src/Data/DataHandler.hpp \
@@ -48,12 +50,16 @@ HEADERS += \
     src/Functions/FileFunctions.hpp \
     src/Global/Global.hpp \
     src/Qt/mainwindow.hpp \
-    src/Qt/choosefilewindow.hpp \
     src/Qt/mybutton.hpp \
-    src/Qt/windowshandler.hpp
+    src/Qt/windowshandler.hpp \
+    src/Qt/translatewindow.hpp \
+    src/Qt/choosefileswindow.hpp \
+    src/Qt/choosefilewindow.hpp
 
 FORMS += \
     forms/mainwindow.ui \
+    forms/choosefileswindow.ui \
+    forms/translatewindow.ui \
     forms/choosefilewindow.ui
 
 DISTFILES += \
