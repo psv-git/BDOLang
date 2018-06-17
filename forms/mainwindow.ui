@@ -7,32 +7,23 @@
     <x>0</x>
     <y>0</y>
     <width>290</width>
-    <height>330</height>
+    <height>430</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
     <width>290</width>
-    <height>330</height>
+    <height>430</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
     <width>290</width>
-    <height>330</height>
+    <height>430</height>
    </size>
-  </property>
-  <property name="font">
-   <font>
-    <family>Arial Black</family>
-    <pointsize>16</pointsize>
-   </font>
   </property>
   <property name="windowTitle">
    <string notr="true">BDOLang</string>
-  </property>
-  <property name="styleSheet">
-   <string notr="true">background-color: rgb(50, 50, 50);</string>
   </property>
   <widget class="QWidget" name="centralWidget">
    <widget class="MyButton" name="button3">
@@ -54,9 +45,7 @@
      <number>1</number>
     </property>
     <property name="styleSheet">
-     <string notr="true">background-color: rgb(80, 80, 80);
-color: rgb(255, 255, 255);
-font: 12pt &quot;Arial Black&quot;;</string>
+     <string notr="true">font: 12pt &quot;Arial&quot;;</string>
     </property>
     <property name="text">
      <string>TRANSLATE</string>
@@ -75,9 +64,7 @@ font: 12pt &quot;Arial Black&quot;;</string>
      <enum>Qt::TabFocus</enum>
     </property>
     <property name="styleSheet">
-     <string notr="true">color: rgb(255, 255, 255);
-background-color: rgb(80, 80, 80);
-font: 12pt &quot;Arial Black&quot;;</string>
+     <string notr="true">font: 12pt &quot;Arial&quot;;</string>
     </property>
     <property name="text">
      <string>MERGE TWO BIN FILES</string>
@@ -96,9 +83,7 @@ font: 12pt &quot;Arial Black&quot;;</string>
      <enum>Qt::TabFocus</enum>
     </property>
     <property name="styleSheet">
-     <string notr="true">color: rgb(255, 255, 255);
-background-color: rgb(80, 80, 80);
-font: 12pt &quot;Arial Black&quot;;</string>
+     <string notr="true">font: 12pt &quot;Arial&quot;;</string>
     </property>
     <property name="text">
      <string>BIN FILE TO TEXT</string>
@@ -108,7 +93,7 @@ font: 12pt &quot;Arial Black&quot;;</string>
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>220</y>
+      <y>350</y>
       <width>250</width>
       <height>40</height>
      </rect>
@@ -117,55 +102,39 @@ font: 12pt &quot;Arial Black&quot;;</string>
      <enum>Qt::TabFocus</enum>
     </property>
     <property name="styleSheet">
-     <string notr="true">background-color: rgb(85, 0, 0);
-font: 16pt &quot;Arial Black&quot;;
-color: rgb(255, 255, 255);</string>
+     <string notr="true">font: 12pt &quot;Arial&quot;;</string>
     </property>
     <property name="text">
      <string>EXIT</string>
     </property>
    </widget>
-  </widget>
-  <widget class="QStatusBar" name="statusBar"/>
-  <widget class="QMenuBar" name="menuBar">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>290</width>
-     <height>23</height>
-    </rect>
-   </property>
-   <property name="focusPolicy">
-    <enum>Qt::NoFocus</enum>
-   </property>
-   <property name="contextMenuPolicy">
-    <enum>Qt::CustomContextMenu</enum>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">font: 10pt &quot;Arial Black&quot;;
-color: rgb(255, 255, 255);</string>
-   </property>
-   <widget class="QMenu" name="menuMenu">
+   <widget class="MyButton" name="settingsButton">
     <property name="geometry">
      <rect>
-      <x>345</x>
-      <y>101</y>
-      <width>165</width>
-      <height>104</height>
+      <x>20</x>
+      <y>290</y>
+      <width>250</width>
+      <height>40</height>
      </rect>
     </property>
     <property name="focusPolicy">
-     <enum>Qt::NoFocus</enum>
+     <enum>Qt::TabFocus</enum>
     </property>
-    <property name="title">
-     <string>&amp;Menu</string>
+    <property name="toolTip">
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:16pt;&quot;&gt;Translate .loc file&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
-    <addaction name="settings"/>
-    <addaction name="about"/>
+    <property name="toolTipDuration">
+     <number>1</number>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 12pt &quot;Arial&quot;;</string>
+    </property>
+    <property name="text">
+     <string>SETTINGS</string>
+    </property>
    </widget>
-   <addaction name="menuMenu"/>
   </widget>
+  <widget class="QStatusBar" name="statusBar"/>
   <action name="settings">
    <property name="text">
     <string>Settings</string>
