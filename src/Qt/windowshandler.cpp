@@ -31,6 +31,16 @@ void WindowsHandler::onButtonClick(QWidget *sender, int code) {
     if (code == 2) { int i = 0; }
     if (code == 3) chooseFileWindow->show();
   }
+  if (sender == translateWindow) {
+    if (code == 1) {
+      translateWindow->hide();
+      mainWindow->show();
+    }
+    if (code == 2) {
+      translateWindow->hide();
+      mainWindow->show();
+    }
+  }
   if (sender == chooseFileWindow) {
     if (code == 0) chooseFileWindow->hide();
   }

@@ -20,6 +20,8 @@ signals:
 
 public slots:
   void show(const QString &fileName);
+  void hide();
+  void onButtonClick();
 
 
 private:

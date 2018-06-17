@@ -10,20 +10,14 @@
     <x>0</x>
     <y>0</y>
     <width>650</width>
-    <height>220</height>
+    <height>200</height>
    </rect>
   </property>
-  <property name="minimumSize">
-   <size>
-    <width>650</width>
-    <height>220</height>
-   </size>
-  </property>
-  <property name="maximumSize">
-   <size>
-    <width>650</width>
-    <height>220</height>
-   </size>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
   </property>
   <property name="windowTitle">
    <string>Open file</string>
@@ -34,17 +28,23 @@
   <widget class="MyButton" name="cancelButton">
    <property name="geometry">
     <rect>
-     <x>480</x>
+     <x>530</x>
      <y>140</y>
-     <width>150</width>
-     <height>60</height>
+     <width>100</width>
+     <height>40</height>
     </rect>
+   </property>
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
    </property>
    <property name="focusPolicy">
     <enum>Qt::TabFocus</enum>
    </property>
    <property name="styleSheet">
-    <string notr="true">font: 16pt &quot;Arial Black&quot;;
+    <string notr="true">font: 12pt &quot;Arial Black&quot;;
 color: rgb(255, 255, 255);
 background-color: rgb(85, 0, 0);</string>
    </property>
@@ -56,17 +56,23 @@ background-color: rgb(85, 0, 0);</string>
    <property name="geometry">
     <rect>
      <x>530</x>
-     <y>20</y>
+     <y>50</y>
      <width>100</width>
-     <height>60</height>
+     <height>40</height>
     </rect>
+   </property>
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
    </property>
    <property name="focusPolicy">
     <enum>Qt::TabFocus</enum>
    </property>
    <property name="styleSheet">
     <string notr="true">background-color: rgb(80, 80, 80);
-font: 16pt &quot;Arial Black&quot;;
+font: 12pt &quot;Arial Black&quot;;
 color: rgb(255, 255, 255);</string>
    </property>
    <property name="text">
@@ -82,8 +88,14 @@ color: rgb(255, 255, 255);</string>
      <height>30</height>
     </rect>
    </property>
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
    <property name="styleSheet">
-    <string notr="true">font: 16pt &quot;Arial Black&quot;;
+    <string notr="true">font: 12pt &quot;Arial Black&quot;;
 color: rgb(255, 255, 255);
 background-color: rgb(50, 50, 50);</string>
    </property>
@@ -96,16 +108,22 @@ background-color: rgb(50, 50, 50);</string>
     <rect>
      <x>20</x>
      <y>140</y>
-     <width>150</width>
-     <height>60</height>
+     <width>100</width>
+     <height>40</height>
     </rect>
+   </property>
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
    </property>
    <property name="focusPolicy">
     <enum>Qt::TabFocus</enum>
    </property>
    <property name="styleSheet">
     <string notr="true">color: rgb(255, 255, 255);
-font: 16pt &quot;Arial Black&quot;;
+font: 12pt &quot;Arial Black&quot;;
 background-color: rgb(0, 85, 0);</string>
    </property>
    <property name="text">
@@ -116,18 +134,27 @@ background-color: rgb(0, 85, 0);</string>
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>50</y>
+     <y>55</y>
      <width>490</width>
      <height>30</height>
     </rect>
    </property>
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
    <property name="focusPolicy">
-    <enum>Qt::TabFocus</enum>
+    <enum>Qt::ClickFocus</enum>
    </property>
    <property name="styleSheet">
     <string notr="true">font: 10pt &quot;Arial Black&quot;;
 color: rgb(255, 255, 255);
 background-color: rgb(60, 60, 60);</string>
+   </property>
+   <property name="placeholderText">
+    <string>path/to/source/file</string>
    </property>
   </widget>
  </widget>
