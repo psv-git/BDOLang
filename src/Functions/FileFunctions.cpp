@@ -6,10 +6,10 @@
 #include "../Data/DataRow.hpp"
 
 
-void removeFile(const std::string& fileName) {
+void removeFile(const std::string& fileName, const std::string& functionName) {
   int error = std::remove(fileName.c_str());
   if (error) {
-    throw MyException("removing \"" + fileName + "\" file was failed.", 14);
+    throw MyException("In function \"" + functionName + "\" removing \"" + fileName + "\" file was failed.", 14);
   }
 }
 
@@ -18,11 +18,11 @@ void removeFile(const std::string& fileName) {
 // decrypt data from input file to data container
 void decryptFile(std::ifstream& from, std::vector<DataRow*>& to) {
   std::fstream tmp;
-  openOutputFile(tmp, TMP_FILE_NAME);
+  openOutputFile(tmp, TMP_FILE_NAME, "decryptFile()");
   try {
     uncompressFile(from, tmp);
-    closeFile(tmp, TMP_FILE_NAME);
-    openInputFile(tmp, TMP_FILE_NAME);
+    closeFile(tmp, TMP_FILE_NAME, "decryptFile()");
+    openInputFile(tmp, TMP_FILE_NAME, "decryptFile()");
     // decrypting uncompressed data
     while (true) {
       DataRow* dataRow = new DataRow();
@@ -32,12 +32,13 @@ void decryptFile(std::ifstream& from, std::vector<DataRow*>& to) {
     }
   }
   catch (const std::exception& e) {
-    if (tmp.is_open()) closeFile(tmp, TMP_FILE_NAME);
-    removeFile(TMP_FILE_NAME);
+    std::cerr << "test catch" << std::endl;
+    if (tmp.is_open()) closeFile(tmp, TMP_FILE_NAME, "decryptFile()");
+    removeFile(TMP_FILE_NAME, "decryptFile()");
     throw;
   }
-  closeFile(tmp, TMP_FILE_NAME);
-  removeFile(TMP_FILE_NAME);
+  closeFile(tmp, TMP_FILE_NAME, "decryptFile()");
+  removeFile(TMP_FILE_NAME, "decryptFile()");
 }
 
 
@@ -55,14 +56,14 @@ void uncompressFile(std::ifstream& from, std::fstream& to) {
     from.seekg(0, std::ios::beg);
   }
   catch (...) {
-    throw MyException("getting compressed data size was failed.", 21);
+    throw MyException("In function \"uncompressFile()\" getting compressed data size was failed.", 21);
   }
 
   if (dataLength < MIN_DATA_LENGTH) {
-    throw MyException("bad data length.", 22);
+    throw MyException("In function \"uncompressFile()\" bad data length.", 22);
   }
 
-  readDataFromFile(from, uncompressedDataSize, ulSize);
+  readDataFromFile(from, uncompressedDataSize, ulSize, "uncompressFile()");
 
   uint8_t *inBuff = nullptr, *outBuff = nullptr;
   try {
@@ -71,17 +72,17 @@ void uncompressFile(std::ifstream& from, std::fstream& to) {
   }
   catch (...) {
     if (inBuff) delete[] inBuff;
-    throw MyException("allocated memory was failed.", 23);
+    throw MyException("In function \"uncompressFile()\" allocated memory was failed.", 23);
   }
 
-  readDataFromFile(from, *inBuff, compressedDataSize);
+  readDataFromFile(from, *inBuff, compressedDataSize, "uncompressFile()");
 
   int result = uncompress(outBuff, &uncompressedDataSize, inBuff, compressedDataSize);
 
   if (result == Z_OK) {
-    writeDataToFile(to, *outBuff, uncompressedDataSize);
+    writeDataToFile(to, *outBuff, uncompressedDataSize, "uncompressFile()");
   } else {
-    throw MyException("uncompress was failed.", 24);
+    throw MyException("In function \"uncompressFile()\" uncompress was failed.", 24);
   }
 }
 
@@ -91,25 +92,25 @@ void uncompressFile(std::ifstream& from, std::fstream& to) {
 // encrypt data to output binary file from data container
 void encryptFile(std::vector<DataRow*>& from, std::fstream& to) {
   std::fstream tmp;
-  openOutputFile(tmp, TMP_FILE_NAME);
+  openOutputFile(tmp, TMP_FILE_NAME, "encryptFile()");
   try {
     // write data rows to uncompressed tmp data file
     for (size_t i = 0; i < from.size(); i++) {
       tmp << *from[i];
     }
 
-    closeFile(tmp, TMP_FILE_NAME);
-    openInputFile(tmp, TMP_FILE_NAME);
+    closeFile(tmp, TMP_FILE_NAME, "encryptFile()");
+    openInputFile(tmp, TMP_FILE_NAME, "encryptFile()");
 
     compressFile(tmp, to); // compress tmp data file to output file
   }
   catch (const std::exception& e) {
-    if (tmp.is_open()) closeFile(tmp, TMP_FILE_NAME);
-    removeFile(TMP_FILE_NAME);
+    if (tmp.is_open()) closeFile(tmp, TMP_FILE_NAME, "encryptFile()");
+    removeFile(TMP_FILE_NAME, "encryptFile()");
     throw;
   }
-  closeFile(tmp, TMP_FILE_NAME);
-  removeFile(TMP_FILE_NAME);
+  closeFile(tmp, TMP_FILE_NAME, "encryptFile()");
+  removeFile(TMP_FILE_NAME, "encryptFile()");
 }
 
 
@@ -125,7 +126,7 @@ void compressFile(std::fstream& from, std::fstream& to) {
     from.seekg(0, std::ios::beg);
   }
   catch (...) {
-    throw MyException("getting uncompressed data size was failed.", 31);
+    throw MyException("In function \"compressFile()\" getting uncompressed data size was failed.", 31);
   }
 
   compressedDataSize = compressBound(uncompressedDataSize);
@@ -137,17 +138,17 @@ void compressFile(std::fstream& from, std::fstream& to) {
   }
   catch (...) {
     if (inBuff) delete[] inBuff;
-    throw MyException("allocated memory was failed.", 32);
+    throw MyException("In function \"compressFile()\" allocated memory was failed.", 32);
   }
 
-  readDataFromFile(from, *inBuff, uncompressedDataSize);
+  readDataFromFile(from, *inBuff, uncompressedDataSize, "compressFile()");
 
   int result = compress2(outBuff, &compressedDataSize, inBuff, uncompressedDataSize, Z_BEST_SPEED);
 
   if (result == Z_OK) {
-    writeDataToFile(to, uncompressedDataSize, ulSize);
-    writeDataToFile(to, *outBuff, compressedDataSize);
+    writeDataToFile(to, uncompressedDataSize, ulSize, "compressFile()");
+    writeDataToFile(to, *outBuff, compressedDataSize, "compressFile()");
   } else {
-    throw MyException("compress was failed.", 33);
+    throw MyException("In function \"compressFile()\" compress was failed.", 33);
   }
 }

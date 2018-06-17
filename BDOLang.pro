@@ -41,7 +41,9 @@ SOURCES += \
     src/Qt/windowshandler.cpp \
     src/Qt/translatewindow.cpp \
     src/Qt/choosefileswindow.cpp \
-    src/Qt/choosefilewindow.cpp
+    src/Qt/choosefilewindow.cpp \
+    src/Qt/settingswindow.cpp \
+    src/Functions/ApplicationFunctions.cpp
 
 HEADERS += \
     src/Data/DataHandler.hpp \
@@ -54,13 +56,16 @@ HEADERS += \
     src/Qt/windowshandler.hpp \
     src/Qt/translatewindow.hpp \
     src/Qt/choosefileswindow.hpp \
-    src/Qt/choosefilewindow.hpp
+    src/Qt/choosefilewindow.hpp \
+    src/Qt/settingswindow.hpp \
+    src/Functions/ApplicationFunctions.hpp
 
 FORMS += \
     forms/mainwindow.ui \
     forms/choosefileswindow.ui \
     forms/translatewindow.ui \
-    forms/choosefilewindow.ui
+    forms/choosefilewindow.ui \
+    forms/settingswindow.ui
 
 DISTFILES += \
     .gitignore \
@@ -68,3 +73,6 @@ DISTFILES += \
     README.md
 
 LIBS += -lz
+
+RESOURCES += \
+    ../Qt/resources.qrc

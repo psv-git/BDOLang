@@ -1,8 +1,10 @@
+#include <QErrorMessage>
 #include "translatewindow.hpp"
 #include "ui_translatewindow.h"
 #include "mybutton.hpp"
 #include "windowshandler.hpp"
 #include "../Data/DataHandler.hpp"
+#include "../Functions/FileFunctions.hpp"
 
 
 TranslateWindow::TranslateWindow(WindowsHandler *parent) : ui(new Ui::TranslateWindow) {
@@ -22,6 +24,20 @@ TranslateWindow::~TranslateWindow() {
 
 void TranslateWindow::show(const QString &fileName) {
   dataHandler = new DataHandler();
+  std::string path = fileName.toStdString();
+  std::ifstream input;
+  try {
+    openInputFile(input, path, "TranslateWindow::show()");
+    dataHandler->readDataFromBinFile(input);
+    closeFile(input, path, "TranslateWindow::show()");
+  }
+  catch (const std::exception &e) {
+    if (input.is_open()) closeFile(input, path, "TranslateWindow::show()");
+    std::cerr << e.what() << std::endl;
+    QErrorMessage *errMsgr = QErrorMessage::qtHandler();
+    QString errMsg(e.what());
+    errMsgr->showMessage(errMsg);
+  }
   QWidget::show();
 }
 

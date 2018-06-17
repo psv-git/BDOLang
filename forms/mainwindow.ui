@@ -10,11 +10,17 @@
     <height>330</height>
    </rect>
   </property>
-  <property name="sizePolicy">
-   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-    <horstretch>0</horstretch>
-    <verstretch>0</verstretch>
-   </sizepolicy>
+  <property name="minimumSize">
+   <size>
+    <width>290</width>
+    <height>330</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>290</width>
+    <height>330</height>
+   </size>
   </property>
   <property name="font">
    <font>
@@ -37,12 +43,6 @@
       <width>250</width>
       <height>40</height>
      </rect>
-    </property>
-    <property name="sizePolicy">
-     <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-      <horstretch>0</horstretch>
-      <verstretch>0</verstretch>
-     </sizepolicy>
     </property>
     <property name="focusPolicy">
      <enum>Qt::TabFocus</enum>
@@ -71,12 +71,6 @@ font: 12pt &quot;Arial Black&quot;;</string>
       <height>40</height>
      </rect>
     </property>
-    <property name="sizePolicy">
-     <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-      <horstretch>0</horstretch>
-      <verstretch>0</verstretch>
-     </sizepolicy>
-    </property>
     <property name="focusPolicy">
      <enum>Qt::TabFocus</enum>
     </property>
@@ -98,12 +92,6 @@ font: 12pt &quot;Arial Black&quot;;</string>
       <height>40</height>
      </rect>
     </property>
-    <property name="sizePolicy">
-     <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-      <horstretch>0</horstretch>
-      <verstretch>0</verstretch>
-     </sizepolicy>
-    </property>
     <property name="focusPolicy">
      <enum>Qt::TabFocus</enum>
     </property>
@@ -124,12 +112,6 @@ font: 12pt &quot;Arial Black&quot;;</string>
       <width>250</width>
       <height>40</height>
      </rect>
-    </property>
-    <property name="sizePolicy">
-     <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-      <horstretch>0</horstretch>
-      <verstretch>0</verstretch>
-     </sizepolicy>
     </property>
     <property name="focusPolicy">
      <enum>Qt::TabFocus</enum>
@@ -160,9 +142,9 @@ color: rgb(255, 255, 255);</string>
     <property name="geometry">
      <rect>
       <x>348</x>
-      <y>116</y>
-      <width>188</width>
-      <height>124</height>
+      <y>113</y>
+      <width>164</width>
+      <height>112</height>
      </rect>
     </property>
     <property name="focusPolicy">
@@ -171,17 +153,22 @@ color: rgb(255, 255, 255);</string>
     <property name="title">
      <string>&amp;Menu</string>
     </property>
-    <addaction name="actionLanguage"/>
-    <addaction name="actionAbout"/>
+    <addaction name="preferences"/>
+    <addaction name="about"/>
    </widget>
    <addaction name="menuMenu"/>
   </widget>
-  <action name="actionLanguage">
+  <action name="preferences">
    <property name="text">
-    <string>Language</string>
+    <string>Preferences</string>
    </property>
   </action>
-  <action name="actionAbout">
+  <action name="about">
+   <property name="text">
+    <string>About</string>
+   </property>
+  </action>
+  <action name="actionAbout_2">
    <property name="text">
     <string>About</string>
    </property>

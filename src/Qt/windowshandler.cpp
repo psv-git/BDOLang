@@ -3,6 +3,7 @@
 #include "translatewindow.hpp"
 #include "choosefilewindow.hpp"
 #include "choosefileswindow.hpp"
+#include "settingswindow.hpp"
 
 
 WindowsHandler::WindowsHandler() {

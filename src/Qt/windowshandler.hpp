@@ -9,6 +9,7 @@ class MainWindow;
 class TranslateWindow;
 class ChooseFileWindow;
 class ChooseFilesWindow;
+class SettingsWindow;
 
 
 class WindowsHandler {
@@ -21,10 +22,11 @@ public:
   void onButtonClick(QWidget *sender, const QString &inFile, const QString &outFile);
 
 private:
-  MainWindow *mainWindow;
-  TranslateWindow *translateWindow;
-  ChooseFileWindow *chooseFileWindow;
-  ChooseFilesWindow *chooseFilesWindow;
+  MainWindow *mainWindow = nullptr;
+  TranslateWindow *translateWindow = nullptr;
+  ChooseFileWindow *chooseFileWindow = nullptr;
+  ChooseFilesWindow *chooseFilesWindow = nullptr;
+  SettingsWindow *settingsWindow = nullptr;
 
 };
 

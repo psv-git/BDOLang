@@ -8,55 +8,55 @@ class DataRow;
 
 
 template <typename F>
-void openInputFile(F& input, const std::string& fileName) {
+void openInputFile(F& input, const std::string& fileName, const std::string& functionName = "") {
   input.open(fileName, std::ios::in | std::ios::binary);
-  if (input.fail()) {
-    throw MyException("opening \"" + fileName + "\" file was failed.", 11);
+  if (!input.is_open()) {
+    throw MyException("In function \"" + functionName + "\" opening \"" + fileName + "\" file was failed.", 11);
   }
 }
 
 
 template <typename F>
-void openOutputFile(F& output, const std::string& fileName) {
+void openOutputFile(F& output, const std::string& fileName, const std::string& functionName = "") {
   output.open(fileName, std::ios::out | std::ios::binary);
-  if (output.fail()) {
-    throw MyException("opening \"" + fileName + "\" file was failed.", 12);
+  if (!output.is_open()) {
+    throw MyException("In function \"" + functionName + "\" opening \"" + fileName + "\" file was failed.", 12);
   }
 }
 
 
 template <typename F>
-void closeFile(F& file, const std::string& fileName) {
+void closeFile(F& file, const std::string& fileName, const std::string& functionName = "") {
   file.close();
-  if (file.fail()) {
-    throw MyException("file \"" + fileName + " was not closed.", 13);
+  if (file.is_open()) {
+    throw MyException("In function \"" + functionName + "\" file \"" + fileName + " was not closed.", 13);
   }
 }
 
 
-void removeFile(const std::string& fileName);
+void removeFile(const std::string& fileName, const std::string& functionName = "");
 
 
 template <typename F, typename V>
-void readDataFromFile(F& file, V& var, size_t size = 0) {
+void readDataFromFile(F& file, V& var, size_t size = 0, const std::string& functionName = "") {
   if (size == 0) size = sizeof(var);
   file.read(reinterpret_cast<char*>(&var), size);
   if (file.fail() && !file.eof()) {
-    throw MyException("read data from file was failed.", 15);
+    throw MyException("In function \"" + functionName + "\" read data from file was failed.", 15);
   }
 }
 
 
 template <typename F, typename V>
-void writeDataToFile(F& file, V& var, size_t size = 0) {
+void writeDataToFile(F& file, V& var, size_t size = 0, const std::string& functionName = "") {
   if (size == 0) size = sizeof(var);
   file.write(reinterpret_cast<char*>(&var), size);
   if (file.fail()) {
-    throw MyException("write data to file was failed.", 16);
+    throw MyException("In function \"" + functionName + "\" write data to file was failed.", 16);
   }
 }
 
-// =============================================================================
+// ===========================================================================
 
 // decrypt data from input file to data container
 void decryptFile(std::ifstream& from, std::vector<DataRow*>& to);
