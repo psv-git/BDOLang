@@ -2,6 +2,7 @@
 #include "ui_choosefilewindow.h"
 #include "mybutton.hpp"
 #include "windowshandler.hpp"
+#include "ApplicationFunctions.hpp"
 
 
 ChooseFileWindow::ChooseFileWindow(WindowsHandler *parent) : ui(new Ui::ChooseFileWindow) {
@@ -36,11 +37,6 @@ void ChooseFileWindow::onButtonClick () {
         parent->onButtonClick(this, MODE::CLOSE);
     }
     if (objName == "chooseButton") {
-        ui->pathEdit->setText(getFileName("Files extensions (*)"));
+        ui->pathEdit->setText(GetFilePath(tr("Open file"), tr("Files extensions (*)")));
     }
-}
-
-
-const QString ChooseFileWindow::getFileName(const char* s) {
-    return QFileDialog::getOpenFileName(this, tr("Open file"), "./", tr(s));
 }

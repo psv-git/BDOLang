@@ -26,8 +26,6 @@ private:
     WindowsHandler *parent;
     Ui::ChooseFilesWindow *ui;
 
-    const QString getFileName(const char* s);
-
 };
 
 
