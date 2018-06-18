@@ -8,10 +8,10 @@ bool SetupApplication() {
     if (!dataFolder.mkdir("data")) return false;
   }
 
-  QFile configFile(QDir::currentPath());
-  if (!configFile.exists("config.ini")) {
-    if (!configFile.open(QIODevice::ReadOnly | QIODevice::Text)) return false;
-  }
+//  QFile configFile(QDir::currentPath());
+//  if (!configFile.exists("config.ini")) {
+//    if (!configFile.open(QIODevice::ReadOnly | QIODevice::Text)) return false;
+//  }
 
 
 

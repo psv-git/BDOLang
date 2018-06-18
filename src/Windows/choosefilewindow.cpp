@@ -5,44 +5,42 @@
 
 
 ChooseFileWindow::ChooseFileWindow(WindowsHandler *parent) : ui(new Ui::ChooseFileWindow) {
-  ChooseFileWindow::parent = parent;
-  ui->setupUi(this);
+    ChooseFileWindow::parent = parent;
+    ui->setupUi(this);
 
-  connect(ui->okButton, &MyButton::released, this, &ChooseFileWindow::onButtonClick);
-  connect(ui->cancelButton, &MyButton::released, this, &ChooseFileWindow::onButtonClick);
-  connect(ui->chooseButton, &MyButton::released, this, &ChooseFileWindow::onButtonClick);
+    connect(ui->okButton, &MyButton::released, this, &ChooseFileWindow::onButtonClick);
+    connect(ui->cancelButton, &MyButton::released, this, &ChooseFileWindow::onButtonClick);
+    connect(ui->chooseButton, &MyButton::released, this, &ChooseFileWindow::onButtonClick);
 }
 
 
 ChooseFileWindow::~ChooseFileWindow() {
-  delete ui;
+    delete ui;
 }
 
 
 void ChooseFileWindow::show() {
-  ui->pathEdit->setText("");
-  QWidget::show();
+    ui->pathEdit->setText("");
+    QWidget::show();
 }
 
 // ===========================================================================
 
 void ChooseFileWindow::onButtonClick () {
-  MyButton* button = qobject_cast<MyButton*>(sender());
-  if (button != NULL ) {
-    QString name = button->objectName();
-    if (name == "okButton") {
-      parent->onButtonClick(this, ui->pathEdit->text(), "");
+    QObject* obj = sender();
+    QString objName = obj->objectName();
+    if (objName == "okButton") {
+        parent->onButtonClick(this, ui->pathEdit->text(), "");
     }
-    if (name == "cancelButton") {
-      parent->onButtonClick(this, 0);
+    if (objName == "cancelButton") {
+        parent->onButtonClick(this, MODE::CLOSE);
     }
-    if (name == "chooseButton") {
-      ui->pathEdit->setText(getFileName("Files extensions (*)"));
+    if (objName == "chooseButton") {
+        ui->pathEdit->setText(getFileName("Files extensions (*)"));
     }
-  }
 }
 
 
 const QString ChooseFileWindow::getFileName(const char* s) {
-  return QFileDialog::getOpenFileName(this, tr("Open file"), "./", tr(s));
+    return QFileDialog::getOpenFileName(this, tr("Open file"), "./", tr(s));
 }

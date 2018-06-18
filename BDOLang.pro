@@ -31,6 +31,7 @@ INCLUDEPATH += \
     src/Windows
 
 SOURCES += \
+    src/main.cpp \
     src/Data/DataHandler.cpp \
     src/Data/DataRow.cpp \
     src/Elements/mybutton.cpp \
@@ -38,13 +39,13 @@ SOURCES += \
     src/Functions/ApplicationFunctions.cpp \
     src/Functions/FileFunctions.cpp \
     src/Global/Global.cpp \
+    src/Global/ApplicationGlobal.cpp \
     src/Windows/choosefileswindow.cpp \
     src/Windows/choosefilewindow.cpp \
     src/Windows/mainwindow.cpp \
     src/Windows/settingswindow.cpp \
     src/Windows/translatewindow.cpp \
-    src/Windows/windowshandler.cpp \
-    main.cpp
+    src/Windows/windowshandler.cpp
 
 HEADERS += \
     src/Data/DataHandler.hpp \
@@ -54,6 +55,7 @@ HEADERS += \
     src/Functions/ApplicationFunctions.hpp \
     src/Functions/FileFunctions.hpp \
     src/Global/Global.hpp \
+    src/Global/ApplicationGlobal.hpp \
     src/Windows/choosefileswindow.hpp \
     src/Windows/choosefilewindow.hpp \
     src/Windows/mainwindow.hpp \

@@ -1,63 +1,74 @@
 #include "windowshandler.hpp"
 #include "mainwindow.hpp"
 #include "translatewindow.hpp"
+#include "settingswindow.hpp"
 #include "choosefilewindow.hpp"
 #include "choosefileswindow.hpp"
-#include "settingswindow.hpp"
 
 
 WindowsHandler::WindowsHandler() {
-  mainWindow = new MainWindow(this);
-  translateWindow = new TranslateWindow(this);
-  chooseFileWindow = new ChooseFileWindow(this);
-  chooseFilesWindow = new ChooseFilesWindow(this);
+    mainWindow = new MainWindow(this);
+    translateWindow = new TranslateWindow(this);
+    settingsWindow = new SettingsWindow(this);
+    chooseFileWindow = new ChooseFileWindow(this);
+    chooseFilesWindow = new ChooseFilesWindow(this);
 
-  mainWindow->show();
+    mainWindow->show();
 }
 
 
 WindowsHandler::~WindowsHandler() {
-  if (mainWindow) delete mainWindow;
-  if (translateWindow) delete translateWindow;
-  if (chooseFileWindow) delete chooseFileWindow;
-  if (chooseFilesWindow) delete chooseFilesWindow;
+    if (mainWindow) delete mainWindow;
+    if (translateWindow) delete translateWindow;
+    if (chooseFileWindow) delete chooseFileWindow;
+    if (chooseFilesWindow) delete chooseFilesWindow;
+    if (settingsWindow) delete settingsWindow;
 }
 
 // ===========================================================================
 
-void WindowsHandler::onButtonClick(QWidget *sender, int code) {
-  if (sender == mainWindow) {
-    if (code == 0) QApplication::quit();
-    if (code == 1) chooseFilesWindow->show();
-    if (code == 2) { int i = 0; }
-    if (code == 3) chooseFileWindow->show();
-  }
-  if (sender == translateWindow) {
-    if (code == 1) {
-      translateWindow->hide();
-      mainWindow->show();
+void WindowsHandler::onButtonClick(QWidget *sender, MODE mode) {
+    WindowsHandler::mode = mode;
+    if (sender == mainWindow) {
+        if (mode == MODE::EXIT) QApplication::quit();
+        if (mode == MODE::SETTINGS) {
+            mainWindow->hide();
+            settingsWindow->show();
+        }
+        if (mode == MODE::MERGE) chooseFilesWindow->show();
+        if (mode == MODE::BIN_TO_TEXT) chooseFileWindow->show();
+        if (mode == MODE::TRANSLATE) chooseFileWindow->show();
     }
-    if (code == 2) {
-      translateWindow->hide();
-      mainWindow->show();
+    if (sender == translateWindow) {
+        if (mode == MODE::CLOSE) {
+            translateWindow->unload();
+            mainWindow->show();
+        }
     }
-  }
-  if (sender == chooseFileWindow) {
-    if (code == 0) chooseFileWindow->hide();
-  }
-  if (sender == chooseFilesWindow) {
-    if (code == 0) chooseFilesWindow->hide();
-  }
+    if (sender == settingsWindow) {
+        if (mode == MODE::CLOSE) {
+            settingsWindow->hide();
+            mainWindow->show();
+        }
+    }
+    if (sender == chooseFileWindow) {
+        if (mode == MODE::CLOSE) chooseFileWindow->hide();
+    }
+    if (sender == chooseFilesWindow) {
+        if (mode == MODE::CLOSE) chooseFilesWindow->hide();
+    }
 }
 
 
 void WindowsHandler::onButtonClick(QWidget *sender, const QString &inFile, const QString &outFile) {
-  if (sender == chooseFileWindow) {
-    chooseFileWindow->hide();
-    mainWindow->hide();
-    translateWindow->show(inFile);
-  }
-  if (sender == chooseFilesWindow) {
-    chooseFileWindow->hide();
-  }
+    if (sender == chooseFileWindow) {
+        chooseFileWindow->hide();
+        if (mode == MODE::TRANSLATE) {
+            mainWindow->hide();
+            translateWindow->load(inFile);
+        }
+    }
+    if (sender == chooseFilesWindow) {
+        chooseFilesWindow->hide();
+    }
 }

@@ -71,7 +71,7 @@
     <rect>
      <x>20</x>
      <y>20</y>
-     <width>490</width>
+     <width>500</width>
      <height>20</height>
     </rect>
    </property>
@@ -79,7 +79,7 @@
     <string notr="true">font: 10pt &quot;Arial&quot;;</string>
    </property>
    <property name="text">
-    <string>Choose source file:</string>
+    <string>Choose file:</string>
    </property>
   </widget>
   <widget class="MyButton" name="okButton">
@@ -117,7 +117,7 @@
     <string notr="true">font: 10pt &quot;Liberation Mono&quot;;</string>
    </property>
    <property name="placeholderText">
-    <string>path/to/source/file</string>
+    <string>path/to/file</string>
    </property>
   </widget>
  </widget>

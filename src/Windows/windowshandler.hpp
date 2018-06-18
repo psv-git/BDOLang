@@ -2,6 +2,7 @@
 #define WINDOWSHANDLER_HPP
 
 #include <QApplication>
+#include "ApplicationGlobal.hpp"
 
 class QWidget;
 class QString;
@@ -15,18 +16,19 @@ class SettingsWindow;
 class WindowsHandler {
 
 public:
-  WindowsHandler();
-  ~WindowsHandler();
+    WindowsHandler();
+    ~WindowsHandler();
 
-  void onButtonClick(QWidget *sender, int code);
-  void onButtonClick(QWidget *sender, const QString &inFile, const QString &outFile);
+    void onButtonClick(QWidget *sender, MODE mode);
+    void onButtonClick(QWidget *sender, const QString &inFile, const QString &outFile);
 
 private:
-  MainWindow *mainWindow = nullptr;
-  TranslateWindow *translateWindow = nullptr;
-  ChooseFileWindow *chooseFileWindow = nullptr;
-  ChooseFilesWindow *chooseFilesWindow = nullptr;
-  SettingsWindow *settingsWindow = nullptr;
+    MODE mode;
+    MainWindow *mainWindow = nullptr;
+    TranslateWindow *translateWindow = nullptr;
+    SettingsWindow *settingsWindow = nullptr;
+    ChooseFileWindow *chooseFileWindow = nullptr;
+    ChooseFilesWindow *chooseFilesWindow = nullptr;
 
 };
 
