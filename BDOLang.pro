@@ -34,41 +34,41 @@ SOURCES += \
     src/main.cpp \
     src/Data/DataHandler.cpp \
     src/Data/DataRow.cpp \
-    src/Elements/mybutton.cpp \
     src/Exceptions/MyException.cpp \
     src/Functions/ApplicationFunctions.cpp \
     src/Functions/FileFunctions.cpp \
     src/Global/Global.cpp \
     src/Global/ApplicationGlobal.cpp \
-    src/Windows/choosefileswindow.cpp \
-    src/Windows/choosefilewindow.cpp \
-    src/Windows/mainwindow.cpp \
-    src/Windows/settingswindow.cpp \
-    src/Windows/translatewindow.cpp \
-    src/Windows/windowshandler.cpp
+    src/Windows/ChooseFilesWindow.cpp \
+    src/Windows/ChooseFileWindow.cpp \
+    src/Windows/MainWindow.cpp \
+    src/Windows/SettingsWindow.cpp \
+    src/Windows/TranslateWindow.cpp \
+    src/Windows/WindowsHandler.cpp \
+    src/Elements/MyButton.cpp
 
 HEADERS += \
     src/Data/DataHandler.hpp \
     src/Data/DataRow.hpp \
-    src/Elements/mybutton.hpp \
     src/Exceptions/MyException.hpp \
     src/Functions/ApplicationFunctions.hpp \
     src/Functions/FileFunctions.hpp \
     src/Global/Global.hpp \
     src/Global/ApplicationGlobal.hpp \
-    src/Windows/choosefileswindow.hpp \
-    src/Windows/choosefilewindow.hpp \
-    src/Windows/mainwindow.hpp \
-    src/Windows/settingswindow.hpp \
-    src/Windows/translatewindow.hpp \
-    src/Windows/windowshandler.hpp
+    src/Elements/MyButton.hpp \
+    src/Windows/ChooseFilesWindow.hpp \
+    src/Windows/ChooseFileWindow.hpp \
+    src/Windows/MainWindow.hpp \
+    src/Windows/SettingsWindow.hpp \
+    src/Windows/TranslateWindow.hpp \
+    src/Windows/WindowsHandler.hpp
 
 FORMS += \
-    src/Forms/choosefileswindow.ui \
-    src/Forms/choosefilewindow.ui \
-    src/Forms/mainwindow.ui \
-    src/Forms/settingswindow.ui \
-    src/Forms/translatewindow.ui
+    src/Forms/ChooseFilesWindow.ui \
+    src/Forms/ChooseFileWindow.ui \
+    src/Forms/MainWindow.ui \
+    src/Forms/SettingsWindow.ui \
+    src/Forms/TranslateWindow.ui
 
 DISTFILES += \
     .gitignore \

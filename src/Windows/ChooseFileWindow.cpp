@@ -1,7 +1,7 @@
-#include "choosefilewindow.hpp"
-#include "ui_choosefilewindow.h"
-#include "mybutton.hpp"
-#include "windowshandler.hpp"
+#include "ChooseFileWindow.hpp"
+#include "ui_ChooseFileWindow.h"
+#include "MyButton.hpp"
+#include "WindowsHandler.hpp"
 #include "ApplicationFunctions.hpp"
 
 

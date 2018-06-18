@@ -1,9 +1,10 @@
-#include "windowshandler.hpp"
-#include "mainwindow.hpp"
-#include "translatewindow.hpp"
-#include "settingswindow.hpp"
-#include "choosefilewindow.hpp"
-#include "choosefileswindow.hpp"
+#include <QErrorMessage>
+#include "WindowsHandler.hpp"
+#include "MainWindow.hpp"
+#include "TranslateWindow.hpp"
+#include "SettingsWindow.hpp"
+#include "ChooseFileWindow.hpp"
+#include "ChooseFilesWindow.hpp"
 
 
 WindowsHandler::WindowsHandler() {
@@ -12,6 +13,8 @@ WindowsHandler::WindowsHandler() {
     settingsWindow = new SettingsWindow(this);
     chooseFileWindow = new ChooseFileWindow(this);
     chooseFilesWindow = new ChooseFilesWindow(this);
+
+    QErrorMessage::qtHandler()->setModal(true);
 
     mainWindow->show();
 }

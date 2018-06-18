@@ -1,7 +1,7 @@
-#include "mainwindow.hpp"
-#include "ui_mainwindow.h"
-#include "mybutton.hpp"
-#include "windowshandler.hpp"
+#include "MainWindow.hpp"
+#include "ui_MainWindow.h"
+#include "MyButton.hpp"
+#include "WindowsHandler.hpp"
 
 
 MainWindow::MainWindow(WindowsHandler *parent) : ui(new Ui::MainWindow) {

@@ -1,8 +1,8 @@
 #include <QErrorMessage>
-#include "translatewindow.hpp"
-#include "ui_translatewindow.h"
-#include "mybutton.hpp"
-#include "windowshandler.hpp"
+#include "TranslateWindow.hpp"
+#include "ui_TranslateWindow.h"
+#include "MyButton.hpp"
+#include "WindowsHandler.hpp"
 #include "DataHandler.hpp"
 #include "FileFunctions.hpp"
 

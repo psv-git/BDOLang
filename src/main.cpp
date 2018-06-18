@@ -1,5 +1,5 @@
 #include "ApplicationFunctions.hpp"
-#include "windowshandler.hpp"
+#include "WindowsHandler.hpp"
 
 
 int main(int argc, char *argv[]) {
