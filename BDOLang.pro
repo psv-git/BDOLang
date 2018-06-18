@@ -24,52 +24,53 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 INCLUDEPATH += \
     src/Data \
+    src/Elements \
     src/Exceptions \
     src/Functions \
     src/Global \
-    src/Qt \
+    src/Windows
 
 SOURCES += \
-    main.cpp \
     src/Data/DataHandler.cpp \
     src/Data/DataRow.cpp \
+    src/Elements/mybutton.cpp \
     src/Exceptions/MyException.cpp \
+    src/Functions/ApplicationFunctions.cpp \
     src/Functions/FileFunctions.cpp \
     src/Global/Global.cpp \
-    src/Qt/mainwindow.cpp \
-    src/Qt/mybutton.cpp \
-    src/Qt/windowshandler.cpp \
-    src/Qt/translatewindow.cpp \
-    src/Qt/choosefileswindow.cpp \
-    src/Qt/choosefilewindow.cpp \
-    src/Qt/settingswindow.cpp \
-    src/Functions/ApplicationFunctions.cpp
+    src/Windows/choosefileswindow.cpp \
+    src/Windows/choosefilewindow.cpp \
+    src/Windows/mainwindow.cpp \
+    src/Windows/settingswindow.cpp \
+    src/Windows/translatewindow.cpp \
+    src/Windows/windowshandler.cpp \
+    main.cpp
 
 HEADERS += \
     src/Data/DataHandler.hpp \
     src/Data/DataRow.hpp \
+    src/Elements/mybutton.hpp \
     src/Exceptions/MyException.hpp \
+    src/Functions/ApplicationFunctions.hpp \
     src/Functions/FileFunctions.hpp \
     src/Global/Global.hpp \
-    src/Qt/mainwindow.hpp \
-    src/Qt/mybutton.hpp \
-    src/Qt/windowshandler.hpp \
-    src/Qt/translatewindow.hpp \
-    src/Qt/choosefileswindow.hpp \
-    src/Qt/choosefilewindow.hpp \
-    src/Qt/settingswindow.hpp \
-    src/Functions/ApplicationFunctions.hpp
+    src/Windows/choosefileswindow.hpp \
+    src/Windows/choosefilewindow.hpp \
+    src/Windows/mainwindow.hpp \
+    src/Windows/settingswindow.hpp \
+    src/Windows/translatewindow.hpp \
+    src/Windows/windowshandler.hpp
 
 FORMS += \
-    forms/mainwindow.ui \
-    forms/choosefileswindow.ui \
-    forms/translatewindow.ui \
-    forms/choosefilewindow.ui \
-    forms/settingswindow.ui
+    src/Forms/choosefileswindow.ui \
+    src/Forms/choosefilewindow.ui \
+    src/Forms/mainwindow.ui \
+    src/Forms/settingswindow.ui \
+    src/Forms/translatewindow.ui
 
 DISTFILES += \
     .gitignore \
     LICENSE \
-    README.md
+    README.md \
 
 LIBS += -lz

@@ -36,7 +36,7 @@
     <number>20</number>
    </property>
    <item>
-    <widget class="QTableWidget" name="tableWidget">
+    <widget class="QTableWidget" name="translateTable">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
        <horstretch>0</horstretch>
@@ -76,6 +76,9 @@
      <property name="selectionMode">
       <enum>QAbstractItemView::NoSelection</enum>
      </property>
+     <property name="textElideMode">
+      <enum>Qt::ElideNone</enum>
+     </property>
      <property name="cornerButtonEnabled">
       <bool>false</bool>
      </property>
@@ -83,13 +86,13 @@
       <number>100</number>
      </property>
      <attribute name="horizontalHeaderCascadingSectionResizes">
-      <bool>true</bool>
+      <bool>false</bool>
      </attribute>
      <attribute name="horizontalHeaderDefaultSectionSize">
       <number>330</number>
      </attribute>
      <attribute name="horizontalHeaderHighlightSections">
-      <bool>true</bool>
+      <bool>false</bool>
      </attribute>
      <attribute name="horizontalHeaderMinimumSectionSize">
       <number>330</number>
@@ -104,16 +107,16 @@
       <bool>false</bool>
      </attribute>
      <attribute name="verticalHeaderCascadingSectionResizes">
-      <bool>true</bool>
+      <bool>false</bool>
      </attribute>
      <attribute name="verticalHeaderDefaultSectionSize">
-      <number>30</number>
+      <number>20</number>
      </attribute>
      <attribute name="verticalHeaderHighlightSections">
-      <bool>true</bool>
+      <bool>false</bool>
      </attribute>
      <attribute name="verticalHeaderMinimumSectionSize">
-      <number>30</number>
+      <number>20</number>
      </attribute>
      <attribute name="verticalHeaderShowSortIndicator" stdset="0">
       <bool>false</bool>
@@ -305,7 +308,7 @@
         <enum>Qt::TabFocus</enum>
        </property>
        <property name="styleSheet">
-        <string notr="true">font: 10pt &quot;Arial&quot;;</string>
+        <string notr="true">font: 87 10pt &quot;Arial Black&quot;;</string>
        </property>
        <property name="text">
         <string>SAVE</string>
@@ -317,10 +320,13 @@
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
        </property>
+       <property name="sizeType">
+        <enum>QSizePolicy::Expanding</enum>
+       </property>
        <property name="sizeHint" stdset="0">
         <size>
-         <width>40</width>
-         <height>20</height>
+         <width>0</width>
+         <height>0</height>
         </size>
        </property>
       </spacer>
@@ -349,7 +355,7 @@
         <enum>Qt::TabFocus</enum>
        </property>
        <property name="styleSheet">
-        <string notr="true">font: 16pt &quot;Arial&quot;;</string>
+        <string notr="true">font: 87 16pt &quot;Arial Black&quot;;</string>
        </property>
        <property name="text">
         <string>&lt;</string>
@@ -380,7 +386,7 @@
         <enum>Qt::TabFocus</enum>
        </property>
        <property name="styleSheet">
-        <string notr="true">font: 16pt &quot;Arial&quot;;</string>
+        <string notr="true">font: 87 16pt &quot;Arial Black&quot;;</string>
        </property>
        <property name="text">
         <string>&gt;</string>
@@ -395,11 +401,8 @@
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
        </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>40</width>
-         <height>20</height>
-        </size>
+       <property name="sizeType">
+        <enum>QSizePolicy::Expanding</enum>
        </property>
       </spacer>
      </item>
@@ -427,7 +430,7 @@
         <enum>Qt::TabFocus</enum>
        </property>
        <property name="styleSheet">
-        <string notr="true">font: 10pt &quot;Arial&quot;;</string>
+        <string notr="true">font: 87 10pt &quot;Arial Black&quot;;</string>
        </property>
        <property name="text">
         <string>CANCEL</string>

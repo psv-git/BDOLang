@@ -41,7 +41,7 @@
     <enum>Qt::TabFocus</enum>
    </property>
    <property name="styleSheet">
-    <string notr="true">font: 10pt &quot;Arial&quot;;</string>
+    <string notr="true">font: 87 10pt &quot;Arial Black&quot;;</string>
    </property>
    <property name="text">
     <string>CANCEL</string>
@@ -60,13 +60,13 @@
     <enum>Qt::TabFocus</enum>
    </property>
    <property name="styleSheet">
-    <string notr="true">font: 10pt &quot;Arial&quot;;</string>
+    <string notr="true">font: 87 10pt &quot;Arial Black&quot;;</string>
    </property>
    <property name="text">
     <string>...</string>
    </property>
   </widget>
-  <widget class="QLabel" name="label">
+  <widget class="QLabel" name="pathLabel">
    <property name="geometry">
     <rect>
      <x>20</x>
@@ -95,13 +95,13 @@
     <enum>Qt::TabFocus</enum>
    </property>
    <property name="styleSheet">
-    <string notr="true">font: 10pt &quot;Arial&quot;;</string>
+    <string notr="true">font: 87 10pt &quot;Arial Black&quot;;</string>
    </property>
    <property name="text">
     <string>OK</string>
    </property>
   </widget>
-  <widget class="QLineEdit" name="lineEdit">
+  <widget class="QLineEdit" name="pathEdit">
    <property name="geometry">
     <rect>
      <x>20</x>

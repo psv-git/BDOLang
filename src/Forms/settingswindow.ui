@@ -7,13 +7,25 @@
     <x>0</x>
     <y>0</y>
     <width>540</width>
-    <height>330</height>
+    <height>380</height>
    </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>540</width>
+    <height>380</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>540</width>
+    <height>380</height>
+   </size>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <widget class="QLabel" name="label">
+  <widget class="QLabel" name="pathLabel">
    <property name="geometry">
     <rect>
      <x>20</x>
@@ -29,7 +41,7 @@
     <string>Default path to .loc file:</string>
    </property>
   </widget>
-  <widget class="QLineEdit" name="lineEdit">
+  <widget class="QLineEdit" name="pathEdit">
    <property name="geometry">
     <rect>
      <x>20</x>
@@ -51,7 +63,7 @@
     <string notr="true">font: 10pt &quot;Liberation Mono&quot;;</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton">
+  <widget class="MyButton" name="chooseButton">
    <property name="geometry">
     <rect>
      <x>440</x>
@@ -61,13 +73,13 @@
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">font: 10pt &quot;Arial&quot;;</string>
+    <string notr="true">font: 87 10pt &quot;Arial Black&quot;;</string>
    </property>
    <property name="text">
     <string>...</string>
    </property>
   </widget>
-  <widget class="QLabel" name="label_2">
+  <widget class="QLabel" name="languageLabel">
    <property name="geometry">
     <rect>
      <x>20</x>
@@ -83,7 +95,7 @@
     <string>Language:</string>
    </property>
   </widget>
-  <widget class="QComboBox" name="comboBox">
+  <widget class="QComboBox" name="languageBox">
    <property name="geometry">
     <rect>
      <x>100</x>
@@ -96,7 +108,7 @@
     <enum>Qt::LeftToRight</enum>
    </property>
    <property name="styleSheet">
-    <string notr="true">font: 10pt &quot;Arial&quot;;</string>
+    <string notr="true">font: 87 10pt &quot;Arial Black&quot;;</string>
    </property>
    <property name="currentText">
     <string>English</string>
@@ -112,7 +124,7 @@
     </property>
    </item>
   </widget>
-  <widget class="QPlainTextEdit" name="plainTextEdit">
+  <widget class="QPlainTextEdit" name="aboutEdit">
    <property name="geometry">
     <rect>
      <x>20</x>
@@ -128,7 +140,46 @@
     <string>About</string>
    </property>
   </widget>
+  <widget class="MyButton" name="saveButton">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>330</y>
+     <width>80</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">font: 87 10pt &quot;Arial Black&quot;;</string>
+   </property>
+   <property name="text">
+    <string>SAVE</string>
+   </property>
+  </widget>
+  <widget class="MyButton" name="cancelButton">
+   <property name="geometry">
+    <rect>
+     <x>440</x>
+     <y>330</y>
+     <width>80</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">font: 87 10pt &quot;Arial Black&quot;;</string>
+   </property>
+   <property name="text">
+    <string>CANCEL</string>
+   </property>
+  </widget>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>MyButton</class>
+   <extends>QPushButton</extends>
+   <header>mybutton.hpp</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

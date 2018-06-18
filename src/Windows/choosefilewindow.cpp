@@ -20,7 +20,7 @@ ChooseFileWindow::~ChooseFileWindow() {
 
 
 void ChooseFileWindow::show() {
-  ui->lineEdit->setText("");
+  ui->pathEdit->setText("");
   QWidget::show();
 }
 
@@ -31,13 +31,13 @@ void ChooseFileWindow::onButtonClick () {
   if (button != NULL ) {
     QString name = button->objectName();
     if (name == "okButton") {
-      parent->onButtonClick(this, ui->lineEdit->text(), "");
+      parent->onButtonClick(this, ui->pathEdit->text(), "");
     }
     if (name == "cancelButton") {
       parent->onButtonClick(this, 0);
     }
     if (name == "chooseButton") {
-      ui->lineEdit->setText(getFileName("Files extensions (*)"));
+      ui->pathEdit->setText(getFileName("Files extensions (*)"));
     }
   }
 }

@@ -21,8 +21,8 @@ ChooseFilesWindow::~ChooseFilesWindow() {
 
 
 void ChooseFilesWindow::show() {
-  ui->lineEdit1->setText("");
-  ui->lineEdit2->setText("");
+  ui->pathEdit1->setText("");
+  ui->pathEdit2->setText("");
   QWidget::show();
 }
 
@@ -33,16 +33,16 @@ void ChooseFilesWindow::onButtonClick () {
   if (button != NULL ) {
     QString name = button->objectName();
     if (name == "okButton") {
-      parent->onButtonClick(this, ui->lineEdit1->text(), ui->lineEdit2->text());
+      parent->onButtonClick(this, ui->pathEdit1->text(), ui->pathEdit2->text());
     }
     if (name == "cancelButton") {
       parent->onButtonClick(this, 0);
     }
     if (name == "chooseButton1") {
-      ui->lineEdit1->setText(getFileName("Files extensions (*)"));
+      ui->pathEdit1->setText(getFileName("Files extensions (*)"));
     }
     if (name == "chooseButton2") {
-      ui->lineEdit2->setText(getFileName("Files extensions (*)"));
+      ui->pathEdit2->setText(getFileName("Files extensions (*)"));
     }
   }
 }
