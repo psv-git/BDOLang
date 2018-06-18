@@ -12,19 +12,19 @@ class ChooseFileWindow : public QWidget {
 Q_OBJECT
 
 public:
-    explicit ChooseFileWindow(WindowsHandler *parent = 0);
-    ~ChooseFileWindow();
+  explicit ChooseFileWindow(WindowsHandler *parent = 0);
+  ~ChooseFileWindow();
 
 signals:
 
 
 public slots:
-    void show();
-    void onButtonClick();
+  void show();
+  void onButtonClick();
 
 private:
-    Ui::ChooseFileWindow *ui;
-    WindowsHandler *parent;
+  Ui::ChooseFileWindow *ui;
+  WindowsHandler *parent;
 
 };
 

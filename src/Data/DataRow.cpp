@@ -3,7 +3,7 @@
 #include "../Exceptions/MyException.hpp"
 
 
-DataRow::DataRow() : language(LANG::EN) {}
+DataRow::DataRow() {}
 
 DataRow::~DataRow() {}
 

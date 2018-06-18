@@ -13,23 +13,23 @@ class TranslateWindow : public QWidget {
 Q_OBJECT
 
 public:
-    explicit TranslateWindow(WindowsHandler *parent = 0);
-    ~TranslateWindow();
+  explicit TranslateWindow(WindowsHandler *parent = 0);
+  ~TranslateWindow();
 
 signals:
 
 
 public slots:
-    void load(const QString &fileName);
-    void unload();
-    void onButtonClick();
+  void load(const QString &fileName);
+  void unload();
+  void onButtonClick();
 
 
 private:
-    WindowsHandler *parent;
-    Ui::TranslateWindow *ui;
+  WindowsHandler *parent;
+  Ui::TranslateWindow *ui;
 
-    DataHandler *dataHandler;
+  DataHandler *dataHandler;
 
 };
 

@@ -26,7 +26,7 @@ const wchar_t CHAR_TAB       = 0x0009;
 
 extern const char* TMP_FILE_NAME;
 
-enum LANG { RU, EN };
+//enum LANG { RU, EN };
 
 
 #endif // GLOBAL_HPP

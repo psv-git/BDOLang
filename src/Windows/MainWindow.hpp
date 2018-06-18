@@ -12,18 +12,18 @@ class MainWindow : public QMainWindow {
 Q_OBJECT
 
 public:
-    explicit MainWindow(WindowsHandler *parent = 0);
-    ~MainWindow();
+  explicit MainWindow(WindowsHandler *parent = 0);
+  ~MainWindow();
 
 signals:
 
 
 public slots:
-    void onButtonClick();
+  void onButtonClick();
 
 private:
-    WindowsHandler *parent;
-    Ui::MainWindow *ui;
+  WindowsHandler *parent;
+  Ui::MainWindow *ui;
 
 };
 

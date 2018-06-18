@@ -3,10 +3,11 @@
 
 #include "ApplicationGlobal.hpp"
 
-class QString;
-
 
 bool SetupApplication();
+bool SetDataFolder();
+bool ReadConfigFile();
+void SetDefaultSettings();
 const QString GetDirectory(const QString &title);
 const QString GetFilePath(const QString &title, const QString &extStr);
 const QString GetFileName(const QString &title, const QString &extStr);

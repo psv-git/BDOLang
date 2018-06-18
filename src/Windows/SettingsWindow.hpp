@@ -6,25 +6,27 @@
 
 namespace Ui { class SettingsWindow; }
 class WindowsHandler;
+class QString;
 
 
 class SettingsWindow : public QWidget {
 Q_OBJECT
 
 public:
-    explicit SettingsWindow(WindowsHandler *parent = 0);
-    ~SettingsWindow();
+  explicit SettingsWindow(WindowsHandler *parent = 0);
+  ~SettingsWindow();
 
 signals:
 
 
 public slots:
-    void onButtonClick();
+  void show();
+  void onButtonClick();
 
 
 private:
-    WindowsHandler *parent;
-    Ui::SettingsWindow *ui;
+  WindowsHandler *parent;
+  Ui::SettingsWindow *ui;
 
 };
 

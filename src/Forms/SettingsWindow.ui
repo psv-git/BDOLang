@@ -41,7 +41,7 @@
     <string>Default path to .loc files:</string>
    </property>
   </widget>
-  <widget class="QLineEdit" name="filePathEdit">
+  <widget class="QLineEdit" name="filesPathEdit">
    <property name="geometry">
     <rect>
      <x>165</x>
@@ -154,10 +154,10 @@
 Created by PSV. 
 Github: https://github.com/psv-git
 
-Original source code by AMGarkin.
+Decryptor source code by AMGarkin.
 Github: https://github.com/AMGarkin
 
-build v 0.1</string>
+This software is distributed under the MIT license.</string>
    </property>
    <property name="backgroundVisible">
     <bool>false</bool>
