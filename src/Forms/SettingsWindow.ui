@@ -149,15 +149,15 @@
     <bool>true</bool>
    </property>
    <property name="plainText">
-    <string>Application for localize Black Desert Online.
+    <string>This software is distributed under the MIT license.
 
-Created by PSV. 
+Created by PSV.  
 Github: https://github.com/psv-git
+Donate: 
 
-Decryptor source code by AMGarkin.
+Decryptor source code by AMGarkin. 
 Github: https://github.com/AMGarkin
-
-This software is distributed under the MIT license.</string>
+Donate: http://www.paypal.me/Garkin</string>
    </property>
    <property name="backgroundVisible">
     <bool>false</bool>
