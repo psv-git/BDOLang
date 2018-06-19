@@ -3,11 +3,12 @@
 
 const Settings DEFAULT_SETTINGS {
   LANG::EN,
-  "./data",
+  "data/",
   "languagedata_en.loc",
   "languagedata_ru.loc",
-  "config.cfg",
-  "data"
+
+  "data",
+  "config.cfg"
 };
 
 Settings active_settings = DEFAULT_SETTINGS;

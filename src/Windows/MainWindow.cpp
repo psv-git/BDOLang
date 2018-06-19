@@ -24,9 +24,9 @@ MainWindow::~MainWindow() {
 void MainWindow::onButtonClick() {
   QObject *obj = sender();
   QString objName = obj->objectName();
-  if (objName == "exitButton") parent->onButtonClick(this, MODE::EXIT);
-  if (objName == "settingsButton") parent->onButtonClick(this, MODE::SETTINGS);
   if (objName == "button1") parent->onButtonClick(this, MODE::MERGE);
   if (objName == "button2") parent->onButtonClick(this, MODE::BIN_TO_TEXT);
   if (objName == "button3") parent->onButtonClick(this, MODE::TRANSLATE);
+  if (objName == "settingsButton") parent->onButtonClick(this, MODE::SETTINGS);
+  if (objName == "exitButton") parent->onButtonClick(this, MODE::EXIT);
 }

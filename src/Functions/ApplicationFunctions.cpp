@@ -38,7 +38,7 @@ bool SetupApplication() {
 
 
 void ReadConfigFile(Settings &settings) {
-  if (!configFile.isOpen()) configFile.close();
+  if (configFile.isOpen()) configFile.close();
   if (!configFile.open(QIODevice::ReadOnly)) return;
   QDataStream is(&configFile);
   Settings tmp;
@@ -46,8 +46,10 @@ void ReadConfigFile(Settings &settings) {
   is >> tmp.dataPath;
   is >> tmp.sourceFileName;
   is >> tmp.targetFileName;
+
+  is << tmp.dataDirectoryName;
   is >> tmp.configFileName;
-  is >> tmp.dataDirectoryName;
+
   settings = tmp;
   configFile.close();
 }
@@ -61,8 +63,10 @@ bool WriteConfigFile(Settings& settings) {
   os << settings.dataPath;
   os << settings.sourceFileName;
   os << settings.targetFileName;
-  os << settings.configFileName;
+
   os << settings.dataDirectoryName;
+  os << settings.configFileName;
+
   configFile.close();
   return true;
 }

@@ -20,7 +20,7 @@ ChooseFileWindow::~ChooseFileWindow() {
 
 
 void ChooseFileWindow::show() {
-  ui->pathEdit->setText("");
+  ui->pathEdit->setText(active_settings.dataPath + active_settings.sourceFileName);
   QWidget::show();
 }
 

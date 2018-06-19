@@ -21,8 +21,8 @@ ChooseFilesWindow::~ChooseFilesWindow() {
 
 
 void ChooseFilesWindow::show() {
-  ui->pathEdit1->setText("");
-  ui->pathEdit2->setText("");
+  ui->pathEdit1->setText(active_settings.dataPath + active_settings.sourceFileName);
+  ui->pathEdit2->setText(active_settings.dataPath + active_settings.targetFileName);
   QWidget::show();
 }
 

@@ -5,9 +5,11 @@
 #include "SettingsWindow.hpp"
 #include "ChooseFileWindow.hpp"
 #include "ChooseFilesWindow.hpp"
+#include "DataHandler.hpp"
 
 
 WindowsHandler::WindowsHandler() {
+  mode = MODE::NONE;
   mainWindow = new MainWindow(this);
   translateWindow = new TranslateWindow(this);
   settingsWindow = new SettingsWindow(this);
@@ -23,9 +25,9 @@ WindowsHandler::WindowsHandler() {
 WindowsHandler::~WindowsHandler() {
   if (mainWindow) delete mainWindow;
   if (translateWindow) delete translateWindow;
+  if (settingsWindow) delete settingsWindow;
   if (chooseFileWindow) delete chooseFileWindow;
   if (chooseFilesWindow) delete chooseFilesWindow;
-  if (settingsWindow) delete settingsWindow;
 }
 
 // ===========================================================================
@@ -33,18 +35,18 @@ WindowsHandler::~WindowsHandler() {
 void WindowsHandler::onButtonClick(QWidget *sender, MODE mode) {
   WindowsHandler::mode = mode;
   if (sender == mainWindow) {
-    if (mode == MODE::EXIT) QApplication::quit();
+    if (mode == MODE::MERGE) chooseFilesWindow->show();
+    if (mode == MODE::BIN_TO_TEXT) chooseFileWindow->show();
+    if (mode == MODE::TRANSLATE) chooseFilesWindow->show();
     if (mode == MODE::SETTINGS) {
       mainWindow->hide();
       settingsWindow->show();
     }
-    if (mode == MODE::MERGE) chooseFilesWindow->show();
-    if (mode == MODE::BIN_TO_TEXT) chooseFileWindow->show();
-    if (mode == MODE::TRANSLATE) chooseFileWindow->show();
+    if (mode == MODE::EXIT) QApplication::quit();
   }
   if (sender == translateWindow) {
     if (mode == MODE::CLOSE) {
-      translateWindow->unload();
+      translateWindow->hide();
       mainWindow->show();
     }
   }
@@ -63,15 +65,22 @@ void WindowsHandler::onButtonClick(QWidget *sender, MODE mode) {
 }
 
 
-void WindowsHandler::onButtonClick(QWidget *sender, const QString &inFile, const QString &outFile) {
-  if (sender == chooseFileWindow) {
-    chooseFileWindow->hide();
-    if (mode == MODE::TRANSLATE) {
-      mainWindow->hide();
-      translateWindow->load(inFile);
-    }
-  }
+void WindowsHandler::onButtonClick(QWidget *sender, const QString &srcFileName, const QString &targFileName) {
+  QString srcName(srcFileName), targName(targFileName);
+  if (srcName.isEmpty()) srcName = active_settings.sourceFileName;   // set defaults filenames
+  if (targName.isEmpty()) targName = active_settings.targetFileName; // if files not chosen
   if (sender == chooseFilesWindow) {
     chooseFilesWindow->hide();
+    if (mode == MODE::TRANSLATE) {
+      mainWindow->hide();
+      translateWindow->show(srcName, targName);
+    }
+  }
+  if (sender == chooseFileWindow) {
+    chooseFileWindow->hide();
+    if (mode == MODE::BIN_TO_TEXT) {
+      // TODO: сделатьь отдельное окно с прогрессом и перенести в него
+      DataHandler::getInstance().convertBinFileToTextFile(srcName);
+    }
   }
 }

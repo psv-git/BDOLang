@@ -38,9 +38,16 @@ void SettingsWindow::onButtonClick() {
   QString objName = obj->objectName();
   if (objName == "saveButton") {
     active_settings.language = ui->languageBox->getCurrentLanguage();
-    active_settings.dataPath = ui->dataPathEdit->text();
-    active_settings.sourceFileName = ui->fileNameEdit1->text();
-    active_settings.targetFileName = ui->fileNameEdit2->text();
+    QString tmp = ui->dataPathEdit->text();
+    if (tmp.isEmpty()) tmp = DEFAULT_SETTINGS.dataPath;
+    if (tmp.back() != '/') tmp.append('/');
+    active_settings.dataPath = tmp;
+    tmp = ui->fileNameEdit1->text();
+    if (tmp.isEmpty()) tmp = DEFAULT_SETTINGS.sourceFileName;
+    active_settings.sourceFileName = tmp;
+    tmp = ui->fileNameEdit2->text();
+    if (tmp.isEmpty()) tmp = DEFAULT_SETTINGS.targetFileName;
+    active_settings.targetFileName = tmp;
     if (!WriteConfigFile(active_settings)) {
       SetDefaultSettings();
       QErrorMessage::qtHandler()->showMessage("Write new setiings to config file was failed. Returning to default settings.");

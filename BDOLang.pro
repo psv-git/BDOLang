@@ -37,7 +37,6 @@ SOURCES += \
     src/Exceptions/MyException.cpp \
     src/Functions/ApplicationFunctions.cpp \
     src/Functions/FileFunctions.cpp \
-    src/Global/Global.cpp \
     src/Global/ApplicationGlobal.cpp \
     src/Windows/ChooseFilesWindow.cpp \
     src/Windows/ChooseFileWindow.cpp \
@@ -53,8 +52,8 @@ HEADERS += \
     src/Exceptions/MyException.hpp \
     src/Functions/ApplicationFunctions.hpp \
     src/Functions/FileFunctions.hpp \
-    src/Global/Global.hpp \
     src/Global/ApplicationGlobal.hpp \
+    src/Global/CPPHeaders.hpp \
     src/Windows/ChooseFilesWindow.hpp \
     src/Windows/ChooseFileWindow.hpp \
     src/Windows/MainWindow.hpp \

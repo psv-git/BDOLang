@@ -1,7 +1,13 @@
 #include "DataRow.hpp"
-#include "../Functions/FileFunctions.hpp"
-#include "../Exceptions/MyException.hpp"
+#include "FileFunctions.hpp"
+#include "MyException.hpp"
 
+
+const uint16_t CHAR_CR = 0x000D;
+const uint16_t CHAR_LF = 0x000A;
+const wchar_t CHAR_TAB = 0x0009;
+
+// =============================================================================
 
 DataRow::DataRow() {}
 
@@ -11,19 +17,17 @@ DataRow::~DataRow() {}
 
 // compare two data rows
 bool DataRow::operator < (const DataRow& row) const {
-	if (type == row.type) {
-		if (id1 == row.id1) {
-			if (id2 == row.id2) {
-				if (id3 == row.id3) {
-					return (id4 < row.id4);
-				}
-				return (id3 < row.id3);
-			}
-			return (id2 < row.id2);
-		}
-		return (id1 < row.id1);
-	}
-	return (type < row.type);
+  if (type == row.type) {
+    if (id1 == row.id1) {
+      if (id2 == row.id2) {
+        if (id3 == row.id3) return (id4 < row.id4);
+        return (id3 < row.id3);
+      }
+      return (id2 < row.id2);
+    }
+    return (id1 < row.id1);
+  }
+  return (type < row.type);
 }
 
 
@@ -53,12 +57,12 @@ std::fstream& operator >> (std::fstream& input, DataRow& row) {
 
 // write to out stream (text mode)
 std::wofstream& operator << (std::wofstream& output, DataRow& row) {
-  output << std::dec << row.type << static_cast<wchar_t>(CHAR_TAB);
-  output << std::dec << row.id1 << static_cast<wchar_t>(CHAR_TAB);
-  output << std::dec << row.id2 << static_cast<wchar_t>(CHAR_TAB);
-  output << std::dec << row.id3 << static_cast<wchar_t>(CHAR_TAB);
-  output << std::dec << row.id4 << static_cast<wchar_t>(CHAR_TAB);
-  output << L"\"" << row.string << "\"" << static_cast<wchar_t>(CHAR_CR) << static_cast<wchar_t>(CHAR_LF);
+  output << std::dec << row.type << L'\t';
+  output << std::dec << row.id1 << L'\t';
+  output << std::dec << row.id2 << L'\t';
+  output << std::dec << row.id3 << L'\t';
+  output << std::dec << row.id4 << L'\t';
+  output << L"\"" << row.string << "\"" << L'\n';
 
   return output;
 }
@@ -82,10 +86,3 @@ std::fstream& operator << (std::fstream& output, DataRow& row) {
 
   return output;
 }
-
-
-size_t DataRow::getMemorySize() {
-  return sizeof(size) + sizeof(type) + sizeof(id1) + sizeof(id2) + sizeof(id3) + sizeof(id4) + (sizeof(wchar_t) * string.size());
-}
-
-// PRIVATE METHODS =============================================================

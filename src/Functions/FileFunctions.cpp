@@ -6,6 +6,11 @@
 #include "../Data/DataRow.hpp"
 
 
+const char* TMP_FILE_NAME = "./data/tmp.bss";
+const size_t MIN_DATA_LENGTH = 20; // minimal data size length in bytes
+
+// =============================================================================
+
 void removeFile(const std::string& fileName, const std::string& functionName) {
   int error = std::remove(fileName.c_str());
   if (error) {
@@ -114,7 +119,7 @@ void encryptFile(std::vector<DataRow*>& from, std::fstream& to) {
 }
 
 
-// 
+//
 void compressFile(std::fstream& from, std::fstream& to) {
   unsigned long uncompressedDataSize = 0;
   unsigned long compressedDataSize = 0;

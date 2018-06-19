@@ -6,7 +6,6 @@
 
 namespace Ui { class TranslateWindow; }
 class WindowsHandler;
-class DataHandler;
 
 
 class TranslateWindow : public QWidget {
@@ -20,16 +19,15 @@ signals:
 
 
 public slots:
-  void load(const QString &fileName);
-  void unload();
+  void show(const QString &inFileName, const QString &outFileName);
+  void hide();
   void onButtonClick();
-
 
 private:
   WindowsHandler *parent;
   Ui::TranslateWindow *ui;
 
-  DataHandler *dataHandler;
+  bool isError;
 
 };
 

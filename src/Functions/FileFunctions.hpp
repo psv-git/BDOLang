@@ -1,11 +1,13 @@
 #ifndef FILEFUNCTIONS_HPP
 #define FILEFUNCTIONS_HPP
 
-#include "../Global/Global.hpp"
+#include "../Global/CPPHeaders.hpp"
 #include "../Exceptions/MyException.hpp"
 
 class DataRow;
 
+
+// templates ==================================================================
 
 template <typename F>
 void openInputFile(F& input, const std::string& fileName, const std::string& functionName = "") {
@@ -34,9 +36,6 @@ void closeFile(F& file, const std::string& fileName, const std::string& function
 }
 
 
-void removeFile(const std::string& fileName, const std::string& functionName = "");
-
-
 template <typename F, typename V>
 void readDataFromFile(F& file, V& var, size_t size = 0, const std::string& functionName = "") {
   if (size == 0) size = sizeof(var);
@@ -58,6 +57,8 @@ void writeDataToFile(F& file, V& var, size_t size = 0, const std::string& functi
 
 // ===========================================================================
 
+void removeFile(const std::string& fileName, const std::string& functionName = "");
+
 // decrypt data from input file to data container
 void decryptFile(std::ifstream& from, std::vector<DataRow*>& to);
 
@@ -69,5 +70,6 @@ void encryptFile(std::vector<DataRow*>& from, std::fstream& to);
 
 // compress binary tmp data file to binary output file
 void compressFile(std::fstream& from, std::fstream& to);
+
 
 #endif // FILEFUNCTIONS_HPP

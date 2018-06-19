@@ -1,7 +1,8 @@
 #ifndef DATAROW_HPP
 #define DATAROW_HPP
 
-#include "../Global/Global.hpp"
+#include "CPPHeaders.hpp"
+
 
 class DataRow {
 
@@ -14,8 +15,6 @@ public:
   friend std::wofstream& operator << (std::wofstream& output, DataRow& row);
   friend std::fstream& operator << (std::fstream& output, DataRow& row);
 
-  size_t getMemorySize();
-
 private:
   uint32_t size;
   uint32_t type;
@@ -24,9 +23,9 @@ private:
   uint8_t id3;
   uint8_t id4;
 
-//  LANG language;
   std::wstring string;
 
 };
+
 
 #endif // DATAROW_HPP

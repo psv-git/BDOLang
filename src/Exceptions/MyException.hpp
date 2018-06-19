@@ -1,7 +1,7 @@
 #ifndef MYEXCEPTION_HPP
 #define MYEXCEPTION_HPP
 
-#include "../Global/Global.hpp"
+#include "../Global/CPPHeaders.hpp"
 
 
 class MyException : public std::exception {
