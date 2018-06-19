@@ -5,43 +5,76 @@
 #include <QFileDialog>
 
 
-bool SetupApplication() {
-  if (!SetDataFolder()) return false;
+QDir rootPath(QDir::currentPath());
+QFile configFile(rootPath.absoluteFilePath(DEFAULT_SETTINGS.configFileName));
 
-//  QFile configFile(QDir::currentPath());
-//  if (!configFile.exists("config.ini")) {
-//    if (!configFile.open(QIODevice::ReadOnly | QIODevice::Text)) return false;
-//  }
+// add i/o operators for allow QDataStream read/write enum ====================
 
-  SetDefaultSettings();
-
-  return true;
+QDataStream& operator >> (QDataStream& is, LANG& e) {
+  is >> (quint32&)e;
+  return is;
 }
 
+QDataStream& operator << (QDataStream& os, LANG e) {
+  os << (quint32)e;
+  return os;
+}
 
-bool SetDataFolder() {
-  QDir dataFolder(QDir::currentPath());
-  if (!dataFolder.exists("data")) {
-    if (!dataFolder.mkdir("data")) return false;
+// application setup ==========================================================
+
+bool SetupApplication() {
+  if (!rootPath.exists(DEFAULT_SETTINGS.dataDirectoryName)) {
+   if (!rootPath.mkdir(DEFAULT_SETTINGS.dataDirectoryName)) return false; // create data directory if not exists
+  }
+  if (!configFile.exists()) {
+    if (!configFile.open(QIODevice::WriteOnly)) return false; // create config file if not exist
+    configFile.close();
+    WriteConfigFile(active_settings); // active_settings == DEFAULT_SETTINGS on app start always
+  } else {
+    ReadConfigFile(active_settings); // read settings if config file exist
   }
   return true;
 }
 
 
-bool ReadConfigFile() {
+void ReadConfigFile(Settings &settings) {
+  if (!configFile.isOpen()) configFile.close();
+  if (!configFile.open(QIODevice::ReadOnly)) return;
+  QDataStream is(&configFile);
+  Settings tmp;
+  is >> tmp.language;
+  is >> tmp.dataPath;
+  is >> tmp.sourceFileName;
+  is >> tmp.targetFileName;
+  is >> tmp.configFileName;
+  is >> tmp.dataDirectoryName;
+  settings = tmp;
+  configFile.close();
+}
+
+
+bool WriteConfigFile(Settings& settings) {
+  if (configFile.isOpen()) configFile.close();
+  if (!configFile.open(QIODevice::WriteOnly)) return false;
+  QDataStream os(&configFile);
+  os << settings.language;
+  os << settings.dataPath;
+  os << settings.sourceFileName;
+  os << settings.targetFileName;
+  os << settings.configFileName;
+  os << settings.dataDirectoryName;
+  configFile.close();
   return true;
 }
 
 
 void SetDefaultSettings() {
-  ActiveSettings.language = DefaultSettings.language;
-  ActiveSettings.dataPath = DefaultSettings.dataPath;
-  ActiveSettings.sourceFileName = DefaultSettings.sourceFileName;
-  ActiveSettings.targetFileName = DefaultSettings.targetFileName;
+  active_settings = DEFAULT_SETTINGS;
 }
 
+// ============================================================================
 
-const QString GetDirectory(const QString &title) {
+const QString GetDirectoryPath(const QString &title) {
   return QFileDialog::getExistingDirectory(nullptr, title, "/.", QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
 }
 

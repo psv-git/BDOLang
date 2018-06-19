@@ -1,6 +1,5 @@
 #include "ChooseFilesWindow.hpp"
 #include "ui_ChooseFilesWindow.h"
-#include "MyButton.hpp"
 #include "WindowsHandler.hpp"
 #include "ApplicationFunctions.hpp"
 
@@ -9,10 +8,10 @@ ChooseFilesWindow::ChooseFilesWindow(WindowsHandler *parent) : ui(new Ui::Choose
   ChooseFilesWindow::parent = parent;
   ui->setupUi(this);
 
-  connect(ui->okButton, &MyButton::released, this, &ChooseFilesWindow::onButtonClick);
-  connect(ui->cancelButton, &MyButton::released, this, &ChooseFilesWindow::onButtonClick);
-  connect(ui->chooseButton1, &MyButton::released, this, &ChooseFilesWindow::onButtonClick);
-  connect(ui->chooseButton2, &MyButton::released, this, &ChooseFilesWindow::onButtonClick);
+  connect(ui->okButton, &QPushButton::released, this, &ChooseFilesWindow::onButtonClick);
+  connect(ui->cancelButton, &QPushButton::released, this, &ChooseFilesWindow::onButtonClick);
+  connect(ui->chooseButton1, &QPushButton::released, this, &ChooseFilesWindow::onButtonClick);
+  connect(ui->chooseButton2, &QPushButton::released, this, &ChooseFilesWindow::onButtonClick);
 }
 
 

@@ -1,11 +1,13 @@
 #include "ApplicationGlobal.hpp"
 
 
-Settings DefaultSettings {
+const Settings DEFAULT_SETTINGS {
   LANG::EN,
   "./data",
   "languagedata_en.loc",
-  "languagedata_ru.loc"
+  "languagedata_ru.loc",
+  "config.cfg",
+  "data"
 };
 
-Settings ActiveSettings  = DefaultSettings;
+Settings active_settings = DEFAULT_SETTINGS;

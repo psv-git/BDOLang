@@ -28,7 +28,7 @@
   <property name="windowTitle">
    <string>Open file</string>
   </property>
-  <widget class="MyButton" name="cancelButton">
+  <widget class="QPushButton" name="cancelButton">
    <property name="geometry">
     <rect>
      <x>440</x>
@@ -47,7 +47,7 @@
     <string>CANCEL</string>
    </property>
   </widget>
-  <widget class="MyButton" name="chooseButton">
+  <widget class="QPushButton" name="chooseButton">
    <property name="geometry">
     <rect>
      <x>440</x>
@@ -82,7 +82,7 @@
     <string>Choose file:</string>
    </property>
   </widget>
-  <widget class="MyButton" name="okButton">
+  <widget class="QPushButton" name="okButton">
    <property name="geometry">
     <rect>
      <x>20</x>
@@ -121,13 +121,6 @@
    </property>
   </widget>
  </widget>
- <customwidgets>
-  <customwidget>
-   <class>MyButton</class>
-   <extends>QPushButton</extends>
-   <header>mybutton.hpp</header>
-  </customwidget>
- </customwidgets>
  <resources/>
  <connections/>
 </ui>

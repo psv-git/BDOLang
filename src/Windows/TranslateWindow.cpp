@@ -1,7 +1,6 @@
 #include <QErrorMessage>
 #include "TranslateWindow.hpp"
 #include "ui_TranslateWindow.h"
-#include "MyButton.hpp"
 #include "WindowsHandler.hpp"
 #include "DataHandler.hpp"
 #include "FileFunctions.hpp"
@@ -11,8 +10,8 @@ TranslateWindow::TranslateWindow(WindowsHandler *parent) : ui(new Ui::TranslateW
   TranslateWindow::parent = parent;
   ui->setupUi(this);
 
-  connect(ui->saveButton, &MyButton::released, this, &TranslateWindow::onButtonClick);
-  connect(ui->cancelButton, &MyButton::released, this, &TranslateWindow::onButtonClick);
+  connect(ui->saveButton, &QPushButton::released, this, &TranslateWindow::onButtonClick);
+  connect(ui->cancelButton, &QPushButton::released, this, &TranslateWindow::onButtonClick);
 }
 
 
@@ -34,8 +33,7 @@ void TranslateWindow::load(const QString &fileName) {
   catch (const std::exception &e) {
     if (input.is_open()) closeFile(input, path, "TranslateWindow::show()");
     std::cerr << e.what() << std::endl;
-    QErrorMessage *errMsgr = QErrorMessage::qtHandler();
-    errMsgr->showMessage(QString(e.what()));
+    QErrorMessage::qtHandler()->showMessage(QString(e.what()));
   }
   QWidget::show();
 }

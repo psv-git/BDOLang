@@ -4,18 +4,20 @@
 #include <QString>
 
 
-enum MODE { MERGE, BIN_TO_TEXT, TRANSLATE, SETTINGS, CLOSE, EXIT };
-enum LANG { EN = 0, RU = 1 };
+enum MODE : qint32 { MERGE, BIN_TO_TEXT, TRANSLATE, SETTINGS, CLOSE, EXIT };
+enum LANG : qint32 { EN = 0, RU = 1 };
 
 struct Settings {
   LANG language;
   QString dataPath;
   QString sourceFileName;
   QString targetFileName;
+  QString configFileName;
+  QString dataDirectoryName;
 };
 
-extern Settings DefaultSettings;
-extern Settings ActiveSettings;
+extern const Settings DEFAULT_SETTINGS;
+extern Settings active_settings;
 
 
 #endif // APPLICATIONGLOBAL_HPP

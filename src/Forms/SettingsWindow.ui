@@ -25,7 +25,7 @@
   <property name="windowTitle">
    <string>Settings</string>
   </property>
-  <widget class="QLabel" name="pathLabel">
+  <widget class="QLabel" name="dataPathLabel">
    <property name="geometry">
     <rect>
      <x>20</x>
@@ -41,7 +41,7 @@
     <string>Default path to .loc files:</string>
    </property>
   </widget>
-  <widget class="QLineEdit" name="filesPathEdit">
+  <widget class="QLineEdit" name="dataPathEdit">
    <property name="geometry">
     <rect>
      <x>165</x>
@@ -63,7 +63,7 @@
     <string notr="true">font: 10pt &quot;Liberation Mono&quot;;</string>
    </property>
   </widget>
-  <widget class="MyButton" name="chooseButton1">
+  <widget class="QPushButton" name="chooseButton1">
    <property name="geometry">
     <rect>
      <x>440</x>
@@ -95,7 +95,7 @@
     <string>Language:</string>
    </property>
   </widget>
-  <widget class="QComboBox" name="languageBox">
+  <widget class="LanguageComboBox" name="languageBox">
    <property name="geometry">
     <rect>
      <x>440</x>
@@ -163,7 +163,7 @@ This software is distributed under the MIT license.</string>
     <bool>false</bool>
    </property>
   </widget>
-  <widget class="MyButton" name="saveButton">
+  <widget class="QPushButton" name="saveButton">
    <property name="geometry">
     <rect>
      <x>20</x>
@@ -179,7 +179,7 @@ This software is distributed under the MIT license.</string>
     <string>SAVE</string>
    </property>
   </widget>
-  <widget class="MyButton" name="cancelButton">
+  <widget class="QPushButton" name="cancelButton">
    <property name="geometry">
     <rect>
      <x>440</x>
@@ -233,7 +233,7 @@ This software is distributed under the MIT license.</string>
     <string notr="true">font: 10pt &quot;Liberation Mono&quot;;</string>
    </property>
   </widget>
-  <widget class="MyButton" name="chooseButton2">
+  <widget class="QPushButton" name="chooseButton2">
    <property name="geometry">
     <rect>
      <x>440</x>
@@ -249,7 +249,7 @@ This software is distributed under the MIT license.</string>
     <string>...</string>
    </property>
   </widget>
-  <widget class="MyButton" name="chooseButton3">
+  <widget class="QPushButton" name="chooseButton3">
    <property name="geometry">
     <rect>
      <x>440</x>
@@ -306,9 +306,9 @@ This software is distributed under the MIT license.</string>
  </widget>
  <customwidgets>
   <customwidget>
-   <class>MyButton</class>
-   <extends>QPushButton</extends>
-   <header>mybutton.hpp</header>
+   <class>LanguageComboBox</class>
+   <extends>QComboBox</extends>
+   <header>LanguageComboBox.hpp</header>
   </customwidget>
  </customwidgets>
  <resources/>

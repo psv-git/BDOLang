@@ -5,10 +5,13 @@
 
 
 bool SetupApplication();
-bool SetDataFolder();
-bool ReadConfigFile();
+
+bool CreateDataFolder();
+void ReadConfigFile(Settings& settings);
+bool WriteConfigFile(Settings& settings);
 void SetDefaultSettings();
-const QString GetDirectory(const QString &title);
+
+const QString GetDirectoryPath(const QString &title);
 const QString GetFilePath(const QString &title, const QString &extStr);
 const QString GetFileName(const QString &title, const QString &extStr);
 

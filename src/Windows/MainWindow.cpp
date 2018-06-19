@@ -1,6 +1,5 @@
 #include "MainWindow.hpp"
 #include "ui_MainWindow.h"
-#include "MyButton.hpp"
 #include "WindowsHandler.hpp"
 
 
@@ -8,11 +7,11 @@ MainWindow::MainWindow(WindowsHandler *parent) : ui(new Ui::MainWindow) {
   MainWindow::parent = parent;
   ui->setupUi(this);
 
-  connect(ui->button1, &MyButton::released, this, &MainWindow::onButtonClick);
-  connect(ui->button2, &MyButton::released, this, &MainWindow::onButtonClick);
-  connect(ui->button3, &MyButton::released, this, &MainWindow::onButtonClick);
-  connect(ui->settingsButton, &MyButton::released, this, &MainWindow::onButtonClick);
-  connect(ui->exitButton, &MyButton::released, this, &MainWindow::onButtonClick);
+  connect(ui->button1, &QPushButton::released, this, &MainWindow::onButtonClick);
+  connect(ui->button2, &QPushButton::released, this, &MainWindow::onButtonClick);
+  connect(ui->button3, &QPushButton::released, this, &MainWindow::onButtonClick);
+  connect(ui->settingsButton, &QPushButton::released, this, &MainWindow::onButtonClick);
+  connect(ui->exitButton, &QPushButton::released, this, &MainWindow::onButtonClick);
 }
 
 

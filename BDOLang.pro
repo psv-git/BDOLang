@@ -45,7 +45,7 @@ SOURCES += \
     src/Windows/SettingsWindow.cpp \
     src/Windows/TranslateWindow.cpp \
     src/Windows/WindowsHandler.cpp \
-    src/Elements/MyButton.cpp
+    src/Elements/LanguageComboBox.cpp
 
 HEADERS += \
     src/Data/DataHandler.hpp \
@@ -55,13 +55,13 @@ HEADERS += \
     src/Functions/FileFunctions.hpp \
     src/Global/Global.hpp \
     src/Global/ApplicationGlobal.hpp \
-    src/Elements/MyButton.hpp \
     src/Windows/ChooseFilesWindow.hpp \
     src/Windows/ChooseFileWindow.hpp \
     src/Windows/MainWindow.hpp \
     src/Windows/SettingsWindow.hpp \
     src/Windows/TranslateWindow.hpp \
-    src/Windows/WindowsHandler.hpp
+    src/Windows/WindowsHandler.hpp \
+    src/Elements/LanguageComboBox.hpp
 
 FORMS += \
     src/Forms/ChooseFilesWindow.ui \

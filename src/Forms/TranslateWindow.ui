@@ -285,7 +285,7 @@
       <number>0</number>
      </property>
      <item>
-      <widget class="MyButton" name="saveButton">
+      <widget class="QPushButton" name="saveButton">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
          <horstretch>0</horstretch>
@@ -332,7 +332,7 @@
       </spacer>
      </item>
      <item>
-      <widget class="MyButton" name="prevButton">
+      <widget class="QPushButton" name="prevButton">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
          <horstretch>0</horstretch>
@@ -363,7 +363,7 @@
       </widget>
      </item>
      <item>
-      <widget class="MyButton" name="nextButton">
+      <widget class="QPushButton" name="nextButton">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
          <horstretch>0</horstretch>
@@ -404,10 +404,16 @@
        <property name="sizeType">
         <enum>QSizePolicy::Expanding</enum>
        </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>0</width>
+         <height>0</height>
+        </size>
+       </property>
       </spacer>
      </item>
      <item>
-      <widget class="MyButton" name="cancelButton">
+      <widget class="QPushButton" name="cancelButton">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
          <horstretch>0</horstretch>
@@ -444,13 +450,6 @@
    </item>
   </layout>
  </widget>
- <customwidgets>
-  <customwidget>
-   <class>MyButton</class>
-   <extends>QPushButton</extends>
-   <header>mybutton.hpp</header>
-  </customwidget>
- </customwidgets>
  <resources/>
  <connections/>
 </ui>

@@ -26,7 +26,7 @@
    <string notr="true">BDOLang</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <widget class="MyButton" name="button3">
+   <widget class="QPushButton" name="button3">
     <property name="geometry">
      <rect>
       <x>20</x>
@@ -51,7 +51,7 @@
      <string>TRANSLATE</string>
     </property>
    </widget>
-   <widget class="MyButton" name="button1">
+   <widget class="QPushButton" name="button1">
     <property name="geometry">
      <rect>
       <x>20</x>
@@ -70,7 +70,7 @@
      <string>MERGE TWO BIN FILES</string>
     </property>
    </widget>
-   <widget class="MyButton" name="button2">
+   <widget class="QPushButton" name="button2">
     <property name="geometry">
      <rect>
       <x>20</x>
@@ -89,7 +89,7 @@
      <string>BIN FILE TO TEXT</string>
     </property>
    </widget>
-   <widget class="MyButton" name="exitButton">
+   <widget class="QPushButton" name="exitButton">
     <property name="geometry">
      <rect>
       <x>20</x>
@@ -108,7 +108,7 @@
      <string>EXIT</string>
     </property>
    </widget>
-   <widget class="MyButton" name="settingsButton">
+   <widget class="QPushButton" name="settingsButton">
     <property name="geometry">
      <rect>
       <x>20</x>
@@ -151,13 +151,6 @@
   </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <customwidgets>
-  <customwidget>
-   <class>MyButton</class>
-   <extends>QPushButton</extends>
-   <header>mybutton.hpp</header>
-  </customwidget>
- </customwidgets>
  <tabstops>
   <tabstop>button1</tabstop>
   <tabstop>button2</tabstop>
