@@ -35,9 +35,8 @@ WindowsHandler::~WindowsHandler() {
 void WindowsHandler::onButtonClick(QWidget *sender, MODE mode) {
   WindowsHandler::mode = mode;
   if (sender == mainWindow) {
-    if (mode == MODE::MERGE) chooseFilesWindow->show();
-    if (mode == MODE::BIN_TO_TEXT) chooseFileWindow->show();
-    if (mode == MODE::TRANSLATE) chooseFilesWindow->show();
+    if (mode == MODE::BIN_TO_TEXT || mode == MODE::TEXT_TO_BIN) chooseFileWindow->show();
+    if (mode == MODE::MERGE || mode == MODE::TRANSLATE) chooseFilesWindow->show();
     if (mode == MODE::SETTINGS) {
       mainWindow->hide();
       settingsWindow->show();
@@ -45,42 +44,36 @@ void WindowsHandler::onButtonClick(QWidget *sender, MODE mode) {
     if (mode == MODE::EXIT) QApplication::quit();
   }
   if (sender == translateWindow) {
-    if (mode == MODE::CLOSE) {
-      translateWindow->hide();
-      mainWindow->show();
-    }
+    translateWindow->hide();
+    mainWindow->show();
   }
   if (sender == settingsWindow) {
-    if (mode == MODE::CLOSE) {
-      settingsWindow->hide();
-      mainWindow->show();
-    }
+    settingsWindow->hide();
+    mainWindow->show();
   }
-  if (sender == chooseFileWindow) {
-    if (mode == MODE::CLOSE) chooseFileWindow->hide();
-  }
-  if (sender == chooseFilesWindow) {
-    if (mode == MODE::CLOSE) chooseFilesWindow->hide();
-  }
+  if (sender == chooseFileWindow) chooseFileWindow->hide();
+  if (sender == chooseFilesWindow) chooseFilesWindow->hide();
 }
 
 
-void WindowsHandler::onButtonClick(QWidget *sender, const QString &srcFileName, const QString &targFileName) {
-  QString srcName(srcFileName), targName(targFileName);
-  if (srcName.isEmpty()) srcName = active_settings.sourceFileName;   // set defaults filenames
-  if (targName.isEmpty()) targName = active_settings.targetFileName; // if files not chosen
+void WindowsHandler::onButtonClick(QWidget *sender, const QString &srcFilePath, const QString &targFilePath) {
   if (sender == chooseFilesWindow) {
     chooseFilesWindow->hide();
     if (mode == MODE::TRANSLATE) {
       mainWindow->hide();
-      translateWindow->show(srcName, targName);
+      translateWindow->show(srcFilePath, targFilePath);
     }
   }
   if (sender == chooseFileWindow) {
     chooseFileWindow->hide();
+    // TODO: сделатьь отдельное окно с прогрессом и перенести в него
     if (mode == MODE::BIN_TO_TEXT) {
-      // TODO: сделатьь отдельное окно с прогрессом и перенести в него
-      DataHandler::getInstance().convertBinFileToTextFile(srcName);
+      try { DataHandler::getInstance().convertBinFileToTextFile(srcFilePath); }
+      catch (const std::exception &e) { QErrorMessage::qtHandler()->showMessage(QString(e.what())); }
+    }
+    if (mode == MODE::TEXT_TO_BIN) {
+      try { DataHandler::getInstance().convertTextFileToBinFile(srcFilePath); }
+      catch (const std::exception &e) { QErrorMessage::qtHandler()->showMessage(QString(e.what())); }
     }
   }
 }

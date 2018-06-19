@@ -19,27 +19,29 @@ public:
   DataHandler& operator = (DataHandler const&) = delete;
 
   //
-  void mergeTwoFiles(const QString &fileName1, const QString &fileName2);
+  void mergeTwoFiles(const QString &filePath1, const QString &filePath2);
   //
-  void convertBinFileToTextFile(const QString &binFileName);
-  // resed existed data
-  void resetData();
+  void convertBinFileToTextFile(const QString &binFilePath);
   //
-  bool isDataExist();
+  void convertTextFileToBinFile(const QString &textFilePath);
 
 private:
   DataHandler();
   ~DataHandler();
 
-  bool dataExist;
   std::vector<DataRow*> dataRowsContainer;
 
+  // delete existed data
+  void resetData();
   // read data rows from compressed input binary file
   void readDataFromBinFile(std::ifstream& input);
-  // write data rows to output text file (BOM_UTF16LE)
-  void writeDataToTextFile(std::wofstream& output);
   // write data rows to compressed output bin file
   void writeDataToBinFile(std::fstream& output);
+
+  // read data rows from input text file (BOM_UTF16LE)
+  void readDataFromTextFile(std::wifstream& input);
+  // write data rows to output text file (BOM_UTF16LE)
+  void writeDataToTextFile(std::wofstream& output);
 
 };
 

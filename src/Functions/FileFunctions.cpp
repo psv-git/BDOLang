@@ -14,7 +14,7 @@ const size_t MIN_DATA_LENGTH = 20; // minimal data size length in bytes
 void removeFile(const std::string& fileName, const std::string& functionName) {
   int error = std::remove(fileName.c_str());
   if (error) {
-    throw MyException("In function \"" + functionName + "\" removing \"" + fileName + "\" file was failed.", 14);
+    throw MyException("In function \"" + functionName + "\" removing \"" + fileName + "\" file was failed.");
   }
 }
 
@@ -61,11 +61,11 @@ void uncompressFile(std::ifstream& from, std::fstream& to) {
     from.seekg(0, std::ios::beg);
   }
   catch (...) {
-    throw MyException("In function \"uncompressFile()\" getting compressed data size was failed.", 21);
+    throw MyException("In function \"uncompressFile()\" getting compressed data size was failed.");
   }
 
   if (dataLength < MIN_DATA_LENGTH) {
-    throw MyException("In function \"uncompressFile()\" bad data length.", 22);
+    throw MyException("In function \"uncompressFile()\" bad data length.");
   }
 
   readDataFromFile(from, uncompressedDataSize, ulSize, "uncompressFile()");
@@ -77,7 +77,7 @@ void uncompressFile(std::ifstream& from, std::fstream& to) {
   }
   catch (...) {
     if (inBuff) delete[] inBuff;
-    throw MyException("In function \"uncompressFile()\" allocated memory was failed.", 23);
+    throw MyException("In function \"uncompressFile()\" allocated memory was failed.");
   }
 
   readDataFromFile(from, *inBuff, compressedDataSize, "uncompressFile()");
@@ -87,7 +87,7 @@ void uncompressFile(std::ifstream& from, std::fstream& to) {
   if (result == Z_OK) {
     writeDataToFile(to, *outBuff, uncompressedDataSize, "uncompressFile()");
   } else {
-    throw MyException("In function \"uncompressFile()\" uncompress was failed.", 24);
+    throw MyException("In function \"uncompressFile()\" uncompress was failed.");
   }
 }
 
@@ -131,7 +131,7 @@ void compressFile(std::fstream& from, std::fstream& to) {
     from.seekg(0, std::ios::beg);
   }
   catch (...) {
-    throw MyException("In function \"compressFile()\" getting uncompressed data size was failed.", 31);
+    throw MyException("In function \"compressFile()\" getting uncompressed data size was failed.");
   }
 
   compressedDataSize = compressBound(uncompressedDataSize);
@@ -143,7 +143,7 @@ void compressFile(std::fstream& from, std::fstream& to) {
   }
   catch (...) {
     if (inBuff) delete[] inBuff;
-    throw MyException("In function \"compressFile()\" allocated memory was failed.", 32);
+    throw MyException("In function \"compressFile()\" allocated memory was failed.");
   }
 
   readDataFromFile(from, *inBuff, uncompressedDataSize, "compressFile()");
@@ -154,6 +154,6 @@ void compressFile(std::fstream& from, std::fstream& to) {
     writeDataToFile(to, uncompressedDataSize, ulSize, "compressFile()");
     writeDataToFile(to, *outBuff, compressedDataSize, "compressFile()");
   } else {
-    throw MyException("In function \"compressFile()\" compress was failed.", 33);
+    throw MyException("In function \"compressFile()\" compress was failed.");
   }
 }

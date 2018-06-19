@@ -13,7 +13,7 @@ template <typename F>
 void openInputFile(F& input, const std::string& fileName, const std::string& functionName = "") {
   input.open(fileName, std::ios::in | std::ios::binary);
   if (!input.is_open()) {
-    throw MyException("In function \"" + functionName + "\" opening \"" + fileName + "\" file was failed.", 11);
+    throw MyException("In function \"" + functionName + "\" opening \"" + fileName + "\" file was failed.");
   }
 }
 
@@ -22,7 +22,7 @@ template <typename F>
 void openOutputFile(F& output, const std::string& fileName, const std::string& functionName = "") {
   output.open(fileName, std::ios::out | std::ios::binary);
   if (!output.is_open()) {
-    throw MyException("In function \"" + functionName + "\" opening \"" + fileName + "\" file was failed.", 12);
+    throw MyException("In function \"" + functionName + "\" opening \"" + fileName + "\" file was failed.");
   }
 }
 
@@ -31,7 +31,7 @@ template <typename F>
 void closeFile(F& file, const std::string& fileName, const std::string& functionName = "") {
   file.close();
   if (file.is_open()) {
-    throw MyException("In function \"" + functionName + "\" file \"" + fileName + " was not closed.", 13);
+    throw MyException("In function \"" + functionName + "\" file \"" + fileName + " was not closed.");
   }
 }
 
@@ -41,7 +41,7 @@ void readDataFromFile(F& file, V& var, size_t size = 0, const std::string& funct
   if (size == 0) size = sizeof(var);
   file.read(reinterpret_cast<char*>(&var), size);
   if (file.fail() && !file.eof()) {
-    throw MyException("In function \"" + functionName + "\" read data from file was failed.", 15);
+    throw MyException("In function \"" + functionName + "\" read data from file was failed.");
   }
 }
 
@@ -51,7 +51,7 @@ void writeDataToFile(F& file, V& var, size_t size = 0, const std::string& functi
   if (size == 0) size = sizeof(var);
   file.write(reinterpret_cast<char*>(&var), size);
   if (file.fail()) {
-    throw MyException("In function \"" + functionName + "\" write data to file was failed.", 16);
+    throw MyException("In function \"" + functionName + "\" write data to file was failed.");
   }
 }
 

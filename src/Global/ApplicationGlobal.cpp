@@ -3,7 +3,7 @@
 
 const Settings DEFAULT_SETTINGS {
   LANG::EN,
-  "data/",
+  "./data/",
   "languagedata_en.loc",
   "languagedata_ru.loc",
 

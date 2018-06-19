@@ -26,11 +26,14 @@
    <string notr="true">BDOLang</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <widget class="QPushButton" name="button3">
+   <widget class="QPushButton" name="button4">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>140</y>
+      <y>200</y>
       <width>250</width>
       <height>40</height>
      </rect>
@@ -52,6 +55,9 @@
     </property>
    </widget>
    <widget class="QPushButton" name="button1">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>20</x>
@@ -67,7 +73,7 @@
      <string notr="true">font: 87 10pt &quot;Arial Black&quot;;</string>
     </property>
     <property name="text">
-     <string>MERGE TWO BIN FILES</string>
+     <string>BIN FILE TO TEXT FILE</string>
     </property>
    </widget>
    <widget class="QPushButton" name="button2">
@@ -86,7 +92,7 @@
      <string notr="true">font: 87 10pt &quot;Arial Black&quot;;</string>
     </property>
     <property name="text">
-     <string>BIN FILE TO TEXT</string>
+     <string>TEXT FILE TO BIN FILE</string>
     </property>
    </widget>
    <widget class="QPushButton" name="exitButton">
@@ -133,6 +139,28 @@
      <string>SETTINGS</string>
     </property>
    </widget>
+   <widget class="QPushButton" name="button3">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>140</y>
+      <width>250</width>
+      <height>40</height>
+     </rect>
+    </property>
+    <property name="focusPolicy">
+     <enum>Qt::TabFocus</enum>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 87 10pt &quot;Arial Black&quot;;</string>
+    </property>
+    <property name="text">
+     <string>MERGE TWO BIN FILES</string>
+    </property>
+   </widget>
   </widget>
   <action name="settings">
    <property name="text">
@@ -154,7 +182,7 @@
  <tabstops>
   <tabstop>button1</tabstop>
   <tabstop>button2</tabstop>
-  <tabstop>button3</tabstop>
+  <tabstop>button4</tabstop>
   <tabstop>exitButton</tabstop>
  </tabstops>
  <resources/>

@@ -10,18 +10,19 @@ public:
   DataRow();
   ~DataRow();
 
-  bool operator < (const DataRow& row) const;
+//  bool operator < (const DataRow& row) const;
   friend std::fstream& operator >> (std::fstream& input, DataRow& row);
-  friend std::wofstream& operator << (std::wofstream& output, DataRow& row);
   friend std::fstream& operator << (std::fstream& output, DataRow& row);
+  friend std::wifstream& operator >> (std::wifstream& input, DataRow& row);
+  friend std::wofstream& operator << (std::wofstream& output, DataRow& row);
 
 private:
-  uint32_t size;
-  uint32_t type;
-  uint32_t id1;
-  uint16_t id2;
-  uint8_t id3;
-  uint8_t id4;
+  uint32_t size = 0;
+  uint32_t type = 0;
+  uint32_t id1 = 0;
+  uint16_t id2 = 0;
+  uint16_t id3 = 0; // meaning uint8_t
+  uint16_t id4 = 0; // meaning uint8_t
 
   std::wstring string;
 

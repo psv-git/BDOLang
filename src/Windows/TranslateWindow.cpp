@@ -10,6 +10,8 @@ TranslateWindow::TranslateWindow(WindowsHandler *parent) : ui(new Ui::TranslateW
   TranslateWindow::parent = parent;
   ui->setupUi(this);
 
+  connect(ui->prevButton, &QPushButton::released, this, &TranslateWindow::onButtonClick);
+  connect(ui->nextButton, &QPushButton::released, this, &TranslateWindow::onButtonClick);
   connect(ui->saveButton, &QPushButton::released, this, &TranslateWindow::onButtonClick);
   connect(ui->cancelButton, &QPushButton::released, this, &TranslateWindow::onButtonClick);
 }
@@ -20,7 +22,7 @@ TranslateWindow::~TranslateWindow() {
 }
 
 
-void TranslateWindow::show(const QString &inFileName, const QString &outFileName) {
+void TranslateWindow::show(const QString &inFilePath, const QString &outFilePath) {
   isError = false;
 //  std::string path = inFileName.toStdString();
 //  std::ifstream input;
@@ -40,7 +42,6 @@ void TranslateWindow::show(const QString &inFileName, const QString &outFileName
 
 
 void TranslateWindow::hide() {
-  DataHandler::getInstance().resetData();
   QWidget::hide();
 }
 

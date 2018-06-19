@@ -19,7 +19,7 @@ signals:
 
 
 public slots:
-  void show(const QString &inFileName, const QString &outFileName);
+  void show(const QString &inFilePath, const QString &outFilePath);
   void hide();
   void onButtonClick();
 

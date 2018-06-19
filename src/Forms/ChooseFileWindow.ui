@@ -116,6 +116,9 @@
    <property name="styleSheet">
     <string notr="true">font: 10pt &quot;Liberation Mono&quot;;</string>
    </property>
+   <property name="readOnly">
+    <bool>true</bool>
+   </property>
    <property name="placeholderText">
     <string>path/to/file</string>
    </property>

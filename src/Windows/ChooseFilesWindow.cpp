@@ -32,7 +32,11 @@ void ChooseFilesWindow::onButtonClick () {
   QObject* obj = sender();
   QString objName = obj->objectName();
   if (objName == "okButton") {
-    parent->onButtonClick(this, ui->pathEdit1->text(), ui->pathEdit2->text());
+    QString srcFilePath(ui->pathEdit1->text());
+    QString targFilePath(ui->pathEdit2->text());
+    if (srcFilePath.isEmpty()) srcFilePath = active_settings.dataPath + active_settings.sourceFileName;
+    if (targFilePath.isEmpty()) targFilePath = active_settings.dataPath + active_settings.targetFileName;
+    parent->onButtonClick(this, srcFilePath, targFilePath);
   }
   if (objName == "cancelButton") {
     parent->onButtonClick(this, MODE::CLOSE);

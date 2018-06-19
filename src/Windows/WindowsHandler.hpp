@@ -19,7 +19,7 @@ public:
   ~WindowsHandler();
 
   void onButtonClick(QWidget *sender, MODE mode);
-  void onButtonClick(QWidget *sender, const QString &srcFileName, const QString &targFileName);
+  void onButtonClick(QWidget *sender, const QString &srcFilePath, const QString &targFilePath);
 
 private:
   MODE mode;
