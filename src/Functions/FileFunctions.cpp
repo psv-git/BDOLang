@@ -3,13 +3,8 @@
 // https://eax.me/zlib/
 
 #include "FileFunctions.hpp"
-#include "../Data/DataRow.hpp"
+#include "DataRow.hpp"
 
-
-const char* TMP_FILE_NAME = "./data/tmp.bss";
-const size_t MIN_DATA_LENGTH = 20; // minimal data size length in bytes
-
-// =============================================================================
 
 void removeFile(const std::string& fileName, const std::string& functionName) {
   int error = std::remove(fileName.c_str());

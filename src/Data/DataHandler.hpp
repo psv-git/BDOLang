@@ -1,7 +1,7 @@
 #ifndef DATAHANDLER_HPP
 #define DATAHANDLER_HPP
 
-#include "CPPHeaders.hpp"
+#include "CPPDeclarations.hpp"
 
 class DataRow;
 class QString;
@@ -33,6 +33,7 @@ private:
 
   // delete existed data
   void resetData();
+
   // read data rows from compressed input binary file
   void readDataFromBinFile(std::ifstream& input);
   // write data rows to compressed output bin file

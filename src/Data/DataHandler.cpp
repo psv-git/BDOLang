@@ -4,11 +4,6 @@
 #include "FileFunctions.hpp"
 
 
-const uint32_t MAX_CODE    = 0x10ffff;
-const uint16_t BOM_UTF16LE = 0xFEFF;
-
-// =============================================================================
-
 DataHandler::DataHandler() {}
 
 
@@ -106,7 +101,7 @@ void DataHandler::writeDataToBinFile(std::fstream& output) {
 }
 
 
-// write data rows to output text file (BOM_UTF16LE)
+// read data rows from input text file (BOM_UTF16LE)
 void DataHandler::readDataFromTextFile(std::wifstream& input) {
   try {
     input.imbue(std::locale(input.getloc(), new std::codecvt_utf16<wchar_t, MAX_CODE, std::little_endian>));

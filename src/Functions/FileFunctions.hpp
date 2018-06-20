@@ -1,8 +1,7 @@
 #ifndef FILEFUNCTIONS_HPP
 #define FILEFUNCTIONS_HPP
 
-#include "../Global/CPPHeaders.hpp"
-#include "../Exceptions/MyException.hpp"
+#include "CPPDeclarations.hpp"
 
 class DataRow;
 

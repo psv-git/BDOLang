@@ -44,7 +44,8 @@ SOURCES += \
     src/Windows/SettingsWindow.cpp \
     src/Windows/TranslateWindow.cpp \
     src/Windows/WindowsHandler.cpp \
-    src/Elements/LanguageComboBox.cpp
+    src/Elements/LanguageComboBox.cpp \
+    src/Global/CPPDeclarations.cpp
 
 HEADERS += \
     src/Data/DataHandler.hpp \
@@ -54,6 +55,7 @@ HEADERS += \
     src/Functions/FileFunctions.hpp \
     src/Global/ApplicationGlobal.hpp \
     src/Global/CPPHeaders.hpp \
+    src/Global/CPPDeclarations.hpp \
     src/Windows/ChooseFilesWindow.hpp \
     src/Windows/ChooseFileWindow.hpp \
     src/Windows/MainWindow.hpp \

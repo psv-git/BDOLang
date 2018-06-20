@@ -1,7 +1,7 @@
 #ifndef DATAROW_HPP
 #define DATAROW_HPP
 
-#include "CPPHeaders.hpp"
+#include "CPPDeclarations.hpp"
 
 
 class DataRow {
@@ -21,8 +21,8 @@ private:
   uint32_t type = 0;
   uint32_t id1 = 0;
   uint16_t id2 = 0;
-  uint16_t id3 = 0; // meaning uint8_t
-  uint16_t id4 = 0; // meaning uint8_t
+  uint8_16_t id3 = { 0 };
+  uint8_16_t id4 = { 0 };
 
   std::wstring string;
 
