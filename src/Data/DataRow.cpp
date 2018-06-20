@@ -8,7 +8,6 @@ DataRow::~DataRow() {}
 
 // =============================================================================
 
-
 void ReplaceInString(std::wstring &string, const std::wstring &search, const std::wstring &replace) {
   std::wstring result;
   size_t prevPos = 0;
@@ -27,9 +26,17 @@ void ReplaceInString(std::wstring &string, const std::wstring &search, const std
 
 
 // std::getline() have bad work with some quotes symbols - they must be replaced
-bool IsQuote(wchar_t wch) {
+bool IsQuote(uint16_t wch) {
   for (size_t i = 0; i < (sizeof(quotesCodes) / sizeof(quotesCodes[0])); i++) {
     if (wch == quotesCodes[i]) return true;
+  }
+  return false;
+}
+
+
+bool IsStringUTF16Cyrillic(const std::wstring &string) {
+  for (size_t i = 0; i <= string.size() - 2; i++) {
+    if (string[i] >= RU_BEG && string[i] <= RU_END) return true;
   }
   return false;
 }
@@ -88,12 +95,12 @@ std::fstream& operator << (std::fstream& output, DataRow& row) {
   writeDataToFile(output, row.id2);
   writeDataToFile(output, row.id3.split[0]);
   writeDataToFile(output, row.id4.split[0]);
-  for (size_t i = 1; i < row.string.size()-1; i++) { // skip first & last quotes
+  for (size_t i = 1; i < row.string.size() - 1; i++) { // skip first & last quotes
     uint16_t wch = row.string[i];
     writeDataToFile(output, wch);
   }
   uint16_t null = 0;
-  writeDataToFile(output, null); // write two null bytes
+  writeDataToFile(output, null); // write four null bytes
   writeDataToFile(output, null);
 
   return output;

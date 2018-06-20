@@ -3,7 +3,6 @@
 #include <QFile>
 #include <QFileInfo>
 #include <QFileDialog>
-#include <QApplication>
 
 
 QFile configFile;
@@ -21,7 +20,7 @@ QDataStream& operator << (QDataStream& os, LANG e) {
 }
 
 // application setup ==========================================================
-#include <iostream>
+
 bool SetupApplication() {
   QDir rootPath(GetRootPath());
   configFile.setFileName(rootPath.absoluteFilePath(DEFAULT_SETTINGS.configFileName));
