@@ -3,10 +3,10 @@
 #include <QFile>
 #include <QFileInfo>
 #include <QFileDialog>
+#include <QApplication>
 
 
-QDir rootPath(QDir::currentPath());
-QFile configFile(rootPath.absoluteFilePath(DEFAULT_SETTINGS.configFileName));
+QFile configFile;
 
 // add i/o operators for allow QDataStream read/write enum ====================
 
@@ -21,8 +21,10 @@ QDataStream& operator << (QDataStream& os, LANG e) {
 }
 
 // application setup ==========================================================
-
+#include <iostream>
 bool SetupApplication() {
+  QDir rootPath(GetRootPath());
+  configFile.setFileName(rootPath.absoluteFilePath(DEFAULT_SETTINGS.configFileName));
   if (!rootPath.exists(DEFAULT_SETTINGS.dataDirectoryName)) {
    if (!rootPath.mkdir(DEFAULT_SETTINGS.dataDirectoryName)) return false; // create data directory if not exists
   }
@@ -74,6 +76,11 @@ bool WriteConfigFile(Settings& settings) {
 
 void SetDefaultSettings() {
   active_settings = DEFAULT_SETTINGS;
+}
+
+
+QString GetRootPath() {
+  return QDir::currentPath();
 }
 
 // ============================================================================

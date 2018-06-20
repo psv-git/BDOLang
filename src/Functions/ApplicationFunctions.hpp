@@ -3,13 +3,16 @@
 
 #include "ApplicationGlobal.hpp"
 
+class QApplication;
+class QFile;
+
 
 bool SetupApplication();
 
-bool CreateDataFolder();
-void ReadConfigFile(Settings& settings);
+void ReadConfigFile(Settings &settings);
 bool WriteConfigFile(Settings& settings);
 void SetDefaultSettings();
+QString GetRootPath();
 
 const QString GetDirectoryPath(const QString &title);
 const QString GetFilePath(const QString &title, const QString &extStr);

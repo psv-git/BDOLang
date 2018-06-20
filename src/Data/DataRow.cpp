@@ -26,7 +26,7 @@ void ReplaceInString(std::wstring &string, const std::wstring &search, const std
 }
 
 
-// std::getline() have bad work with some quotes - they must be replaced
+// std::getline() have bad work with some quotes symbols - they must be replaced
 bool IsQuote(wchar_t wch) {
   for (size_t i = 0; i < (sizeof(quotesCodes) / sizeof(quotesCodes[0])); i++) {
     if (wch == quotesCodes[i]) return true;
