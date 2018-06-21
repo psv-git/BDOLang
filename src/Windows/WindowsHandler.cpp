@@ -1,4 +1,3 @@
-#include <QErrorMessage>
 #include "WindowsHandler.hpp"
 #include "MainWindow.hpp"
 #include "TranslateWindow.hpp"
@@ -69,11 +68,29 @@ void WindowsHandler::onButtonClick(QWidget *sender, const QString &srcFilePath, 
     // TODO: сделатьь отдельное окно с прогрессом и перенести в него
     if (mode == MODE::BIN_TO_TEXT) {
       try { DataHandler::getInstance().convertBinFileToTextFile(srcFilePath); }
-      catch (const std::exception &e) { QErrorMessage::qtHandler()->showMessage(QString(e.what())); }
+      catch (...) {
+        QStringList exceptionsMessagesList = GetExceptionsList();
+        QString exceptionMessage;
+        for (int i = 0; i < exceptionsMessagesList.size(); i++) {
+          exceptionMessage += exceptionsMessagesList.at(i);
+          exceptionMessage.push_back('\n');
+        }
+        ClearExceptionsList();
+        QErrorMessage::qtHandler()->showMessage(exceptionMessage);
+      }
     }
     if (mode == MODE::TEXT_TO_BIN) {
       try { DataHandler::getInstance().convertTextFileToBinFile(srcFilePath); }
-      catch (const std::exception &e) { QErrorMessage::qtHandler()->showMessage(QString(e.what())); }
+      catch (...) {
+        QStringList exceptionsMessagesList = GetExceptionsList();
+        QString exceptionMessage;
+        for (int i = 0; i < exceptionsMessagesList.size(); i++) {
+          exceptionMessage += exceptionsMessagesList.at(i);
+          exceptionMessage.push_back('\n');
+        }
+        ClearExceptionsList();
+        QErrorMessage::qtHandler()->showMessage(exceptionMessage);
+      }
     }
   }
 }

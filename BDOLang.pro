@@ -25,7 +25,6 @@ DEFINES += QT_DEPRECATED_WARNINGS
 INCLUDEPATH += \
     src/Data \
     src/Elements \
-    src/Exceptions \
     src/Functions \
     src/Global \
     src/Windows
@@ -34,9 +33,7 @@ SOURCES += \
     src/main.cpp \
     src/Data/DataHandler.cpp \
     src/Data/DataRow.cpp \
-    src/Exceptions/MyException.cpp \
     src/Functions/ApplicationFunctions.cpp \
-    src/Functions/FileFunctions.cpp \
     src/Global/ApplicationGlobal.cpp \
     src/Windows/ChooseFilesWindow.cpp \
     src/Windows/ChooseFileWindow.cpp \
@@ -44,18 +41,14 @@ SOURCES += \
     src/Windows/SettingsWindow.cpp \
     src/Windows/TranslateWindow.cpp \
     src/Windows/WindowsHandler.cpp \
-    src/Elements/LanguageComboBox.cpp \
-    src/Global/CPPDeclarations.cpp
+    src/Elements/LanguageComboBox.cpp
 
 HEADERS += \
     src/Data/DataHandler.hpp \
     src/Data/DataRow.hpp \
-    src/Exceptions/MyException.hpp \
     src/Functions/ApplicationFunctions.hpp \
-    src/Functions/FileFunctions.hpp \
     src/Global/ApplicationGlobal.hpp \
-    src/Global/CPPHeaders.hpp \
-    src/Global/CPPDeclarations.hpp \
+    src/Global/ApplicationHeaders.hpp \
     src/Windows/ChooseFilesWindow.hpp \
     src/Windows/ChooseFileWindow.hpp \
     src/Windows/MainWindow.hpp \

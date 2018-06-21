@@ -1,7 +1,6 @@
-#include <QString>
 #include "DataHandler.hpp"
 #include "DataRow.hpp"
-#include "FileFunctions.hpp"
+#include <zlib.h>
 
 
 DataHandler::DataHandler() {}
@@ -11,9 +10,9 @@ DataHandler::~DataHandler() {
   resetData();
 }
 
-// PUBLIC METHODS ==============================================================
+// PUBLIC METHODS =============================================================
 
-// TODO:
+// TODO: complete this
 void DataHandler::mergeTwoFiles(const QString &filePath1, const QString &filePath2) {
 //  std::string replace_name = argv[1];
 //  std::string original_name = argv[2];
@@ -114,22 +113,27 @@ void DataHandler::mergeTwoFiles(const QString &filePath1, const QString &filePat
 //
 void DataHandler::convertBinFileToTextFile(const QString &binFilePath) {
   resetData(); // be on the safe side
-  std::fstream input;
-  u16ofstream output;
-  std::string path;
+  QString path(binFilePath);
+  QFile inputFile(path);
+  QFile outputFile(path + ".txt"); // TODO: change this
   try {
-    path = binFilePath.toStdString();
-    openInputFile(input, path, "DataHandler::convertBinFileToTextFile()");
+    OpenFile(inputFile,  QIODevice::ReadOnly, "DataHandler::convertBinFileToTextFile()");
+    OpenFile(outputFile, QIODevice::WriteOnly, "DataHandler::convertBinFileToTextFile()");
+    QDataStream input(&inputFile);
+    QTextStream output(&outputFile);
+    output.setCodec("UTF-8");
+    output.setAutoDetectUnicode(true);
+    output.setGenerateByteOrderMark(true);
+
     readDataFromBinFile(input);
-    closeFile(input, path, "DataHandler::convertBinFileToTextFile()");
-    path += ".txt";
-    openOutputFile(output, path, "DataHandler::convertBinFileToTextFile()");
     writeDataToTextFile(output);
-    closeFile(output, path, "DataHandler::convertBinFileToTextFile()");
+
+    CloseFile(inputFile,  "DataHandler::convertBinFileToTextFile()");
+    CloseFile(outputFile, "DataHandler::convertBinFileToTextFile()");
   }
-  catch (const std::exception &e) {
-    if (input.is_open()) closeFile(input, path, "DataHandler::convertBinFileToTextFile()");
-    if (output.is_open()) closeFile(output, path, "DataHandler::convertBinFileToTextFile()");
+  catch (...) {
+    if (inputFile.isOpen())  CloseFile(inputFile,  "DataHandler::convertBinFileToTextFile()");
+    if (outputFile.isOpen()) CloseFile(outputFile, "DataHandler::convertBinFileToTextFile()");
     throw;
   }
   resetData();
@@ -139,28 +143,33 @@ void DataHandler::convertBinFileToTextFile(const QString &binFilePath) {
 //
 void DataHandler::convertTextFileToBinFile(const QString &textFilePath) {
   resetData(); // be on the safe side
-  u16ifstream input;
-  std::fstream output;
-  std::string path;
+  QString path(textFilePath);
+  QFile inputFile(path);
+  QFile outputFile(path + ".bin"); // TODO: change this
   try {
-    path = textFilePath.toStdString();
-    openInputFile(input, path, "DataHandler::convertTextFileToBinFile()");
+    OpenFile(inputFile,  QIODevice::ReadOnly, "DataHandler::convertTextFileToBinFile()");
+    OpenFile(outputFile, QIODevice::WriteOnly, "DataHandler::convertTextFileToBinFile()");
+    QTextStream input(&inputFile);
+    QDataStream output(&outputFile);
+    input.setCodec("UTF-8");
+    input.setAutoDetectUnicode(true);
+    input.skipWhiteSpace();
+
     readDataFromTextFile(input);
-    closeFile(input, path, "DataHandler::convertTextFileToBinFile()");
-    path += ".bin";
-    openOutputFile(output, path, "DataHandler::convertTextFileToBinFile()");
     writeDataToBinFile(output);
-    closeFile(output, path, "DataHandler::convertTextFileToBinFile()");
+
+    CloseFile(inputFile,  "DataHandler::convertTextFileToBinFile()");
+    CloseFile(outputFile, "DataHandler::convertTextFileToBinFile()");
   }
-  catch (const std::exception &e) {
-    if (input.is_open()) closeFile(input, path, "DataHandler::convertTextFileToBinFile()");
-    if (output.is_open()) closeFile(output, path, "DataHandler::convertTextFileToBinFile()");
+  catch (...) {
+    if (inputFile.isOpen())  CloseFile(inputFile,  "DataHandler::convertTextFileToBinFile()");
+    if (outputFile.isOpen()) CloseFile(outputFile, "DataHandler::convertTextFileToBinFile()");
     throw;
   }
   resetData();
 }
 
-// PRIVATE METHODS ==============================================================
+// PRIVATE METHODS ============================================================
 
 // delete existed data
 void DataHandler::resetData() {
@@ -172,62 +181,188 @@ void DataHandler::resetData() {
 
 
 // read data rows from compressed input binary file
-void DataHandler::readDataFromBinFile(std::fstream& input) {
+void DataHandler::readDataFromBinFile(QDataStream& input) {
   try {
     decryptFile(input, dataRowsContainer);
   }
-  catch (const std::exception& e) {
-    throw;
-  }
+  catch (...) { throw; }
 }
 
 
 // write data rows to compressed output bin file
-void DataHandler::writeDataToBinFile(std::fstream& output) {
+void DataHandler::writeDataToBinFile(QDataStream& output) {
   try {
     encryptFile(dataRowsContainer, output);
   }
-  catch (const std::exception& e) {
-    throw;
-  }
+  catch (...) { throw; }
 }
 
 
 // read data rows from input text file (BOM_UTF16LE)
-void DataHandler::readDataFromTextFile(u16ifstream& input) {
+void DataHandler::readDataFromTextFile(QTextStream& input) {
   try {
-//    input.imbue(std::locale(input.getloc(), new std::codecvt_utf16<wchar_t, MAX_CODE, std::little_endian>));
-//    wchar_t bom;
-//    bom = input.peek();
-////    input.read(reinterpret_cast<wchar_t*>(&bom), 2); // check BOM exist
-//    if (bom == BOM_UTF16BE || bom == BOM_UTF16LE) {
-////      input.seekg(0, std::ios::beg);
-//        std::cerr << "test" << std::endl;
-//        input.read(reinterpret_cast<char*>(&bom), sizeof(wchar_t));
-//    }
     while (true) {
       DataRow* dataRow = new DataRow();
-      input >> *dataRow;
-      if (input.eof()) break;
+      dataRow->readTextDataFrom(input);
       dataRowsContainer.push_back(dataRow);
+      if (input.atEnd()) break;
     }
   }
-  catch (const std::exception &e) {
+  catch (...) { throw; }
+}
+
+
+// write data rows to output text file (BOM_UTF16LE)
+void DataHandler::writeDataToTextFile(QTextStream& output) {
+  try {
+    for (size_t i = 0; i < dataRowsContainer.size(); i++) {
+      dataRowsContainer[i]->writeTextDataTo(output);
+    }
+  }
+  catch (...) { throw; }
+}
+
+// ============================================================================
+
+// decrypt data from input file to data container
+void DataHandler::decryptFile(QDataStream& from, std::vector<DataRow*>& to) {
+  QFile tmpFile(TMP_FILE_NAME);
+  try {
+    OpenFile(tmpFile, QIODevice::ReadWrite, "DataHandler::decryptFile()");
+    QDataStream tmp(&tmpFile);
+
+    uncompressFile(from, tmp);
+
+    tmp.device()->seek(0); // set pos to file begin
+
+//    CloseFile(tmpFile, "DataHandler::decryptFile()");
+//    OpenInputFile(tmpFile, QIODevice::ReadOnly, "DataHandler::decryptFile()");
+
+    // decrypting uncompressed data
+    while (true) {
+      DataRow* dataRow = new DataRow();
+      dataRow->readBinDataFrom(tmp);
+      to.push_back(dataRow);
+      if (tmp.atEnd()) break;
+    }
+  }
+  catch (...) {
+    if (tmpFile.isOpen()) CloseFile(tmpFile, "DataHandler::decryptFile()");
+    RemoveFile(tmpFile, "DataHandler::decryptFile()");
+    throw;
+  }
+  CloseFile(tmpFile,  "DataHandler::decryptFile()");
+  RemoveFile(tmpFile, "DataHandler::decryptFile()");
+}
+
+
+// uncompress data from input file to tmp data file
+void DataHandler::uncompressFile(QDataStream& from, QDataStream& to) {
+  unsigned long compressedDataSize   = 0;
+  unsigned long uncompressedDataSize = 0;
+  size_t ulSize      = sizeof(uint32_t); // guaranteed 4 bytes length for unsigned long
+  size_t dataLength  = 0;
+
+  dataLength         = from.device()->size();
+  compressedDataSize = dataLength - ulSize; // 1st 4 bytes holds information about uncompressed data size
+
+  if (dataLength < MIN_DATA_LENGTH) {
+    AddException("In function \"DataHandler::uncompressFile()\" bad data length.");
+    throw;
+  }
+
+  ReadDataFromStream(from, uncompressedDataSize, ulSize, "DataHandler::uncompressFile()");
+
+  uint8_t *inBuff  = nullptr;
+  uint8_t *outBuff = nullptr;
+  try {
+    inBuff = new uint8_t[compressedDataSize];
+    outBuff = new uint8_t[uncompressedDataSize];
+    ReadDataFromStream(from, *inBuff, compressedDataSize, "DataHandler::uncompressFile()");
+  }
+  catch (...) {
+    if (inBuff)  delete[] inBuff;
+    if (outBuff) delete[] outBuff;
+    AddException("In function \"DataHandler::uncompressFile()\" allocated memory was failed.");
+    throw;
+  }
+
+  int result = uncompress(outBuff, &uncompressedDataSize, inBuff, compressedDataSize);
+
+  if (result == Z_OK) {
+    WriteDataToStream(to, *outBuff, uncompressedDataSize, "DataHandler::uncompressFile()");
+  } else {
+    if (inBuff)  delete[] inBuff;
+    if (outBuff) delete[] outBuff;
+    AddException("In function \"uncompressFile()\" uncompress was failed.");
     throw;
   }
 }
 
 
-// write data rows to output text file (BOM_UTF16LE)
-void DataHandler::writeDataToTextFile(u16ofstream& output) {
+// ============================================================================
+
+// encrypt data to output binary file from data container
+void DataHandler::encryptFile(std::vector<DataRow*>& from, QDataStream& to) {
+  QFile tmpFile(TMP_FILE_NAME);
   try {
-//    output.imbue(std::locale(output.getloc(), new std::codecvt_utf16<char16_t, MAX_CODE>));
-//    output.put(BOM_UTF16LE);
-    for (size_t i = 0; i < dataRowsContainer.size(); i++) {
-      output << *dataRowsContainer[i];
+    OpenFile(tmpFile, QIODevice::ReadWrite, "DataHandler::encryptFile()");
+    QDataStream tmp(&tmpFile);
+
+    // write data rows to uncompressed tmp data file
+    for (size_t i = 0; i < from.size(); i++) {
+      from[i]->writeBinDataTo(tmp);
     }
+
+    tmp.device()->seek(0); // set pos to file begin
+
+//    CloseFile(tmpFile, QIODevice::ReadOnly, "DataHandler::encryptFile()");
+//    OpenInputFile(tmp, TMP_FILE_NAME, "DataHandler::encryptFile()");
+
+    compressFile(tmp, to); // compress tmp data file to output file
   }
-  catch (const std::exception &e) {
+  catch (...) {
+    if (tmpFile.isOpen()) CloseFile(tmpFile, "DataHandler::encryptFile()");
+    RemoveFile(tmpFile, "DataHandler::encryptFile()");
+    throw;
+  }
+  CloseFile(tmpFile,  "DataHandler::encryptFile()");
+  RemoveFile(tmpFile, "DataHandler::encryptFile()");
+}
+
+
+//
+void DataHandler::compressFile(QDataStream& from, QDataStream& to) {
+  unsigned long uncompressedDataSize = 0;
+  unsigned long compressedDataSize   = 0;
+  size_t ulSize = sizeof(uint32_t); // guaranteed 4 bytes length for unsigned long
+
+  uncompressedDataSize = from.device()->size();
+  compressedDataSize   = compressBound(uncompressedDataSize);
+
+  uint8_t *inBuff      = nullptr;
+  uint8_t *outBuff     = nullptr;
+  try {
+    inBuff = new uint8_t[uncompressedDataSize];
+    outBuff = new uint8_t[compressedDataSize];
+    ReadDataFromStream(from, *inBuff, uncompressedDataSize, "DataHandler::compressFile()");
+  }
+  catch (...) {
+    if (inBuff)  delete[] inBuff;
+    if (outBuff) delete[] outBuff;
+    AddException("In function \"DataHandler::compressFile()\" allocated memory was failed.");
+    throw;
+  }
+
+  int result = compress2(outBuff, &compressedDataSize, inBuff, uncompressedDataSize, Z_BEST_SPEED);
+
+  if (result == Z_OK) {
+    WriteDataToStream(to, uncompressedDataSize, ulSize, "DataHandler::compressFile()");
+    WriteDataToStream(to, *outBuff, compressedDataSize, "DataHandler::compressFile()");
+  } else {
+    if (inBuff)  delete[] inBuff;
+    if (outBuff) delete[] outBuff;
+    AddException("In function \"DataHandler::compressFile()\" compress was failed.");
     throw;
   }
 }

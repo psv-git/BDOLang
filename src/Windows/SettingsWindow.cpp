@@ -1,4 +1,3 @@
-#include <QErrorMessage>
 #include "SettingsWindow.hpp"
 #include "ui_SettingsWindow.h"
 #include "WindowsHandler.hpp"

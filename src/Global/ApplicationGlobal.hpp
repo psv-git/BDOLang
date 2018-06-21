@@ -1,11 +1,13 @@
 #ifndef APPLICATIONGLOBAL_HPP
 #define APPLICATIONGLOBAL_HPP
 
-#include <QString>
+#include "ApplicationHeaders.hpp"
 
 
 enum MODE : qint32 { MERGE, BIN_TO_TEXT, TEXT_TO_BIN, TRANSLATE, SETTINGS, CLOSE, EXIT, NONE };
 enum LANG : qint32 { EN = 0, RU = 1 };
+
+// ============================================================================
 
 struct Settings {
   LANG language;
@@ -19,6 +21,29 @@ struct Settings {
 
 extern const Settings DEFAULT_SETTINGS;
 extern Settings active_settings;
+
+// ============================================================================
+
+const quint32 MAX_CODE     = 0x10ffff;
+
+const quint16 BOM_UTF16BE  = 0xFEFF;
+const quint16 BOM_UTF16LE  = 0xFFFE;
+
+const char16_t CR_CODE     = 0x000D;
+const char16_t LF_CODE     = 0x000A;
+
+const char16_t RU_BEG      = 0x0400;
+const char16_t RU_END      = 0x04FF;
+
+//const char16_t quotesCodes[] = { 0x201C, 0x201D, 0x201E, 0x201F };
+
+// ============================================================================
+
+const size_t MIN_DATA_LENGTH = 20; // minimal data size length in bytes
+
+// ============================================================================
+
+extern const char* TMP_FILE_NAME;
 
 
 #endif // APPLICATIONGLOBAL_HPP

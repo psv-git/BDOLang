@@ -1,10 +1,9 @@
 #ifndef DATAHANDLER_HPP
 #define DATAHANDLER_HPP
 
-#include "CPPDeclarations.hpp"
+#include "ApplicationFunctions.hpp"
 
 class DataRow;
-class QString;
 
 
 class DataHandler {
@@ -18,11 +17,8 @@ public:
   DataHandler(DataHandler const&) = delete;
   DataHandler& operator = (DataHandler const&) = delete;
 
-  //
   void mergeTwoFiles(const QString &filePath1, const QString &filePath2);
-  //
   void convertBinFileToTextFile(const QString &binFilePath);
-  //
   void convertTextFileToBinFile(const QString &textFilePath);
 
 private:
@@ -35,14 +31,24 @@ private:
   void resetData();
 
   // read data rows from compressed input binary file
-  void readDataFromBinFile(std::fstream& input);
+  void readDataFromBinFile(QDataStream& input);
   // write data rows to compressed output bin file
-  void writeDataToBinFile(std::fstream& output);
+  void writeDataToBinFile(QDataStream& output);
 
   // read data rows from input text file (BOM_UTF16LE)
-  void readDataFromTextFile(u16ifstream& input);
+  void readDataFromTextFile(QTextStream& input);
   // write data rows to output text file (BOM_UTF16LE)
-  void writeDataToTextFile(u16ofstream& output);
+  void writeDataToTextFile(QTextStream& output);
+
+  // decrypt data from input file to data container
+  void decryptFile(QDataStream& from, std::vector<DataRow*>& to);
+  // uncompress data from input file to tmp data file
+  void uncompressFile(QDataStream& from, QDataStream& to);
+
+  // encrypt data to output binary file from data container
+  void encryptFile(std::vector<DataRow*>& from, QDataStream& to);
+  // compress binary tmp data file to binary output file
+  void compressFile(QDataStream& from, QDataStream& to);
 
 };
 

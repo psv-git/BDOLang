@@ -1,9 +1,7 @@
-#include <QErrorMessage>
 #include "TranslateWindow.hpp"
 #include "ui_TranslateWindow.h"
 #include "WindowsHandler.hpp"
 #include "DataHandler.hpp"
-#include "FileFunctions.hpp"
 
 
 TranslateWindow::TranslateWindow(WindowsHandler *parent) : ui(new Ui::TranslateWindow) {

@@ -12,3 +12,6 @@ const Settings DEFAULT_SETTINGS {
 };
 
 Settings active_settings = DEFAULT_SETTINGS;
+
+
+const char* TMP_FILE_NAME = "./data/tmp.bss";

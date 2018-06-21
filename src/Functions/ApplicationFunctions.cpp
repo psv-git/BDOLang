@@ -1,22 +1,23 @@
 #include "ApplicationFunctions.hpp"
-#include <QDir>
-#include <QFile>
-#include <QFileInfo>
-#include <QFileDialog>
 
 
 QFile configFile;
+QStringList exceptionsMessagesList;
 
-// add i/o operators for allow QDataStream read/write enum ====================
+// exceptions ==================================================================
 
-QDataStream& operator >> (QDataStream& is, LANG& e) {
-  is >> (quint32&)e;
-  return is;
+void AddException(const QString &exceptionMessage) {
+  exceptionsMessagesList.push_back(exceptionMessage);
 }
 
-QDataStream& operator << (QDataStream& os, LANG e) {
-  os << (quint32)e;
-  return os;
+
+void ClearExceptionsList() {
+  exceptionsMessagesList.clear();
+}
+
+
+const QStringList& GetExceptionsList() {
+  return exceptionsMessagesList;
 }
 
 // application setup ==========================================================
@@ -82,7 +83,7 @@ QString GetRootPath() {
   return QDir::currentPath();
 }
 
-// ============================================================================
+// =============================================================================
 
 const QString GetDirectoryPath(const QString &title) {
   return QFileDialog::getExistingDirectory(nullptr, title, "/.", QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
@@ -99,4 +100,43 @@ const QString GetFileName(const QString &title, const QString &extStr) {
   QString filePath = GetFilePath(title, extStr);
   QFileInfo fileInfo(filePath);
   return fileInfo.fileName();
+}
+
+// i/o =========================================================================
+
+// add i/o operators for allow QDataStream read/write enum LANG
+QDataStream& operator >> (QDataStream& is, LANG& e) {
+  is >> (quint32&)e;
+  return is;
+}
+
+QDataStream& operator << (QDataStream& os, LANG e) {
+  os << (quint32)e;
+  return os;
+}
+
+
+void OpenFile(QFile& file, QFlags<QIODevice::OpenModeFlag> openMode, const QString &functionName) {
+  if (!file.open(openMode)) {
+    AddException("In function \"" + functionName + "\" opening \"" + file.fileName() + "\" file was failed.");
+    throw;
+  }
+}
+
+
+void CloseFile(QFile& file, const QString &functionName) {
+  file.close();
+  if (file.isOpen()) {
+    AddException("In function \"" + functionName + "\" closing \"" + file.fileName() + "\" file was failed.");
+    throw;
+  }
+}
+
+
+void RemoveFile(QFile& file, const QString &functionName) {
+  if (file.isOpen()) CloseFile(file, functionName);
+  if (!file.remove()) {
+    AddException("In function \"" + functionName + "\" removing \"" + file.fileName() + "\" file was failed.");
+    throw;
+  }
 }
