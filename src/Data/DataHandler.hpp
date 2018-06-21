@@ -35,14 +35,14 @@ private:
   void resetData();
 
   // read data rows from compressed input binary file
-  void readDataFromBinFile(std::ifstream& input);
+  void readDataFromBinFile(std::fstream& input);
   // write data rows to compressed output bin file
   void writeDataToBinFile(std::fstream& output);
 
   // read data rows from input text file (BOM_UTF16LE)
-  void readDataFromTextFile(std::wifstream& input);
+  void readDataFromTextFile(u16ifstream& input);
   // write data rows to output text file (BOM_UTF16LE)
-  void writeDataToTextFile(std::wofstream& output);
+  void writeDataToTextFile(u16ofstream& output);
 
 };
 

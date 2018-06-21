@@ -114,8 +114,8 @@ void DataHandler::mergeTwoFiles(const QString &filePath1, const QString &filePat
 //
 void DataHandler::convertBinFileToTextFile(const QString &binFilePath) {
   resetData(); // be on the safe side
-  std::ifstream input;
-  std::wofstream output;
+  std::fstream input;
+  u16ofstream output;
   std::string path;
   try {
     path = binFilePath.toStdString();
@@ -139,7 +139,7 @@ void DataHandler::convertBinFileToTextFile(const QString &binFilePath) {
 //
 void DataHandler::convertTextFileToBinFile(const QString &textFilePath) {
   resetData(); // be on the safe side
-  std::wifstream input;
+  u16ifstream input;
   std::fstream output;
   std::string path;
   try {
@@ -172,7 +172,7 @@ void DataHandler::resetData() {
 
 
 // read data rows from compressed input binary file
-void DataHandler::readDataFromBinFile(std::ifstream& input) {
+void DataHandler::readDataFromBinFile(std::fstream& input) {
   try {
     decryptFile(input, dataRowsContainer);
   }
@@ -194,12 +194,17 @@ void DataHandler::writeDataToBinFile(std::fstream& output) {
 
 
 // read data rows from input text file (BOM_UTF16LE)
-void DataHandler::readDataFromTextFile(std::wifstream& input) {
+void DataHandler::readDataFromTextFile(u16ifstream& input) {
   try {
-    input.imbue(std::locale(input.getloc(), new std::codecvt_utf16<wchar_t, MAX_CODE, std::little_endian>));
+//    input.imbue(std::locale(input.getloc(), new std::codecvt_utf16<wchar_t, MAX_CODE, std::little_endian>));
 //    wchar_t bom;
-//    input.read(reinterpret_cast<wchar_t*>(&bom), 1); // TODO: check bom
-//    input >> bom; // read
+//    bom = input.peek();
+////    input.read(reinterpret_cast<wchar_t*>(&bom), 2); // check BOM exist
+//    if (bom == BOM_UTF16BE || bom == BOM_UTF16LE) {
+////      input.seekg(0, std::ios::beg);
+//        std::cerr << "test" << std::endl;
+//        input.read(reinterpret_cast<char*>(&bom), sizeof(wchar_t));
+//    }
     while (true) {
       DataRow* dataRow = new DataRow();
       input >> *dataRow;
@@ -214,9 +219,10 @@ void DataHandler::readDataFromTextFile(std::wifstream& input) {
 
 
 // write data rows to output text file (BOM_UTF16LE)
-void DataHandler::writeDataToTextFile(std::wofstream& output) {
+void DataHandler::writeDataToTextFile(u16ofstream& output) {
   try {
-    output.imbue(std::locale(output.getloc(), new std::codecvt_utf16<wchar_t, MAX_CODE>));
+//    output.imbue(std::locale(output.getloc(), new std::codecvt_utf16<char16_t, MAX_CODE>));
+//    output.put(BOM_UTF16LE);
     for (size_t i = 0; i < dataRowsContainer.size(); i++) {
       output << *dataRowsContainer[i];
     }

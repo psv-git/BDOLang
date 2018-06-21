@@ -16,7 +16,7 @@ void removeFile(const std::string& fileName, const std::string& functionName) {
 // =============================================================================
 
 // decrypt data from input file to data container
-void decryptFile(std::ifstream& from, std::vector<DataRow*>& to) {
+void decryptFile(std::fstream& from, std::vector<DataRow*>& to) {
   std::fstream tmp;
   openOutputFile(tmp, TMP_FILE_NAME, "decryptFile()");
   try {
@@ -43,7 +43,7 @@ void decryptFile(std::ifstream& from, std::vector<DataRow*>& to) {
 
 
 // uncompress data from input file to tmp data file
-void uncompressFile(std::ifstream& from, std::fstream& to) {
+void uncompressFile(std::fstream& from, std::fstream& to) {
   unsigned long compressedDataSize = 0;
   unsigned long uncompressedDataSize = 0;
   size_t ulSize = sizeof(uint32_t); // guaranteed 4 bytes length for unsigned long

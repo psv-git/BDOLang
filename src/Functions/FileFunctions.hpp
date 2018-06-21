@@ -59,10 +59,10 @@ void writeDataToFile(F& file, V& var, size_t size = 0, const std::string& functi
 void removeFile(const std::string& fileName, const std::string& functionName = "");
 
 // decrypt data from input file to data container
-void decryptFile(std::ifstream& from, std::vector<DataRow*>& to);
+void decryptFile(std::fstream& from, std::vector<DataRow*>& to);
 
 // uncompress data from input file to tmp data file
-void uncompressFile(std::ifstream& from, std::fstream& to);
+void uncompressFile(std::fstream& from, std::fstream& to);
 
 // encrypt data to output binary file from data container
 void encryptFile(std::vector<DataRow*>& from, std::fstream& to);

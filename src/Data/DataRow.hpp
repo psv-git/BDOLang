@@ -13,8 +13,8 @@ public:
 //  bool operator < (const DataRow& row) const;
   friend std::fstream& operator >> (std::fstream& input, DataRow& row);
   friend std::fstream& operator << (std::fstream& output, DataRow& row);
-  friend std::wifstream& operator >> (std::wifstream& input, DataRow& row);
-  friend std::wofstream& operator << (std::wofstream& output, DataRow& row);
+  friend u16ifstream& operator >> (u16ifstream& input, DataRow& row);
+  friend u16ofstream& operator << (u16ofstream& output, DataRow& row);
 
 private:
   uint32_t size = 0;
@@ -24,7 +24,7 @@ private:
   uint8_16_t id3 = { 0 };
   uint8_16_t id4 = { 0 };
 
-  std::wstring string;
+  std::u16string string;
 
 };
 
