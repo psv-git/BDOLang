@@ -4,7 +4,7 @@
 #include "ApplicationHeaders.hpp"
 
 
-enum MODE : qint32 { MERGE, BIN_TO_TEXT, TEXT_TO_BIN, TRANSLATE, SETTINGS, CLOSE, EXIT, NONE };
+enum MODE : qint32 { MERGE_BIN, MERGE_TEXT, BIN_TO_TEXT, TEXT_TO_BIN, TRANSLATE, COMPARE, SETTINGS, CLOSE, EXIT, NONE };
 enum LANG : qint32 { EN = 0, RU = 1 };
 
 // ============================================================================
@@ -31,9 +31,6 @@ extern Settings active_settings;
 // ============================================================================
 
 const quint32 MAX_CODE     = 0x10FFFF;
-
-const quint16 BOM_UTF16BE  = 0xFEFF;
-const quint16 BOM_UTF16LE  = 0xFFFE;
 
 const char16_t CR_CODE     = 0x000D;
 const char16_t LF_CODE     = 0x000A;

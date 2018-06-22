@@ -150,7 +150,6 @@ void DataHandler::convertTextFileToBinFile(const QString &textFilePath) {
     OpenFile(outputFile, QIODevice::WriteOnly, "DataHandler::convertTextFileToBinFile()");
     QTextStream input(&inputFile);
     QDataStream output(&outputFile);
-//    input.setCodec("UTF-8");
     input.setAutoDetectUnicode(true);
     input.skipWhiteSpace();
 

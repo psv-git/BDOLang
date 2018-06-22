@@ -35,7 +35,7 @@ void WindowsHandler::onButtonClick(QWidget *sender, MODE mode) {
   WindowsHandler::mode = mode;
   if (sender == mainWindow) {
     if (mode == MODE::BIN_TO_TEXT || mode == MODE::TEXT_TO_BIN) chooseFileWindow->show();
-    if (mode == MODE::MERGE || mode == MODE::TRANSLATE) chooseFilesWindow->show();
+    if (mode == MODE::MERGE_BIN || mode == MODE::TRANSLATE) chooseFilesWindow->show();
     if (mode == MODE::SETTINGS) {
       mainWindow->hide();
       settingsWindow->show();

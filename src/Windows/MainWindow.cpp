@@ -7,12 +7,14 @@ MainWindow::MainWindow(WindowsHandler *parent) : ui(new Ui::MainWindow) {
   MainWindow::parent = parent;
   ui->setupUi(this);
 
-  connect(ui->button1, &QPushButton::released, this, &MainWindow::onButtonClick);
-  connect(ui->button2, &QPushButton::released, this, &MainWindow::onButtonClick);
-  connect(ui->button3, &QPushButton::released, this, &MainWindow::onButtonClick);
-  connect(ui->button4, &QPushButton::released, this, &MainWindow::onButtonClick);
+  connect(ui->bttButton,      &QPushButton::released, this, &MainWindow::onButtonClick);
+  connect(ui->ttbButton,      &QPushButton::released, this, &MainWindow::onButtonClick);
+  connect(ui->mbButton,       &QPushButton::released, this, &MainWindow::onButtonClick);
+  connect(ui->mtButton,       &QPushButton::released, this, &MainWindow::onButtonClick);
+  connect(ui->transButton,    &QPushButton::released, this, &MainWindow::onButtonClick);
+  connect(ui->compButton,     &QPushButton::released, this, &MainWindow::onButtonClick);
   connect(ui->settingsButton, &QPushButton::released, this, &MainWindow::onButtonClick);
-  connect(ui->exitButton, &QPushButton::released, this, &MainWindow::onButtonClick);
+  connect(ui->exitButton,     &QPushButton::released, this, &MainWindow::onButtonClick);
 }
 
 
@@ -25,10 +27,12 @@ MainWindow::~MainWindow() {
 void MainWindow::onButtonClick() {
   QObject *obj = sender();
   QString objName = obj->objectName();
-  if (objName == "button1") parent->onButtonClick(this, MODE::BIN_TO_TEXT);
-  if (objName == "button2") parent->onButtonClick(this, MODE::TEXT_TO_BIN);
-  if (objName == "button3") parent->onButtonClick(this, MODE::MERGE);
-  if (objName == "button4") parent->onButtonClick(this, MODE::TRANSLATE);
+  if (objName == "bttButton")      parent->onButtonClick(this, MODE::BIN_TO_TEXT);
+  if (objName == "ttbButton")      parent->onButtonClick(this, MODE::TEXT_TO_BIN);
+  if (objName == "mbButton")       parent->onButtonClick(this, MODE::MERGE_BIN);
+  if (objName == "mtButton")       parent->onButtonClick(this, MODE::MERGE_TEXT);
+  if (objName == "transButton")    parent->onButtonClick(this, MODE::TRANSLATE);
+  if (objName == "compButton")     parent->onButtonClick(this, MODE::COMPARE);
   if (objName == "settingsButton") parent->onButtonClick(this, MODE::SETTINGS);
-  if (objName == "exitButton") parent->onButtonClick(this, MODE::EXIT);
+  if (objName == "exitButton")     parent->onButtonClick(this, MODE::EXIT);
 }
