@@ -67,5 +67,6 @@ FORMS += \
 DISTFILES += \
     .gitignore \
     README.md \
+    LICENSE
 
 LIBS += -lz
