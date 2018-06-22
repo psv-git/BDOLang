@@ -20,8 +20,8 @@ private:
   unsigned long  type = 0;
   unsigned long  id1  = 0;
   unsigned short id2  = 0;
-  unsigned short id3  = 0;
-  unsigned short id4  = 0;
+  uint8_16       id3  = { 0 };
+  uint8_16       id4  = { 0 };
 
   QString string;
 

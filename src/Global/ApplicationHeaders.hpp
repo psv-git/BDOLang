@@ -2,20 +2,21 @@
 #define APPLICATIONHEADERS_HPP
 
 
-#include <QString>
-#include <QRegExp>
-#include <QDataStream>
+// qt headers
+#include <QCoreApplication>
+#include <QTime>
+#include <QFileDialog>
 #include <QDir>
 #include <QFile>
 #include <QFileInfo>
-#include <QFileDialog>
+#include <QDataStream>
 #include <QErrorMessage>
-
-#include <vector>
-
-// for debug
 #include <QDebug>
-#include <iostream>
+#include <QRegularExpression>
+#include <QString>
+
+// cpp headers
+#include <vector>
 
 
 #endif // APPLICATIONHEADERS_HPP

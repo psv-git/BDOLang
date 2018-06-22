@@ -122,7 +122,6 @@ void DataHandler::convertBinFileToTextFile(const QString &binFilePath) {
     QDataStream input(&inputFile);
     QTextStream output(&outputFile);
     output.setCodec("UTF-8");
-    output.setAutoDetectUnicode(true);
     output.setGenerateByteOrderMark(true);
 
     readDataFromBinFile(input);
@@ -151,7 +150,7 @@ void DataHandler::convertTextFileToBinFile(const QString &textFilePath) {
     OpenFile(outputFile, QIODevice::WriteOnly, "DataHandler::convertTextFileToBinFile()");
     QTextStream input(&inputFile);
     QDataStream output(&outputFile);
-    input.setCodec("UTF-8");
+//    input.setCodec("UTF-8");
     input.setAutoDetectUnicode(true);
     input.skipWhiteSpace();
 
@@ -204,8 +203,8 @@ void DataHandler::readDataFromTextFile(QTextStream& input) {
     while (true) {
       DataRow* dataRow = new DataRow();
       dataRow->readTextDataFrom(input);
+      if (input.atEnd()) break; // skip last empty string ??
       dataRowsContainer.push_back(dataRow);
-      if (input.atEnd()) break;
     }
   }
   catch (...) { throw; }
@@ -234,9 +233,6 @@ void DataHandler::decryptFile(QDataStream& from, std::vector<DataRow*>& to) {
     uncompressFile(from, tmp);
 
     tmp.device()->seek(0); // set pos to file begin
-
-//    CloseFile(tmpFile, "DataHandler::decryptFile()");
-//    OpenInputFile(tmpFile, QIODevice::ReadOnly, "DataHandler::decryptFile()");
 
     // decrypting uncompressed data
     while (true) {
@@ -315,9 +311,6 @@ void DataHandler::encryptFile(std::vector<DataRow*>& from, QDataStream& to) {
     }
 
     tmp.device()->seek(0); // set pos to file begin
-
-//    CloseFile(tmpFile, QIODevice::ReadOnly, "DataHandler::encryptFile()");
-//    OpenInputFile(tmp, TMP_FILE_NAME, "DataHandler::encryptFile()");
 
     compressFile(tmp, to); // compress tmp data file to output file
   }

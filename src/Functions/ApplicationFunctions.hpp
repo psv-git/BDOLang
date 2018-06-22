@@ -10,6 +10,8 @@ void AddException(const QString &exceptionMessage);
 void ClearExceptionsList();
 const QStringList& GetExceptionsList();
 
+void Delay(int timeToWait);
+
 // application setup ==========================================================
 
 bool SetupApplication();

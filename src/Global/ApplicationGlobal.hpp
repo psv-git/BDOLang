@@ -9,6 +9,12 @@ enum LANG : qint32 { EN = 0, RU = 1 };
 
 // ============================================================================
 
+union uint8_16 {
+  unsigned short solid;
+  uint8_t        split[2];
+};
+
+
 struct Settings {
   LANG language;
   QString dataPath;
@@ -24,7 +30,7 @@ extern Settings active_settings;
 
 // ============================================================================
 
-const quint32 MAX_CODE     = 0x10ffff;
+const quint32 MAX_CODE     = 0x10FFFF;
 
 const quint16 BOM_UTF16BE  = 0xFEFF;
 const quint16 BOM_UTF16LE  = 0xFFFE;
@@ -34,8 +40,6 @@ const char16_t LF_CODE     = 0x000A;
 
 const char16_t RU_BEG      = 0x0400;
 const char16_t RU_END      = 0x04FF;
-
-//const char16_t quotesCodes[] = { 0x201C, 0x201D, 0x201E, 0x201F };
 
 // ============================================================================
 

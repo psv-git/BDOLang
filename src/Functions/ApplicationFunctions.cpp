@@ -20,6 +20,14 @@ const QStringList& GetExceptionsList() {
   return exceptionsMessagesList;
 }
 
+
+void Delay(int timeToWait) {
+  QTime milliseconds = QTime::currentTime().addMSecs(timeToWait);
+  while(QTime::currentTime() < milliseconds) {
+    QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
+  }
+}
+
 // application setup ==========================================================
 
 bool SetupApplication() {
