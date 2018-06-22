@@ -1,7 +1,6 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <QMainWindow>
 #include "ApplicationGlobal.hpp"
 
 namespace Ui { class MainWindow; }
@@ -12,7 +11,7 @@ class MainWindow : public QMainWindow {
 Q_OBJECT
 
 public:
-  explicit MainWindow(WindowsHandler *parent = 0);
+  explicit MainWindow(WindowsHandler *parent = nullptr);
   ~MainWindow();
 
 signals:
@@ -22,8 +21,8 @@ public slots:
   void onButtonClick();
 
 private:
-  WindowsHandler *parent;
-  Ui::MainWindow *ui;
+  WindowsHandler *parent = nullptr;
+  Ui::MainWindow *ui     = nullptr;
 
 };
 

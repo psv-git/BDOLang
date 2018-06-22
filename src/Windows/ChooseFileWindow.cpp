@@ -1,14 +1,13 @@
 #include "ChooseFileWindow.hpp"
 #include "ui_ChooseFileWindow.h"
 #include "WindowsHandler.hpp"
-#include "ApplicationFunctions.hpp"
 
 
 ChooseFileWindow::ChooseFileWindow(WindowsHandler *parent) : ui(new Ui::ChooseFileWindow) {
   ChooseFileWindow::parent = parent;
   ui->setupUi(this);
 
-  connect(ui->okButton, &QPushButton::released, this, &ChooseFileWindow::onButtonClick);
+  connect(ui->okButton,     &QPushButton::released, this, &ChooseFileWindow::onButtonClick);
   connect(ui->cancelButton, &QPushButton::released, this, &ChooseFileWindow::onButtonClick);
   connect(ui->chooseButton, &QPushButton::released, this, &ChooseFileWindow::onButtonClick);
 }

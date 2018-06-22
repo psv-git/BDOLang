@@ -1,7 +1,6 @@
 #ifndef TRANSLATEWINDOW_HPP
 #define TRANSLATEWINDOW_HPP
 
-#include <QWidget>
 #include "ApplicationGlobal.hpp"
 
 namespace Ui { class TranslateWindow; }
@@ -12,7 +11,7 @@ class TranslateWindow : public QWidget {
 Q_OBJECT
 
 public:
-  explicit TranslateWindow(WindowsHandler *parent = 0);
+  explicit TranslateWindow(WindowsHandler *parent = nullptr);
   ~TranslateWindow();
 
 signals:
@@ -24,10 +23,9 @@ public slots:
   void onButtonClick();
 
 private:
-  WindowsHandler *parent;
-  Ui::TranslateWindow *ui;
-
-  bool isError;
+  WindowsHandler      *parent = nullptr;
+  Ui::TranslateWindow *ui     = nullptr;
+  bool                isError = false;
 
 };
 

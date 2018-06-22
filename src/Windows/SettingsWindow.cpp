@@ -1,7 +1,6 @@
 #include "SettingsWindow.hpp"
 #include "ui_SettingsWindow.h"
 #include "WindowsHandler.hpp"
-#include "ApplicationFunctions.hpp"
 #include "LanguageComboBox.hpp"
 
 
@@ -9,8 +8,8 @@ SettingsWindow::SettingsWindow(WindowsHandler *parent) : ui(new Ui::SettingsWind
   SettingsWindow::parent = parent;
   ui->setupUi(this);
 
-  connect(ui->saveButton, &QPushButton::released, this, &SettingsWindow::onButtonClick);
-  connect(ui->cancelButton, &QPushButton::released, this, &SettingsWindow::onButtonClick);
+  connect(ui->saveButton,    &QPushButton::released, this, &SettingsWindow::onButtonClick);
+  connect(ui->cancelButton,  &QPushButton::released, this, &SettingsWindow::onButtonClick);
   connect(ui->chooseButton1, &QPushButton::released, this, &SettingsWindow::onButtonClick);
   connect(ui->chooseButton2, &QPushButton::released, this, &SettingsWindow::onButtonClick);
   connect(ui->chooseButton3, &QPushButton::released, this, &SettingsWindow::onButtonClick);
@@ -53,8 +52,8 @@ void SettingsWindow::onButtonClick() {
     }
     parent->onButtonClick(this, MODE::CLOSE);
   }
-  if (objName == "cancelButton") parent->onButtonClick(this, MODE::CLOSE);
+  if (objName == "cancelButton")  parent->onButtonClick(this, MODE::CLOSE);
   if (objName == "chooseButton1") ui->dataPathEdit->setText(GetDirectoryPath(tr("Choose directory")));
-  if (objName == "chooseButton2") ui->fileNameEdit1->setText(GetFileName(tr("Choose file"),  tr("Files extensions (*)")));
-  if (objName == "chooseButton3") ui->fileNameEdit2->setText(GetFileName(tr("Choose file"),  tr("Files extensions (*)")));
+  if (objName == "chooseButton2") ui->fileNameEdit1->setText(GetFileName(tr("Choose file"), tr("Files extensions (*)")));
+  if (objName == "chooseButton3") ui->fileNameEdit2->setText(GetFileName(tr("Choose file"), tr("Files extensions (*)")));
 }

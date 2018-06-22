@@ -14,12 +14,12 @@ public:
     return instance;
   }
 
-  DataHandler(DataHandler const&) = delete;
+  DataHandler(DataHandler const&)              = delete;
   DataHandler& operator = (DataHandler const&) = delete;
 
-  void mergeTwoFiles(const QString &filePath1, const QString &filePath2);
-  void convertBinFileToTextFile(const QString &binFilePath);
-  void convertTextFileToBinFile(const QString &textFilePath);
+//  void mergeTwoFiles(const QString &filePath1, const QString &filePath2);
+  void convertBinFileToTextFile(const QString &binFilePath,  const QString &textFilePath);
+  void convertTextFileToBinFile(const QString &textFilePath, const QString &binFilePath);
 
 private:
   DataHandler();

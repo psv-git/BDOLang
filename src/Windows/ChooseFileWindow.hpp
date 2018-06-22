@@ -1,8 +1,7 @@
 #ifndef CHOOSEFILEWINDOW_HPP
 #define CHOOSEFILEWINDOW_HPP
 
-#include <QFileDialog>
-#include "ApplicationGlobal.hpp"
+#include "ApplicationFunctions.hpp"
 
 namespace Ui { class ChooseFileWindow; }
 class WindowsHandler;
@@ -12,7 +11,7 @@ class ChooseFileWindow : public QWidget {
 Q_OBJECT
 
 public:
-  explicit ChooseFileWindow(WindowsHandler *parent = 0);
+  explicit ChooseFileWindow(WindowsHandler *parent = nullptr);
   ~ChooseFileWindow();
 
 signals:
@@ -23,8 +22,8 @@ public slots:
   void onButtonClick();
 
 private:
-  Ui::ChooseFileWindow *ui;
-  WindowsHandler *parent;
+  Ui::ChooseFileWindow *ui     = nullptr;
+  WindowsHandler       *parent = nullptr;
 
 };
 

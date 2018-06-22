@@ -7,10 +7,23 @@
 // exceptions =================================================================
 
 void AddException(const QString &exceptionMessage);
-void ClearExceptionsList();
-const QStringList& GetExceptionsList();
+const QString GetExceptionsMessage();
+
+// service ====================================================================
 
 void Delay(int timeToWait);
+
+const QString GetDirectoryPath(const QString &title);
+QString GetRootPath();
+
+// files ======================================================================
+
+const QString GetFilePath(const QString &title, const QString &extStr);
+const QString GetFileName(const QString &title, const QString &extStr);
+
+void OpenFile(QFile& file, QFlags<QIODevice::OpenModeFlag> openMode, const QString &functionName = "");
+void CloseFile(QFile& file, const QString &functionName = "");
+void RemoveFile(QFile& file, const QString& functionName = "");
 
 // application setup ==========================================================
 
@@ -21,20 +34,10 @@ bool WriteConfigFile(Settings& settings);
 void SetDefaultSettings();
 QString GetRootPath();
 
-// ============================================================================
-
-const QString GetDirectoryPath(const QString &title);
-const QString GetFilePath(const QString &title, const QString &extStr);
-const QString GetFileName(const QString &title, const QString &extStr);
-
 // i/o ========================================================================
 
 QDataStream& operator >> (QDataStream& is, LANG& e);
 QDataStream& operator << (QDataStream& os, LANG e);
-
-void OpenFile(QFile& file, QFlags<QIODevice::OpenModeFlag> openMode, const QString &functionName = "");
-void CloseFile(QFile& file, const QString &functionName = "");
-void RemoveFile(QFile& file, const QString& functionName = "");
 
 
 template <typename V>

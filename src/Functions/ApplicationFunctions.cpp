@@ -4,27 +4,79 @@
 QFile configFile;
 QStringList exceptionsMessagesList;
 
-// exceptions ==================================================================
+// exceptions =================================================================
 
 void AddException(const QString &exceptionMessage) {
   exceptionsMessagesList.push_back(exceptionMessage);
 }
 
 
-void ClearExceptionsList() {
+const QString GetExceptionsMessage() {
+  QString exceptionMessage;
+  for (int i = 0; i < exceptionsMessagesList.size(); i++) {
+    exceptionMessage += exceptionsMessagesList.at(i);
+    exceptionMessage.push_back('\n');
+  }
   exceptionsMessagesList.clear();
+  return exceptionMessage;
 }
 
-
-const QStringList& GetExceptionsList() {
-  return exceptionsMessagesList;
-}
-
+// service ====================================================================
 
 void Delay(int timeToWait) {
   QTime milliseconds = QTime::currentTime().addMSecs(timeToWait);
   while(QTime::currentTime() < milliseconds) {
     QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
+  }
+}
+
+
+const QString GetDirectoryPath(const QString &title) {
+  return QFileDialog::getExistingDirectory(nullptr, title, "/.", QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
+}
+
+
+QString GetRootPath() {
+  return QDir::currentPath();
+}
+
+// files ======================================================================
+
+// extStr may be "Images (*.png *.xpm *.jpg);;Text files (*.txt);;XML files (*.xml)" for example
+const QString GetFilePath(const QString &title, const QString &extStr) {
+  return QFileDialog::getOpenFileName(nullptr, title, "./", extStr);
+}
+
+
+const QString GetFileName(const QString &title, const QString &extStr) {
+  QString filePath = GetFilePath(title, extStr);
+  QFileInfo fileInfo(filePath);
+  return fileInfo.fileName();
+}
+
+
+void OpenFile(QFile& file, QFlags<QIODevice::OpenModeFlag> openMode, const QString &functionName) {
+  if (!file.open(openMode)) {
+    AddException("In function \"" + functionName + "\" opening \"" + file.fileName() + "\" file was failed.");
+    throw;
+  }
+}
+
+
+void CloseFile(QFile& file, const QString &functionName) {
+  file.close();
+  if (file.isOpen()) {
+    AddException("In function \"" + functionName + "\" closing \"" + file.fileName() + "\" file was failed.");
+    throw;
+  }
+}
+
+
+void RemoveFile(QFile& file, const QString &functionName) {
+  if (file.isOpen()) CloseFile(file, functionName);
+  if (!file.remove()) {
+    AddException("In function \"" + functionName + "\" removing \"" + file.fileName() + "\" file was failed.");
+    throw;
   }
 }
 
@@ -86,31 +138,7 @@ void SetDefaultSettings() {
   active_settings = DEFAULT_SETTINGS;
 }
 
-
-QString GetRootPath() {
-  return QDir::currentPath();
-}
-
-// =============================================================================
-
-const QString GetDirectoryPath(const QString &title) {
-  return QFileDialog::getExistingDirectory(nullptr, title, "/.", QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
-}
-
-
-// extStr may be "Images (*.png *.xpm *.jpg);;Text files (*.txt);;XML files (*.xml)" for example
-const QString GetFilePath(const QString &title, const QString &extStr) {
-  return QFileDialog::getOpenFileName(nullptr, title, "./", extStr);
-}
-
-
-const QString GetFileName(const QString &title, const QString &extStr) {
-  QString filePath = GetFilePath(title, extStr);
-  QFileInfo fileInfo(filePath);
-  return fileInfo.fileName();
-}
-
-// i/o =========================================================================
+// i/o ========================================================================
 
 // add i/o operators for allow QDataStream read/write enum LANG
 QDataStream& operator >> (QDataStream& is, LANG& e) {
@@ -121,30 +149,4 @@ QDataStream& operator >> (QDataStream& is, LANG& e) {
 QDataStream& operator << (QDataStream& os, LANG e) {
   os << (quint32)e;
   return os;
-}
-
-
-void OpenFile(QFile& file, QFlags<QIODevice::OpenModeFlag> openMode, const QString &functionName) {
-  if (!file.open(openMode)) {
-    AddException("In function \"" + functionName + "\" opening \"" + file.fileName() + "\" file was failed.");
-    throw;
-  }
-}
-
-
-void CloseFile(QFile& file, const QString &functionName) {
-  file.close();
-  if (file.isOpen()) {
-    AddException("In function \"" + functionName + "\" closing \"" + file.fileName() + "\" file was failed.");
-    throw;
-  }
-}
-
-
-void RemoveFile(QFile& file, const QString &functionName) {
-  if (file.isOpen()) CloseFile(file, functionName);
-  if (!file.remove()) {
-    AddException("In function \"" + functionName + "\" removing \"" + file.fileName() + "\" file was failed.");
-    throw;
-  }
 }

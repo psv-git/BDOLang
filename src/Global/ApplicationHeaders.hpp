@@ -4,16 +4,18 @@
 
 // qt headers
 #include <QCoreApplication>
-#include <QTime>
+#include <QApplication>
+#include <QMainWindow>
 #include <QFileDialog>
+#include <QErrorMessage>
 #include <QDir>
 #include <QFile>
 #include <QFileInfo>
 #include <QDataStream>
-#include <QErrorMessage>
-#include <QDebug>
+#include <QTime>
 #include <QRegularExpression>
 #include <QString>
+#include <QDebug>
 
 // cpp headers
 #include <vector>

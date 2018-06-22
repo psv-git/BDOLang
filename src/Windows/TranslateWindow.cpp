@@ -8,9 +8,9 @@ TranslateWindow::TranslateWindow(WindowsHandler *parent) : ui(new Ui::TranslateW
   TranslateWindow::parent = parent;
   ui->setupUi(this);
 
-  connect(ui->prevButton, &QPushButton::released, this, &TranslateWindow::onButtonClick);
-  connect(ui->nextButton, &QPushButton::released, this, &TranslateWindow::onButtonClick);
-  connect(ui->saveButton, &QPushButton::released, this, &TranslateWindow::onButtonClick);
+  connect(ui->prevButton,   &QPushButton::released, this, &TranslateWindow::onButtonClick);
+  connect(ui->nextButton,   &QPushButton::released, this, &TranslateWindow::onButtonClick);
+  connect(ui->saveButton,   &QPushButton::released, this, &TranslateWindow::onButtonClick);
   connect(ui->cancelButton, &QPushButton::released, this, &TranslateWindow::onButtonClick);
 }
 
@@ -19,6 +19,7 @@ TranslateWindow::~TranslateWindow() {
   delete ui;
 }
 
+// ============================================================================
 
 void TranslateWindow::show(const QString &inFilePath, const QString &outFilePath) {
   isError = false;
@@ -43,13 +44,13 @@ void TranslateWindow::hide() {
   QWidget::hide();
 }
 
-// ===========================================================================
+// ============================================================================
 
 void TranslateWindow::onButtonClick () {
   QObject *obj = sender();
   QString objName = obj->objectName();
   if (objName == "saveButton") {
-    if (isError) parent->onButtonClick(this, MODE::CLOSE);
+    if (isError)  parent->onButtonClick(this, MODE::CLOSE);
     if (!isError) parent->onButtonClick(this, MODE::CLOSE);
   }
   if (objName == "cancelButton") parent->onButtonClick(this, MODE::CLOSE);

@@ -41,7 +41,8 @@ SOURCES += \
     src/Windows/SettingsWindow.cpp \
     src/Windows/TranslateWindow.cpp \
     src/Windows/WindowsHandler.cpp \
-    src/Elements/LanguageComboBox.cpp
+    src/Elements/LanguageComboBox.cpp \
+    src/Windows/ProcessingWindow.cpp
 
 HEADERS += \
     src/Data/DataHandler.hpp \
@@ -55,14 +56,16 @@ HEADERS += \
     src/Windows/SettingsWindow.hpp \
     src/Windows/TranslateWindow.hpp \
     src/Windows/WindowsHandler.hpp \
-    src/Elements/LanguageComboBox.hpp
+    src/Elements/LanguageComboBox.hpp \
+    src/Windows/ProcessingWindow.hpp
 
 FORMS += \
     src/Forms/ChooseFilesWindow.ui \
     src/Forms/ChooseFileWindow.ui \
     src/Forms/MainWindow.ui \
     src/Forms/SettingsWindow.ui \
-    src/Forms/TranslateWindow.ui
+    src/Forms/TranslateWindow.ui \
+    src/Forms/ProcessingWindow.ui
 
 DISTFILES += \
     .gitignore \

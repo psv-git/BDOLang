@@ -13,7 +13,7 @@ DataHandler::~DataHandler() {
 // PUBLIC METHODS =============================================================
 
 // TODO: complete this
-void DataHandler::mergeTwoFiles(const QString &filePath1, const QString &filePath2) {
+//void DataHandler::mergeTwoFiles(const QString &filePath1, const QString &filePath2) {
 //  std::string replace_name = argv[1];
 //  std::string original_name = argv[2];
 //  std::string target_name = argv[3];
@@ -107,15 +107,14 @@ void DataHandler::mergeTwoFiles(const QString &filePath1, const QString &filePat
 //  }
 //  std::cout << "Processed lines: " << changed + unchanged <<  " (replaced: " << changed << ", original: " << unchanged << ")\nDone!" << std::endl;
 //  return 0;
-}
+//}
 
 
 //
-void DataHandler::convertBinFileToTextFile(const QString &binFilePath) {
+void DataHandler::convertBinFileToTextFile(const QString &binFilePath, const QString &textFilePath) {
   resetData(); // be on the safe side
-  QString path(binFilePath);
-  QFile inputFile(path);
-  QFile outputFile(path + ".txt"); // TODO: change this
+  QFile inputFile(binFilePath);
+  QFile outputFile(textFilePath);
   try {
     OpenFile(inputFile,  QIODevice::ReadOnly, "DataHandler::convertBinFileToTextFile()");
     OpenFile(outputFile, QIODevice::WriteOnly, "DataHandler::convertBinFileToTextFile()");
@@ -140,11 +139,10 @@ void DataHandler::convertBinFileToTextFile(const QString &binFilePath) {
 
 
 //
-void DataHandler::convertTextFileToBinFile(const QString &textFilePath) {
+void DataHandler::convertTextFileToBinFile(const QString &textFilePath, const QString &binFilePath) {
   resetData(); // be on the safe side
-  QString path(textFilePath);
-  QFile inputFile(path);
-  QFile outputFile(path + ".bin"); // TODO: change this
+  QFile inputFile(textFilePath);
+  QFile outputFile(binFilePath);
   try {
     OpenFile(inputFile,  QIODevice::ReadOnly, "DataHandler::convertTextFileToBinFile()");
     OpenFile(outputFile, QIODevice::WriteOnly, "DataHandler::convertTextFileToBinFile()");
@@ -196,21 +194,21 @@ void DataHandler::writeDataToBinFile(QDataStream& output) {
 }
 
 
-// read data rows from input text file (BOM_UTF16LE)
+// read data rows from input text file
 void DataHandler::readDataFromTextFile(QTextStream& input) {
   try {
     while (true) {
       DataRow* dataRow = new DataRow();
       dataRow->readTextDataFrom(input);
-      if (input.atEnd()) break; // skip last empty string ??
       dataRowsContainer.push_back(dataRow);
+      if (input.atEnd()) break;
     }
   }
   catch (...) { throw; }
 }
 
 
-// write data rows to output text file (BOM_UTF16LE)
+// write data rows to output text file
 void DataHandler::writeDataToTextFile(QTextStream& output) {
   try {
     for (size_t i = 0; i < dataRowsContainer.size(); i++) {
@@ -284,10 +282,11 @@ void DataHandler::uncompressFile(QDataStream& from, QDataStream& to) {
 
   int result = uncompress(outBuff, &uncompressedDataSize, inBuff, compressedDataSize);
 
+  if (inBuff) delete[] inBuff;
   if (result == Z_OK) {
     WriteDataToStream(to, *outBuff, uncompressedDataSize, "DataHandler::uncompressFile()");
+    if (outBuff) delete[] outBuff;
   } else {
-    if (inBuff)  delete[] inBuff;
     if (outBuff) delete[] outBuff;
     AddException("In function \"uncompressFile()\" uncompress was failed.");
     throw;
@@ -332,8 +331,8 @@ void DataHandler::compressFile(QDataStream& from, QDataStream& to) {
   uncompressedDataSize = from.device()->size();
   compressedDataSize   = compressBound(uncompressedDataSize);
 
-  uint8_t *inBuff      = nullptr;
-  uint8_t *outBuff     = nullptr;
+  uint8_t *inBuff  = nullptr;
+  uint8_t *outBuff = nullptr;
   try {
     inBuff = new uint8_t[uncompressedDataSize];
     outBuff = new uint8_t[compressedDataSize];
@@ -348,11 +347,12 @@ void DataHandler::compressFile(QDataStream& from, QDataStream& to) {
 
   int result = compress2(outBuff, &compressedDataSize, inBuff, uncompressedDataSize, Z_BEST_SPEED);
 
+  if (inBuff)  delete[] inBuff;
   if (result == Z_OK) {
     WriteDataToStream(to, uncompressedDataSize, ulSize, "DataHandler::compressFile()");
     WriteDataToStream(to, *outBuff, compressedDataSize, "DataHandler::compressFile()");
+    if (outBuff) delete[] outBuff;
   } else {
-    if (inBuff)  delete[] inBuff;
     if (outBuff) delete[] outBuff;
     AddException("In function \"DataHandler::compressFile()\" compress was failed.");
     throw;
