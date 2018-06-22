@@ -2,6 +2,9 @@
 <ui version="4.0">
  <class>SettingsWindow</class>
  <widget class="QWidget" name="SettingsWindow">
+  <property name="windowModality">
+   <enum>Qt::NonModal</enum>
+  </property>
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -25,6 +28,12 @@
   <property name="windowTitle">
    <string>Settings</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true">QWidget {
+	background-color: rgb(200, 200, 200);
+}
+</string>
+  </property>
   <widget class="QLabel" name="dataPathLabel">
    <property name="geometry">
     <rect>
@@ -35,7 +44,11 @@
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">font: 10pt &quot;Arial&quot;;</string>
+    <string notr="true">QLabel {
+	font: 10pt &quot;Arial&quot;;
+	color: rgb(20, 20, 20);
+}
+</string>
    </property>
    <property name="text">
     <string>Default path to .loc files:</string>
@@ -60,7 +73,12 @@
     </font>
    </property>
    <property name="styleSheet">
-    <string notr="true">font: 10pt &quot;Liberation Mono&quot;;</string>
+    <string notr="true">QLineEdit {
+	font: 10pt &quot;Liberation Mono&quot;;
+	color: rgb(20, 20, 20);
+	background-color: rgb(230, 230, 230);
+}
+</string>
    </property>
    <property name="readOnly">
     <bool>true</bool>
@@ -76,7 +94,20 @@
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">font: 87 10pt &quot;Arial Black&quot;;</string>
+    <string notr="true">QPushButton {
+	font: 87 10pt &quot;Arial Black&quot;;
+	color: rgb(255, 255, 255);
+
+	background-color: rgb(120, 120, 120);
+
+	border: 1px solid  rgb(100, 100, 100);
+	border-radius: 2px;
+}
+
+QPushButton::hover {
+	background-color: rgb(150, 150, 150);
+}
+</string>
    </property>
    <property name="text">
     <string>...</string>
@@ -92,7 +123,11 @@
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">font: 10pt &quot;Arial&quot;;</string>
+    <string notr="true">QLabel {
+	font: 10pt &quot;Arial&quot;;
+	color: rgb(20, 20, 20);
+}
+</string>
    </property>
    <property name="text">
     <string>Language:</string>
@@ -111,7 +146,20 @@
     <bool>false</bool>
    </property>
    <property name="styleSheet">
-    <string notr="true">font: 87 10pt &quot;Arial Black&quot;;</string>
+    <string notr="true">QComboBox {
+	font: 87 10pt &quot;Arial Black&quot;;
+	color: rgb(255, 255, 255);
+
+	background-color: rgb(120, 120, 120);
+
+	border: 1px solid  rgb(100, 100, 100);
+	border-radius: 2px;
+}
+
+QComboBox::hover {
+	background-color: rgb(150, 150, 150);
+}
+</string>
    </property>
    <property name="currentText">
     <string>      EN</string>
@@ -135,15 +183,21 @@
     <rect>
      <x>20</x>
      <y>160</y>
-     <width>400</width>
+     <width>331</width>
      <height>155</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">font: 10pt &quot;Arial&quot;;</string>
+    <string notr="true">QPlainTextEdit {
+	font: 10pt &quot;Arial&quot;;
+	color: rgb(20, 20, 20);
+	border: 1px solid  rgb(20, 20, 20);
+	border-radius: 2px;
+}
+</string>
    </property>
    <property name="verticalScrollBarPolicy">
-    <enum>Qt::ScrollBarAsNeeded</enum>
+    <enum>Qt::ScrollBarAlwaysOff</enum>
    </property>
    <property name="horizontalScrollBarPolicy">
     <enum>Qt::ScrollBarAlwaysOff</enum>
@@ -153,6 +207,7 @@
    </property>
    <property name="plainText">
     <string>This software is distributed under the LGPL-3.0 license.
+This software was developed uses Qt framework.
 
 Created by PSV:  https://github.com/psv-git
 Donate: 
@@ -175,7 +230,20 @@ buzarini</string>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">font: 87 10pt &quot;Arial Black&quot;;</string>
+    <string notr="true">QPushButton {
+	font: 87 10pt &quot;Arial Black&quot;;
+	color: rgb(255, 255, 255);
+
+	background-color: rgb(0, 150, 0);
+
+	border: 1px solid  rgb(0, 100, 0);
+	border-radius: 2px;
+}
+
+QPushButton::hover {
+	background-color: rgb(0, 180, 0);
+}
+</string>
    </property>
    <property name="text">
     <string>SAVE</string>
@@ -191,7 +259,20 @@ buzarini</string>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">font: 87 10pt &quot;Arial Black&quot;;</string>
+    <string notr="true">QPushButton {
+	font: 87 10pt &quot;Arial Black&quot;;
+	color: rgb(255, 255, 255);
+
+	background-color: rgb(150, 0, 0);
+
+	border: 1px solid  rgb(100, 0, 0);
+	border-radius: 2px;
+}
+
+QPushButton::hover {
+	background-color: rgb(180, 0, 0);
+}
+</string>
    </property>
    <property name="text">
     <string>CANCEL</string>
@@ -207,7 +288,11 @@ buzarini</string>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">font: 10pt &quot;Arial&quot;;</string>
+    <string notr="true">QLabel {
+	font: 10pt &quot;Arial&quot;;
+	color: rgb(20, 20, 20);
+}
+</string>
    </property>
    <property name="text">
     <string>Default name source .loc file:</string>
@@ -232,7 +317,12 @@ buzarini</string>
     </font>
    </property>
    <property name="styleSheet">
-    <string notr="true">font: 10pt &quot;Liberation Mono&quot;;</string>
+    <string notr="true">QLineEdit {
+	font: 10pt &quot;Liberation Mono&quot;;
+	color: rgb(20, 20, 20);
+	background-color: rgb(230, 230, 230);
+}
+</string>
    </property>
    <property name="readOnly">
     <bool>true</bool>
@@ -248,7 +338,20 @@ buzarini</string>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">font: 87 10pt &quot;Arial Black&quot;;</string>
+    <string notr="true">QPushButton {
+	font: 87 10pt &quot;Arial Black&quot;;
+	color: rgb(255, 255, 255);
+
+	background-color: rgb(120, 120, 120);
+
+	border: 1px solid  rgb(100, 100, 100);
+	border-radius: 2px;
+}
+
+QPushButton::hover {
+	background-color: rgb(150, 150, 150);
+}
+</string>
    </property>
    <property name="text">
     <string>...</string>
@@ -264,7 +367,20 @@ buzarini</string>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">font: 87 10pt &quot;Arial Black&quot;;</string>
+    <string notr="true">QPushButton {
+	font: 87 10pt &quot;Arial Black&quot;;
+	color: rgb(255, 255, 255);
+
+	background-color: rgb(120, 120, 120);
+
+	border: 1px solid  rgb(100, 100, 100);
+	border-radius: 2px;
+}
+
+QPushButton::hover {
+	background-color: rgb(150, 150, 150);
+}
+</string>
    </property>
    <property name="text">
     <string>...</string>
@@ -280,7 +396,11 @@ buzarini</string>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">font: 10pt &quot;Arial&quot;;</string>
+    <string notr="true">QLabel {
+	font: 10pt &quot;Arial&quot;;
+	color: rgb(20, 20, 20);
+}
+</string>
    </property>
    <property name="text">
     <string>Default name target .loc file:</string>
@@ -305,7 +425,12 @@ buzarini</string>
     </font>
    </property>
    <property name="styleSheet">
-    <string notr="true">font: 10pt &quot;Liberation Mono&quot;;</string>
+    <string notr="true">QLineEdit {
+	font: 10pt &quot;Liberation Mono&quot;;
+	color: rgb(20, 20, 20);
+	background-color: rgb(230, 230, 230);
+}
+</string>
    </property>
    <property name="readOnly">
     <bool>true</bool>

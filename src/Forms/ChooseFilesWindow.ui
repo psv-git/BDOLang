@@ -28,6 +28,12 @@
   <property name="windowTitle">
    <string>Open files</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true">QWidget {
+	background-color: rgb(200, 200, 200);
+}
+</string>
+  </property>
   <widget class="QPushButton" name="chooseButton1">
    <property name="geometry">
     <rect>
@@ -50,7 +56,20 @@
     <enum>Qt::TabFocus</enum>
    </property>
    <property name="styleSheet">
-    <string notr="true">font: 87 10pt &quot;Arial Black&quot;;</string>
+    <string notr="true">QPushButton {
+	font: 87 10pt &quot;Arial Black&quot;;
+	color: rgb(255, 255, 255);
+
+	background-color: rgb(120, 120, 120);
+
+	border: 1px solid  rgb(100, 100, 100);
+	border-radius: 2px;
+}
+
+QPushButton::hover {
+	background-color: rgb(150, 150, 150);
+}
+</string>
    </property>
    <property name="text">
     <string>...</string>
@@ -69,7 +88,20 @@
     <enum>Qt::TabFocus</enum>
    </property>
    <property name="styleSheet">
-    <string notr="true">font: 87 10pt &quot;Arial Black&quot;;</string>
+    <string notr="true">QPushButton {
+	font: 87 10pt &quot;Arial Black&quot;;
+	color: rgb(255, 255, 255);
+
+	background-color: rgb(120, 120, 120);
+
+	border: 1px solid  rgb(100, 100, 100);
+	border-radius: 2px;
+}
+
+QPushButton::hover {
+	background-color: rgb(150, 150, 150);
+}
+</string>
    </property>
    <property name="text">
     <string>...</string>
@@ -85,7 +117,11 @@
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">font: 10pt &quot;Arial&quot;;</string>
+    <string notr="true">QLabel {
+	font: 10pt &quot;Arial&quot;;
+	color: rgb(20, 20, 20);
+}
+</string>
    </property>
    <property name="text">
     <string>Choose source file:</string>
@@ -104,7 +140,12 @@
     <enum>Qt::ClickFocus</enum>
    </property>
    <property name="styleSheet">
-    <string notr="true">font: 10pt &quot;Liberation Mono&quot;;</string>
+    <string notr="true">QLineEdit {
+	font: 10pt &quot;Liberation Mono&quot;;
+	color: rgb(20, 20, 20);
+	background-color: rgb(230, 230, 230);
+}
+</string>
    </property>
    <property name="readOnly">
     <bool>true</bool>
@@ -123,7 +164,10 @@
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">font: 10pt &quot;Arial&quot;;</string>
+    <string notr="true">QLabel {
+	font: 10pt &quot;Arial&quot;;
+	color: rgb(20, 20, 20);
+}</string>
    </property>
    <property name="text">
     <string>Choose destination file:</string>
@@ -142,7 +186,12 @@
     <enum>Qt::ClickFocus</enum>
    </property>
    <property name="styleSheet">
-    <string notr="true">font: 10pt &quot;Liberation Mono&quot;;</string>
+    <string notr="true">QLineEdit {
+	font: 10pt &quot;Liberation Mono&quot;;
+	color: rgb(20, 20, 20);
+	background-color: rgb(230, 230, 230);
+}
+</string>
    </property>
    <property name="readOnly">
     <bool>true</bool>
@@ -164,7 +213,20 @@
     <enum>Qt::TabFocus</enum>
    </property>
    <property name="styleSheet">
-    <string notr="true">font: 87 10pt &quot;Arial Black&quot;;</string>
+    <string notr="true">QPushButton {
+	font: 87 10pt &quot;Arial Black&quot;;
+	color: rgb(255, 255, 255);
+
+	background-color: rgb(0, 150, 0);
+
+	border: 1px solid  rgb(0, 100, 0);
+	border-radius: 2px;
+}
+
+QPushButton::hover {
+	background-color: rgb(0, 180, 0);
+}
+</string>
    </property>
    <property name="text">
     <string>OK</string>
@@ -192,7 +254,20 @@
     <enum>Qt::TabFocus</enum>
    </property>
    <property name="styleSheet">
-    <string notr="true">font: 87 10pt &quot;Arial Black&quot;;</string>
+    <string notr="true">QPushButton {
+	font: 87 10pt &quot;Arial Black&quot;;
+	color: rgb(255, 255, 255);
+
+	background-color: rgb(150, 0, 0);
+
+	border: 1px solid  rgb(100, 0, 0);
+	border-radius: 2px;
+}
+
+QPushButton::hover {
+	background-color: rgb(180, 0, 0);
+}
+</string>
    </property>
    <property name="text">
     <string>CANCEL</string>

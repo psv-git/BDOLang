@@ -12,12 +12,24 @@
   </property>
   <property name="minimumSize">
    <size>
-    <width>290</width>
+    <width>600</width>
+    <height>410</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>600</width>
     <height>410</height>
    </size>
   </property>
   <property name="windowTitle">
    <string notr="true">BDOLang</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">QMainWindow {
+	background-color: rgb(200, 200, 200);
+}
+</string>
   </property>
   <widget class="QWidget" name="centralWidget">
    <widget class="QPushButton" name="transButton">
@@ -64,7 +76,20 @@
      <enum>Qt::TabFocus</enum>
     </property>
     <property name="styleSheet">
-     <string notr="true">font: 87 10pt &quot;Arial Black&quot;;</string>
+     <string notr="true">QPushButton {
+	font: 87 10pt &quot;Arial Black&quot;;
+	color: rgb(255, 255, 255);
+
+	background-color: rgb(120, 120, 120);
+
+	border: 1px solid  rgb(100, 100, 100);
+	border-radius: 2px;
+}
+
+QPushButton::hover {
+	background-color: rgb(150, 150, 150);
+}
+</string>
     </property>
     <property name="text">
      <string>BIN FILE TO TEXT FILE</string>
@@ -83,7 +108,20 @@
      <enum>Qt::TabFocus</enum>
     </property>
     <property name="styleSheet">
-     <string notr="true">font: 87 10pt &quot;Arial Black&quot;;</string>
+     <string notr="true">QPushButton {
+	font: 87 10pt &quot;Arial Black&quot;;
+	color: rgb(255, 255, 255);
+
+	background-color: rgb(120, 120, 120);
+
+	border: 1px solid  rgb(100, 100, 100);
+	border-radius: 2px;
+}
+
+QPushButton::hover {
+	background-color: rgb(150, 150, 150);
+}
+</string>
     </property>
     <property name="text">
      <string>TEXT FILE TO BIN FILE</string>
@@ -102,8 +140,20 @@
      <enum>Qt::TabFocus</enum>
     </property>
     <property name="styleSheet">
-     <string notr="true">font: 87 10pt &quot;Arial Black&quot;;
-background-color: rgb(85, 0, 0);</string>
+     <string notr="true">QPushButton {
+	font: 87 10pt &quot;Arial Black&quot;;
+	color: rgb(255, 255, 255);
+
+	background-color: rgb(150, 0, 0);
+
+	border: 1px solid  rgb(100, 0, 0);
+	border-radius: 2px;
+}
+
+QPushButton::hover {
+	background-color: rgb(180, 0, 0);
+}
+</string>
     </property>
     <property name="text">
      <string>EXIT</string>
@@ -128,7 +178,20 @@ background-color: rgb(85, 0, 0);</string>
      <number>1</number>
     </property>
     <property name="styleSheet">
-     <string notr="true">font: 87 10pt &quot;Arial Black&quot;;</string>
+     <string notr="true">QPushButton {
+	font: 87 10pt &quot;Arial Black&quot;;
+	color: rgb(255, 255, 255);
+
+	background-color: rgb(120, 120, 120);
+
+	border: 1px solid  rgb(100, 100, 100);
+	border-radius: 2px;
+}
+
+QPushButton::hover {
+	background-color: rgb(150, 150, 150);
+}
+</string>
     </property>
     <property name="text">
      <string>SETTINGS</string>
