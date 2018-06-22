@@ -4,26 +4,26 @@
 #include "ApplicationGlobal.hpp"
 
 namespace Ui { class TranslateWindow; }
-class WindowsHandler;
 
 
 class TranslateWindow : public QWidget {
 Q_OBJECT
 
 public:
-  explicit TranslateWindow(WindowsHandler *parent = nullptr);
+  explicit TranslateWindow(QWidget *parent = nullptr);
   ~TranslateWindow();
 
 signals:
-
+  void buttonClicked(MODE mode);
 
 public slots:
   void show(const QString &inFilePath, const QString &outFilePath);
   void hide();
+
+private slots:
   void onButtonClick();
 
 private:
-  WindowsHandler      *parent = nullptr;
   Ui::TranslateWindow *ui     = nullptr;
   bool                isError = false;
 

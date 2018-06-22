@@ -11,14 +11,16 @@ class SettingsWindow;
 class ProcessingWindow;
 
 
-class WindowsHandler {
+class WindowsHandler : QObject {
+Q_OBJECT
 
 public:
-  WindowsHandler();
+  WindowsHandler(QObject *parent = nullptr);
   ~WindowsHandler();
 
-  void onButtonClick(const QWidget *sender, MODE mode);
-  void onButtonClick(const QWidget *sender, const QString &srcFilePath, const QString &targFilePath);
+public slots:
+  void onButtonClick(MODE mode);
+  void onButtonClick(const QString &srcFilePath, const QString &targFilePath);
 
 private:
   MainWindow        *mainWindow        = nullptr;
@@ -28,6 +30,8 @@ private:
   ChooseFilesWindow *chooseFilesWindow = nullptr;
   ProcessingWindow  *processingWindow  = nullptr;
   MODE              mode               = MODE::NONE;
+
+  void createWindow(WTYPE type);
 
 };
 

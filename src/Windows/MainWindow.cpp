@@ -3,10 +3,8 @@
 #include "WindowsHandler.hpp"
 
 
-MainWindow::MainWindow(WindowsHandler *parent) : ui(new Ui::MainWindow) {
-  MainWindow::parent = parent;
+MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
   ui->setupUi(this);
-
   connect(ui->bttButton,      &QPushButton::released, this, &MainWindow::onButtonClick);
   connect(ui->ttbButton,      &QPushButton::released, this, &MainWindow::onButtonClick);
   connect(ui->mbButton,       &QPushButton::released, this, &MainWindow::onButtonClick);
@@ -25,14 +23,14 @@ MainWindow::~MainWindow() {
 // ============================================================================
 
 void MainWindow::onButtonClick() {
-  QObject *obj = sender();
+  QObject *obj = QObject::sender();
   QString objName = obj->objectName();
-  if (objName == "bttButton")      parent->onButtonClick(this, MODE::BIN_TO_TEXT);
-  if (objName == "ttbButton")      parent->onButtonClick(this, MODE::TEXT_TO_BIN);
-  if (objName == "mbButton")       parent->onButtonClick(this, MODE::MERGE_BIN);
-  if (objName == "mtButton")       parent->onButtonClick(this, MODE::MERGE_TEXT);
-  if (objName == "transButton")    parent->onButtonClick(this, MODE::TRANSLATE);
-  if (objName == "compButton")     parent->onButtonClick(this, MODE::COMPARE);
-  if (objName == "settingsButton") parent->onButtonClick(this, MODE::SETTINGS);
-  if (objName == "exitButton")     parent->onButtonClick(this, MODE::EXIT);
+  if (objName == "bttButton")           emit buttonClicked(MODE::BIN_TO_TEXT);
+  else if (objName == "ttbButton")      emit buttonClicked(MODE::TEXT_TO_BIN);
+  else if (objName == "mbButton")       emit buttonClicked(MODE::MERGE_BIN);
+  else if (objName == "mtButton")       emit buttonClicked(MODE::MERGE_TEXT);
+  else if (objName == "transButton")    emit buttonClicked(MODE::TRANSLATE);
+  else if (objName == "compButton")     emit buttonClicked(MODE::COMPARE);
+  else if (objName == "settingsButton") emit buttonClicked(MODE::SETTINGS);
+  else if (objName == "exitButton")     emit buttonClicked(MODE::EXIT);
 }

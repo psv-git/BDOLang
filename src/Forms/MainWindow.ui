@@ -270,21 +270,6 @@ QPushButton::hover {
     </property>
    </widget>
   </widget>
-  <action name="settings">
-   <property name="text">
-    <string>Settings</string>
-   </property>
-  </action>
-  <action name="about">
-   <property name="text">
-    <string>About</string>
-   </property>
-  </action>
-  <action name="actionAbout_2">
-   <property name="text">
-    <string>About</string>
-   </property>
-  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <tabstops>

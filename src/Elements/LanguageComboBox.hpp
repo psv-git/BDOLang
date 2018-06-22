@@ -1,7 +1,6 @@
 #ifndef LANGUAGECOMBOBOX_HPP
 #define LANGUAGECOMBOBOX_HPP
 
-#include <QComboBox>
 #include "ApplicationGlobal.hpp"
 
 
@@ -14,15 +13,6 @@ public:
 
   LANG getCurrentLanguage();
   void setCurrentLanguage(LANG language);
-
-signals:
-
-
-public slots:
-
-
-private:
-
 
 };
 

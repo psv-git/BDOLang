@@ -4,25 +4,25 @@
 #include "ApplicationGlobal.hpp"
 
 namespace Ui { class ProcessingWindow; }
-class WindowsHandler;
 
 
 class ProcessingWindow : public QWidget {
 Q_OBJECT
 
 public:
-  explicit ProcessingWindow(WindowsHandler *parent = nullptr);
+  explicit ProcessingWindow(QWidget *parent = nullptr);
   ~ProcessingWindow();
 
 signals:
-
+  void buttonClicked(MODE mode);
 
 public slots:
   void show(MODE mode, const QString &srcFilePath, const QString &targFilePath);
+
+private slots:
   void onButtonClick();
 
 private:
-  WindowsHandler       *parent = nullptr;
   Ui::ProcessingWindow *ui     = nullptr;
   bool                 isError = false;
 

@@ -4,8 +4,9 @@
 #include "ApplicationHeaders.hpp"
 
 
-enum MODE : qint32 { MERGE_BIN, MERGE_TEXT, BIN_TO_TEXT, TEXT_TO_BIN, TRANSLATE, COMPARE, SETTINGS, CLOSE, EXIT, NONE };
-enum LANG : qint32 { EN = 0, RU = 1 };
+enum WTYPE : qint32 { CFEW, CFSW, MAINW, PROCW, SETTW, TRANSW };
+enum MODE  : qint32 { MERGE_BIN, MERGE_TEXT, BIN_TO_TEXT, TEXT_TO_BIN, TRANSLATE, COMPARE, SETTINGS, CLOSE, EXIT, NONE };
+enum LANG  : qint32 { EN = 0, RU = 1 };
 
 // ============================================================================
 

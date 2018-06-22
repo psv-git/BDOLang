@@ -1,13 +1,10 @@
 #include "ProcessingWindow.hpp"
 #include "ui_ProcessingWindow.h"
-#include "WindowsHandler.hpp"
 #include "DataHandler.hpp"
 
 
-ProcessingWindow::ProcessingWindow(WindowsHandler *parent) : ui(new Ui::ProcessingWindow) {
-  ProcessingWindow::parent = parent;
+ProcessingWindow::ProcessingWindow(QWidget *parent) : QWidget(parent), ui(new Ui::ProcessingWindow) {
   ui->setupUi(this);
-
   connect(ui->okButton, &QPushButton::released, this, &ProcessingWindow::onButtonClick);
 }
 
@@ -16,13 +13,15 @@ ProcessingWindow::~ProcessingWindow() {
   delete ui;
 }
 
-// ============================================================================
+// public slots ===============================================================
 
 void ProcessingWindow::show(MODE mode, const QString &srcFilePath, const QString &targFilePath) {
   isError = false;
+  ui->okButton->setEnabled(false);
   ui->messageLabel->setText("PROCESSING");
   QWidget::show();
-  Delay(100);
+
+  Delay(100); // TODO: to thread
   if (mode == MODE::BIN_TO_TEXT) {
     try { DataHandler::getInstance().convertBinFileToTextFile(srcFilePath, targFilePath); }
     catch (...) { isError = true; }
@@ -35,14 +34,17 @@ void ProcessingWindow::show(MODE mode, const QString &srcFilePath, const QString
     QErrorMessage::qtHandler()->showMessage(GetExceptionsMessage());
     ui->messageLabel->setText("FAIL");
   } else {
+    ui->okButton->setEnabled(true);
     ui->messageLabel->setText("DONE");
   }
 }
 
-// ============================================================================
+// private slots ==============================================================
 
 void ProcessingWindow::onButtonClick() {
-  QObject *obj = sender();
+  QObject *obj = QObject::sender();
   QString objName = obj->objectName();
-  if (objName == "okButton") parent->onButtonClick(this, MODE::CLOSE);
+  if (objName == "okButton") {
+    emit buttonClicked(MODE::CLOSE);
+  }
 }

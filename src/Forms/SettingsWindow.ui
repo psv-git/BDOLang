@@ -25,6 +25,9 @@
     <height>380</height>
    </size>
   </property>
+  <property name="contextMenuPolicy">
+   <enum>Qt::NoContextMenu</enum>
+  </property>
   <property name="windowTitle">
    <string>Settings</string>
   </property>
@@ -42,6 +45,9 @@
      <width>145</width>
      <height>20</height>
     </rect>
+   </property>
+   <property name="contextMenuPolicy">
+    <enum>Qt::NoContextMenu</enum>
    </property>
    <property name="styleSheet">
     <string notr="true">QLabel {
@@ -93,6 +99,9 @@
      <height>30</height>
     </rect>
    </property>
+   <property name="contextMenuPolicy">
+    <enum>Qt::NoContextMenu</enum>
+   </property>
    <property name="styleSheet">
     <string notr="true">QPushButton {
 	font: 87 10pt &quot;Arial Black&quot;;
@@ -141,6 +150,9 @@ QPushButton::hover {
      <width>80</width>
      <height>30</height>
     </rect>
+   </property>
+   <property name="contextMenuPolicy">
+    <enum>Qt::NoContextMenu</enum>
    </property>
    <property name="autoFillBackground">
     <bool>false</bool>
@@ -229,6 +241,9 @@ buzarini</string>
      <height>30</height>
     </rect>
    </property>
+   <property name="contextMenuPolicy">
+    <enum>Qt::NoContextMenu</enum>
+   </property>
    <property name="styleSheet">
     <string notr="true">QPushButton {
 	font: 87 10pt &quot;Arial Black&quot;;
@@ -258,6 +273,9 @@ QPushButton::hover {
      <height>30</height>
     </rect>
    </property>
+   <property name="contextMenuPolicy">
+    <enum>Qt::NoContextMenu</enum>
+   </property>
    <property name="styleSheet">
     <string notr="true">QPushButton {
 	font: 87 10pt &quot;Arial Black&quot;;
@@ -286,6 +304,9 @@ QPushButton::hover {
      <width>170</width>
      <height>20</height>
     </rect>
+   </property>
+   <property name="contextMenuPolicy">
+    <enum>Qt::NoContextMenu</enum>
    </property>
    <property name="styleSheet">
     <string notr="true">QLabel {
@@ -337,6 +358,9 @@ QPushButton::hover {
      <height>30</height>
     </rect>
    </property>
+   <property name="contextMenuPolicy">
+    <enum>Qt::NoContextMenu</enum>
+   </property>
    <property name="styleSheet">
     <string notr="true">QPushButton {
 	font: 87 10pt &quot;Arial Black&quot;;
@@ -366,6 +390,9 @@ QPushButton::hover {
      <height>30</height>
     </rect>
    </property>
+   <property name="contextMenuPolicy">
+    <enum>Qt::NoContextMenu</enum>
+   </property>
    <property name="styleSheet">
     <string notr="true">QPushButton {
 	font: 87 10pt &quot;Arial Black&quot;;
@@ -394,6 +421,9 @@ QPushButton::hover {
      <width>170</width>
      <height>20</height>
     </rect>
+   </property>
+   <property name="contextMenuPolicy">
+    <enum>Qt::NoContextMenu</enum>
    </property>
    <property name="styleSheet">
     <string notr="true">QLabel {

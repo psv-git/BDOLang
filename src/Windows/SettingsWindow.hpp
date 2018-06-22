@@ -4,26 +4,26 @@
 #include "ApplicationFunctions.hpp"
 
 namespace Ui { class SettingsWindow; }
-class WindowsHandler;
 
 
 class SettingsWindow : public QWidget {
 Q_OBJECT
 
 public:
-  explicit SettingsWindow(WindowsHandler *parent = nullptr);
+  explicit SettingsWindow(QWidget *parent = nullptr);
   ~SettingsWindow();
 
 signals:
-
+  void buttonClicked(MODE mode);
 
 public slots:
   void show();
+
+private slots:
   void onButtonClick();
 
 private:
-  WindowsHandler     *parent = nullptr;
-  Ui::SettingsWindow *ui     = nullptr;
+  Ui::SettingsWindow *ui = nullptr;
 
 };
 

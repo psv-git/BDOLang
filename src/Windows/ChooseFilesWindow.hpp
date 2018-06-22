@@ -4,26 +4,27 @@
 #include "ApplicationFunctions.hpp"
 
 namespace Ui { class ChooseFilesWindow; }
-class WindowsHandler;
 
 
 class ChooseFilesWindow : public QWidget {
 Q_OBJECT
 
 public:
-  explicit ChooseFilesWindow(WindowsHandler *parent = nullptr);
+  explicit ChooseFilesWindow(QWidget *parent = nullptr);
   ~ChooseFilesWindow();
 
 signals:
-
+  void buttonClicked(MODE);
+  void buttonClicked(const QString &srcFilePath, const QString &targFilePath);
 
 public slots:
   void show();
+
+private slots:
   void onButtonClick();
 
 private:
-  WindowsHandler        *parent = nullptr;
-  Ui::ChooseFilesWindow *ui     = nullptr;
+  Ui::ChooseFilesWindow *ui = nullptr;
 
 };
 

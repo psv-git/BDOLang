@@ -4,25 +4,23 @@
 #include "ApplicationGlobal.hpp"
 
 namespace Ui { class MainWindow; }
-class WindowsHandler;
 
 
 class MainWindow : public QMainWindow {
 Q_OBJECT
 
 public:
-  explicit MainWindow(WindowsHandler *parent = nullptr);
+  explicit MainWindow(QWidget *parent = nullptr);
   ~MainWindow();
 
 signals:
+  void buttonClicked(MODE mode);
 
-
-public slots:
+private slots:
   void onButtonClick();
 
 private:
-  WindowsHandler *parent = nullptr;
-  Ui::MainWindow *ui     = nullptr;
+  Ui::MainWindow *ui = nullptr;
 
 };
 

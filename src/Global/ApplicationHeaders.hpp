@@ -8,6 +8,7 @@
 #include <QMainWindow>
 #include <QFileDialog>
 #include <QErrorMessage>
+#include <QComboBox>
 #include <QDir>
 #include <QFile>
 #include <QFileInfo>

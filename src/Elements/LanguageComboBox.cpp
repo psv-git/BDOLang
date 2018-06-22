@@ -6,7 +6,7 @@ LanguageComboBox::LanguageComboBox(QWidget *parent) : QComboBox(parent) {}
 
 LanguageComboBox::~LanguageComboBox() {}
 
-// ============================================================================
+// public methods =============================================================
 
 LANG LanguageComboBox::getCurrentLanguage() {
   qint32 index = (qint32)QComboBox::currentIndex();
