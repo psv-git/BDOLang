@@ -1,7 +1,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include "ApplicationGlobal.hpp"
+#include "ApplicationFunctions.hpp"
 
 namespace Ui { class MainWindow; }
 

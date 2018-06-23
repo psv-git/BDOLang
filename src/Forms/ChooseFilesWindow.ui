@@ -45,9 +45,9 @@
    </property>
    <property name="font">
     <font>
-     <family>Arial Black</family>
-     <pointsize>10</pointsize>
-     <weight>10</weight>
+     <family>Liberation Sans</family>
+     <pointsize>12</pointsize>
+     <weight>9</weight>
      <italic>false</italic>
      <bold>false</bold>
     </font>
@@ -57,7 +57,7 @@
    </property>
    <property name="styleSheet">
     <string notr="true">QPushButton {
-	font: 87 10pt &quot;Arial Black&quot;;
+	font: 75 12pt &quot;Liberation Sans&quot;;
 	color: rgb(255, 255, 255);
 
 	background-color: rgb(120, 120, 120);
@@ -89,7 +89,7 @@ QPushButton::hover {
    </property>
    <property name="styleSheet">
     <string notr="true">QPushButton {
-	font: 87 10pt &quot;Arial Black&quot;;
+	font: 75 12pt &quot;Liberation Sans&quot;;
 	color: rgb(255, 255, 255);
 
 	background-color: rgb(120, 120, 120);
@@ -118,7 +118,7 @@ QPushButton::hover {
    </property>
    <property name="styleSheet">
     <string notr="true">QLabel {
-	font: 10pt &quot;Arial&quot;;
+	font: 75 11pt &quot;Liberation Sans&quot;;
 	color: rgb(20, 20, 20);
 }
 </string>
@@ -165,7 +165,7 @@ QPushButton::hover {
    </property>
    <property name="styleSheet">
     <string notr="true">QLabel {
-	font: 10pt &quot;Arial&quot;;
+	font: 75 11pt &quot;Liberation Sans&quot;;
 	color: rgb(20, 20, 20);
 }</string>
    </property>
@@ -214,7 +214,7 @@ QPushButton::hover {
    </property>
    <property name="styleSheet">
     <string notr="true">QPushButton {
-	font: 87 10pt &quot;Arial Black&quot;;
+	font: 75 12pt &quot;Liberation Sans&quot;;
 	color: rgb(255, 255, 255);
 
 	background-color: rgb(0, 150, 0);
@@ -243,9 +243,9 @@ QPushButton::hover {
    </property>
    <property name="font">
     <font>
-     <family>Arial Black</family>
-     <pointsize>10</pointsize>
-     <weight>10</weight>
+     <family>Liberation Sans</family>
+     <pointsize>12</pointsize>
+     <weight>9</weight>
      <italic>false</italic>
      <bold>false</bold>
     </font>
@@ -255,7 +255,7 @@ QPushButton::hover {
    </property>
    <property name="styleSheet">
     <string notr="true">QPushButton {
-	font: 87 10pt &quot;Arial Black&quot;;
+	font: 75 12pt &quot;Liberation Sans&quot;;
 	color: rgb(255, 255, 255);
 
 	background-color: rgb(150, 0, 0);

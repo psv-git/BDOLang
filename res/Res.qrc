@@ -1,0 +1,10 @@
+<RCC>
+    <qresource prefix="/fonts">
+        <file>liberation-fonts-ttf/LiberationMono-Bold.ttf</file>
+        <file>liberation-fonts-ttf/LiberationMono-Regular.ttf</file>
+        <file>liberation-fonts-ttf/LiberationSans-Bold.ttf</file>
+        <file>liberation-fonts-ttf/LiberationSans-Regular.ttf</file>
+        <file>liberation-fonts-ttf/LiberationSerif-Bold.ttf</file>
+        <file>liberation-fonts-ttf/LiberationSerif-Regular.ttf</file>
+    </qresource>
+</RCC>

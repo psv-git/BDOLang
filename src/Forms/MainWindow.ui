@@ -25,13 +25,12 @@
   <property name="windowTitle">
    <string notr="true">BDOLang</string>
   </property>
-  <property name="styleSheet">
-   <string notr="true">QMainWindow {
-	background-color: rgb(200, 200, 200);
-}
-</string>
-  </property>
   <widget class="QWidget" name="centralWidget">
+   <property name="styleSheet">
+    <string notr="true">QWidget  {
+	background-color: rgb(200, 200, 200);
+}</string>
+   </property>
    <widget class="QPushButton" name="transButton">
     <property name="enabled">
      <bool>false</bool>
@@ -54,7 +53,20 @@
      <number>1</number>
     </property>
     <property name="styleSheet">
-     <string notr="true">font: 87 10pt &quot;Arial Black&quot;;</string>
+     <string notr="true">QPushButton {
+	font: 75 12pt &quot;Liberation Sans&quot;;
+	color: rgb(255, 255, 255);
+
+	background-color: rgb(120, 120, 120);
+
+	border: 1px solid  rgb(100, 100, 100);
+	border-radius: 2px;
+}
+
+QPushButton::hover {
+	background-color: rgb(150, 150, 150);
+}
+</string>
     </property>
     <property name="text">
      <string>TRANSLATE</string>
@@ -77,7 +89,7 @@
     </property>
     <property name="styleSheet">
      <string notr="true">QPushButton {
-	font: 87 10pt &quot;Arial Black&quot;;
+	font: 75 12pt &quot;Liberation Sans&quot;;
 	color: rgb(255, 255, 255);
 
 	background-color: rgb(120, 120, 120);
@@ -109,7 +121,8 @@ QPushButton::hover {
     </property>
     <property name="styleSheet">
      <string notr="true">QPushButton {
-	font: 87 10pt &quot;Arial Black&quot;;
+	
+	font: 75 12pt &quot;Liberation Sans&quot;;
 	color: rgb(255, 255, 255);
 
 	background-color: rgb(120, 120, 120);
@@ -141,7 +154,7 @@ QPushButton::hover {
     </property>
     <property name="styleSheet">
      <string notr="true">QPushButton {
-	font: 87 10pt &quot;Arial Black&quot;;
+	font: 75 12pt &quot;Liberation Sans&quot;;
 	color: rgb(255, 255, 255);
 
 	background-color: rgb(150, 0, 0);
@@ -179,7 +192,7 @@ QPushButton::hover {
     </property>
     <property name="styleSheet">
      <string notr="true">QPushButton {
-	font: 87 10pt &quot;Arial Black&quot;;
+	font: 75 12pt &quot;Liberation Sans&quot;;
 	color: rgb(255, 255, 255);
 
 	background-color: rgb(120, 120, 120);
@@ -213,7 +226,20 @@ QPushButton::hover {
      <enum>Qt::TabFocus</enum>
     </property>
     <property name="styleSheet">
-     <string notr="true">font: 87 10pt &quot;Arial Black&quot;;</string>
+     <string notr="true">QPushButton {
+	font: 75 12pt &quot;Liberation Sans&quot;;
+	color: rgb(255, 255, 255);
+
+	background-color: rgb(120, 120, 120);
+
+	border: 1px solid  rgb(100, 100, 100);
+	border-radius: 2px;
+}
+
+QPushButton::hover {
+	background-color: rgb(150, 150, 150);
+}
+</string>
     </property>
     <property name="text">
      <string>MERGE TWO BIN FILES</string>
@@ -235,7 +261,20 @@ QPushButton::hover {
      <enum>Qt::TabFocus</enum>
     </property>
     <property name="styleSheet">
-     <string notr="true">font: 87 10pt &quot;Arial Black&quot;;</string>
+     <string notr="true">QPushButton {
+	font: 75 12pt &quot;Liberation Sans&quot;;
+	color: rgb(255, 255, 255);
+
+	background-color: rgb(120, 120, 120);
+
+	border: 1px solid  rgb(100, 100, 100);
+	border-radius: 2px;
+}
+
+QPushButton::hover {
+	background-color: rgb(150, 150, 150);
+}
+</string>
     </property>
     <property name="text">
      <string>MERGE TWO TEXT FILES</string>
@@ -263,7 +302,20 @@ QPushButton::hover {
      <number>1</number>
     </property>
     <property name="styleSheet">
-     <string notr="true">font: 87 10pt &quot;Arial Black&quot;;</string>
+     <string notr="true">QPushButton {
+	font: 75 12pt &quot;Liberation Sans&quot;;
+	color: rgb(255, 255, 255);
+
+	background-color: rgb(120, 120, 120);
+
+	border: 1px solid  rgb(100, 100, 100);
+	border-radius: 2px;
+}
+
+QPushButton::hover {
+	background-color: rgb(150, 150, 150);
+}
+</string>
     </property>
     <property name="text">
      <string>COMPARE TWO FILES</string>
@@ -275,7 +327,11 @@ QPushButton::hover {
  <tabstops>
   <tabstop>bttButton</tabstop>
   <tabstop>ttbButton</tabstop>
+  <tabstop>mbButton</tabstop>
+  <tabstop>mtButton</tabstop>
   <tabstop>transButton</tabstop>
+  <tabstop>compButton</tabstop>
+  <tabstop>settingsButton</tabstop>
   <tabstop>exitButton</tabstop>
  </tabstops>
  <resources/>

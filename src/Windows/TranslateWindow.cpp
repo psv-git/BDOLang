@@ -5,6 +5,9 @@
 
 TranslateWindow::TranslateWindow(QWidget *parent) : QWidget(parent), ui(new Ui::TranslateWindow) {
   ui->setupUi(this);
+
+  // TODO: fonts
+
   connect(ui->prevButton,   &QPushButton::released, this, &TranslateWindow::onButtonClick);
   connect(ui->nextButton,   &QPushButton::released, this, &TranslateWindow::onButtonClick);
   connect(ui->saveButton,   &QPushButton::released, this, &TranslateWindow::onButtonClick);

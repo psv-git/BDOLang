@@ -23,53 +23,65 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 INCLUDEPATH += \
-    src/Data \
-    src/Elements \
-    src/Functions \
-    src/Global \
-    src/Windows
+    src/data \
+    src/elements \
+    src/service \
+    src/global \
+    src/windows
 
 SOURCES += \
     src/main.cpp \
-    src/Data/DataHandler.cpp \
-    src/Data/DataRow.cpp \
-    src/Functions/ApplicationFunctions.cpp \
-    src/Global/ApplicationGlobal.cpp \
-    src/Windows/ChooseFilesWindow.cpp \
-    src/Windows/ChooseFileWindow.cpp \
-    src/Windows/MainWindow.cpp \
-    src/Windows/SettingsWindow.cpp \
-    src/Windows/TranslateWindow.cpp \
-    src/Windows/WindowsHandler.cpp \
-    src/Elements/LanguageComboBox.cpp \
-    src/Windows/ProcessingWindow.cpp
+    src/data/DataHandler.cpp \
+    src/data/DataRow.cpp \
+    src/service/ApplicationFunctions.cpp \
+    src/global/ApplicationGlobal.cpp \
+    src/elements/LanguageComboBox.cpp \
+    src/windows/WindowsHandler.cpp \
+    src/windows/MainWindow.cpp \
+    src/windows/ChooseFilesWindow.cpp \
+    src/windows/ChooseFileWindow.cpp \
+    src/windows/SettingsWindow.cpp \
+    src/windows/TranslateWindow.cpp \
+    src/windows/ProcessingWindow.cpp \
 
 HEADERS += \
-    src/Data/DataHandler.hpp \
-    src/Data/DataRow.hpp \
-    src/Functions/ApplicationFunctions.hpp \
-    src/Global/ApplicationGlobal.hpp \
-    src/Global/ApplicationHeaders.hpp \
-    src/Windows/ChooseFilesWindow.hpp \
-    src/Windows/ChooseFileWindow.hpp \
-    src/Windows/MainWindow.hpp \
-    src/Windows/SettingsWindow.hpp \
-    src/Windows/TranslateWindow.hpp \
-    src/Windows/WindowsHandler.hpp \
-    src/Elements/LanguageComboBox.hpp \
-    src/Windows/ProcessingWindow.hpp
+    src/data/DataHandler.hpp \
+    src/data/DataRow.hpp \
+    src/service/ApplicationFunctions.hpp \
+    src/global/ApplicationGlobal.hpp \
+    src/global/ApplicationHeaders.hpp \
+    src/elements/LanguageComboBox.hpp \
+    src/windows/WindowsHandler.hpp \
+    src/windows/MainWindow.hpp \
+    src/windows/ChooseFilesWindow.hpp \
+    src/windows/ChooseFileWindow.hpp \
+    src/windows/SettingsWindow.hpp \
+    src/windows/TranslateWindow.hpp \
+    src/windows/ProcessingWindow.hpp \
 
 FORMS += \
-    src/Forms/ChooseFilesWindow.ui \
-    src/Forms/ChooseFileWindow.ui \
-    src/Forms/MainWindow.ui \
-    src/Forms/SettingsWindow.ui \
-    src/Forms/TranslateWindow.ui \
-    src/Forms/ProcessingWindow.ui
+    src/forms/MainWindow.ui \
+    src/forms/ChooseFilesWindow.ui \
+    src/forms/ChooseFileWindow.ui \
+    src/forms/SettingsWindow.ui \
+    src/forms/TranslateWindow.ui \
+    src/forms/ProcessingWindow.ui \
 
 DISTFILES += \
     .gitignore \
     README.md \
-    LICENSE
+    LICENSE \
+    res/liberation-fonts-ttf/LICENSE \
+    res/liberation-fonts-ttf/AUTHORS \
+    res/liberation-fonts-ttf/README \
+    res/liberation-fonts-ttf/LiberationMono-Bold.ttf \
+    res/liberation-fonts-ttf/LiberationMono-Regular.ttf \
+    res/liberation-fonts-ttf/LiberationSans-Bold.ttf \
+    res/liberation-fonts-ttf/LiberationSans-Regular.ttf \
+    res/liberation-fonts-ttf/LiberationSerif-Bold.ttf \
+    res/liberation-fonts-ttf/LiberationSerif-Regular.ttf
 
 LIBS += -lz
+
+RESOURCES += \
+    res/Res.qrc

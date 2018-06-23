@@ -4,6 +4,16 @@
 
 ChooseFilesWindow::ChooseFilesWindow(QWidget *parent) : QWidget(parent), ui(new Ui::ChooseFilesWindow) {
   ui->setupUi(this);
+
+  ui->okButton->setFont(GetFont("Liberation Sans",      "Bold",    12));
+  ui->cancelButton->setFont(GetFont("Liberation Sans",  "Bold",    12));
+  ui->chooseButton1->setFont(GetFont("Liberation Sans", "Bold",    12));
+  ui->chooseButton2->setFont(GetFont("Liberation Sans", "Bold",    12));
+  ui->pathEdit1->setFont(GetFont("Liberation Mono",     "Regular", 10));
+  ui->pathEdit2->setFont(GetFont("Liberation Mono",     "Regular", 10));
+  ui->pathLabel1->setFont(GetFont("Liberation Sans",    "Bold",    11));
+  ui->pathLabel2->setFont(GetFont("Liberation Sans",    "Bold",    11));
+
   connect(ui->okButton,      &QPushButton::released, this, &ChooseFilesWindow::onButtonClick);
   connect(ui->cancelButton,  &QPushButton::released, this, &ChooseFilesWindow::onButtonClick);
   connect(ui->chooseButton1, &QPushButton::released, this, &ChooseFilesWindow::onButtonClick);

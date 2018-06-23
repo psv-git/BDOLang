@@ -3,6 +3,7 @@
 
 QFile configFile;
 QStringList exceptionsMessagesList;
+QFontDatabase *fontsList;
 
 // exceptions =================================================================
 
@@ -38,6 +39,11 @@ const QString GetDirectoryPath(const QString &title) {
 
 QString GetRootPath() {
   return QDir::currentPath();
+}
+
+
+QFont GetFont(const QString &family, const QString &style, int pointSize) {
+  return fontsList->font(family, style, pointSize);
 }
 
 // files ======================================================================
@@ -83,6 +89,15 @@ void RemoveFile(QFile& file, const QString &functionName) {
 // application setup ==========================================================
 
 bool SetupApplication() {
+  // setup dependency plugins
+  QStringList paths = QCoreApplication::libraryPaths();
+  for (int i = 0; i < paths.size(); i++) {
+    QCoreApplication::removeLibraryPath(paths.at(i)); // clear library paths list
+  }
+  paths.append(GetRootPath() + "/plugins"); // add new path
+  QCoreApplication::setLibraryPaths(paths);
+
+  // setup config file
   QDir rootPath(GetRootPath());
   configFile.setFileName(rootPath.absoluteFilePath(DEFAULT_SETTINGS.configFileName));
   if (!rootPath.exists(DEFAULT_SETTINGS.dataDirectoryName)) {
@@ -136,6 +151,18 @@ bool WriteConfigFile(Settings& settings) {
 
 void SetDefaultSettings() {
   active_settings = DEFAULT_SETTINGS;
+}
+
+
+void SetFonts(QFontDatabase &fontsDataBase) {
+  fontsList = &fontsDataBase;
+  // set fonts
+  fontsList->addApplicationFont(":/fonts/liberation-fonts-ttf/LiberationMono-Bold.ttf");
+  fontsList->addApplicationFont(":/fonts/liberation-fonts-ttf/LiberationMono-Regular.ttf");
+  fontsList->addApplicationFont(":/fonts/liberation-fonts-ttf/LiberationSans-Bold.ttf");
+  fontsList->addApplicationFont(":/fonts/liberation-fonts-ttf/LiberationSans-Regular.ttf");
+  fontsList->addApplicationFont(":/fonts/liberation-fonts-ttf/LiberationSerif-Bold.ttf");
+  fontsList->addApplicationFont(":/fonts/liberation-fonts-ttf/LiberationSerif-Regular.ttf");
 }
 
 // i/o ========================================================================

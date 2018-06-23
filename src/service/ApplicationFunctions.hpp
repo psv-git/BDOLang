@@ -16,6 +16,8 @@ void Delay(int timeToWait);
 const QString GetDirectoryPath(const QString &title);
 QString GetRootPath();
 
+QFont GetFont(const QString &family, const QString &style, int pointSize);
+
 // files ======================================================================
 
 const QString GetFilePath(const QString &title, const QString &extStr);
@@ -32,7 +34,8 @@ bool SetupApplication();
 void ReadConfigFile(Settings &settings);
 bool WriteConfigFile(Settings& settings);
 void SetDefaultSettings();
-QString GetRootPath();
+
+void SetFonts(QFontDatabase &fontsDataBase);
 
 // i/o ========================================================================
 

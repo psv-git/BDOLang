@@ -5,6 +5,16 @@
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
   ui->setupUi(this);
+
+  ui->bttButton->setFont(GetFont("Liberation Sans",      "Bold", 12));
+  ui->ttbButton->setFont(GetFont("Liberation Sans",      "Bold", 12));
+  ui->mbButton->setFont(GetFont("Liberation Sans",       "Bold", 12));
+  ui->mtButton->setFont(GetFont("Liberation Sans",       "Bold", 12));
+  ui->transButton->setFont(GetFont("Liberation Sans",    "Bold", 12));
+  ui->compButton->setFont(GetFont("Liberation Sans",     "Bold", 12));
+  ui->settingsButton->setFont(GetFont("Liberation Sans", "Bold", 12));
+//  ui->exitButton->setFont(GetFont("Liberation Sans",     "Bold", 12));
+
   connect(ui->bttButton,      &QPushButton::released, this, &MainWindow::onButtonClick);
   connect(ui->ttbButton,      &QPushButton::released, this, &MainWindow::onButtonClick);
   connect(ui->mbButton,       &QPushButton::released, this, &MainWindow::onButtonClick);

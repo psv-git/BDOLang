@@ -5,6 +5,22 @@
 
 SettingsWindow::SettingsWindow(QWidget *parent) : QWidget(parent), ui(new Ui::SettingsWindow) {
   ui->setupUi(this);
+
+  ui->saveButton->setFont(GetFont("Liberation Sans",     "Bold",    12));
+  ui->cancelButton->setFont(GetFont("Liberation Sans",   "Bold",    12));
+  ui->chooseButton1->setFont(GetFont("Liberation Sans",  "Bold",    12));
+  ui->chooseButton2->setFont(GetFont("Liberation Sans",  "Bold",    12));
+  ui->chooseButton3->setFont(GetFont("Liberation Sans",  "Bold",    12));
+  ui->languageBox->setFont(GetFont("Liberation Sans",    "Bold",    12));
+  ui->dataPathEdit->setFont(GetFont("Liberation Mono",   "Regular", 10));
+  ui->fileNameEdit1->setFont(GetFont("Liberation Mono",  "Regular", 10));
+  ui->fileNameEdit2->setFont(GetFont("Liberation Mono",  "Regular", 10));
+  ui->dataPathLabel->setFont(GetFont("Liberation Sans",  "Bold",    11));
+  ui->filePathLabel1->setFont(GetFont("Liberation Sans", "Bold",    11));
+  ui->filePathLabel2->setFont(GetFont("Liberation Sans", "Bold",    11));
+  ui->languageLabel->setFont(GetFont("Liberation Sans",  "Bold",    11));
+  ui->aboutEdit->setFont(GetFont("Liberation Sans",      "Bold",    10));
+
   connect(ui->saveButton,    &QPushButton::released, this, &SettingsWindow::onButtonClick);
   connect(ui->cancelButton,  &QPushButton::released, this, &SettingsWindow::onButtonClick);
   connect(ui->chooseButton1, &QPushButton::released, this, &SettingsWindow::onButtonClick);

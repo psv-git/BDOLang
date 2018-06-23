@@ -32,7 +32,6 @@ void WindowsHandler::onButtonClick(MODE mode) {
     if (mode == MODE::EXIT) QApplication::quit();
     if (mode == MODE::SETTINGS) {
       if (!settingsWindow) createWindow(WTYPE::SETTW);
-      mainWindow->hide();
       settingsWindow->show();
     } else {
       if (!chooseFilesWindow) createWindow(WTYPE::CFSW);
@@ -43,7 +42,6 @@ void WindowsHandler::onButtonClick(MODE mode) {
     mainWindow->show();
   } else if (sender == settingsWindow) {
     settingsWindow->hide();
-    mainWindow->show();
   } else if (sender == processingWindow) {
     processingWindow->hide();
     mainWindow->show();

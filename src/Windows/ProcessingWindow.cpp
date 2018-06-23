@@ -5,6 +5,10 @@
 
 ProcessingWindow::ProcessingWindow(QWidget *parent) : QWidget(parent), ui(new Ui::ProcessingWindow) {
   ui->setupUi(this);
+
+  ui->okButton->setFont(GetFont("Liberation Sans",      "Bold",    12));
+  ui->messageLabel->setFont(GetFont("Liberation Sans",  "Bold",    20));
+
   connect(ui->okButton, &QPushButton::released, this, &ProcessingWindow::onButtonClick);
 }
 

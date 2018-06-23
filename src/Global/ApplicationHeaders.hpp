@@ -12,6 +12,7 @@
 #include <QDir>
 #include <QFile>
 #include <QFileInfo>
+#include <QFontDatabase>
 #include <QDataStream>
 #include <QTime>
 #include <QRegularExpression>
