@@ -67,6 +67,7 @@ void WindowsHandler::onButtonClick(const QString &srcFilePath, const QString &ta
 
 // private methods ============================================================
 
+// TODO: to template fabric
 void WindowsHandler::createWindow(WTYPE type) {
   if (type == WTYPE::MAINW) {
     mainWindow = new MainWindow();

@@ -23,8 +23,8 @@ private slots:
   void onButtonClick();
 
 private:
-  Ui::ProcessingWindow *ui     = nullptr;
-  bool                 isError = false;
+  Ui::ProcessingWindow *ui = nullptr;
+  bool isError = false;
 
 };
 

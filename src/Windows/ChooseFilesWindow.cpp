@@ -18,6 +18,8 @@ ChooseFilesWindow::ChooseFilesWindow(QWidget *parent) : QWidget(parent), ui(new 
   connect(ui->cancelButton,  &QPushButton::released, this, &ChooseFilesWindow::onButtonClick);
   connect(ui->chooseButton1, &QPushButton::released, this, &ChooseFilesWindow::onButtonClick);
   connect(ui->chooseButton2, &QPushButton::released, this, &ChooseFilesWindow::onButtonClick);
+
+  settings = &Settings::getInstance();
 }
 
 
@@ -28,8 +30,9 @@ ChooseFilesWindow::~ChooseFilesWindow() {
 // public slots ===============================================================
 
 void ChooseFilesWindow::show() {
-  ui->pathEdit1->setText(active_settings.dataPath + active_settings.sourceFileName);
-  ui->pathEdit2->setText(active_settings.dataPath + active_settings.targetFileName);
+  QString dataPath = settings->getSetting("path/data_path", DEFAULT_SETTINGS.dataPath).toString();
+  ui->pathEdit1->setText(dataPath + settings->getSetting("path/source_name",  DEFAULT_SETTINGS.sourceFileName).toString());
+  ui->pathEdit2->setText(dataPath + settings->getSetting("path/target_name",  DEFAULT_SETTINGS.targetFileName).toString());
   QWidget::show();
 }
 
@@ -41,8 +44,9 @@ void ChooseFilesWindow::onButtonClick () {
   if (objName == "okButton") {
     QString srcFilePath(ui->pathEdit1->text());
     QString targFilePath(ui->pathEdit2->text());
-    if (srcFilePath.isEmpty()) srcFilePath = active_settings.dataPath + active_settings.sourceFileName;
-    if (targFilePath.isEmpty()) targFilePath = active_settings.dataPath + active_settings.targetFileName;
+    QString dataPath = settings->getSetting("path/data_path", DEFAULT_SETTINGS.dataPath).toString();
+    if (srcFilePath.isEmpty()) srcFilePath = dataPath + settings->getSetting("path/source_name",  DEFAULT_SETTINGS.sourceFileName).toString();
+    if (targFilePath.isEmpty()) targFilePath = dataPath + settings->getSetting("path/target_name",  DEFAULT_SETTINGS.targetFileName).toString();
     emit buttonClicked(srcFilePath, targFilePath);
   } else if (objName == "cancelButton") {
     emit buttonClicked(MODE::CLOSE);

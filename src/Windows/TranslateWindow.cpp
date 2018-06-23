@@ -46,7 +46,7 @@ void TranslateWindow::hide() {
 
 // private slots ==============================================================
 
-void TranslateWindow::onButtonClick () {
+void TranslateWindow::onButtonClick() {
   QObject *obj = QObject::sender();
   QString objName = obj->objectName();
   if (objName == "saveButton") {

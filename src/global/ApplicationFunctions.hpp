@@ -23,25 +23,16 @@ QFont GetFont(const QString &family, const QString &style, int pointSize);
 const QString GetFilePath(const QString &title, const QString &extStr);
 const QString GetFileName(const QString &title, const QString &extStr);
 
-void OpenFile(QFile& file, QFlags<QIODevice::OpenModeFlag> openMode, const QString &functionName = "");
-void CloseFile(QFile& file, const QString &functionName = "");
+void OpenFile(QFile& file,   QFlags<QIODevice::OpenModeFlag> openMode, const QString &functionName = "");
+void CloseFile(QFile& file,  const QString &functionName = "");
 void RemoveFile(QFile& file, const QString& functionName = "");
 
 // application setup ==========================================================
 
 bool SetupApplication();
-
-void ReadConfigFile(Settings &settings);
-bool WriteConfigFile(Settings& settings);
-void SetDefaultSettings();
-
 void SetFonts(QFontDatabase &fontsDataBase);
 
 // i/o ========================================================================
-
-QDataStream& operator >> (QDataStream& is, LANG& e);
-QDataStream& operator << (QDataStream& os, LANG e);
-
 
 template <typename V>
 void ReadDataFromStream(QDataStream& stream, V& var, size_t size = 0, const QString &functionName = "") {

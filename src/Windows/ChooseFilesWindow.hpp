@@ -25,6 +25,7 @@ private slots:
 
 private:
   Ui::ChooseFilesWindow *ui = nullptr;
+  Settings *settings = nullptr;
 
 };
 

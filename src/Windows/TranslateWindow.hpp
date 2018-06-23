@@ -24,8 +24,8 @@ private slots:
   void onButtonClick();
 
 private:
-  Ui::TranslateWindow *ui     = nullptr;
-  bool                isError = false;
+  Ui::TranslateWindow *ui = nullptr;
+  bool isError = false;
 
 };
 

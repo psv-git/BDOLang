@@ -24,6 +24,7 @@ private slots:
 
 private:
   Ui::SettingsWindow *ui = nullptr;
+  Settings *settings = nullptr;
 
 };
 

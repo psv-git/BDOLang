@@ -37,7 +37,7 @@
 }
 </string>
   </property>
-  <widget class="QLabel" name="dataPathLabel">
+  <widget class="QLabel" name="dataDirectoryLabel">
    <property name="geometry">
     <rect>
      <x>20</x>
@@ -64,7 +64,7 @@
     <enum>Qt::PlainText</enum>
    </property>
   </widget>
-  <widget class="QLineEdit" name="dataPathEdit">
+  <widget class="QLineEdit" name="dataDirectoryEdit">
    <property name="geometry">
     <rect>
      <x>225</x>
@@ -117,8 +117,12 @@
 	border-radius: 2px;
 }
 
-QPushButton::hover {
+QPushButton:hover {
 	background-color: rgb(150, 150, 150);
+}
+
+QPushButton:disabled {
+	background-color: rgb(200, 200, 200);
 }
 </string>
    </property>
@@ -131,7 +135,7 @@ QPushButton::hover {
     <rect>
      <x>340</x>
      <y>225</y>
-     <width>80</width>
+     <width>100</width>
      <height>20</height>
     </rect>
    </property>
@@ -146,12 +150,15 @@ QPushButton::hover {
     <string>Language:</string>
    </property>
   </widget>
-  <widget class="LanguageComboBox" name="languageBox">
+  <widget class="CustomComboBox" name="languageBox">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="geometry">
     <rect>
-     <x>440</x>
+     <x>460</x>
      <y>220</y>
-     <width>80</width>
+     <width>60</width>
      <height>30</height>
     </rect>
    </property>
@@ -172,13 +179,17 @@ QPushButton::hover {
 	border-radius: 2px;
 }
 
-QComboBox::hover {
+QComboBox:hover {
 	background-color: rgb(150, 150, 150);
+}
+
+QComboBox:disabled {
+	background-color: rgb(200, 200, 200);
 }
 </string>
    </property>
    <property name="currentText">
-    <string>      EN</string>
+    <string>   EN</string>
    </property>
    <property name="maxCount">
     <number>100</number>
@@ -188,12 +199,12 @@ QComboBox::hover {
    </property>
    <item>
     <property name="text">
-     <string>      EN</string>
+     <string>   EN</string>
     </property>
    </item>
    <item>
     <property name="text">
-     <string>      RU</string>
+     <string>   RU</string>
     </property>
    </item>
   </widget>
@@ -245,6 +256,9 @@ buzarini</string>
    </property>
   </widget>
   <widget class="QPushButton" name="saveButton">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>20</x>
@@ -267,16 +281,22 @@ buzarini</string>
 	border-radius: 2px;
 }
 
-QPushButton::hover {
+QPushButton:hover {
 	background-color: rgb(0, 180, 0);
 }
-</string>
+
+QPushButton:disabled {
+	background-color: rgb(100, 200, 100);
+}</string>
    </property>
    <property name="text">
     <string>SAVE</string>
    </property>
   </widget>
   <widget class="QPushButton" name="cancelButton">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>440</x>
@@ -299,16 +319,19 @@ QPushButton::hover {
 	border-radius: 2px;
 }
 
-QPushButton::hover {
+QPushButton:hover {
 	background-color: rgb(180, 0, 0);
 }
-</string>
+
+QPushButton:disabled {
+	background-color: rgb(200, 100, 100);
+}</string>
    </property>
    <property name="text">
     <string>CANCEL</string>
    </property>
   </widget>
-  <widget class="QLabel" name="filePathLabel1">
+  <widget class="QLabel" name="sourceNameLabel">
    <property name="geometry">
     <rect>
      <x>20</x>
@@ -334,7 +357,7 @@ QPushButton::hover {
     <enum>Qt::PlainText</enum>
    </property>
   </widget>
-  <widget class="QLineEdit" name="fileNameEdit1">
+  <widget class="QLineEdit" name="sourceNameEdit">
    <property name="geometry">
     <rect>
      <x>225</x>
@@ -387,8 +410,12 @@ QPushButton::hover {
 	border-radius: 2px;
 }
 
-QPushButton::hover {
+QPushButton:hover {
 	background-color: rgb(150, 150, 150);
+}
+
+QPushButton:disabled {
+	background-color: rgb(200, 200, 200);
 }
 </string>
    </property>
@@ -419,8 +446,12 @@ QPushButton::hover {
 	border-radius: 2px;
 }
 
-QPushButton::hover {
+QPushButton:hover {
 	background-color: rgb(150, 150, 150);
+}
+
+QPushButton:disabled {
+	background-color: rgb(200, 200, 200);
 }
 </string>
    </property>
@@ -428,7 +459,7 @@ QPushButton::hover {
     <string>...</string>
    </property>
   </widget>
-  <widget class="QLabel" name="filePathLabel2">
+  <widget class="QLabel" name="targetNameLabel">
    <property name="geometry">
     <rect>
      <x>20</x>
@@ -463,7 +494,7 @@ QPushButton::hover {
     <enum>Qt::PlainText</enum>
    </property>
   </widget>
-  <widget class="QLineEdit" name="fileNameEdit2">
+  <widget class="QLineEdit" name="targetNameEdit">
    <property name="geometry">
     <rect>
      <x>225</x>
@@ -493,12 +524,12 @@ QPushButton::hover {
     <bool>true</bool>
    </property>
   </widget>
-  <widget class="QLabel" name="languageLabel_2">
+  <widget class="QLabel" name="compressingLabel">
    <property name="geometry">
     <rect>
      <x>340</x>
      <y>275</y>
-     <width>80</width>
+     <width>100</width>
      <height>20</height>
     </rect>
    </property>
@@ -510,15 +541,18 @@ QPushButton::hover {
 </string>
    </property>
    <property name="text">
-    <string>Compress:</string>
+    <string>Compressing:</string>
    </property>
   </widget>
-  <widget class="LanguageComboBox" name="languageBox_2">
+  <widget class="CustomComboBox" name="compressingBox">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="geometry">
     <rect>
-     <x>440</x>
+     <x>460</x>
      <y>270</y>
-     <width>80</width>
+     <width>60</width>
      <height>30</height>
     </rect>
    </property>
@@ -539,13 +573,17 @@ QPushButton::hover {
 	border-radius: 2px;
 }
 
-QComboBox::hover {
+QComboBox:hover {
 	background-color: rgb(150, 150, 150);
+}
+
+QComboBox:disabled {
+	background-color: rgb(200, 200, 200);
 }
 </string>
    </property>
    <property name="currentText">
-    <string>        1</string>
+    <string>     1</string>
    </property>
    <property name="maxCount">
     <number>100</number>
@@ -555,51 +593,51 @@ QComboBox::hover {
    </property>
    <item>
     <property name="text">
-     <string>        1</string>
+     <string>     1</string>
     </property>
    </item>
    <item>
     <property name="text">
-     <string>        2</string>
+     <string>     2</string>
     </property>
    </item>
    <item>
     <property name="text">
-     <string>        3</string>
+     <string>     3</string>
     </property>
    </item>
    <item>
     <property name="text">
-     <string>        4</string>
+     <string>     4</string>
     </property>
    </item>
    <item>
     <property name="text">
-     <string>        5</string>
+     <string>     5</string>
     </property>
    </item>
    <item>
     <property name="text">
-     <string>        6</string>
+     <string>     6</string>
     </property>
    </item>
    <item>
     <property name="text">
-     <string>        7</string>
+     <string>     7</string>
     </property>
    </item>
    <item>
     <property name="text">
-     <string>        8</string>
+     <string>     8</string>
     </property>
    </item>
    <item>
     <property name="text">
-     <string>        9</string>
+     <string>     9</string>
     </property>
    </item>
   </widget>
-  <widget class="QLabel" name="filePathLabel2_2">
+  <widget class="QLabel" name="textNameLabel">
    <property name="geometry">
     <rect>
      <x>20</x>
@@ -634,7 +672,7 @@ QComboBox::hover {
     <enum>Qt::PlainText</enum>
    </property>
   </widget>
-  <widget class="QLineEdit" name="fileNameEdit2_2">
+  <widget class="QLineEdit" name="textNameEdit">
    <property name="geometry">
     <rect>
      <x>225</x>
@@ -664,7 +702,7 @@ QComboBox::hover {
     <bool>true</bool>
    </property>
   </widget>
-  <widget class="QPushButton" name="chooseButton3_2">
+  <widget class="QPushButton" name="chooseButton4">
    <property name="geometry">
     <rect>
      <x>440</x>
@@ -687,8 +725,12 @@ QComboBox::hover {
 	border-radius: 2px;
 }
 
-QPushButton::hover {
+QPushButton:hover {
 	background-color: rgb(150, 150, 150);
+}
+
+QPushButton:disabled {
+	background-color: rgb(200, 200, 200);
 }
 </string>
    </property>
@@ -699,9 +741,9 @@ QPushButton::hover {
  </widget>
  <customwidgets>
   <customwidget>
-   <class>LanguageComboBox</class>
+   <class>CustomComboBox</class>
    <extends>QComboBox</extends>
-   <header>LanguageComboBox.hpp</header>
+   <header>CustomComboBox.hpp</header>
   </customwidget>
  </customwidgets>
  <resources/>

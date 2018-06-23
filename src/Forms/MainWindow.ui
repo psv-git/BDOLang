@@ -46,9 +46,6 @@
     <property name="focusPolicy">
      <enum>Qt::TabFocus</enum>
     </property>
-    <property name="toolTip">
-     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:16pt;&quot;&gt;Translate .loc file&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-    </property>
     <property name="toolTipDuration">
      <number>1</number>
     </property>
@@ -63,8 +60,12 @@
 	border-radius: 2px;
 }
 
-QPushButton::hover {
+QPushButton:hover {
 	background-color: rgb(150, 150, 150);
+}
+
+QPushButton:disabled {
+	background-color: rgb(200, 200, 200);
 }
 </string>
     </property>
@@ -98,8 +99,12 @@ QPushButton::hover {
 	border-radius: 2px;
 }
 
-QPushButton::hover {
+QPushButton:hover {
 	background-color: rgb(150, 150, 150);
+}
+
+QPushButton:disabled {
+	background-color: rgb(200, 200, 200);
 }
 </string>
     </property>
@@ -131,9 +136,14 @@ QPushButton::hover {
 	border-radius: 2px;
 }
 
-QPushButton::hover {
+QPushButton:hover {
 	background-color: rgb(150, 150, 150);
 }
+
+QPushButton:disabled {
+	background-color: rgb(200, 200, 200);
+}
+
 </string>
     </property>
     <property name="text">
@@ -141,6 +151,9 @@ QPushButton::hover {
     </property>
    </widget>
    <widget class="QPushButton" name="exitButton">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>330</x>
@@ -163,8 +176,12 @@ QPushButton::hover {
 	border-radius: 2px;
 }
 
-QPushButton::hover {
+QPushButton:hover {
 	background-color: rgb(180, 0, 0);
+}
+
+QPushButton:disabled {
+	background-color: rgb(200, 100, 100);
 }
 </string>
     </property>
@@ -184,9 +201,6 @@ QPushButton::hover {
     <property name="focusPolicy">
      <enum>Qt::TabFocus</enum>
     </property>
-    <property name="toolTip">
-     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:16pt;&quot;&gt;Translate .loc file&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-    </property>
     <property name="toolTipDuration">
      <number>1</number>
     </property>
@@ -201,8 +215,12 @@ QPushButton::hover {
 	border-radius: 2px;
 }
 
-QPushButton::hover {
+QPushButton:hover {
 	background-color: rgb(150, 150, 150);
+}
+
+QPushButton:disabled {
+	background-color: rgb(200, 200, 200);
 }
 </string>
     </property>
@@ -236,8 +254,12 @@ QPushButton::hover {
 	border-radius: 2px;
 }
 
-QPushButton::hover {
+QPushButton:hover {
 	background-color: rgb(150, 150, 150);
+}
+
+QPushButton:disabled {
+	background-color: rgb(200, 200, 200);
 }
 </string>
     </property>
@@ -271,8 +293,12 @@ QPushButton::hover {
 	border-radius: 2px;
 }
 
-QPushButton::hover {
+QPushButton:hover {
 	background-color: rgb(150, 150, 150);
+}
+
+QPushButton:disabled {
+	background-color: rgb(200, 200, 200);
 }
 </string>
     </property>
@@ -295,9 +321,6 @@ QPushButton::hover {
     <property name="focusPolicy">
      <enum>Qt::TabFocus</enum>
     </property>
-    <property name="toolTip">
-     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:16pt;&quot;&gt;Translate .loc file&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-    </property>
     <property name="toolTipDuration">
      <number>1</number>
     </property>
@@ -312,8 +335,12 @@ QPushButton::hover {
 	border-radius: 2px;
 }
 
-QPushButton::hover {
+QPushButton:hover {
 	background-color: rgb(150, 150, 150);
+}
+
+QPushButton:disabled {
+	background-color: rgb(200, 200, 200);
 }
 </string>
     </property>

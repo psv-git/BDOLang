@@ -33,9 +33,9 @@ SOURCES += \
     src/main.cpp \
     src/data/DataHandler.cpp \
     src/data/DataRow.cpp \
-    src/service/ApplicationFunctions.cpp \
+    src/global/ApplicationFunctions.cpp \
     src/global/ApplicationGlobal.cpp \
-    src/elements/LanguageComboBox.cpp \
+    src/global/Settings.cpp \
     src/windows/WindowsHandler.cpp \
     src/windows/MainWindow.cpp \
     src/windows/ChooseFilesWindow.cpp \
@@ -43,14 +43,15 @@ SOURCES += \
     src/windows/SettingsWindow.cpp \
     src/windows/TranslateWindow.cpp \
     src/windows/ProcessingWindow.cpp \
+    src/elements/CustomComboBox.cpp
 
 HEADERS += \
     src/data/DataHandler.hpp \
     src/data/DataRow.hpp \
-    src/service/ApplicationFunctions.hpp \
+    src/global/ApplicationFunctions.hpp \
     src/global/ApplicationGlobal.hpp \
     src/global/ApplicationHeaders.hpp \
-    src/elements/LanguageComboBox.hpp \
+    src/global/Settings.hpp \
     src/windows/WindowsHandler.hpp \
     src/windows/MainWindow.hpp \
     src/windows/ChooseFilesWindow.hpp \
@@ -58,6 +59,7 @@ HEADERS += \
     src/windows/SettingsWindow.hpp \
     src/windows/TranslateWindow.hpp \
     src/windows/ProcessingWindow.hpp \
+    src/elements/CustomComboBox.hpp
 
 FORMS += \
     src/forms/MainWindow.ui \
@@ -65,7 +67,7 @@ FORMS += \
     src/forms/ChooseFileWindow.ui \
     src/forms/SettingsWindow.ui \
     src/forms/TranslateWindow.ui \
-    src/forms/ProcessingWindow.ui \
+    src/forms/ProcessingWindow.ui
 
 DISTFILES += \
     .gitignore \
@@ -73,7 +75,6 @@ DISTFILES += \
     LICENSE \
     res/liberation-fonts-ttf/LICENSE \
     res/liberation-fonts-ttf/AUTHORS \
-    res/liberation-fonts-ttf/README \
     res/liberation-fonts-ttf/LiberationMono-Bold.ttf \
     res/liberation-fonts-ttf/LiberationMono-Regular.ttf \
     res/liberation-fonts-ttf/LiberationSans-Bold.ttf \

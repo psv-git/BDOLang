@@ -97,60 +97,21 @@ bool SetupApplication() {
   paths.append(GetRootPath() + "/plugins"); // add new path
   QCoreApplication::setLibraryPaths(paths);
 
-  // setup config file
+  // read settings from config file
+  Settings::getInstance().getSetting("language/language");
+  Settings::getInstance().getSetting("compressing/compressing_level");
+  Settings::getInstance().getSetting("path/data_path");
+  Settings::getInstance().getSetting("path/source_name");
+  Settings::getInstance().getSetting("path/target_name");
+  Settings::getInstance().getSetting("path/text_name");
+
+  // create data directory if not exist
   QDir rootPath(GetRootPath());
-  configFile.setFileName(rootPath.absoluteFilePath(DEFAULT_SETTINGS.configFileName));
   if (!rootPath.exists(DEFAULT_SETTINGS.dataDirectoryName)) {
-   if (!rootPath.mkdir(DEFAULT_SETTINGS.dataDirectoryName)) return false; // create data directory if not exists
+   if (!rootPath.mkdir(DEFAULT_SETTINGS.dataDirectoryName)) return false;
   }
-  if (!configFile.exists()) {
-    if (!configFile.open(QIODevice::WriteOnly)) return false; // create config file if not exist
-    configFile.close();
-    WriteConfigFile(active_settings); // active_settings == DEFAULT_SETTINGS on app start always
-  } else {
-    ReadConfigFile(active_settings); // read settings if config file exist
-  }
+
   return true;
-}
-
-
-void ReadConfigFile(Settings &settings) {
-  if (configFile.isOpen()) configFile.close();
-  if (!configFile.open(QIODevice::ReadOnly)) return;
-  QDataStream is(&configFile);
-  Settings tmp;
-  is >> tmp.language;
-  is >> tmp.dataPath;
-  is >> tmp.sourceFileName;
-  is >> tmp.targetFileName;
-
-  is << tmp.dataDirectoryName;
-  is >> tmp.configFileName;
-
-  settings = tmp;
-  configFile.close();
-}
-
-
-bool WriteConfigFile(Settings& settings) {
-  if (configFile.isOpen()) configFile.close();
-  if (!configFile.open(QIODevice::WriteOnly)) return false;
-  QDataStream os(&configFile);
-  os << settings.language;
-  os << settings.dataPath;
-  os << settings.sourceFileName;
-  os << settings.targetFileName;
-
-  os << settings.dataDirectoryName;
-  os << settings.configFileName;
-
-  configFile.close();
-  return true;
-}
-
-
-void SetDefaultSettings() {
-  active_settings = DEFAULT_SETTINGS;
 }
 
 
@@ -163,17 +124,4 @@ void SetFonts(QFontDatabase &fontsDataBase) {
   fontsList->addApplicationFont(":/fonts/liberation-fonts-ttf/LiberationSans-Regular.ttf");
   fontsList->addApplicationFont(":/fonts/liberation-fonts-ttf/LiberationSerif-Bold.ttf");
   fontsList->addApplicationFont(":/fonts/liberation-fonts-ttf/LiberationSerif-Regular.ttf");
-}
-
-// i/o ========================================================================
-
-// add i/o operators for allow QDataStream read/write enum LANG
-QDataStream& operator >> (QDataStream& is, LANG& e) {
-  is >> (quint32&)e;
-  return is;
-}
-
-QDataStream& operator << (QDataStream& os, LANG e) {
-  os << (quint32)e;
-  return os;
 }

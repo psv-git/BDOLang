@@ -1,31 +1,35 @@
 #include "SettingsWindow.hpp"
 #include "ui_SettingsWindow.h"
-#include "LanguageComboBox.hpp"
+#include "CustomComboBox.hpp"
 
 
 SettingsWindow::SettingsWindow(QWidget *parent) : QWidget(parent), ui(new Ui::SettingsWindow) {
   ui->setupUi(this);
 
-  ui->saveButton->setFont(GetFont("Liberation Sans",     "Bold",    12));
-  ui->cancelButton->setFont(GetFont("Liberation Sans",   "Bold",    12));
-  ui->chooseButton1->setFont(GetFont("Liberation Sans",  "Bold",    12));
-  ui->chooseButton2->setFont(GetFont("Liberation Sans",  "Bold",    12));
-  ui->chooseButton3->setFont(GetFont("Liberation Sans",  "Bold",    12));
-  ui->languageBox->setFont(GetFont("Liberation Sans",    "Bold",    12));
-  ui->dataPathEdit->setFont(GetFont("Liberation Mono",   "Regular", 10));
-  ui->fileNameEdit1->setFont(GetFont("Liberation Mono",  "Regular", 10));
-  ui->fileNameEdit2->setFont(GetFont("Liberation Mono",  "Regular", 10));
-  ui->dataPathLabel->setFont(GetFont("Liberation Sans",  "Bold",    11));
-  ui->filePathLabel1->setFont(GetFont("Liberation Sans", "Bold",    11));
-  ui->filePathLabel2->setFont(GetFont("Liberation Sans", "Bold",    11));
-  ui->languageLabel->setFont(GetFont("Liberation Sans",  "Bold",    11));
-  ui->aboutEdit->setFont(GetFont("Liberation Sans",      "Bold",    10));
+  ui->saveButton->setFont(GetFont("Liberation Sans",         "Bold",    12));
+  ui->cancelButton->setFont(GetFont("Liberation Sans",       "Bold",    12));
+  ui->chooseButton1->setFont(GetFont("Liberation Sans",      "Bold",    12));
+  ui->chooseButton2->setFont(GetFont("Liberation Sans",      "Bold",    12));
+  ui->chooseButton3->setFont(GetFont("Liberation Sans",      "Bold",    12));
+  ui->languageBox->setFont(GetFont("Liberation Sans",        "Bold",    12));
+  ui->compressingBox->setFont(GetFont("Liberation Sans",     "Bold",    12));
+  ui->dataDirectoryEdit->setFont(GetFont("Liberation Mono",  "Regular", 10));
+  ui->sourceNameEdit->setFont(GetFont("Liberation Mono",     "Regular", 10));
+  ui->targetNameEdit->setFont(GetFont("Liberation Mono",     "Regular", 10));
+  ui->dataDirectoryLabel->setFont(GetFont("Liberation Sans", "Bold",    11));
+  ui->sourceNameLabel->setFont(GetFont("Liberation Sans",    "Bold",    11));
+  ui->targetNameLabel->setFont(GetFont("Liberation Sans",    "Bold",    11));
+  ui->languageLabel->setFont(GetFont("Liberation Sans",      "Bold",    11));
+  ui->aboutEdit->setFont(GetFont("Liberation Sans",          "Bold",    10));
 
   connect(ui->saveButton,    &QPushButton::released, this, &SettingsWindow::onButtonClick);
   connect(ui->cancelButton,  &QPushButton::released, this, &SettingsWindow::onButtonClick);
   connect(ui->chooseButton1, &QPushButton::released, this, &SettingsWindow::onButtonClick);
   connect(ui->chooseButton2, &QPushButton::released, this, &SettingsWindow::onButtonClick);
   connect(ui->chooseButton3, &QPushButton::released, this, &SettingsWindow::onButtonClick);
+  connect(ui->chooseButton4, &QPushButton::released, this, &SettingsWindow::onButtonClick);
+
+  settings = &Settings::getInstance();
 }
 
 
@@ -36,10 +40,12 @@ SettingsWindow::~SettingsWindow() {
 // public slots ===============================================================
 
 void SettingsWindow::show() {
-  ui->languageBox->setCurrentLanguage(active_settings.language);
-  ui->dataPathEdit->setText(active_settings.dataPath);
-  ui->fileNameEdit1->setText(active_settings.sourceFileName);
-  ui->fileNameEdit2->setText(active_settings.targetFileName);
+  ui->languageBox->setCurrentValue(settings->getSetting("language/language", DEFAULT_SETTINGS.language).toInt());
+  ui->compressingBox->setCurrentValue(settings->getSetting("compressing/compressing_level", DEFAULT_SETTINGS.compressingLevel).toInt());
+  ui->dataDirectoryEdit->setText(settings->getSetting("path/data_path", DEFAULT_SETTINGS.dataPath).toString());
+  ui->sourceNameEdit->setText(settings->getSetting("path/source_name", DEFAULT_SETTINGS.sourceFileName).toString());
+  ui->targetNameEdit->setText(settings->getSetting("path/target_name", DEFAULT_SETTINGS.targetFileName).toString());
+  ui->textNameEdit->setText(settings->getSetting("path/text_name", DEFAULT_SETTINGS.textFileName).toString());
   QWidget::show();
 }
 
@@ -48,25 +54,32 @@ void SettingsWindow::show() {
 void SettingsWindow::onButtonClick() {
   QObject *obj = QObject::sender();
   QString objName = obj->objectName();
-  if (objName == "chooseButton1")      ui->dataPathEdit->setText(GetDirectoryPath(tr("Choose directory")));
-  else if (objName == "chooseButton2") ui->fileNameEdit1->setText(GetFileName(tr("Choose file"), tr("Files extensions (*)")));
-  else if (objName == "chooseButton3") ui->fileNameEdit2->setText(GetFileName(tr("Choose file"), tr("Files extensions (*)")));
+  if (objName == "chooseButton1")      ui->dataDirectoryEdit->setText(GetDirectoryPath(tr("Choose directory")));
+  else if (objName == "chooseButton2") ui->sourceNameEdit->setText(GetFileName(tr("Choose file"), tr("Files extensions (*)")));
+  else if (objName == "chooseButton3") ui->targetNameEdit->setText(GetFileName(tr("Choose file"), tr("Files extensions (*)")));
+  else if (objName == "chooseButton4") ui->textNameEdit->setText(GetFileName(tr("Choose file"), tr("Files extensions (*)")));
   else if (objName == "saveButton") {
-    active_settings.language = ui->languageBox->getCurrentLanguage();
-    QString tmp = ui->dataPathEdit->text();
+    // save language
+    settings->setSetting("language/language", ui->languageBox->getCurrentValue(), false);
+    // save compressing
+    settings->setSetting("compressing/compressing_level", ui->compressingBox->getCurrentValue(), false);
+    // save data_path
+    QString tmp = ui->dataDirectoryEdit->text();
     if (tmp.isEmpty()) tmp = DEFAULT_SETTINGS.dataPath;
     if (tmp.back() != '/') tmp.append('/');
-    active_settings.dataPath = tmp;
-    tmp = ui->fileNameEdit1->text();
+    settings->setSetting("path/data_path", tmp, false);
+    // save source file name
+    tmp = ui->sourceNameEdit->text();
     if (tmp.isEmpty()) tmp = DEFAULT_SETTINGS.sourceFileName;
-    active_settings.sourceFileName = tmp;
-    tmp = ui->fileNameEdit2->text();
+    settings->setSetting("path/source_name", tmp, false);
+    // save target file name
+    tmp = ui->targetNameEdit->text();
     if (tmp.isEmpty()) tmp = DEFAULT_SETTINGS.targetFileName;
-    active_settings.targetFileName = tmp;
-    if (!WriteConfigFile(active_settings)) {
-      SetDefaultSettings();
-      QErrorMessage::qtHandler()->showMessage("Write new setiings to config file was failed. Returning to default settings.");
-    }
+    settings->setSetting("path/target_name", tmp, false);
+    // save text file name
+    tmp = ui->textNameEdit->text();
+    if (tmp.isEmpty()) tmp = DEFAULT_SETTINGS.targetFileName;
+    settings->setSetting("path/text_name", tmp, true);
     emit buttonClicked(MODE::CLOSE);
   } else if (objName == "cancelButton") {
     emit buttonClicked(MODE::CLOSE);
