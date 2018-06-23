@@ -238,15 +238,14 @@ QComboBox:disabled {
     <bool>true</bool>
    </property>
    <property name="plainText">
-    <string>Distributed under the LGPL-3.0 license.
-Developed uses Qt framework.
-
-Created by PSV:  https://github.com/psv-git
-Donate: 
+    <string>Created by PSV:  https://github.com/psv-git
 
 Thanks for:
 AMGarkin:  https://github.com/AMGarkin
-buzarini</string>
+buzarini
+
+Distributed under the LGPL-3.0 license.
+Developed using Qt framework.</string>
    </property>
    <property name="textInteractionFlags">
     <set>Qt::LinksAccessibleByKeyboard|Qt::LinksAccessibleByMouse|Qt::TextBrowserInteraction|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>

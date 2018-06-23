@@ -26,6 +26,9 @@
 </string>
   </property>
   <widget class="QPushButton" name="okButton">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>185</x>
@@ -48,8 +51,12 @@
 	border-radius: 2px;
 }
 
-QPushButton::hover {
+QPushButton:hover {
 	background-color: rgb(0, 180, 0);
+}
+
+QPushButton:disabled {
+	background-color: rgb(100, 200, 100);
 }
 </string>
    </property>

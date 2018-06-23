@@ -9,22 +9,14 @@ class DataRow;
 class DataHandler {
 
 public:
-  static DataHandler& getInstance() {
-    static DataHandler instance;
-    return instance;
-  }
+  DataHandler();
+  ~DataHandler();
 
-  DataHandler(DataHandler const&)              = delete;
-  DataHandler& operator = (DataHandler const&) = delete;
-
-//  void mergeTwoFiles(const QString &filePath1, const QString &filePath2);
+  void mergeFiles(const QString &fromFilePath, const QString &toFilePath, MODE mode);
   void convertBinFileToTextFile(const QString &binFilePath,  const QString &textFilePath);
   void convertTextFileToBinFile(const QString &textFilePath, const QString &binFilePath);
 
 private:
-  DataHandler();
-  ~DataHandler();
-
   std::vector<DataRow*> dataRowsContainer;
 
   // delete existed data

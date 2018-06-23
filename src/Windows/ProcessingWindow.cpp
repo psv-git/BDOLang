@@ -26,13 +26,13 @@ void ProcessingWindow::show(MODE mode, const QString &srcFilePath, const QString
   QWidget::show();
 
   Delay(100); // TODO: to thread
-  if (mode == MODE::BIN_TO_TEXT) {
-    try { DataHandler::getInstance().convertBinFileToTextFile(srcFilePath, targFilePath); }
-    catch (...) { isError = true; }
-  } else if (mode == MODE::TEXT_TO_BIN) {
-    try { DataHandler::getInstance().convertTextFileToBinFile(srcFilePath, targFilePath); }
-    catch (...) { isError = true; }
-  }
+//  if (mode == MODE::BIN_TO_TEXT) {
+//    try { DataHandler::getInstance().convertBinFileToTextFile(srcFilePath, targFilePath); }
+//    catch (...) { isError = true; }
+//  } else if (mode == MODE::TEXT_TO_BIN) {
+//    try { DataHandler::getInstance().convertTextFileToBinFile(srcFilePath, targFilePath); }
+//    catch (...) { isError = true; }
+//  }
 
   if (isError) {
     QErrorMessage::qtHandler()->showMessage(GetExceptionsMessage());

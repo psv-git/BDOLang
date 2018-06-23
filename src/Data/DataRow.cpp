@@ -1,27 +1,45 @@
 #include "DataRow.hpp"
 
 
+const char16_t CR_CODE = 0x000D;
+const char16_t LF_CODE = 0x000A;
+
+// ============================================================================
+
 DataRow::DataRow() {}
 
 DataRow::~DataRow() {}
 
 // ============================================================================
 
-//bool IsStringUTF16Cyrillic(const std::u16string &string) {
-//  for (size_t i = 0; i <= string.size(); i++) {
-//    if (string[i] >= RU_BEG && string[i] <= RU_END) return true;
-//  }
-//  return false;
-//}
+bool DataRow::operator < (const DataRow& row) const {
+  if (sheet < row.getSheet())   return true;
+  if (sheet > row.getSheet())   return false;
+  if (id1 < row.getId1())       return true;
+  if (id1 > row.getId1())       return false;
+  if (id2 < row.getId2())       return true;
+  if (id2 > row.getId2())       return false;
+  if (id3.solid < row.getId3()) return true;
+  if (id3.solid > row.getId3()) return false;
+  if (id4.solid < row.getId4()) return true;
+  return false;
+}
 
 // PUBLIC METHODS =============================================================
 
+unsigned long  DataRow::getSheet() const { return sheet; }
+unsigned long  DataRow::getId1()   const { return id1; }
+unsigned short DataRow::getId2()   const { return id2; }
+unsigned short DataRow::getId3()   const { return id3.solid; }
+unsigned short DataRow::getId4()   const { return id4.solid; }
+
+
 // read from input stream (binary mode)
 void DataRow::readBinDataFrom(QDataStream& input) {
-  ReadDataFromStream(input, size, 0, "DataRow::writeBinDataToRow()");
-  ReadDataFromStream(input, type, 0, "DataRow::writeBinDataToRow()");
-  ReadDataFromStream(input, id1,  0, "DataRow::writeBinDataToRow()");
-  ReadDataFromStream(input, id2,  0, "DataRow::writeBinDataToRow()");
+  ReadDataFromStream(input, size,  0, "DataRow::writeBinDataToRow()");
+  ReadDataFromStream(input, sheet, 0, "DataRow::writeBinDataToRow()");
+  ReadDataFromStream(input, id1,   0, "DataRow::writeBinDataToRow()");
+  ReadDataFromStream(input, id2,   0, "DataRow::writeBinDataToRow()");
   ReadDataFromStream(input, id3.split[0],  0, "DataRow::writeBinDataToRow()");
   ReadDataFromStream(input, id4.split[0],  0, "DataRow::writeBinDataToRow()");
   char16_t wch;
@@ -39,10 +57,10 @@ void DataRow::readBinDataFrom(QDataStream& input) {
 
 // write to out stream (binary mode)
 void DataRow::writeBinDataTo(QDataStream& output) {
-  WriteDataToStream(output, size, 0, "DataRow::readBinDataFromRow()");
-  WriteDataToStream(output, type, 0, "DataRow::readBinDataFromRow()");
-  WriteDataToStream(output, id1,  0, "DataRow::readBinDataFromRow()");
-  WriteDataToStream(output, id2,  0, "DataRow::readBinDataFromRow()");
+  WriteDataToStream(output, size,  0, "DataRow::readBinDataFromRow()");
+  WriteDataToStream(output, sheet, 0, "DataRow::readBinDataFromRow()");
+  WriteDataToStream(output, id1,   0, "DataRow::readBinDataFromRow()");
+  WriteDataToStream(output, id2,   0, "DataRow::readBinDataFromRow()");
   WriteDataToStream(output, id3.split[0],  0, "DataRow::readBinDataFromRow()");
   WriteDataToStream(output, id4.split[0],  0, "DataRow::readBinDataFromRow()");
   char16_t wch;
@@ -59,7 +77,7 @@ void DataRow::writeBinDataTo(QDataStream& output) {
 
 // read from in stream (text mode)
 void DataRow::readTextDataFrom(QTextStream& input) {
-  input >> type;
+  input >> sheet;
   input >> id1;
   input >> id2;
   input >> id3.solid;
@@ -78,10 +96,10 @@ void DataRow::readTextDataFrom(QTextStream& input) {
 
 // write to out stream (text mode)
 void DataRow::writeTextDataTo(QTextStream& output) {
-  output << type       << '\t';
-  output << id1        << '\t';
-  output << id2        << '\t';
-  output << id3.solid  << '\t';
-  output << id4.solid  << '\t';
+  output << sheet     << '\t';
+  output << id1       << '\t';
+  output << id2       << '\t';
+  output << id3.solid << '\t';
+  output << id4.solid << '\t';
   output << '"' << string << '"' << '\n';
 }

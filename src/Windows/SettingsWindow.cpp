@@ -63,7 +63,7 @@ void SettingsWindow::onButtonClick() {
     settings->setSetting("language/language", ui->languageBox->getCurrentValue(), false);
     // save compressing
     settings->setSetting("compressing/compressing_level", ui->compressingBox->getCurrentValue(), false);
-    // save data_path
+    // save data path
     QString tmp = ui->dataDirectoryEdit->text();
     if (tmp.isEmpty()) tmp = DEFAULT_SETTINGS.dataPath;
     if (tmp.back() != '/') tmp.append('/');
