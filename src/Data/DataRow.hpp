@@ -26,7 +26,7 @@ public:
 
   void readBinDataFrom(QDataStream& input);
   void writeBinDataTo(QDataStream& output);
-  void readTextDataFrom(QTextStream& input);
+  void readTextDataFrom(QTextStream& input, MODE mode);
   void writeTextDataTo(QTextStream& output);
 
 private:

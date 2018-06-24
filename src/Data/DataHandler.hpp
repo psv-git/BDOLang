@@ -12,35 +12,34 @@ public:
   DataHandler();
   ~DataHandler();
 
-  void mergeFiles(const QString &fromFilePath, const QString &toFilePath, MODE mode);
-  void convertBinFileToTextFile(const QString &binFilePath,  const QString &textFilePath);
-  void convertTextFileToBinFile(const QString &textFilePath, const QString &binFilePath);
+  void mergeFiles(const QString &fromFilePath,   const QString &toFilePath, MODE mode);
+  void convertFile(const QString &fromFilePath, const QString &toFilePath, MODE mode);
 
 private:
-  std::vector<DataRow*> dataRowsContainer;
+  QVector<DataRow*> dataRowsContainer;
 
   // delete existed data
   void resetData();
 
   // read data rows from compressed input binary file
-  void readDataFromBinFile(QDataStream& input);
+  void readDataFromBinStream(QDataStream& input);
   // write data rows to compressed output bin file
-  void writeDataToBinFile(QDataStream& output);
+  void writeDataToBinStream(QDataStream& output);
 
-  // read data rows from input text file (BOM_UTF16LE)
-  void readDataFromTextFile(QTextStream& input);
-  // write data rows to output text file (BOM_UTF16LE)
-  void writeDataToTextFile(QTextStream& output);
+  // read data rows from input text file
+  void readDataFromTextStream(QTextStream& input, MODE mode);
+  // write data rows to output text file
+  void writeDataToTextStream(QTextStream& output);
 
   // decrypt data from input file to data container
-  void decryptFile(QDataStream& from, std::vector<DataRow*>& to);
+  void decrypt(QDataStream& from, QVector<DataRow*>& to);
   // uncompress data from input file to tmp data file
-  void uncompressFile(QDataStream& from, QDataStream& to);
+  void uncompress(QDataStream& from, QDataStream& to);
 
   // encrypt data to output binary file from data container
-  void encryptFile(std::vector<DataRow*>& from, QDataStream& to);
+  void encrypt(QVector<DataRow*>& from, QDataStream& to);
   // compress binary tmp data file to binary output file
-  void compressFile(QDataStream& from, QDataStream& to);
+  void compress(QDataStream& from, QDataStream& to);
 
 };
 

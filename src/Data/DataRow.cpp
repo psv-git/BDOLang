@@ -36,47 +36,47 @@ unsigned short DataRow::getId4()   const { return id4.solid; }
 
 // read from input stream (binary mode)
 void DataRow::readBinDataFrom(QDataStream& input) {
-  ReadDataFromStream(input, size,  0, "DataRow::writeBinDataToRow()");
-  ReadDataFromStream(input, sheet, 0, "DataRow::writeBinDataToRow()");
-  ReadDataFromStream(input, id1,   0, "DataRow::writeBinDataToRow()");
-  ReadDataFromStream(input, id2,   0, "DataRow::writeBinDataToRow()");
-  ReadDataFromStream(input, id3.split[0],  0, "DataRow::writeBinDataToRow()");
-  ReadDataFromStream(input, id4.split[0],  0, "DataRow::writeBinDataToRow()");
+  ReadDataFromStream(input, size,  0, "DataRow::readBinDataFrom()");
+  ReadDataFromStream(input, sheet, 0, "DataRow::readBinDataFrom()");
+  ReadDataFromStream(input, id1,   0, "DataRow::readBinDataFrom()");
+  ReadDataFromStream(input, id2,   0, "DataRow::readBinDataFrom()");
+  ReadDataFromStream(input, id3.split[0],  0, "DataRow::readBinDataFrom()");
+  ReadDataFromStream(input, id4.split[0],  0, "DataRow::readBinDataFrom()");
   char16_t wch;
   for (size_t i = 0; i < size; i++) {
-    ReadDataFromStream(input, wch, 0, "DataRow::writeBinDataToRow()");
+    ReadDataFromStream(input, wch, 0, "DataRow::readBinDataFrom()");
     if (wch == CR_CODE) continue;                // skip CR
     if (wch == LF_CODE) string.push_back("\\n"); // replace LF to '\n'
     else string.push_back(wch);
   }
   // read four null bytes
-  ReadDataFromStream(input, wch, 0, "DataRow::writeBinDataToRow()");
-  ReadDataFromStream(input, wch, 0, "DataRow::writeBinDataToRow()");
+  ReadDataFromStream(input, wch, 0, "DataRow::readBinDataFrom()");
+  ReadDataFromStream(input, wch, 0, "DataRow::readBinDataFrom()");
 }
 
 
 // write to out stream (binary mode)
 void DataRow::writeBinDataTo(QDataStream& output) {
-  WriteDataToStream(output, size,  0, "DataRow::readBinDataFromRow()");
-  WriteDataToStream(output, sheet, 0, "DataRow::readBinDataFromRow()");
-  WriteDataToStream(output, id1,   0, "DataRow::readBinDataFromRow()");
-  WriteDataToStream(output, id2,   0, "DataRow::readBinDataFromRow()");
-  WriteDataToStream(output, id3.split[0],  0, "DataRow::readBinDataFromRow()");
-  WriteDataToStream(output, id4.split[0],  0, "DataRow::readBinDataFromRow()");
+  WriteDataToStream(output, size,  0, "DataRow::writeBinDataTo()");
+  WriteDataToStream(output, sheet, 0, "DataRow::writeBinDataTo()");
+  WriteDataToStream(output, id1,   0, "DataRow::writeBinDataTo()");
+  WriteDataToStream(output, id2,   0, "DataRow::writeBinDataTo()");
+  WriteDataToStream(output, id3.split[0],  0, "DataRow::writeBinDataTo()");
+  WriteDataToStream(output, id4.split[0],  0, "DataRow::writeBinDataTo()");
   char16_t wch;
   for (int i = 0; i < string.size(); i++) {
     wch = static_cast<char16_t>(string[i].unicode());
-    WriteDataToStream(output, wch, 0, "DataRow::readBinDataFromRow()");
+    WriteDataToStream(output, wch, 0, "DataRow::writeBinDataTo()");
   }
   // write four null bytes
   wch = 0x0000;
-  WriteDataToStream(output, wch, 0, "DataRow::readBinDataFromRow()");
-  WriteDataToStream(output, wch, 0, "DataRow::readBinDataFromRow()");
+  WriteDataToStream(output, wch, 0, "DataRow::writeBinDataTo()");
+  WriteDataToStream(output, wch, 0, "DataRow::writeBinDataTo()");
 }
 
 
 // read from in stream (text mode)
-void DataRow::readTextDataFrom(QTextStream& input) {
+void DataRow::readTextDataFrom(QTextStream& input, MODE mode) {
   input >> sheet;
   input >> id1;
   input >> id2;
@@ -88,7 +88,7 @@ void DataRow::readTextDataFrom(QTextStream& input) {
   QRegularExpression rempat("(^\t\"|\r|\"$)");
   QRegularExpression reppat("\\\\n");
   string.remove(rempat);        // remove tabulation, quotes, CR
-  string.replace(reppat, "\n"); // replace '\n' to LF
+  if (mode == MODE::TEXT_TO_BIN) string.replace(reppat, "\n"); // replace '\n' to LF
 
   size = static_cast<unsigned long>(string.count());
 }

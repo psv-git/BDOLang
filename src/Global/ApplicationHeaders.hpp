@@ -22,7 +22,7 @@
 #include <QDebug>
 
 // cpp headers
-#include <vector>
+#include <algorithm>
 
 
 #endif // APPLICATIONHEADERS_HPP

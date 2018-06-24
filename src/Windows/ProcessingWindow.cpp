@@ -26,13 +26,14 @@ void ProcessingWindow::show(MODE mode, const QString &srcFilePath, const QString
   QWidget::show();
 
   Delay(100); // TODO: to thread
-//  if (mode == MODE::BIN_TO_TEXT) {
-//    try { DataHandler::getInstance().convertBinFileToTextFile(srcFilePath, targFilePath); }
-//    catch (...) { isError = true; }
-//  } else if (mode == MODE::TEXT_TO_BIN) {
-//    try { DataHandler::getInstance().convertTextFileToBinFile(srcFilePath, targFilePath); }
-//    catch (...) { isError = true; }
-//  }
+  DataHandler dh;
+  if (mode == MODE::BIN_TO_TEXT || mode == MODE::TEXT_TO_BIN) {
+    try { dh.convertFile(srcFilePath, targFilePath, mode); }
+    catch (...) { isError = true; }
+  } else if (mode == MODE::MERGE_TEXT || mode == MODE::MERGE_BIN) {
+    try { dh.mergeFiles(srcFilePath, targFilePath, mode); }
+    catch (...) { isError = true; }
+  }
 
   if (isError) {
     QErrorMessage::qtHandler()->showMessage(GetExceptionsMessage());
@@ -48,7 +49,5 @@ void ProcessingWindow::show(MODE mode, const QString &srcFilePath, const QString
 void ProcessingWindow::onButtonClick() {
   QObject *obj = QObject::sender();
   QString objName = obj->objectName();
-  if (objName == "okButton") {
-    emit buttonClicked(MODE::CLOSE);
-  }
+  if (objName == "okButton") emit buttonClicked(MODE::CLOSE);
 }

@@ -59,7 +59,7 @@ void WindowsHandler::onButtonClick(const QString &srcFilePath, const QString &ta
   if (mode == MODE::TRANSLATE) {
     if (!translateWindow) createWindow(WTYPE::TRANSW);
     translateWindow->show(srcFilePath, targFilePath);
-  } else if (mode == MODE::BIN_TO_TEXT || mode == MODE::TEXT_TO_BIN) {
+  } else if (mode == MODE::BIN_TO_TEXT || mode == MODE::TEXT_TO_BIN || mode == MODE::MERGE_TEXT || mode == MODE::MERGE_BIN) {
     if (!processingWindow) createWindow(WTYPE::PROCW);
     processingWindow->show(mode, srcFilePath, targFilePath);
   }
