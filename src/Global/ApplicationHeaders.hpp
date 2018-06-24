@@ -19,6 +19,7 @@
 #include <QRegularExpression>
 #include <QString>
 #include <QVector>
+#include <QMap>
 #include <QDebug>
 
 // cpp headers

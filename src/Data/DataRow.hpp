@@ -16,13 +16,17 @@ public:
   DataRow();
   ~DataRow();
 
-  bool operator < (const DataRow& row) const;
+  bool operator <  (const DataRow& row) const;
+  bool operator == (const DataRow& row) const;
 
   unsigned long  getSheet() const;
   unsigned long  getId1()   const;
   unsigned short getId2()   const;
   unsigned short getId3()   const;
   unsigned short getId4()   const;
+  const QString getString() const;
+
+  void setString(const QString &string);
 
   void readBinDataFrom(QDataStream& input);
   void writeBinDataTo(QDataStream& output);

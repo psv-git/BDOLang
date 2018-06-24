@@ -25,14 +25,28 @@ bool DataRow::operator < (const DataRow& row) const {
   return false;
 }
 
-// PUBLIC METHODS =============================================================
+
+bool DataRow::operator == (const DataRow& row) const {
+  if (sheet != row.getSheet())   return false;
+  if (id1 != row.getId1())       return false;
+  if (id2 != row.getId2())       return false;
+  if (id3.solid != row.getId3()) return false;
+  if (id4.solid != row.getId4()) return false;
+  return true;
+}
+
+// getters/setters ============================================================
 
 unsigned long  DataRow::getSheet() const { return sheet; }
 unsigned long  DataRow::getId1()   const { return id1; }
 unsigned short DataRow::getId2()   const { return id2; }
 unsigned short DataRow::getId3()   const { return id3.solid; }
 unsigned short DataRow::getId4()   const { return id4.solid; }
+const QString DataRow::getString() const { return string; }
 
+void DataRow::setString(const QString &string) { DataRow::string = string; }
+
+// public methods =============================================================
 
 // read from input stream (binary mode)
 void DataRow::readBinDataFrom(QDataStream& input) {
