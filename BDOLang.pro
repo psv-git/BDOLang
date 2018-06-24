@@ -82,7 +82,7 @@ DISTFILES += \
     res/liberation-fonts-ttf/LiberationSerif-Bold.ttf \
     res/liberation-fonts-ttf/LiberationSerif-Regular.ttf
 
-LIBS += -lz
+#LIBS += -lz
 
 RESOURCES += \
     res/Res.qrc

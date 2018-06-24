@@ -16,7 +16,11 @@ public:
 signals:
   void buttonClicked(MODE mode);
 
+public slots:
+  void unlockWindow();
+
 private slots:
+  void lockWindow();
   void onButtonClick();
 
 private:

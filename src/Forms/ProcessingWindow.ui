@@ -13,6 +13,18 @@
     <height>150</height>
    </rect>
   </property>
+  <property name="minimumSize">
+   <size>
+    <width>450</width>
+    <height>150</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>450</width>
+    <height>150</height>
+   </size>
+  </property>
   <property name="contextMenuPolicy">
    <enum>Qt::NoContextMenu</enum>
   </property>
@@ -21,7 +33,7 @@
   </property>
   <property name="styleSheet">
    <string notr="true">QWidget {
-	background-color: rgb(200, 200, 200);
+	background-color: rgb(230, 230, 230);
 }
 </string>
   </property>

@@ -35,8 +35,8 @@ void SetFonts(QFontDatabase &fontsDataBase);
 // i/o ========================================================================
 
 template <typename V>
-void ReadDataFromStream(QDataStream& stream, V& var, size_t size = 0, const QString &functionName = "") {
-  if (size == 0) size = sizeof(var);
+void ReadDataFromStream(QDataStream& stream, V& var, int size = 0, const QString &functionName = "") {
+  if (size == 0) size = static_cast<int>(sizeof(var));
   stream.readRawData(reinterpret_cast<char*>(&var), size);
   if (stream.status() == QDataStream::ReadCorruptData) {
     AddException("In function \"" + functionName + "\" read data from file was failed.");
@@ -46,8 +46,8 @@ void ReadDataFromStream(QDataStream& stream, V& var, size_t size = 0, const QStr
 
 
 template <typename V>
-void WriteDataToStream(QDataStream& stream, V& var, size_t size = 0, const QString &functionName = "") {
-  if (size == 0) size = sizeof(var);
+void WriteDataToStream(QDataStream& stream, V& var, int size = 0, const QString &functionName = "") {
+  if (size == 0) size = static_cast<int>(sizeof(var));
   stream.writeRawData(reinterpret_cast<char*>(&var), size);
   if (stream.status() == QDataStream::WriteFailed) {
     AddException("In function \"" + functionName + "\" write data from file was failed.");

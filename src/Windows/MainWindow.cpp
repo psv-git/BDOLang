@@ -5,6 +5,7 @@
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
   ui->setupUi(this);
+  unlockWindow();
 
   ui->bttButton->setFont(GetFont("Liberation Sans",      "Bold", 12));
   ui->ttbButton->setFont(GetFont("Liberation Sans",      "Bold", 12));
@@ -25,6 +26,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
   connect(ui->trButton,       &QPushButton::released, this, &MainWindow::onButtonClick);
   connect(ui->settingsButton, &QPushButton::released, this, &MainWindow::onButtonClick);
   connect(ui->exitButton,     &QPushButton::released, this, &MainWindow::onButtonClick);
+
+  connect(this, SIGNAL(buttonClicked(MODE)), this, SLOT(lockWindow()));
 }
 
 
@@ -32,7 +35,17 @@ MainWindow::~MainWindow() {
   delete ui;
 }
 
-// ============================================================================
+// public slots ===============================================================
+
+void MainWindow::unlockWindow() {
+  ui->glass->hide();
+}
+
+// private slots ==============================================================
+
+void MainWindow::lockWindow() {
+  ui->glass->show();
+}
 
 void MainWindow::onButtonClick() {
   QObject *obj = QObject::sender();

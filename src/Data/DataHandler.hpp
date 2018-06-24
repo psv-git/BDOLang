@@ -32,14 +32,14 @@ private:
   void writeDataToTextStream(QTextStream& output);
 
   // decrypt data from input file to data container
-  void decrypt(QDataStream& from, QVector<DataRow*>& to);
+  void decryptData(QDataStream& from, QVector<DataRow*>& to);
   // uncompress data from input file to tmp data file
-  void uncompress(QDataStream& from, QDataStream& to);
+  void uncompressData(QDataStream& from, QDataStream& to);
 
   // encrypt data to output binary file from data container
-  void encrypt(QVector<DataRow*>& from, QDataStream& to);
+  void encryptData(QVector<DataRow*>& from, QDataStream& to);
   // compress binary tmp data file to binary output file
-  void compress(QDataStream& from, QDataStream& to);
+  void compressData(QDataStream& from, QDataStream& to);
 
 };
 

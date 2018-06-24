@@ -78,14 +78,17 @@ void WindowsHandler::createWindow(WTYPE type) {
   } else if (type == WTYPE::SETTW) {
     settingsWindow = new SettingsWindow();
     connect(settingsWindow, SIGNAL(buttonClicked(MODE)), this, SLOT(onButtonClick(MODE)));
+    connect(settingsWindow, SIGNAL(buttonClicked(MODE)), mainWindow, SLOT(unlockWindow()));
   } else if (type == WTYPE::CFEW) {
     chooseFileWindow =  new ChooseFileWindow();
     connect(chooseFileWindow, SIGNAL(buttonClicked(MODE)), this, SLOT(onButtonClick(MODE)));
     connect(chooseFileWindow, SIGNAL(buttonClicked(const QString&, const QString&)), this, SLOT(onButtonClick(const QString&, const QString&)));
+    connect(chooseFileWindow, SIGNAL(buttonClicked(MODE)), mainWindow, SLOT(unlockWindow()));
   } else if (type == WTYPE::CFSW) {
     chooseFilesWindow =  new ChooseFilesWindow();
     connect(chooseFilesWindow, SIGNAL(buttonClicked(MODE)), this, SLOT(onButtonClick(MODE)));
     connect(chooseFilesWindow, SIGNAL(buttonClicked(const QString&, const QString&)), this, SLOT(onButtonClick(const QString&, const QString&)));
+    connect(chooseFilesWindow, SIGNAL(buttonClicked(MODE)), mainWindow, SLOT(unlockWindow()));
   } else if (type == WTYPE::PROCW) {
     processingWindow = new ProcessingWindow();
     connect(processingWindow, SIGNAL(buttonClicked(MODE)),  this, SLOT(onButtonClick(MODE)));

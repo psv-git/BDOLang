@@ -11,7 +11,7 @@ class SettingsWindow;
 class ProcessingWindow;
 
 
-class WindowsHandler : QObject {
+class WindowsHandler : public QObject {
 Q_OBJECT
 
 public:

@@ -1,9 +1,6 @@
 #include "DataHandler.hpp"
 #include "DataRow.hpp"
-
-namespace zlib {
-#include <zlib.h>
-}
+#include <QtZlib/zlib.h>
 
 
 DataHandler::DataHandler() {}
@@ -125,7 +122,7 @@ void DataHandler::resetData() {
 // read data rows from compressed input binary file
 void DataHandler::readDataFromBinStream(QDataStream& from) {
   try {
-    decrypt(from, dataRowsContainer);
+    decryptData(from, dataRowsContainer);
   }
   catch (...) { throw; }
 }
@@ -134,7 +131,7 @@ void DataHandler::readDataFromBinStream(QDataStream& from) {
 // write data rows to compressed output bin file
 void DataHandler::writeDataToBinStream(QDataStream& to) {
   try {
-    encrypt(dataRowsContainer, to);
+    encryptData(dataRowsContainer, to);
   }
   catch (...) { throw; }
 }
@@ -167,13 +164,13 @@ void DataHandler::writeDataToTextStream(QTextStream& to) {
 // ============================================================================
 
 // decrypt data from input file to data container
-void DataHandler::decrypt(QDataStream& from, QVector<DataRow*>& to) {
+void DataHandler::decryptData(QDataStream& from, QVector<DataRow*>& to) {
   QFile tmpFile(TMP_FILE_NAME);
   try {
     OpenFile(tmpFile, QIODevice::ReadWrite, "DataHandler::decrypt()");
     QDataStream tmp(&tmpFile);
 
-    uncompress(from, tmp);
+    uncompressData(from, tmp);
 
     tmp.device()->seek(0); // set pos to file begin
 
@@ -196,14 +193,14 @@ void DataHandler::decrypt(QDataStream& from, QVector<DataRow*>& to) {
 
 
 // uncompress data from input file to tmp data file
-void DataHandler::uncompress(QDataStream& from, QDataStream& to) {
+void DataHandler::uncompressData(QDataStream& from, QDataStream& to) {
   unsigned long compressedDataSize   = 0;
   unsigned long uncompressedDataSize = 0;
-  size_t ulSize      = sizeof(uint32_t); // guaranteed 4 bytes length for unsigned long
-  size_t dataLength  = 0;
+  int ulSize      = static_cast<int>(sizeof(uint32_t)); // guaranteed 4 bytes length for unsigned long
+  int dataLength  = 0;
 
-  dataLength         = from.device()->size();
-  compressedDataSize = dataLength - ulSize; // 1st 4 bytes holds information about uncompressed data size
+  dataLength         = static_cast<int>(from.device()->size());
+  compressedDataSize = static_cast<unsigned long>(dataLength - ulSize); // 1st 4 bytes holds information about uncompressed data size
 
   ReadDataFromStream(from, uncompressedDataSize, ulSize, "DataHandler::uncompress()");
 
@@ -221,7 +218,7 @@ void DataHandler::uncompress(QDataStream& from, QDataStream& to) {
     throw;
   }
 
-  int result = zlib::uncompress(outBuff, &uncompressedDataSize, inBuff, compressedDataSize);
+  int result = uncompress(outBuff, &uncompressedDataSize, inBuff, compressedDataSize);
 
   if (inBuff) delete[] inBuff;
   if (result == Z_OK) {
@@ -237,7 +234,7 @@ void DataHandler::uncompress(QDataStream& from, QDataStream& to) {
 // ============================================================================
 
 // encrypt data to output binary file from data container
-void DataHandler::encrypt(QVector<DataRow*>& from, QDataStream& to) {
+void DataHandler::encryptData(QVector<DataRow*>& from, QDataStream& to) {
   QFile tmpFile(TMP_FILE_NAME);
   try {
     OpenFile(tmpFile, QIODevice::ReadWrite, "DataHandler::encrypt()");
@@ -250,7 +247,7 @@ void DataHandler::encrypt(QVector<DataRow*>& from, QDataStream& to) {
 
     tmp.device()->seek(0); // set pos to file begin
 
-    compress(tmp, to); // compress tmp data file to output file
+    compressData(tmp, to); // compress tmp data file to output file
   }
   catch (...) {
     if (tmpFile.isOpen()) CloseFile(tmpFile, "DataHandler::encrypt()");
@@ -263,13 +260,13 @@ void DataHandler::encrypt(QVector<DataRow*>& from, QDataStream& to) {
 
 
 //
-void DataHandler::compress(QDataStream& from, QDataStream& to) {
+void DataHandler::compressData(QDataStream& from, QDataStream& to) {
   unsigned long uncompressedDataSize = 0;
   unsigned long compressedDataSize   = 0;
-  size_t ulSize = sizeof(uint32_t); // guaranteed 4 bytes length for unsigned long
+  int ulSize = static_cast<int>(sizeof(uint32_t)); // guaranteed 4 bytes length for unsigned long
 
-  uncompressedDataSize = from.device()->size();
-  compressedDataSize   = zlib::compressBound(uncompressedDataSize);
+  uncompressedDataSize = static_cast<int>(from.device()->size());
+  compressedDataSize   = compressBound(uncompressedDataSize);
 
   uint8_t *inBuff  = nullptr;
   uint8_t *outBuff = nullptr;
@@ -285,12 +282,12 @@ void DataHandler::compress(QDataStream& from, QDataStream& to) {
     throw;
   }
 
-  int result = zlib::compress2(outBuff, &compressedDataSize, inBuff, uncompressedDataSize, Z_BEST_SPEED);
+  int result = compress2(outBuff, &compressedDataSize, inBuff, uncompressedDataSize, Z_BEST_SPEED);
 
   if (inBuff)  delete[] inBuff;
   if (result == Z_OK) {
     WriteDataToStream(to, uncompressedDataSize, ulSize, "DataHandler::compress()");
-    WriteDataToStream(to, *outBuff, compressedDataSize, "DataHandler::compress()");
+    WriteDataToStream(to, *outBuff, static_cast<int>(compressedDataSize), "DataHandler::compress()");
     if (outBuff) delete[] outBuff;
   } else {
     if (outBuff) delete[] outBuff;
