@@ -8,10 +8,10 @@ TranslateWindow::TranslateWindow(QWidget *parent) : QWidget(parent), ui(new Ui::
 
   // TODO: fonts
 
-  connect(ui->prevButton,   &QPushButton::released, this, &TranslateWindow::onButtonClick);
-  connect(ui->nextButton,   &QPushButton::released, this, &TranslateWindow::onButtonClick);
-  connect(ui->saveButton,   &QPushButton::released, this, &TranslateWindow::onButtonClick);
-  connect(ui->cancelButton, &QPushButton::released, this, &TranslateWindow::onButtonClick);
+  connect(ui->prevButton,   SIGNAL(released()), this, SLOT(buttonClick()));
+  connect(ui->nextButton,   SIGNAL(released()), this, SLOT(buttonClick()));
+  connect(ui->saveButton,   SIGNAL(released()), this, SLOT(buttonClick()));
+  connect(ui->cancelButton, SIGNAL(released()), this, SLOT(buttonClick()));
 }
 
 
@@ -22,7 +22,6 @@ TranslateWindow::~TranslateWindow() {
 // public slots ===============================================================
 
 void TranslateWindow::show(const QString &inFilePath, const QString &outFilePath) {
-  isError = false;
 //  std::string path = inFileName.toStdString();
 //  std::ifstream input;
 //  try {
@@ -46,12 +45,11 @@ void TranslateWindow::hide() {
 
 // private slots ==============================================================
 
-void TranslateWindow::onButtonClick() {
+void TranslateWindow::buttonClick() {
   QObject *obj = QObject::sender();
   QString objName = obj->objectName();
   if (objName == "saveButton") {
-    if (isError)  emit buttonClicked(MODE::CLOSE);
-    if (!isError) emit buttonClicked(MODE::CLOSE);
+    emit buttonClicked(MODE::CLOSE);
   } else if (objName == "cancelButton") {
     emit buttonClicked(MODE::CLOSE);
   }

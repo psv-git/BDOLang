@@ -2,6 +2,7 @@
 #define CUSTOMCOMBOBOX_HPP
 
 #include "ApplicationGlobal.hpp"
+#include <QComboBox>
 
 
 class CustomComboBox : public QComboBox {

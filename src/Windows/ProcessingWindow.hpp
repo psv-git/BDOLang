@@ -4,6 +4,7 @@
 #include "ApplicationGlobal.hpp"
 
 namespace Ui { class ProcessingWindow; }
+class ErrorHandler;
 
 
 class ProcessingWindow : public QWidget {
@@ -17,14 +18,16 @@ signals:
   void buttonClicked(MODE mode);
 
 public slots:
-  void show(MODE mode, const QString &srcFilePath, const QString &targFilePath);
+  void show(const QString &srcFilePath, const QString &targFilePath, MODE mode);
 
 private slots:
-  void onButtonClick();
+  void error();
+  void complete();
+  void buttonClick();
 
 private:
   Ui::ProcessingWindow *ui = nullptr;
-  bool isError = false;
+  ErrorHandler *errorHandler;
 
 };
 

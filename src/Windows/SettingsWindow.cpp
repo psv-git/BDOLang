@@ -5,6 +5,7 @@
 
 SettingsWindow::SettingsWindow(QWidget *parent) : QWidget(parent), ui(new Ui::SettingsWindow) {
   ui->setupUi(this);
+  settings = &Settings::getInstance();
 
   ui->saveButton->setFont(GetFont("Liberation Sans",         "Bold",    12));
   ui->cancelButton->setFont(GetFont("Liberation Sans",       "Bold",    12));
@@ -22,14 +23,12 @@ SettingsWindow::SettingsWindow(QWidget *parent) : QWidget(parent), ui(new Ui::Se
   ui->languageLabel->setFont(GetFont("Liberation Sans",      "Bold",    11));
   ui->aboutEdit->setFont(GetFont("Liberation Sans",          "Bold",    10));
 
-  connect(ui->saveButton,    &QPushButton::released, this, &SettingsWindow::onButtonClick);
-  connect(ui->cancelButton,  &QPushButton::released, this, &SettingsWindow::onButtonClick);
-  connect(ui->chooseButton1, &QPushButton::released, this, &SettingsWindow::onButtonClick);
-  connect(ui->chooseButton2, &QPushButton::released, this, &SettingsWindow::onButtonClick);
-  connect(ui->chooseButton3, &QPushButton::released, this, &SettingsWindow::onButtonClick);
-  connect(ui->chooseButton4, &QPushButton::released, this, &SettingsWindow::onButtonClick);
-
-  settings = &Settings::getInstance();
+  connect(ui->saveButton,    SIGNAL(released()), this, SLOT(buttonClick()));
+  connect(ui->cancelButton,  SIGNAL(released()), this, SLOT(buttonClick()));
+  connect(ui->chooseButton1, SIGNAL(released()), this, SLOT(buttonClick()));
+  connect(ui->chooseButton2, SIGNAL(released()), this, SLOT(buttonClick()));
+  connect(ui->chooseButton3, SIGNAL(released()), this, SLOT(buttonClick()));
+  connect(ui->chooseButton4, SIGNAL(released()), this, SLOT(buttonClick()));
 }
 
 
@@ -51,7 +50,7 @@ void SettingsWindow::show() {
 
 // private slots ==============================================================
 
-void SettingsWindow::onButtonClick() {
+void SettingsWindow::buttonClick() {
   QObject *obj = QObject::sender();
   QString objName = obj->objectName();
   if (objName == "chooseButton1")      ui->dataDirectoryEdit->setText(GetDirectoryPath(tr("Choose directory")));

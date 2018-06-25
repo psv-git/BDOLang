@@ -1,4 +1,5 @@
 #include "Settings.hpp"
+#include <QSettings>
 
 
 const DefaultSettings DEFAULT_SETTINGS {

@@ -20,7 +20,7 @@ public slots:
   void show();
 
 private slots:
-  void onButtonClick();
+  void buttonClick();
 
 private:
   Ui::SettingsWindow *ui = nullptr;

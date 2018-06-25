@@ -7,14 +7,13 @@
 #include <QApplication>
 #include <QMainWindow>
 #include <QFileDialog>
-#include <QErrorMessage>
-#include <QComboBox>
-#include <QSettings>
 #include <QFontDatabase>
 #include <QDir>
 #include <QFile>
 #include <QFileInfo>
 #include <QDataStream>
+#include <QTextStream>
+#include <QThread>
 #include <QTime>
 #include <QRegularExpression>
 #include <QString>

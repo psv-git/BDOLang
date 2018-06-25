@@ -92,6 +92,9 @@ Developed using Qt framework.</string>
      <height>50</height>
     </rect>
    </property>
+   <property name="contextMenuPolicy">
+    <enum>Qt::NoContextMenu</enum>
+   </property>
    <property name="styleSheet">
     <string notr="true">QFrame {
 	background-color: rgb(190, 190, 190);
@@ -153,6 +156,9 @@ Developed using Qt framework.</string>
       <italic>false</italic>
       <bold>false</bold>
      </font>
+    </property>
+    <property name="focusPolicy">
+     <enum>Qt::ClickFocus</enum>
     </property>
     <property name="styleSheet">
      <string notr="true">QLineEdit {
@@ -216,6 +222,9 @@ QPushButton:disabled {
      <height>50</height>
     </rect>
    </property>
+   <property name="contextMenuPolicy">
+    <enum>Qt::NoContextMenu</enum>
+   </property>
    <property name="styleSheet">
     <string notr="true">QFrame {
 	background-color: rgb(190, 190, 190);
@@ -278,6 +287,9 @@ QPushButton:disabled {
       <bold>false</bold>
      </font>
     </property>
+    <property name="focusPolicy">
+     <enum>Qt::ClickFocus</enum>
+    </property>
     <property name="styleSheet">
      <string notr="true">QLineEdit {
 	font: 10pt &quot;Liberation Mono&quot;;
@@ -339,6 +351,9 @@ QPushButton:disabled {
      <width>520</width>
      <height>50</height>
     </rect>
+   </property>
+   <property name="contextMenuPolicy">
+    <enum>Qt::NoContextMenu</enum>
    </property>
    <property name="styleSheet">
     <string notr="true">QFrame {
@@ -411,6 +426,9 @@ QPushButton:disabled {
       <bold>false</bold>
      </font>
     </property>
+    <property name="focusPolicy">
+     <enum>Qt::ClickFocus</enum>
+    </property>
     <property name="styleSheet">
      <string notr="true">QLineEdit {
 	font: 10pt &quot;Liberation Mono&quot;;
@@ -472,6 +490,9 @@ QPushButton:disabled {
      <width>520</width>
      <height>50</height>
     </rect>
+   </property>
+   <property name="contextMenuPolicy">
+    <enum>Qt::NoContextMenu</enum>
    </property>
    <property name="styleSheet">
     <string notr="true">QFrame {
@@ -544,6 +565,9 @@ QPushButton:disabled {
       <bold>false</bold>
      </font>
     </property>
+    <property name="focusPolicy">
+     <enum>Qt::ClickFocus</enum>
+    </property>
     <property name="styleSheet">
      <string notr="true">QLineEdit {
 	font: 10pt &quot;Liberation Mono&quot;;
@@ -606,6 +630,9 @@ QPushButton:disabled {
      <height>90</height>
     </rect>
    </property>
+   <property name="contextMenuPolicy">
+    <enum>Qt::NoContextMenu</enum>
+   </property>
    <property name="styleSheet">
     <string notr="true">QFrame {
 	background-color: rgb(190, 190, 190);
@@ -629,6 +656,9 @@ QPushButton:disabled {
       <width>110</width>
       <height>30</height>
      </rect>
+    </property>
+    <property name="contextMenuPolicy">
+     <enum>Qt::NoContextMenu</enum>
     </property>
     <property name="styleSheet">
      <string notr="true">QLabel {
@@ -707,7 +737,7 @@ QComboBox::down-arrow {
    </widget>
    <widget class="CustomComboBox" name="compressingBox">
     <property name="enabled">
-     <bool>false</bool>
+     <bool>true</bool>
     </property>
     <property name="geometry">
      <rect>
@@ -807,6 +837,9 @@ QComboBox:disabled {
       <height>30</height>
      </rect>
     </property>
+    <property name="contextMenuPolicy">
+     <enum>Qt::NoContextMenu</enum>
+    </property>
     <property name="styleSheet">
      <string notr="true">QLabel {
 	font: 75 11pt &quot;Liberation Sans&quot;;
@@ -830,6 +863,9 @@ QComboBox:disabled {
      <width>520</width>
      <height>50</height>
     </rect>
+   </property>
+   <property name="contextMenuPolicy">
+    <enum>Qt::NoContextMenu</enum>
    </property>
    <property name="styleSheet">
     <string notr="true">QFrame {
@@ -877,7 +913,7 @@ QPushButton:hover {
 }
 
 QPushButton:disabled {
-	background-color: rgb(200, 100, 100);
+	background-color: rgb(150, 100, 100);
 }
 </string>
     </property>
@@ -916,7 +952,7 @@ QPushButton:hover {
 }
 
 QPushButton:disabled {
-	background-color: rgb(100, 200, 100);
+	background-color: rgb(100, 150, 100);
 }
 </string>
     </property>
@@ -933,6 +969,17 @@ QPushButton:disabled {
    <header>CustomComboBox.hpp</header>
   </customwidget>
  </customwidgets>
+ <tabstops>
+  <tabstop>chooseButton1</tabstop>
+  <tabstop>chooseButton2</tabstop>
+  <tabstop>chooseButton3</tabstop>
+  <tabstop>chooseButton4</tabstop>
+  <tabstop>languageBox</tabstop>
+  <tabstop>compressingBox</tabstop>
+  <tabstop>saveButton</tabstop>
+  <tabstop>cancelButton</tabstop>
+  <tabstop>aboutEdit</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

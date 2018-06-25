@@ -36,10 +36,10 @@ SOURCES += \
     src/global/ApplicationFunctions.cpp \
     src/global/ApplicationGlobal.cpp \
     src/global/Settings.cpp \
+    src/global/ErrorHandler.cpp \
     src/windows/WindowsHandler.cpp \
     src/windows/MainWindow.cpp \
     src/windows/ChooseFilesWindow.cpp \
-    src/windows/ChooseFileWindow.cpp \
     src/windows/SettingsWindow.cpp \
     src/windows/TranslateWindow.cpp \
     src/windows/ProcessingWindow.cpp \
@@ -52,10 +52,10 @@ HEADERS += \
     src/global/ApplicationGlobal.hpp \
     src/global/ApplicationHeaders.hpp \
     src/global/Settings.hpp \
+    src/global/ErrorHandler.hpp \
     src/windows/WindowsHandler.hpp \
     src/windows/MainWindow.hpp \
     src/windows/ChooseFilesWindow.hpp \
-    src/windows/ChooseFileWindow.hpp \
     src/windows/SettingsWindow.hpp \
     src/windows/TranslateWindow.hpp \
     src/windows/ProcessingWindow.hpp \
@@ -64,7 +64,6 @@ HEADERS += \
 FORMS += \
     src/forms/MainWindow.ui \
     src/forms/ChooseFilesWindow.ui \
-    src/forms/ChooseFileWindow.ui \
     src/forms/SettingsWindow.ui \
     src/forms/TranslateWindow.ui \
     src/forms/ProcessingWindow.ui
@@ -81,8 +80,6 @@ DISTFILES += \
     res/liberation-fonts-ttf/LiberationSans-Regular.ttf \
     res/liberation-fonts-ttf/LiberationSerif-Bold.ttf \
     res/liberation-fonts-ttf/LiberationSerif-Regular.ttf
-
-#LIBS += -lz
 
 RESOURCES += \
     res/Res.qrc

@@ -21,7 +21,7 @@ public slots:
   void show();
 
 private slots:
-  void onButtonClick();
+  void buttonClick();
 
 private:
   Ui::ChooseFilesWindow *ui = nullptr;

@@ -22,10 +22,16 @@
     <height>430</height>
    </size>
   </property>
+  <property name="contextMenuPolicy">
+   <enum>Qt::NoContextMenu</enum>
+  </property>
   <property name="windowTitle">
    <string notr="true">BDOLang ver.0.1 alpha</string>
   </property>
   <widget class="QWidget" name="centralWidget">
+   <property name="contextMenuPolicy">
+    <enum>Qt::NoContextMenu</enum>
+   </property>
    <property name="autoFillBackground">
     <bool>false</bool>
    </property>
@@ -34,7 +40,7 @@
 	background-color: rgb(230, 230, 230);
 }</string>
    </property>
-   <widget class="QFrame" name="frame2">
+   <widget class="QFrame" name="frame1">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -42,6 +48,9 @@
       <width>580</width>
       <height>60</height>
      </rect>
+    </property>
+    <property name="contextMenuPolicy">
+     <enum>Qt::NoContextMenu</enum>
     </property>
     <property name="styleSheet">
      <string notr="true">QFrame {
@@ -70,7 +79,10 @@
       </rect>
      </property>
      <property name="focusPolicy">
-      <enum>Qt::TabFocus</enum>
+      <enum>Qt::StrongFocus</enum>
+     </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::NoContextMenu</enum>
      </property>
      <property name="styleSheet">
       <string notr="true">QPushButton {
@@ -93,7 +105,7 @@ QPushButton:disabled {
 </string>
      </property>
      <property name="text">
-      <string>BIN FILE TO TEXT FILE</string>
+      <string>LOC FILE TO TEXT FILE</string>
      </property>
     </widget>
     <widget class="QPushButton" name="ttbButton">
@@ -106,7 +118,10 @@ QPushButton:disabled {
       </rect>
      </property>
      <property name="focusPolicy">
-      <enum>Qt::TabFocus</enum>
+      <enum>Qt::StrongFocus</enum>
+     </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::NoContextMenu</enum>
      </property>
      <property name="styleSheet">
       <string notr="true">QPushButton {
@@ -129,11 +144,11 @@ QPushButton:disabled {
 </string>
      </property>
      <property name="text">
-      <string>TEXT FILE TO BIN FILE</string>
+      <string>TEXT FILE TO LOC FILE</string>
      </property>
     </widget>
    </widget>
-   <widget class="QFrame" name="frame3">
+   <widget class="QFrame" name="frame2">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -141,6 +156,9 @@ QPushButton:disabled {
       <width>580</width>
       <height>60</height>
      </rect>
+    </property>
+    <property name="contextMenuPolicy">
+     <enum>Qt::NoContextMenu</enum>
     </property>
     <property name="styleSheet">
      <string notr="true">QFrame {
@@ -158,7 +176,7 @@ QPushButton:disabled {
     </property>
     <widget class="QPushButton" name="mbButton">
      <property name="enabled">
-      <bool>false</bool>
+      <bool>true</bool>
      </property>
      <property name="geometry">
       <rect>
@@ -169,7 +187,10 @@ QPushButton:disabled {
       </rect>
      </property>
      <property name="focusPolicy">
-      <enum>Qt::TabFocus</enum>
+      <enum>Qt::StrongFocus</enum>
+     </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::NoContextMenu</enum>
      </property>
      <property name="styleSheet">
       <string notr="true">QPushButton {
@@ -192,7 +213,7 @@ QPushButton:disabled {
 </string>
      </property>
      <property name="text">
-      <string>MERGE TWO BIN FILES</string>
+      <string>MERGE TWO LOC FILES</string>
      </property>
     </widget>
     <widget class="QPushButton" name="mtButton">
@@ -208,7 +229,10 @@ QPushButton:disabled {
       </rect>
      </property>
      <property name="focusPolicy">
-      <enum>Qt::TabFocus</enum>
+      <enum>Qt::StrongFocus</enum>
+     </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::NoContextMenu</enum>
      </property>
      <property name="styleSheet">
       <string notr="true">QPushButton {
@@ -235,7 +259,7 @@ QPushButton:disabled {
      </property>
     </widget>
    </widget>
-   <widget class="QFrame" name="frame4">
+   <widget class="QFrame" name="frame3">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -243,6 +267,9 @@ QPushButton:disabled {
       <width>580</width>
       <height>60</height>
      </rect>
+    </property>
+    <property name="contextMenuPolicy">
+     <enum>Qt::NoContextMenu</enum>
     </property>
     <property name="styleSheet">
      <string notr="true">QFrame {
@@ -258,7 +285,7 @@ QPushButton:disabled {
     <property name="frameShadow">
      <enum>QFrame::Raised</enum>
     </property>
-    <widget class="QPushButton" name="cbstButton">
+    <widget class="QPushButton" name="cbsiButton">
      <property name="enabled">
       <bool>false</bool>
      </property>
@@ -271,7 +298,10 @@ QPushButton:disabled {
       </rect>
      </property>
      <property name="focusPolicy">
-      <enum>Qt::TabFocus</enum>
+      <enum>Qt::StrongFocus</enum>
+     </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::NoContextMenu</enum>
      </property>
      <property name="toolTipDuration">
       <number>1</number>
@@ -300,7 +330,7 @@ QPushButton:disabled {
       <string>COMPARE BY SIZE</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="cbsiButton">
+    <widget class="QPushButton" name="cbstButton">
      <property name="enabled">
       <bool>false</bool>
      </property>
@@ -313,7 +343,10 @@ QPushButton:disabled {
       </rect>
      </property>
      <property name="focusPolicy">
-      <enum>Qt::TabFocus</enum>
+      <enum>Qt::StrongFocus</enum>
+     </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::NoContextMenu</enum>
      </property>
      <property name="toolTipDuration">
       <number>1</number>
@@ -352,6 +385,9 @@ QPushButton:disabled {
       <height>60</height>
      </rect>
     </property>
+    <property name="contextMenuPolicy">
+     <enum>Qt::NoContextMenu</enum>
+    </property>
     <property name="styleSheet">
      <string notr="true">QFrame {
 	background-color: rgb(190, 190, 190);
@@ -379,7 +415,10 @@ QPushButton:disabled {
       </rect>
      </property>
      <property name="focusPolicy">
-      <enum>Qt::TabFocus</enum>
+      <enum>Qt::StrongFocus</enum>
+     </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::NoContextMenu</enum>
      </property>
      <property name="toolTipDuration">
       <number>1</number>
@@ -400,7 +439,7 @@ QPushButton:hover {
 }
 
 QPushButton:disabled {
-	background-color: rgb(150, 150, 200);
+	background-color: rgb(150, 150, 180);
 }
 </string>
      </property>
@@ -421,7 +460,10 @@ QPushButton:disabled {
       </rect>
      </property>
      <property name="focusPolicy">
-      <enum>Qt::TabFocus</enum>
+      <enum>Qt::StrongFocus</enum>
+     </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::NoContextMenu</enum>
      </property>
      <property name="styleSheet">
       <string notr="true">QPushButton {
@@ -439,7 +481,7 @@ QPushButton:hover {
 }
 
 QPushButton:disabled {
-	background-color: rgb(200, 100, 100);
+	background-color: rgb(150, 100, 100);
 }
 </string>
      </property>
@@ -448,7 +490,7 @@ QPushButton:disabled {
      </property>
     </widget>
    </widget>
-   <widget class="QFrame" name="frame1">
+   <widget class="QFrame" name="frame4">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -456,6 +498,12 @@ QPushButton:disabled {
       <width>580</width>
       <height>60</height>
      </rect>
+    </property>
+    <property name="focusPolicy">
+     <enum>Qt::NoFocus</enum>
+    </property>
+    <property name="contextMenuPolicy">
+     <enum>Qt::NoContextMenu</enum>
     </property>
     <property name="styleSheet">
      <string notr="true">QFrame {
@@ -485,7 +533,10 @@ QPushButton:disabled {
       </rect>
      </property>
      <property name="focusPolicy">
-      <enum>Qt::TabFocus</enum>
+      <enum>Qt::StrongFocus</enum>
+     </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::NoContextMenu</enum>
      </property>
      <property name="toolTipDuration">
       <number>1</number>
@@ -527,6 +578,9 @@ QPushButton:disabled {
       <height>430</height>
      </rect>
     </property>
+    <property name="contextMenuPolicy">
+     <enum>Qt::NoContextMenu</enum>
+    </property>
     <property name="autoFillBackground">
      <bool>false</bool>
     </property>
@@ -550,8 +604,8 @@ background-color: rgba(0, 0, 0, 200);
   <tabstop>ttbButton</tabstop>
   <tabstop>mbButton</tabstop>
   <tabstop>mtButton</tabstop>
-  <tabstop>cbstButton</tabstop>
   <tabstop>cbsiButton</tabstop>
+  <tabstop>cbstButton</tabstop>
   <tabstop>trButton</tabstop>
   <tabstop>settingsButton</tabstop>
   <tabstop>exitButton</tabstop>

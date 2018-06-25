@@ -21,11 +21,10 @@ public slots:
   void hide();
 
 private slots:
-  void onButtonClick();
+  void buttonClick();
 
 private:
   Ui::TranslateWindow *ui = nullptr;
-  bool isError = false;
 
 };
 

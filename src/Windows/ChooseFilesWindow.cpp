@@ -14,10 +14,10 @@ ChooseFilesWindow::ChooseFilesWindow(QWidget *parent) : QWidget(parent), ui(new 
   ui->pathLabel1->setFont(GetFont("Liberation Sans",    "Bold",    11));
   ui->pathLabel2->setFont(GetFont("Liberation Sans",    "Bold",    11));
 
-  connect(ui->okButton,      &QPushButton::released, this, &ChooseFilesWindow::onButtonClick);
-  connect(ui->cancelButton,  &QPushButton::released, this, &ChooseFilesWindow::onButtonClick);
-  connect(ui->chooseButton1, &QPushButton::released, this, &ChooseFilesWindow::onButtonClick);
-  connect(ui->chooseButton2, &QPushButton::released, this, &ChooseFilesWindow::onButtonClick);
+  connect(ui->okButton,      SIGNAL(released()), this, SLOT(buttonClick()));
+  connect(ui->cancelButton,  SIGNAL(released()), this, SLOT(buttonClick()));
+  connect(ui->chooseButton1, SIGNAL(released()), this, SLOT(buttonClick()));
+  connect(ui->chooseButton2, SIGNAL(released()), this, SLOT(buttonClick()));
 
   settings = &Settings::getInstance();
 }
@@ -31,14 +31,14 @@ ChooseFilesWindow::~ChooseFilesWindow() {
 
 void ChooseFilesWindow::show() {
   QString dataPath = settings->getSetting("path/data_path", DEFAULT_SETTINGS.dataPath).toString();
-  ui->pathEdit1->setText(dataPath + settings->getSetting("path/source_name",  DEFAULT_SETTINGS.sourceFileName).toString());
-  ui->pathEdit2->setText(dataPath + settings->getSetting("path/target_name",  DEFAULT_SETTINGS.targetFileName).toString());
+  ui->pathEdit1->setText(dataPath + settings->getSetting("path/source_name", DEFAULT_SETTINGS.sourceFileName).toString());
+  ui->pathEdit2->setText(dataPath + settings->getSetting("path/target_name", DEFAULT_SETTINGS.targetFileName).toString());
   QWidget::show();
 }
 
 // private slots ==============================================================
 
-void ChooseFilesWindow::onButtonClick () {
+void ChooseFilesWindow::buttonClick () {
   QObject* obj = QObject::sender();
   QString objName = obj->objectName();
   if (objName == "okButton") {

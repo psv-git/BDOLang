@@ -4,14 +4,7 @@
 #include "ApplicationGlobal.hpp"
 
 
-// exceptions =================================================================
-
-void AddException(const QString &exceptionMessage);
-const QString GetExceptionsMessage();
-
 // service ====================================================================
-
-void Delay(int timeToWait);
 
 const QString GetDirectoryPath(const QString &title);
 QString GetRootPath();
@@ -39,7 +32,7 @@ void ReadDataFromStream(QDataStream& stream, V& var, int size = 0, const QString
   if (size == 0) size = static_cast<int>(sizeof(var));
   stream.readRawData(reinterpret_cast<char*>(&var), size);
   if (stream.status() == QDataStream::ReadCorruptData) {
-    AddException("In function \"" + functionName + "\" read data from file was failed.");
+    ErrorHandler::getInstance().addException("In function \"" + functionName + "\" read data from file was failed.");
     throw;
   }
 }
@@ -50,7 +43,7 @@ void WriteDataToStream(QDataStream& stream, V& var, int size = 0, const QString 
   if (size == 0) size = static_cast<int>(sizeof(var));
   stream.writeRawData(reinterpret_cast<char*>(&var), size);
   if (stream.status() == QDataStream::WriteFailed) {
-    AddException("In function \"" + functionName + "\" write data from file was failed.");
+    ErrorHandler::getInstance().addException("In function \"" + functionName + "\" write data from file was failed.");
     throw;
   }
 }

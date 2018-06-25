@@ -21,7 +21,7 @@ public slots:
 
 private slots:
   void lockWindow();
-  void onButtonClick();
+  void buttonClick();
 
 private:
   Ui::MainWindow *ui = nullptr;

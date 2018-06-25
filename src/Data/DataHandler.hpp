@@ -6,39 +6,39 @@
 class DataRow;
 
 
-class DataHandler {
+class DataHandler : public QObject {
+Q_OBJECT
 
 public:
-  DataHandler();
+  DataHandler(const QString &fromFilePath, const QString &toFilePath, MODE mode);
   ~DataHandler();
 
-  void mergeFiles(const QString &fromFilePath,   const QString &toFilePath, MODE mode);
-  void convertFile(const QString &fromFilePath, const QString &toFilePath, MODE mode);
+signals:
+  void failed();
+  void completed();
+
+public slots:
+  void process();
 
 private:
-  QVector<DataRow*> dataRowsContainer;
+  Settings *settings = nullptr;
+  ErrorHandler *errorHandler = nullptr;
+  QString fromFilePath;
+  QString toFilePath;
+  MODE mode;
 
-  // delete existed data
-  void resetData();
+  bool mergeFiles(const QString &fromFilePath,  const QString &toFilePath, MODE mode);
+  bool convertFile(const QString &fromFilePath, const QString &toFilePath, MODE mode);
 
-  // read data rows from compressed input binary file
-  void readDataFromBinStream(QDataStream& input);
-  // write data rows to compressed output bin file
-  void writeDataToBinStream(QDataStream& output);
-
-  // read data rows from input text file
-  void readDataFromTextStream(QTextStream& input, MODE mode);
-  // write data rows to output text file
-  void writeDataToTextStream(QTextStream& output);
-
-  // decrypt data from input file to data container
+  void readDataFromBinStream(QDataStream& from, QVector<DataRow*>& to);
+  void writeDataToBinStream(QVector<DataRow*>& from, QDataStream& to);
+  void readDataFromTextStream(QTextStream& from, QVector<DataRow*>& to);
+  void writeDataToTextStream(QVector<DataRow*>& from, QTextStream& to);
+  void deleteData(QVector<DataRow*>& dataRowsContainer);
+  void mergeData(QVector<DataRow*>& from, QVector<DataRow*>& to);
   void decryptData(QDataStream& from, QVector<DataRow*>& to);
-  // uncompress data from input file to tmp data file
   void uncompressData(QDataStream& from, QDataStream& to);
-
-  // encrypt data to output binary file from data container
   void encryptData(QVector<DataRow*>& from, QDataStream& to);
-  // compress binary tmp data file to binary output file
   void compressData(QDataStream& from, QDataStream& to);
 
 };

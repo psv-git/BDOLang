@@ -2,6 +2,7 @@
 #define SETTINGS_HPP
 
 #include "ApplicationHeaders.hpp"
+class QSettings;
 
 
 struct DefaultSettings {

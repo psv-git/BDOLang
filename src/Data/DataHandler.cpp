@@ -3,147 +3,136 @@
 #include <QtZlib/zlib.h>
 
 
-DataHandler::DataHandler() {}
-
-
-DataHandler::~DataHandler() {
-  resetData();
+DataHandler::DataHandler(const QString &fromFilePath, const QString &toFilePath, MODE mode) : QObject(nullptr) {
+  settings = &Settings::getInstance();
+  errorHandler = &ErrorHandler::getInstance();
+  DataHandler::fromFilePath = fromFilePath;
+  DataHandler::toFilePath = toFilePath;
+  DataHandler::mode = mode;
 }
 
-// public methods =============================================================
 
-void DataHandler::mergeFiles(const QString &fromFilePath, const QString &toFilePath, MODE mode) {
+DataHandler::~DataHandler() {}
+
+// public slots ===============================================================
+
+void DataHandler::process() {
+  if (mode == MODE::BIN_TO_TEXT || mode == MODE::TEXT_TO_BIN) {
+    if (!convertFile(fromFilePath, toFilePath, mode)) emit failed();
+  } else if (mode == MODE::MERGE_TEXT || mode == MODE::MERGE_BIN) {
+    if (!mergeFiles(fromFilePath, toFilePath, mode)) emit failed();
+  }
+  emit completed();
+}
+
+// private methods ============================================================
+
+bool DataHandler::mergeFiles(const QString &fromFilePath, const QString &toFilePath, MODE mode) {
   QFile fromFile(fromFilePath);
   QFile toFile(toFilePath);
   try {
-    OpenFile(fromFile,  QIODevice::ReadOnly, "DataHandler::mergeFiles()");
-    OpenFile(toFile, QIODevice::ReadWrite, "DataHandler::mergeFiles()");
+    OpenFile(fromFile,  QIODevice::ReadOnly,  "DataHandler::mergeFiles()");
+    OpenFile(toFile,    QIODevice::ReadWrite, "DataHandler::mergeFiles()");
+    QVector<DataRow*> translatedRowsContainer;
+    QVector<DataRow*> originalRowsContainer;
 
+    if (mode == MODE::MERGE_BIN) {
+      QDataStream from(&fromFile);
+      QDataStream to(&toFile);
+      readDataFromBinStream(from, translatedRowsContainer);
+      readDataFromBinStream(to, originalRowsContainer);
+      mergeData(translatedRowsContainer, originalRowsContainer);
+      writeDataToBinStream(originalRowsContainer, to);
+    }
     if (mode == MODE::MERGE_TEXT) {
       QTextStream from(&fromFile);
-      from.setAutoDetectUnicode(true);
-      from.skipWhiteSpace();
       QTextStream to(&toFile);
-      to.setAutoDetectUnicode(true);
-      to.skipWhiteSpace();
-      to.setCodec("UTF-8");
-      to.setGenerateByteOrderMark(true);
-
-      readDataFromTextStream(to, mode); // save data; now we may rewrite file
-      to.device()->seek(0);             // back to begin file
-
-      std::sort(dataRowsContainer.begin(), dataRowsContainer.end(), [](DataRow *ptr1, DataRow *ptr2) -> bool { return *ptr1 < *ptr2; }); // sorting dataRows by [sheet, id1, id2, id3, id4]
-
-      // save sheets range
-      QMap<unsigned long, QPair<int, int>> sheetsPositionsList; // [sheet, <begin index, end index>]
-      unsigned long sheetValue;
-      for (int beg = 0, end = 0; end < dataRowsContainer.size(); end++) {
-        sheetValue = dataRowsContainer.at(beg)->getSheet();
-        if (sheetValue != dataRowsContainer.at(end)->getSheet()) {
-          sheetsPositionsList.insert(sheetValue, qMakePair(beg, end));
-          beg = end;
-        }
-      }
-
-      while (true) {
-        DataRow* dataRow = new DataRow();
-        dataRow->readTextDataFrom(from, mode);
-        sheetValue = dataRow->getSheet();
-        QPair<int, int> indexes = sheetsPositionsList.value(sheetValue, qMakePair(0, dataRowsContainer.size()));
-        for (int i = indexes.first; i < indexes.second; i++) { // from begin sheet index to end sheet index
-          if (*dataRow == *dataRowsContainer.at(i)) {
-            dataRowsContainer.at(i)->setString(dataRow->getString());
-            break;
-          }
-        }
-        delete dataRow;
-        if (from.atEnd()) break;
-      }
-
-      writeDataToTextStream(to);
+      readDataFromTextStream(from, translatedRowsContainer);
+      readDataFromTextStream(to, originalRowsContainer);
+      mergeData(translatedRowsContainer, originalRowsContainer);
+      writeDataToTextStream(originalRowsContainer, to);
     }
 
-    CloseFile(fromFile,  "DataHandler::convertFile()");
-    CloseFile(toFile, "DataHandler::convertFile()");
+    deleteData(translatedRowsContainer);
+    deleteData(originalRowsContainer);
+
+    CloseFile(fromFile, "DataHandler::convertFile()");
+    CloseFile(toFile,   "DataHandler::convertFile()");
   }
   catch(...) {
-    if (fromFile.isOpen())  CloseFile(fromFile,  "DataHandler::mergeFiles()");
-    if (toFile.isOpen()) CloseFile(toFile, "DataHandler::mergeFiles()");
-    throw;
+    if (fromFile.isOpen()) CloseFile(fromFile, "DataHandler::mergeFiles()");
+    if (toFile.isOpen())   CloseFile(toFile,   "DataHandler::mergeFiles()");
+    return false;
   }
+  return true;
 }
 
 
 //
-void DataHandler::convertFile(const QString &fromFilePath, const QString &toFilePath, MODE mode) {
+bool DataHandler::convertFile(const QString &fromFilePath, const QString &toFilePath, MODE mode) {
   QFile fromFile(fromFilePath);
   QFile toFile(toFilePath);
   try {
-    OpenFile(fromFile,  QIODevice::ReadOnly, "DataHandler::convertFile()");
-    OpenFile(toFile, QIODevice::WriteOnly, "DataHandler::convertFile()");
+    OpenFile(fromFile,  QIODevice::ReadOnly,  "DataHandler::convertFile()");
+    OpenFile(toFile,    QIODevice::WriteOnly, "DataHandler::convertFile()");
+    QVector<DataRow*> dataRowsContainer;
 
     if (mode == MODE::BIN_TO_TEXT) {
       QDataStream from(&fromFile);
       QTextStream to(&toFile);
-      to.setCodec("UTF-8");
-      to.setGenerateByteOrderMark(true);
-      readDataFromBinStream(from);
-      writeDataToTextStream(to);
-    } else if (mode == MODE::TEXT_TO_BIN) {
+      readDataFromBinStream(from, dataRowsContainer);
+      writeDataToTextStream(dataRowsContainer, to);
+    }
+    if (mode == MODE::TEXT_TO_BIN) {
       QTextStream from(&fromFile);
       QDataStream to(&toFile);
-      from.setAutoDetectUnicode(true);
-      from.skipWhiteSpace();
-      readDataFromTextStream(from, mode);
-      writeDataToBinStream(to);
+      readDataFromTextStream(from, dataRowsContainer);
+      writeDataToBinStream(dataRowsContainer, to);
     }
+
+    deleteData(dataRowsContainer);
 
     CloseFile(fromFile,  "DataHandler::convertFile()");
     CloseFile(toFile, "DataHandler::convertFile()");
   }
   catch (...) {
-    if (fromFile.isOpen())  CloseFile(fromFile,  "DataHandler::convertFile()");
+    if (fromFile.isOpen())  CloseFile(fromFile, "DataHandler::convertFile()");
     if (toFile.isOpen()) CloseFile(toFile, "DataHandler::convertFile()");
-    throw;
+    return false;
   }
+  return true;
 }
 
-// PRIVATE METHODS ============================================================
-
-// delete existed data
-void DataHandler::resetData() {
-  for (int i = 0; i < dataRowsContainer.size(); i++) {
-    delete dataRowsContainer[i];
-  }
-  dataRowsContainer.clear();
-}
-
+// ============================================================================
 
 // read data rows from compressed input binary file
-void DataHandler::readDataFromBinStream(QDataStream& from) {
+void DataHandler::readDataFromBinStream(QDataStream& from, QVector<DataRow*>& to) {
   try {
-    decryptData(from, dataRowsContainer);
+    decryptData(from, to);
   }
   catch (...) { throw; }
 }
 
 
 // write data rows to compressed output bin file
-void DataHandler::writeDataToBinStream(QDataStream& to) {
+void DataHandler::writeDataToBinStream(QVector<DataRow*>& from, QDataStream& to) {
   try {
-    encryptData(dataRowsContainer, to);
+    to.device()->seek(0);
+    encryptData(from, to);
   }
   catch (...) { throw; }
 }
 
 
 // read data rows from input text file
-void DataHandler::readDataFromTextStream(QTextStream& from, MODE mode) {
+void DataHandler::readDataFromTextStream(QTextStream& from, QVector<DataRow*>& to) {
   try {
+    from.setAutoDetectUnicode(true);
+    from.skipWhiteSpace();
     while (true) {
       DataRow* dataRow = new DataRow();
-      dataRow->readTextDataFrom(from, mode);
-      dataRowsContainer.push_back(dataRow);
+      dataRow->readTextDataFrom(from);
+      to.push_back(dataRow);
       if (from.atEnd()) break;
     }
   }
@@ -152,10 +141,13 @@ void DataHandler::readDataFromTextStream(QTextStream& from, MODE mode) {
 
 
 // write data rows to output text file
-void DataHandler::writeDataToTextStream(QTextStream& to) {
+void DataHandler::writeDataToTextStream(QVector<DataRow*>& from, QTextStream& to) {
   try {
-    for (int i = 0; i < dataRowsContainer.size(); i++) {
-      dataRowsContainer[i]->writeTextDataTo(to);
+    to.device()->seek(0);
+    to.setCodec("UTF-8");
+    to.setGenerateByteOrderMark(true);
+    for (int i = 0; i < from.size(); i++) {
+      from[i]->writeTextDataTo(to);
     }
   }
   catch (...) { throw; }
@@ -163,11 +155,57 @@ void DataHandler::writeDataToTextStream(QTextStream& to) {
 
 // ============================================================================
 
+void DataHandler::deleteData(QVector<DataRow*>& dataRowsContainer) {
+  for (int i = 0; i < dataRowsContainer.size(); i++) {
+    delete dataRowsContainer[i];
+  }
+}
+
+
+void DataHandler::mergeData(QVector<DataRow*>& from, QVector<DataRow*>& to) {
+  std::sort(to.begin(), to.end(), [](DataRow *ptr1, DataRow *ptr2) -> bool { return *ptr1 < *ptr2; }); // sorting rows by [sheet, id1, id2, id3, id4]
+
+  // save sheets ranges
+  QMap<unsigned long, QPair<int, int>> sheetsPositionsList; // [sheet, <begin index, end index>]
+  unsigned long sheetValue;
+  int beg = 0, end = 0;
+  sheetValue = to.at(beg)->getSheet();
+  for (beg, end; end < to.size(); end++) {
+    if (sheetValue != to.at(end)->getSheet()) {
+      sheetsPositionsList.insert(sheetValue, qMakePair(beg, end));
+      beg = end;
+    }
+    sheetValue = to.at(beg)->getSheet();
+  }
+  sheetsPositionsList.insert(sheetValue, qMakePair(beg, end));
+
+  // get translated row and replace original row, if it was finded
+  // if original row was not finded - translated row will skiped
+  for (int i = 0; i < from.size(); i++) {
+    sheetValue = from.at(i)->getSheet();
+    QPair<int, int> indexes = sheetsPositionsList.value(sheetValue, qMakePair(0, to.size()));
+
+    beg = indexes.first;
+    end = indexes.second;
+    do {
+      int ind = beg + (end - beg) / 2;
+      if (*from.at(i) == *to.at(ind)) {
+        to[ind]->setString(from.at(i)->getString());
+        break;
+      } else if (*from.at(i) < *to.at(ind)) {
+        end = ind;
+      } else {
+        beg = ind;
+      }
+    } while (beg != end);
+  }
+}
+
 // decrypt data from input file to data container
 void DataHandler::decryptData(QDataStream& from, QVector<DataRow*>& to) {
   QFile tmpFile(TMP_FILE_NAME);
   try {
-    OpenFile(tmpFile, QIODevice::ReadWrite, "DataHandler::decrypt()");
+    OpenFile(tmpFile, QIODevice::ReadWrite, "DataHandler::decryptData()");
     QDataStream tmp(&tmpFile);
 
     uncompressData(from, tmp);
@@ -183,12 +221,12 @@ void DataHandler::decryptData(QDataStream& from, QVector<DataRow*>& to) {
     }
   }
   catch (...) {
-    if (tmpFile.isOpen()) CloseFile(tmpFile, "DataHandler::decrypt()");
-    RemoveFile(tmpFile, "DataHandler::decrypt()");
+    if (tmpFile.isOpen()) CloseFile(tmpFile, "DataHandler::decryptData()");
+    RemoveFile(tmpFile, "DataHandler::decryptData()");
     throw;
   }
-  CloseFile(tmpFile,  "DataHandler::decrypt()");
-  RemoveFile(tmpFile, "DataHandler::decrypt()");
+  CloseFile(tmpFile,  "DataHandler::decryptData()");
+  RemoveFile(tmpFile, "DataHandler::decryptData()");
 }
 
 
@@ -202,19 +240,19 @@ void DataHandler::uncompressData(QDataStream& from, QDataStream& to) {
   dataLength         = static_cast<int>(from.device()->size());
   compressedDataSize = static_cast<unsigned long>(dataLength - ulSize); // 1st 4 bytes holds information about uncompressed data size
 
-  ReadDataFromStream(from, uncompressedDataSize, ulSize, "DataHandler::uncompress()");
+  ReadDataFromStream(from, uncompressedDataSize, ulSize, "DataHandler::uncompressData()");
 
   uint8_t *inBuff  = nullptr;
   uint8_t *outBuff = nullptr;
   try {
     inBuff = new uint8_t[compressedDataSize];
     outBuff = new uint8_t[uncompressedDataSize];
-    ReadDataFromStream(from, *inBuff, compressedDataSize, "DataHandler::uncompress()");
+    ReadDataFromStream(from, *inBuff, compressedDataSize, "DataHandler::uncompressData()");
   }
   catch (...) {
     if (inBuff)  delete[] inBuff;
     if (outBuff) delete[] outBuff;
-    AddException("In function \"DataHandler::uncompress()\" allocated memory was failed.");
+    errorHandler->addException("In function \"DataHandler::uncompressData()\" allocated memory was failed.");
     throw;
   }
 
@@ -222,22 +260,21 @@ void DataHandler::uncompressData(QDataStream& from, QDataStream& to) {
 
   if (inBuff) delete[] inBuff;
   if (result == Z_OK) {
-    WriteDataToStream(to, *outBuff, uncompressedDataSize, "DataHandler::uncompress()");
+    WriteDataToStream(to, *outBuff, uncompressedDataSize, "DataHandler::uncompressData()");
     if (outBuff) delete[] outBuff;
   } else {
     if (outBuff) delete[] outBuff;
-    AddException("In function \"uncompress()\" uncompress was failed.");
+    errorHandler->addException("In function \"DataHandler::uncompressData()\" uncompress was failed.");
     throw;
   }
 }
 
-// ============================================================================
 
 // encrypt data to output binary file from data container
 void DataHandler::encryptData(QVector<DataRow*>& from, QDataStream& to) {
   QFile tmpFile(TMP_FILE_NAME);
   try {
-    OpenFile(tmpFile, QIODevice::ReadWrite, "DataHandler::encrypt()");
+    OpenFile(tmpFile, QIODevice::ReadWrite, "DataHandler::encryptData()");
     QDataStream tmp(&tmpFile);
 
     // write data rows to uncompressed tmp data file
@@ -250,12 +287,12 @@ void DataHandler::encryptData(QVector<DataRow*>& from, QDataStream& to) {
     compressData(tmp, to); // compress tmp data file to output file
   }
   catch (...) {
-    if (tmpFile.isOpen()) CloseFile(tmpFile, "DataHandler::encrypt()");
-    RemoveFile(tmpFile, "DataHandler::encrypt()");
+    if (tmpFile.isOpen()) CloseFile(tmpFile, "DataHandler::encryptData()");
+    RemoveFile(tmpFile, "DataHandler::encryptData()");
     throw;
   }
-  CloseFile(tmpFile,  "DataHandler::encrypt()");
-  RemoveFile(tmpFile, "DataHandler::encrypt()");
+  CloseFile(tmpFile,  "DataHandler::encryptData()");
+  RemoveFile(tmpFile, "DataHandler::encryptData()");
 }
 
 
@@ -273,25 +310,26 @@ void DataHandler::compressData(QDataStream& from, QDataStream& to) {
   try {
     inBuff = new uint8_t[uncompressedDataSize];
     outBuff = new uint8_t[compressedDataSize];
-    ReadDataFromStream(from, *inBuff, uncompressedDataSize, "DataHandler::compress()");
+    ReadDataFromStream(from, *inBuff, uncompressedDataSize, "DataHandler::compressData()");
   }
   catch (...) {
     if (inBuff)  delete[] inBuff;
     if (outBuff) delete[] outBuff;
-    AddException("In function \"DataHandler::compress()\" allocated memory was failed.");
+    errorHandler->addException("In function \"DataHandler::compressData()\" allocated memory was failed.");
     throw;
   }
 
-  int result = compress2(outBuff, &compressedDataSize, inBuff, uncompressedDataSize, Z_BEST_SPEED);
+  int level = settings->getSetting("compressing/compressing_level", 1).toInt();
+  int result = compress2(outBuff, &compressedDataSize, inBuff, uncompressedDataSize, level);
 
   if (inBuff)  delete[] inBuff;
   if (result == Z_OK) {
-    WriteDataToStream(to, uncompressedDataSize, ulSize, "DataHandler::compress()");
-    WriteDataToStream(to, *outBuff, static_cast<int>(compressedDataSize), "DataHandler::compress()");
+    WriteDataToStream(to, uncompressedDataSize, ulSize, "DataHandler::compressData()");
+    WriteDataToStream(to, *outBuff, static_cast<int>(compressedDataSize), "DataHandler::compressData()");
     if (outBuff) delete[] outBuff;
   } else {
     if (outBuff) delete[] outBuff;
-    AddException("In function \"DataHandler::compress()\" compress was failed.");
+    errorHandler->addException("In function \"DataHandler::compressData()\" compress was failed.");
     throw;
   }
 }

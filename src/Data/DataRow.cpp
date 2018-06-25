@@ -12,36 +12,32 @@ DataRow::~DataRow() {}
 
 // ============================================================================
 
-bool DataRow::operator < (const DataRow& row) const {
-  if (sheet < row.getSheet())   return true;
-  if (sheet > row.getSheet())   return false;
-  if (id1 < row.getId1())       return true;
-  if (id1 > row.getId1())       return false;
-  if (id2 < row.getId2())       return true;
-  if (id2 > row.getId2())       return false;
-  if (id3.solid < row.getId3()) return true;
-  if (id3.solid > row.getId3()) return false;
-  if (id4.solid < row.getId4()) return true;
+bool operator < (const DataRow& row1, const DataRow& row2) {
+  if (row1.sheet < row2.sheet)         return true;
+  if (row1.sheet > row2.sheet)         return false;
+  if (row1.id1 < row2.id1)             return true;
+  if (row1.id1 > row2.id1)             return false;
+  if (row1.id2 < row2.id2)             return true;
+  if (row1.id2 > row2.id2)             return false;
+  if (row1.id3.solid < row2.id3.solid) return true;
+  if (row1.id3.solid > row2.id3.solid) return false;
+  if (row1.id4.solid < row2.id4.solid) return true;
   return false;
 }
 
 
-bool DataRow::operator == (const DataRow& row) const {
-  if (sheet != row.getSheet())   return false;
-  if (id1 != row.getId1())       return false;
-  if (id2 != row.getId2())       return false;
-  if (id3.solid != row.getId3()) return false;
-  if (id4.solid != row.getId4()) return false;
+bool operator == (const DataRow& row1, const DataRow& row2) {
+  if (row1.sheet != row2.sheet)         return false;
+  if (row1.id1 != row2.id1)             return false;
+  if (row1.id2 != row2.id2)             return false;
+  if (row1.id3.solid != row2.id3.solid) return false;
+  if (row1.id4.solid != row2.id4.solid) return false;
   return true;
 }
 
 // getters/setters ============================================================
 
 unsigned long  DataRow::getSheet() const { return sheet; }
-unsigned long  DataRow::getId1()   const { return id1; }
-unsigned short DataRow::getId2()   const { return id2; }
-unsigned short DataRow::getId3()   const { return id3.solid; }
-unsigned short DataRow::getId4()   const { return id4.solid; }
 const QString DataRow::getString() const { return string; }
 
 void DataRow::setString(const QString &string) { DataRow::string = string; }
@@ -57,9 +53,9 @@ void DataRow::readBinDataFrom(QDataStream& input) {
   ReadDataFromStream(input, id3.split[0],  0, "DataRow::readBinDataFrom()");
   ReadDataFromStream(input, id4.split[0],  0, "DataRow::readBinDataFrom()");
   char16_t wch;
-  for (size_t i = 0; i < size; i++) {
+  for (size_t i = 0; i < static_cast<int>(size); i++) {
     ReadDataFromStream(input, wch, 0, "DataRow::readBinDataFrom()");
-    if (wch == CR_CODE) continue;                // skip CR
+    if (wch == CR_CODE) continue;                // skip CR if exist
     if (wch == LF_CODE) string.push_back("\\n"); // replace LF to '\n'
     else string.push_back(wch);
   }
@@ -71,6 +67,9 @@ void DataRow::readBinDataFrom(QDataStream& input) {
 
 // write to out stream (binary mode)
 void DataRow::writeBinDataTo(QDataStream& output) {
+  QRegularExpression reppat("\\\\n");
+  string.replace(reppat, "\n"); // replace '\n' to LF
+  size = static_cast<unsigned long>(string.count());
   WriteDataToStream(output, size,  0, "DataRow::writeBinDataTo()");
   WriteDataToStream(output, sheet, 0, "DataRow::writeBinDataTo()");
   WriteDataToStream(output, id1,   0, "DataRow::writeBinDataTo()");
@@ -78,7 +77,7 @@ void DataRow::writeBinDataTo(QDataStream& output) {
   WriteDataToStream(output, id3.split[0],  0, "DataRow::writeBinDataTo()");
   WriteDataToStream(output, id4.split[0],  0, "DataRow::writeBinDataTo()");
   char16_t wch;
-  for (int i = 0; i < string.size(); i++) {
+  for (int i = 0; i < static_cast<int>(size); i++) {
     wch = static_cast<char16_t>(string[i].unicode());
     WriteDataToStream(output, wch, 0, "DataRow::writeBinDataTo()");
   }
@@ -90,7 +89,7 @@ void DataRow::writeBinDataTo(QDataStream& output) {
 
 
 // read from in stream (text mode)
-void DataRow::readTextDataFrom(QTextStream& input, MODE mode) {
+void DataRow::readTextDataFrom(QTextStream& input) {
   input >> sheet;
   input >> id1;
   input >> id2;
@@ -100,11 +99,7 @@ void DataRow::readTextDataFrom(QTextStream& input, MODE mode) {
 
   // formating string
   QRegularExpression rempat("(^\t\"|\r|\"$)");
-  QRegularExpression reppat("\\\\n");
-  string.remove(rempat);        // remove tabulation, quotes, CR
-  if (mode == MODE::TEXT_TO_BIN) string.replace(reppat, "\n"); // replace '\n' to LF
-
-  size = static_cast<unsigned long>(string.count());
+  string.remove(rempat); // remove tabulation, quotes, CR
 }
 
 

@@ -1,36 +1,9 @@
 #include "ApplicationFunctions.hpp"
 
 
-QFile configFile;
-QStringList exceptionsMessagesList;
 QFontDatabase *fontsList;
 
-// exceptions =================================================================
-
-void AddException(const QString &exceptionMessage) {
-  exceptionsMessagesList.push_back(exceptionMessage);
-}
-
-
-const QString GetExceptionsMessage() {
-  QString exceptionMessage;
-  for (int i = 0; i < exceptionsMessagesList.size(); i++) {
-    exceptionMessage += exceptionsMessagesList.at(i);
-    exceptionMessage.push_back('\n');
-  }
-  exceptionsMessagesList.clear();
-  return exceptionMessage;
-}
-
 // service ====================================================================
-
-void Delay(int timeToWait) {
-  QTime milliseconds = QTime::currentTime().addMSecs(timeToWait);
-  while(QTime::currentTime() < milliseconds) {
-    QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
-  }
-}
-
 
 const QString GetDirectoryPath(const QString &title) {
   return QFileDialog::getExistingDirectory(nullptr, title, "/.", QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
@@ -63,8 +36,8 @@ const QString GetFileName(const QString &title, const QString &extStr) {
 
 void OpenFile(QFile& file, QFlags<QIODevice::OpenModeFlag> openMode, const QString &functionName) {
   if (!file.open(openMode)) {
-    AddException("In function \"" + functionName + "\" opening \"" + file.fileName() + "\" file was failed.");
-    throw;
+    ErrorHandler::getInstance().addException("In function \"" + functionName + "\" opening \"" + file.fileName() + "\" file was failed.");
+    throw false;
   }
 }
 
@@ -72,8 +45,8 @@ void OpenFile(QFile& file, QFlags<QIODevice::OpenModeFlag> openMode, const QStri
 void CloseFile(QFile& file, const QString &functionName) {
   file.close();
   if (file.isOpen()) {
-    AddException("In function \"" + functionName + "\" closing \"" + file.fileName() + "\" file was failed.");
-    throw;
+    ErrorHandler::getInstance().addException("In function \"" + functionName + "\" closing \"" + file.fileName() + "\" file was failed.");
+    throw false;
   }
 }
 
@@ -81,8 +54,8 @@ void CloseFile(QFile& file, const QString &functionName) {
 void RemoveFile(QFile& file, const QString &functionName) {
   if (file.isOpen()) CloseFile(file, functionName);
   if (!file.remove()) {
-    AddException("In function \"" + functionName + "\" removing \"" + file.fileName() + "\" file was failed.");
-    throw;
+    ErrorHandler::getInstance().addException("In function \"" + functionName + "\" removing \"" + file.fileName() + "\" file was failed.");
+    throw false;
   }
 }
 
