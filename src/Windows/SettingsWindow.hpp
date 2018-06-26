@@ -4,6 +4,7 @@
 #include "ApplicationFunctions.hpp"
 
 namespace Ui { class SettingsWindow; }
+class LanguageWidget;
 
 
 class SettingsWindow : public QWidget {
@@ -24,7 +25,11 @@ private slots:
 
 private:
   Ui::SettingsWindow *ui = nullptr;
-  Settings *settings = nullptr;
+  Settings *settings     = nullptr;
+  QVector<LanguageWidget*> languagesList;
+
+  void addLanguageWidget(bool deletable, const QString &language, const QString &locFileName, const QString &textFileName);
+  void deleteLanguageWidgets();
 
 };
 

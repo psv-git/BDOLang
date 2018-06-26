@@ -1,6 +1,6 @@
+#include <QtZlib/zlib.h>
 #include "DataHandler.hpp"
 #include "DataRow.hpp"
-#include <QtZlib/zlib.h>
 
 
 DataHandler::DataHandler(const QString &fromFilePath, const QString &toFilePath, MODE mode) : QObject(nullptr) {
@@ -16,7 +16,7 @@ DataHandler::~DataHandler() {}
 
 // public slots ===============================================================
 
-void DataHandler::process() {
+void DataHandler::start() {
   if (mode == MODE::BIN_TO_TEXT || mode == MODE::TEXT_TO_BIN) {
     if (!convertFile(fromFilePath, toFilePath, mode)) emit failed();
   } else if (mode == MODE::MERGE_TEXT || mode == MODE::MERGE_BIN) {
@@ -24,6 +24,9 @@ void DataHandler::process() {
   }
   emit completed();
 }
+
+
+void DataHandler::stop() {}
 
 // private methods ============================================================
 

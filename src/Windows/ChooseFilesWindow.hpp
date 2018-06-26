@@ -18,14 +18,14 @@ signals:
   void buttonClicked(const QString &srcFilePath, const QString &targFilePath);
 
 public slots:
-  void show();
+  void show(MODE mode);
 
 private slots:
   void buttonClick();
 
 private:
   Ui::ChooseFilesWindow *ui = nullptr;
-  Settings *settings = nullptr;
+  Settings *settings        = nullptr;
 
 };
 

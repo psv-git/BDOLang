@@ -12,8 +12,8 @@ public:
   CustomComboBox(QWidget *parent = 0);
   ~CustomComboBox();
 
-  int getCurrentValue();
-  void setCurrentValue(int value);
+  int getValue();
+  void setValue(int value);
 
 };
 

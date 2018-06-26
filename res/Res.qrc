@@ -1,10 +1,12 @@
 <RCC>
+    <qresource prefix="/images">
+        <file>images/checked-checkbox.png</file>
+        <file>images/unchecked-checkbox.png</file>
+    </qresource>
     <qresource prefix="/fonts">
-        <file>liberation-fonts-ttf/LiberationMono-Bold.ttf</file>
-        <file>liberation-fonts-ttf/LiberationMono-Regular.ttf</file>
-        <file>liberation-fonts-ttf/LiberationSans-Bold.ttf</file>
-        <file>liberation-fonts-ttf/LiberationSans-Regular.ttf</file>
-        <file>liberation-fonts-ttf/LiberationSerif-Bold.ttf</file>
-        <file>liberation-fonts-ttf/LiberationSerif-Regular.ttf</file>
+        <file>fonts/LiberationMono-Bold.ttf</file>
+        <file>fonts/LiberationMono-Regular.ttf</file>
+        <file>fonts/LiberationSans-Bold.ttf</file>
+        <file>fonts/LiberationSans-Regular.ttf</file>
     </qresource>
 </RCC>

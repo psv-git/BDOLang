@@ -41,9 +41,10 @@ SOURCES += \
     src/windows/MainWindow.cpp \
     src/windows/ChooseFilesWindow.cpp \
     src/windows/SettingsWindow.cpp \
-    src/windows/TranslateWindow.cpp \
     src/windows/ProcessingWindow.cpp \
-    src/elements/CustomComboBox.cpp
+    src/windows/TranslatingWindow.cpp \
+    src/elements/CustomComboBox.cpp \
+    src/elements/LanguageWidget.cpp
 
 HEADERS += \
     src/data/DataHandler.hpp \
@@ -57,29 +58,31 @@ HEADERS += \
     src/windows/MainWindow.hpp \
     src/windows/ChooseFilesWindow.hpp \
     src/windows/SettingsWindow.hpp \
-    src/windows/TranslateWindow.hpp \
     src/windows/ProcessingWindow.hpp \
-    src/elements/CustomComboBox.hpp
+    src/windows/TranslatingWindow.hpp \
+    src/elements/CustomComboBox.hpp \
+    src/elements/LanguageWidget.hpp
 
 FORMS += \
     src/forms/MainWindow.ui \
     src/forms/ChooseFilesWindow.ui \
     src/forms/SettingsWindow.ui \
-    src/forms/TranslateWindow.ui \
-    src/forms/ProcessingWindow.ui
+    src/forms/ProcessingWindow.ui \
+    src/forms/TranslatingWindow.ui \
+    src/forms/LanguageWidget.ui
 
 DISTFILES += \
     .gitignore \
     README.md \
     LICENSE \
-    res/liberation-fonts-ttf/LICENSE \
-    res/liberation-fonts-ttf/AUTHORS \
-    res/liberation-fonts-ttf/LiberationMono-Bold.ttf \
-    res/liberation-fonts-ttf/LiberationMono-Regular.ttf \
-    res/liberation-fonts-ttf/LiberationSans-Bold.ttf \
-    res/liberation-fonts-ttf/LiberationSans-Regular.ttf \
-    res/liberation-fonts-ttf/LiberationSerif-Bold.ttf \
-    res/liberation-fonts-ttf/LiberationSerif-Regular.ttf
+    res/fonts/LiberationMono-Bold.ttf \
+    res/fonts/LiberationMono-Regular.ttf \
+    res/fonts/LiberationSans-Bold.ttf \
+    res/fonts/LiberationSans-Regular.ttf \
+    res/images/checked-checkbox.png \
+    res/images/unchecked-checkbox.png \
+    res/fonts/LICENSE \
+    res/fonts/AUTHORS
 
 RESOURCES += \
     res/Res.qrc

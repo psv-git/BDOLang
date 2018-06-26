@@ -4,7 +4,6 @@
 #include "ApplicationGlobal.hpp"
 
 namespace Ui { class ProcessingWindow; }
-class ErrorHandler;
 
 
 class ProcessingWindow : public QWidget {
@@ -26,8 +25,9 @@ private slots:
   void buttonClick();
 
 private:
-  Ui::ProcessingWindow *ui = nullptr;
-  ErrorHandler *errorHandler;
+  Ui::ProcessingWindow *ui   = nullptr;
+  Settings *settings         = nullptr;
+  ErrorHandler *errorHandler = nullptr;
 
 };
 

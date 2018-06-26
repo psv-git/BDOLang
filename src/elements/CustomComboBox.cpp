@@ -8,11 +8,11 @@ CustomComboBox::~CustomComboBox() {}
 
 // public methods =============================================================
 
-int CustomComboBox::getCurrentValue() {
+int CustomComboBox::getValue() {
   return QComboBox::currentIndex() + 1;
 }
 
 
-void CustomComboBox::setCurrentValue(int value) {
+void CustomComboBox::setValue(int value) {
   QComboBox::setCurrentIndex(value - 1);
 }

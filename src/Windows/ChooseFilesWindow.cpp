@@ -4,22 +4,21 @@
 
 ChooseFilesWindow::ChooseFilesWindow(QWidget *parent) : QWidget(parent), ui(new Ui::ChooseFilesWindow) {
   ui->setupUi(this);
-
-  ui->okButton->setFont(GetFont("Liberation Sans",      "Bold",    12));
-  ui->cancelButton->setFont(GetFont("Liberation Sans",  "Bold",    12));
-  ui->chooseButton1->setFont(GetFont("Liberation Sans", "Bold",    12));
-  ui->chooseButton2->setFont(GetFont("Liberation Sans", "Bold",    12));
-  ui->pathEdit1->setFont(GetFont("Liberation Mono",     "Regular", 10));
-  ui->pathEdit2->setFont(GetFont("Liberation Mono",     "Regular", 10));
-  ui->pathLabel1->setFont(GetFont("Liberation Sans",    "Bold",    11));
-  ui->pathLabel2->setFont(GetFont("Liberation Sans",    "Bold",    11));
-
-  connect(ui->okButton,      SIGNAL(released()), this, SLOT(buttonClick()));
-  connect(ui->cancelButton,  SIGNAL(released()), this, SLOT(buttonClick()));
-  connect(ui->chooseButton1, SIGNAL(released()), this, SLOT(buttonClick()));
-  connect(ui->chooseButton2, SIGNAL(released()), this, SLOT(buttonClick()));
-
   settings = &Settings::getInstance();
+
+  ui->okButton->setFont(settings->getFont("Liberation Sans",         "Bold",    12));
+  ui->cancelButton->setFont(settings->getFont("Liberation Sans",     "Bold",    12));
+  ui->sourcePathButton->setFont(settings->getFont("Liberation Sans", "Bold",    12));
+  ui->targetPathButton->setFont(settings->getFont("Liberation Sans", "Bold",    12));
+  ui->sourcePathEdit->setFont(settings->getFont("Liberation Mono",   "Regular", 10));
+  ui->targetPathEdit->setFont(settings->getFont("Liberation Mono",   "Regular", 10));
+  ui->sourcePathLabel->setFont(settings->getFont("Liberation Sans",  "Bold",    11));
+  ui->targetPathLabel->setFont(settings->getFont("Liberation Sans",  "Bold",    11));
+
+  connect(ui->okButton,         SIGNAL(released()), this, SLOT(buttonClick()));
+  connect(ui->cancelButton,     SIGNAL(released()), this, SLOT(buttonClick()));
+  connect(ui->sourcePathButton, SIGNAL(released()), this, SLOT(buttonClick()));
+  connect(ui->targetPathButton, SIGNAL(released()), this, SLOT(buttonClick()));
 }
 
 
@@ -29,10 +28,29 @@ ChooseFilesWindow::~ChooseFilesWindow() {
 
 // public slots ===============================================================
 
-void ChooseFilesWindow::show() {
-  QString dataPath = settings->getSetting("path/data_path", DEFAULT_SETTINGS.dataPath).toString();
-  ui->pathEdit1->setText(dataPath + settings->getSetting("path/source_name", DEFAULT_SETTINGS.sourceFileName).toString());
-  ui->pathEdit2->setText(dataPath + settings->getSetting("path/target_name", DEFAULT_SETTINGS.targetFileName).toString());
+void ChooseFilesWindow::show(MODE mode) {
+  QString dataPath = settings->getSetting("path/data_directory", DEFAULT_SETTINGS.dataDirectoryName).toString();
+
+//  if (mode == MODE::BIN_TO_TEXT) {
+//    ui->sourcePathEdit->setText(dataPath + "/" + settings->getSetting("path/source_loc_name", DEFAULT_SETTINGS.sourceLocFileName).toString());
+//    ui->targetPathEdit->setText(dataPath + "/" + settings->getSetting("path/source_text_name", DEFAULT_SETTINGS.sourceTextFileName).toString());
+//  }
+
+//  if (mode == MODE::TEXT_TO_BIN) {
+//    ui->sourcePathEdit->setText(dataPath + "/" + settings->getSetting("path/source_text_name", DEFAULT_SETTINGS.sourceTextFileName).toString());
+//    ui->targetPathEdit->setText(dataPath + "/" + settings->getSetting("path/source_loc_name", DEFAULT_SETTINGS.sourceLocFileName).toString());
+//  }
+
+//  if (mode == MODE::MERGE_BIN) {
+//    ui->sourcePathEdit->setText(dataPath + "/" + settings->getSetting("path/target_loc_name", DEFAULT_SETTINGS.targetLocFileName).toString());
+//    ui->targetPathEdit->setText(dataPath + "/" + settings->getSetting("path/source_loc_name", DEFAULT_SETTINGS.sourceLocFileName).toString());
+//  }
+
+//  if (mode == MODE::MERGE_TEXT) {
+//    ui->sourcePathEdit->setText(dataPath + "/" + settings->getSetting("path/target_text_name", DEFAULT_SETTINGS.targetTextFileName).toString());
+//    ui->targetPathEdit->setText(dataPath + "/" + settings->getSetting("path/source_text_name", DEFAULT_SETTINGS.sourceTextFileName).toString());
+//  }
+
   QWidget::show();
 }
 
@@ -41,18 +59,18 @@ void ChooseFilesWindow::show() {
 void ChooseFilesWindow::buttonClick () {
   QObject* obj = QObject::sender();
   QString objName = obj->objectName();
-  if (objName == "okButton") {
-    QString srcFilePath(ui->pathEdit1->text());
-    QString targFilePath(ui->pathEdit2->text());
-    QString dataPath = settings->getSetting("path/data_path", DEFAULT_SETTINGS.dataPath).toString();
-    if (srcFilePath.isEmpty()) srcFilePath = dataPath + settings->getSetting("path/source_name",  DEFAULT_SETTINGS.sourceFileName).toString();
-    if (targFilePath.isEmpty()) targFilePath = dataPath + settings->getSetting("path/target_name",  DEFAULT_SETTINGS.targetFileName).toString();
-    emit buttonClicked(srcFilePath, targFilePath);
-  } else if (objName == "cancelButton") {
-    emit buttonClicked(MODE::CLOSE);
-  } else if (objName == "chooseButton1") {
-    ui->pathEdit1->setText(GetFilePath(tr("Open file"), tr("Files extensions (*)")));
-  } else if (objName == "chooseButton2") {
-    ui->pathEdit2->setText(GetFilePath(tr("Open file"), tr("Files extensions (*)")));
-  }
+//  if (objName == "okButton") {
+//    QString srcFilePath(ui->sourcePathEdit->text());
+//    QString targFilePath(ui->targetPathEdit->text());
+//    QString dataPath = settings->getSetting("path/data_directory", DEFAULT_SETTINGS.dataDirectoryName).toString();
+//    if (srcFilePath.isEmpty()) srcFilePath = dataPath + settings->getSetting("path/source_loc_name",  DEFAULT_SETTINGS.sourceLocFileName).toString();
+//    if (targFilePath.isEmpty()) targFilePath = dataPath + settings->getSetting("path/target_loc_name",  DEFAULT_SETTINGS.targetLocFileName).toString();
+//    emit buttonClicked(srcFilePath, targFilePath);
+//  } else if (objName == "cancelButton") {
+//    emit buttonClicked(MODE::CLOSE);
+//  } else if (objName == "sourcePathButton") {
+//    ui->sourcePathEdit->setText(GetFilePath(tr("Open file"), tr("Files extensions (*)")));
+//  } else if (objName == "targetPathButton") {
+//    ui->targetPathEdit->setText(GetFilePath(tr("Open file"), tr("Files extensions (*)")));
+//  }
 }

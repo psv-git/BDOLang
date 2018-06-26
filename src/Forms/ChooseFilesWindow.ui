@@ -64,7 +64,7 @@
    <property name="frameShadow">
     <enum>QFrame::Raised</enum>
    </property>
-   <widget class="QLineEdit" name="pathEdit1">
+   <widget class="QLineEdit" name="sourcePathEdit">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -88,16 +88,19 @@
 }
 </string>
     </property>
+    <property name="text">
+     <string/>
+    </property>
     <property name="readOnly">
      <bool>true</bool>
     </property>
    </widget>
-   <widget class="QLabel" name="pathLabel1">
+   <widget class="QLabel" name="sourcePathLabel">
     <property name="geometry">
      <rect>
       <x>10</x>
       <y>10</y>
-      <width>500</width>
+      <width>411</width>
       <height>30</height>
      </rect>
     </property>
@@ -114,8 +117,11 @@
 }
 </string>
     </property>
+    <property name="text">
+     <string/>
+    </property>
    </widget>
-   <widget class="QPushButton" name="chooseButton1">
+   <widget class="QPushButton" name="sourcePathButton">
     <property name="enabled">
      <bool>true</bool>
     </property>
@@ -166,6 +172,67 @@ QPushButton:disabled {
      <string>...</string>
     </property>
    </widget>
+   <widget class="CustomComboBox" name="languageBox">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>430</x>
+      <y>10</y>
+      <width>80</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="contextMenuPolicy">
+     <enum>Qt::NoContextMenu</enum>
+    </property>
+    <property name="autoFillBackground">
+     <bool>false</bool>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QComboBox {
+	font: 75 12pt &quot;Liberation Sans&quot;;
+	color: rgb(255, 255, 255);
+
+	background-color: rgb(150, 150, 150);
+
+	border: 1px solid  rgb(100, 100, 100);
+	border-radius: 2px;
+}
+
+QComboBox:hover {
+	background-color: rgb(160, 160, 160);
+}
+
+QComboBox:disabled {
+	background-color: rgb(190, 190, 190);
+}
+
+QComboBox::down-arrow {
+}
+</string>
+    </property>
+    <property name="currentText">
+     <string>      EN</string>
+    </property>
+    <property name="maxCount">
+     <number>100</number>
+    </property>
+    <property name="frame">
+     <bool>true</bool>
+    </property>
+    <item>
+     <property name="text">
+      <string>      EN</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>      RU</string>
+     </property>
+    </item>
+   </widget>
   </widget>
   <widget class="QFrame" name="frame2">
    <property name="geometry">
@@ -194,12 +261,12 @@ QPushButton:disabled {
    <property name="frameShadow">
     <enum>QFrame::Raised</enum>
    </property>
-   <widget class="QLabel" name="pathLabel2">
+   <widget class="QLabel" name="targetPathLabel">
     <property name="geometry">
      <rect>
       <x>10</x>
       <y>10</y>
-      <width>500</width>
+      <width>410</width>
       <height>30</height>
      </rect>
     </property>
@@ -216,7 +283,7 @@ QPushButton:disabled {
 }</string>
     </property>
    </widget>
-   <widget class="QLineEdit" name="pathEdit2">
+   <widget class="QLineEdit" name="targetPathEdit">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -240,11 +307,14 @@ QPushButton:disabled {
 }
 </string>
     </property>
+    <property name="text">
+     <string/>
+    </property>
     <property name="readOnly">
      <bool>true</bool>
     </property>
    </widget>
-   <widget class="QPushButton" name="chooseButton2">
+   <widget class="QPushButton" name="targetPathButton">
     <property name="enabled">
      <bool>true</bool>
     </property>
@@ -285,6 +355,67 @@ QPushButton:disabled {
     <property name="text">
      <string>...</string>
     </property>
+   </widget>
+   <widget class="CustomComboBox" name="languageBox_2">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>430</x>
+      <y>10</y>
+      <width>80</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="contextMenuPolicy">
+     <enum>Qt::NoContextMenu</enum>
+    </property>
+    <property name="autoFillBackground">
+     <bool>false</bool>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QComboBox {
+	font: 75 12pt &quot;Liberation Sans&quot;;
+	color: rgb(255, 255, 255);
+
+	background-color: rgb(150, 150, 150);
+
+	border: 1px solid  rgb(100, 100, 100);
+	border-radius: 2px;
+}
+
+QComboBox:hover {
+	background-color: rgb(160, 160, 160);
+}
+
+QComboBox:disabled {
+	background-color: rgb(190, 190, 190);
+}
+
+QComboBox::down-arrow {
+}
+</string>
+    </property>
+    <property name="currentText">
+     <string>      EN</string>
+    </property>
+    <property name="maxCount">
+     <number>100</number>
+    </property>
+    <property name="frame">
+     <bool>true</bool>
+    </property>
+    <item>
+     <property name="text">
+      <string>      EN</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>      RU</string>
+     </property>
+    </item>
    </widget>
   </widget>
   <widget class="QFrame" name="frame3">
@@ -412,11 +543,18 @@ QPushButton:disabled {
    </widget>
   </widget>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>CustomComboBox</class>
+   <extends>QComboBox</extends>
+   <header>CustomComboBox.hpp</header>
+  </customwidget>
+ </customwidgets>
  <tabstops>
-  <tabstop>pathEdit1</tabstop>
-  <tabstop>chooseButton1</tabstop>
-  <tabstop>pathEdit2</tabstop>
-  <tabstop>chooseButton2</tabstop>
+  <tabstop>sourcePathEdit</tabstop>
+  <tabstop>sourcePathButton</tabstop>
+  <tabstop>targetPathEdit</tabstop>
+  <tabstop>targetPathButton</tabstop>
   <tabstop>okButton</tabstop>
   <tabstop>cancelButton</tabstop>
  </tabstops>

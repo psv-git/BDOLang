@@ -6,12 +6,12 @@
 
 // service ====================================================================
 
+int RunApplication(int argc, char *argv[]);
+
+// paths & files ======================================================================
+
 const QString GetDirectoryPath(const QString &title);
 QString GetRootPath();
-
-QFont GetFont(const QString &family, const QString &style, int pointSize);
-
-// files ======================================================================
 
 const QString GetFilePath(const QString &title, const QString &extStr);
 const QString GetFileName(const QString &title, const QString &extStr);
@@ -19,11 +19,6 @@ const QString GetFileName(const QString &title, const QString &extStr);
 void OpenFile(QFile& file,   QFlags<QIODevice::OpenModeFlag> openMode, const QString &functionName = "");
 void CloseFile(QFile& file,  const QString &functionName = "");
 void RemoveFile(QFile& file, const QString& functionName = "");
-
-// application setup ==========================================================
-
-bool SetupApplication();
-void SetFonts(QFontDatabase &fontsDataBase);
 
 // i/o ========================================================================
 
@@ -33,7 +28,7 @@ void ReadDataFromStream(QDataStream& stream, V& var, int size = 0, const QString
   stream.readRawData(reinterpret_cast<char*>(&var), size);
   if (stream.status() == QDataStream::ReadCorruptData) {
     ErrorHandler::getInstance().addException("In function \"" + functionName + "\" read data from file was failed.");
-    throw;
+    throw false;
   }
 }
 
@@ -44,7 +39,7 @@ void WriteDataToStream(QDataStream& stream, V& var, int size = 0, const QString 
   stream.writeRawData(reinterpret_cast<char*>(&var), size);
   if (stream.status() == QDataStream::WriteFailed) {
     ErrorHandler::getInstance().addException("In function \"" + functionName + "\" write data from file was failed.");
-    throw;
+    throw false;
   }
 }
 

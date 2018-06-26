@@ -5,17 +5,18 @@
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
   ui->setupUi(this);
+  settings = &Settings::getInstance();
   unlockWindow();
 
-  ui->bttButton->setFont(GetFont("Liberation Sans",      "Bold", 12));
-  ui->ttbButton->setFont(GetFont("Liberation Sans",      "Bold", 12));
-  ui->mbButton->setFont(GetFont("Liberation Sans",       "Bold", 12));
-  ui->mtButton->setFont(GetFont("Liberation Sans",       "Bold", 12));
-  ui->cbsiButton->setFont(GetFont("Liberation Sans",     "Bold", 12));
-  ui->cbstButton->setFont(GetFont("Liberation Sans",     "Bold", 12));
-  ui->trButton->setFont(GetFont("Liberation Sans",       "Bold", 12));
-  ui->settingsButton->setFont(GetFont("Liberation Sans", "Bold", 12));
-  ui->exitButton->setFont(GetFont("Liberation Sans",     "Bold", 12));
+  ui->bttButton->setFont(settings->getFont("Liberation Sans",      "Bold", 12));
+  ui->ttbButton->setFont(settings->getFont("Liberation Sans",      "Bold", 12));
+  ui->mbButton->setFont(settings->getFont("Liberation Sans",       "Bold", 12));
+  ui->mtButton->setFont(settings->getFont("Liberation Sans",       "Bold", 12));
+  ui->cbsiButton->setFont(settings->getFont("Liberation Sans",     "Bold", 12));
+  ui->cbstButton->setFont(settings->getFont("Liberation Sans",     "Bold", 12));
+  ui->trButton->setFont(settings->getFont("Liberation Sans",       "Bold", 12));
+  ui->settingsButton->setFont(settings->getFont("Liberation Sans", "Bold", 12));
+  ui->exitButton->setFont(settings->getFont("Liberation Sans",     "Bold", 12));
 
   connect(ui->bttButton,      SIGNAL(released()), this, SLOT(buttonClick()));
   connect(ui->ttbButton,      SIGNAL(released()), this, SLOT(buttonClick()));

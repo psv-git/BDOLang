@@ -1,3 +1,4 @@
+#include <QThread>
 #include "ProcessingWindow.hpp"
 #include "ui_ProcessingWindow.h"
 #include "DataHandler.hpp"
@@ -5,10 +6,11 @@
 
 ProcessingWindow::ProcessingWindow(QWidget *parent) : QWidget(parent), ui(new Ui::ProcessingWindow) {
   ui->setupUi(this);
+  settings = &Settings::getInstance();
   errorHandler = &ErrorHandler::getInstance();
 
-  ui->exitButton->setFont(GetFont("Liberation Sans",   "Bold", 12));
-  ui->messageLabel->setFont(GetFont("Liberation Sans", "Bold", 20));
+  ui->exitButton->setFont(settings->getFont("Liberation Sans",   "Bold", 12));
+  ui->messageLabel->setFont(settings->getFont("Liberation Sans", "Bold", 20));
 
   connect(ui->exitButton, SIGNAL(released()), this, SLOT(buttonClick()));
 }

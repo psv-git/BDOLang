@@ -3,26 +3,26 @@
 
 
 // qt headers
-#include <QCoreApplication>
 #include <QApplication>
 #include <QMainWindow>
 #include <QFileDialog>
-#include <QFontDatabase>
 #include <QDir>
 #include <QFile>
 #include <QFileInfo>
 #include <QDataStream>
 #include <QTextStream>
-#include <QThread>
 #include <QTime>
 #include <QRegularExpression>
 #include <QString>
 #include <QVector>
 #include <QMap>
-#include <QDebug>
 
 // cpp headers
 #include <algorithm>
+
+// debug
+#include <QDebug>
+#include <iostream>
 
 
 #endif // APPLICATIONHEADERS_HPP

@@ -1,7 +1,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include "ApplicationFunctions.hpp"
+#include "ApplicationGlobal.hpp"
 
 namespace Ui { class MainWindow; }
 
@@ -25,6 +25,7 @@ private slots:
 
 private:
   Ui::MainWindow *ui = nullptr;
+  Settings *settings = nullptr;
 
 };
 

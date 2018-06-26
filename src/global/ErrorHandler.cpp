@@ -1,5 +1,5 @@
-#include "ErrorHandler.hpp"
 #include <QErrorMessage>
+#include "ErrorHandler.hpp"
 
 
 ErrorHandler::ErrorHandler() {

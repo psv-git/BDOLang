@@ -1,14 +1,10 @@
-#include "Settings.hpp"
 #include <QSettings>
+#include <QFontDatabase>
+#include "Settings.hpp"
 
 
 const DefaultSettings DEFAULT_SETTINGS {
   1,
-  1,
-  "./data/",
-  "languagedata_en.loc",
-  "languagedata_ru.loc",
-  "languagedata.txt",
   "data",
   "config.ini"
 };
@@ -21,18 +17,36 @@ Settings::Settings() {
 
 
 Settings::~Settings() {
-  if (settings) delete settings;
+  if (settings) settings->deleteLater();
+  if (fontsList) delete fontsList;
 }
 
 // public methods =============================================================
 
-void Settings::setSetting(const QString &key, const QVariant &value, bool writeFlag) {
-  settings->setValue(key, value);
-
-  if (writeFlag) settings->sync();
+QVariant Settings::getSetting(const QString &key, const QVariant &defaultValue) {
+  return settings->value(key, defaultValue);
 }
 
 
-QVariant Settings::getSetting(const QString &key, const QVariant &defaultValue) {
-  return settings->value(key, defaultValue);
+QFont Settings::getFont(const QString &family, const QString &style, int pointSize) {
+  return fontsList->font(family, style, pointSize);
+}
+
+
+void Settings::setSetting(const QString &key, const QVariant &value) {
+  settings->setValue(key, value);
+}
+
+
+void Settings::setFonts() {
+  if (!fontsList) fontsList = new QFontDatabase();
+  fontsList->addApplicationFont(":/fonts/fonts/LiberationMono-Bold.ttf");
+  fontsList->addApplicationFont(":/fonts/fonts/LiberationMono-Regular.ttf");
+  fontsList->addApplicationFont(":/fonts/fonts/LiberationSans-Bold.ttf");
+  fontsList->addApplicationFont(":/fonts/fonts/LiberationSans-Regular.ttf");
+}
+
+
+void Settings::saveSettings() {
+  settings->sync();
 }

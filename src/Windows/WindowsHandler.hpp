@@ -4,11 +4,10 @@
 #include "ApplicationGlobal.hpp"
 
 class MainWindow;
-class TranslateWindow;
-class ChooseFileWindow;
 class ChooseFilesWindow;
 class SettingsWindow;
 class ProcessingWindow;
+class TranslatingWindow;
 
 
 class WindowsHandler : public QObject {
@@ -23,12 +22,12 @@ public slots:
   void buttonClick(const QString &srcFilePath, const QString &targFilePath);
 
 private:
-  MainWindow        *mainWindow        = nullptr;
-  TranslateWindow   *translateWindow   = nullptr;
-  SettingsWindow    *settingsWindow    = nullptr;
+  MODE mode                            = MODE::NONE;
+  MainWindow *mainWindow               = nullptr;
   ChooseFilesWindow *chooseFilesWindow = nullptr;
-  ProcessingWindow  *processingWindow  = nullptr;
-  MODE              mode               = MODE::NONE;
+  SettingsWindow *settingsWindow       = nullptr;
+  ProcessingWindow *processingWindow   = nullptr;
+  TranslatingWindow *translatingWindow = nullptr;
 
   void createWindow(WTYPE type);
 
