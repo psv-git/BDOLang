@@ -1,7 +1,7 @@
 #ifndef ERRORHANDLER_HPP
 #define ERRORHANDLER_HPP
 
-#include "ApplicationHeaders.hpp"
+#include "Headers.hpp"
 
 
 class ErrorHandler {

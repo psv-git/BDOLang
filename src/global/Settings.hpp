@@ -1,7 +1,7 @@
 #ifndef SETTINGS_HPP
 #define SETTINGS_HPP
 
-#include "ApplicationGlobal.hpp"
+#include "Headers.hpp"
 class QSettings;
 class QFontDatabase;
 

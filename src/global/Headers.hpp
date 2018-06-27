@@ -1,5 +1,5 @@
-#ifndef APPLICATIONHEADERS_HPP
-#define APPLICATIONHEADERS_HPP
+#ifndef HEADERS_HPP
+#define HEADERS_HPP
 
 
 // qt headers
@@ -25,4 +25,4 @@
 #include <iostream>
 
 
-#endif // APPLICATIONHEADERS_HPP
+#endif // HEADERS_HPP

@@ -3,6 +3,10 @@
 #include "DataRow.hpp"
 
 
+const char* TMP_FILE_NAME = "./data/tmp.bss";
+
+// ============================================================================
+
 DataHandler::DataHandler(const QString &fromFilePath, const QString &toFilePath, MODE mode) : QObject(nullptr) {
   settings = &Settings::getInstance();
   errorHandler = &ErrorHandler::getInstance();

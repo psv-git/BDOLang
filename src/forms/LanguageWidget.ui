@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>520</width>
+    <width>523</width>
     <height>130</height>
    </rect>
   </property>
@@ -18,13 +18,13 @@
   </property>
   <property name="minimumSize">
    <size>
-    <width>520</width>
+    <width>523</width>
     <height>130</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>520</width>
+    <width>523</width>
     <height>130</height>
    </size>
   </property>
@@ -38,44 +38,10 @@
 }
 </string>
   </property>
-  <widget class="QLineEdit" name="languageEdit">
-   <property name="geometry">
-    <rect>
-     <x>170</x>
-     <y>10</y>
-     <width>80</width>
-     <height>30</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">QLineEdit {
-	font: 75 11pt &quot;Liberation Sans&quot;;
-	color: rgb(20, 20, 20);
-
-	background-color: rgb(255, 255, 255);
-
-	border: 1px solid  rgb(100, 100, 100);
-	border-radius: 2px;
-}
-</string>
-   </property>
-   <property name="text">
-    <string/>
-   </property>
-   <property name="frame">
-    <bool>false</bool>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignCenter</set>
-   </property>
-   <property name="clearButtonEnabled">
-    <bool>true</bool>
-   </property>
-  </widget>
   <widget class="QPushButton" name="textFileNameButton">
    <property name="geometry">
     <rect>
-     <x>430</x>
+     <x>433</x>
      <y>90</y>
      <width>80</width>
      <height>30</height>
@@ -131,7 +97,7 @@ QPushButton:disabled {
     <rect>
      <x>170</x>
      <y>50</y>
-     <width>250</width>
+     <width>253</width>
      <height>30</height>
     </rect>
    </property>
@@ -200,7 +166,7 @@ QPushButton:disabled {
     <rect>
      <x>170</x>
      <y>90</y>
-     <width>250</width>
+     <width>253</width>
      <height>30</height>
     </rect>
    </property>
@@ -235,17 +201,18 @@ QPushButton:disabled {
     <bool>true</bool>
    </property>
   </widget>
-  <widget class="QCheckBox" name="checkBox">
+  <widget class="QCheckBox" name="deletableCheckBox">
    <property name="geometry">
     <rect>
-     <x>458</x>
-     <y>10</y>
+     <x>463</x>
+     <y>15</y>
      <width>20</width>
-     <height>30</height>
+     <height>20</height>
     </rect>
    </property>
    <property name="styleSheet">
     <string notr="true">QCheckBox {
+	background-color: rgb(190, 190, 190);
 	border: none;
 }
 
@@ -276,7 +243,7 @@ QCheckBox:indicator:unchecked {
   <widget class="QPushButton" name="locFileNameButton">
    <property name="geometry">
     <rect>
-     <x>430</x>
+     <x>433</x>
      <y>50</y>
      <width>80</width>
      <height>30</height>
@@ -385,7 +352,86 @@ QPushButton:disabled {
     <enum>Qt::PlainText</enum>
    </property>
   </widget>
+  <widget class="CustomComboBox" name="languageComboBox">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="geometry">
+    <rect>
+     <x>170</x>
+     <y>10</y>
+     <width>80</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>80</width>
+     <height>30</height>
+    </size>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>80</width>
+     <height>30</height>
+    </size>
+   </property>
+   <property name="contextMenuPolicy">
+    <enum>Qt::NoContextMenu</enum>
+   </property>
+   <property name="autoFillBackground">
+    <bool>false</bool>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QComboBox {
+	font: 75 12pt &quot;Liberation Sans&quot;;
+	color: rgb(255, 255, 255);
+
+	background-color: rgb(150, 150, 150);
+
+	border: 1px solid  rgb(100, 100, 100);
+	border-radius: 2px;
+}
+
+QComboBox:hover {
+	background-color: rgb(160, 160, 160);
+}
+
+QComboBox:disabled {
+	background-color: rgb(190, 190, 190);
+}
+</string>
+   </property>
+   <property name="editable">
+    <bool>false</bool>
+   </property>
+   <property name="currentText">
+    <string/>
+   </property>
+   <property name="currentIndex">
+    <number>-1</number>
+   </property>
+   <property name="maxVisibleItems">
+    <number>5</number>
+   </property>
+   <property name="maxCount">
+    <number>100</number>
+   </property>
+   <property name="sizeAdjustPolicy">
+    <enum>QComboBox::AdjustToContents</enum>
+   </property>
+   <property name="frame">
+    <bool>true</bool>
+   </property>
+  </widget>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>CustomComboBox</class>
+   <extends>QComboBox</extends>
+   <header>CustomComboBox.hpp</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

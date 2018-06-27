@@ -34,7 +34,6 @@ SOURCES += \
     src/data/DataHandler.cpp \
     src/data/DataRow.cpp \
     src/global/ApplicationFunctions.cpp \
-    src/global/ApplicationGlobal.cpp \
     src/global/Settings.cpp \
     src/global/ErrorHandler.cpp \
     src/windows/WindowsHandler.cpp \
@@ -44,14 +43,15 @@ SOURCES += \
     src/windows/ProcessingWindow.cpp \
     src/windows/TranslatingWindow.cpp \
     src/elements/CustomComboBox.cpp \
-    src/elements/LanguageWidget.cpp
+    src/elements/LanguageWidget.cpp \
+    src/global/LanguageHandler.cpp
 
 HEADERS += \
     src/data/DataHandler.hpp \
     src/data/DataRow.hpp \
+    src/global/Headers.hpp \
     src/global/ApplicationFunctions.hpp \
     src/global/ApplicationGlobal.hpp \
-    src/global/ApplicationHeaders.hpp \
     src/global/Settings.hpp \
     src/global/ErrorHandler.hpp \
     src/windows/WindowsHandler.hpp \
@@ -61,7 +61,8 @@ HEADERS += \
     src/windows/ProcessingWindow.hpp \
     src/windows/TranslatingWindow.hpp \
     src/elements/CustomComboBox.hpp \
-    src/elements/LanguageWidget.hpp
+    src/elements/LanguageWidget.hpp \
+    src/global/LanguageHandler.hpp
 
 FORMS += \
     src/forms/MainWindow.ui \

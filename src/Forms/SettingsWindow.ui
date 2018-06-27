@@ -9,20 +9,20 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>540</width>
-    <height>440</height>
+    <width>545</width>
+    <height>430</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
-    <width>540</width>
-    <height>440</height>
+    <width>545</width>
+    <height>430</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>540</width>
-    <height>440</height>
+    <width>545</width>
+    <height>430</height>
    </size>
   </property>
   <property name="contextMenuPolicy">
@@ -41,8 +41,8 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>380</y>
-     <width>520</width>
+     <y>370</y>
+     <width>525</width>
      <height>50</height>
     </rect>
    </property>
@@ -70,7 +70,7 @@
     </property>
     <property name="geometry">
      <rect>
-      <x>430</x>
+      <x>435</x>
       <y>10</y>
       <width>80</width>
       <height>30</height>
@@ -143,153 +143,75 @@ QPushButton:disabled {
     </property>
    </widget>
   </widget>
-  <widget class="QToolBox" name="toolBox">
+  <widget class="QTabWidget" name="tabWidget">
    <property name="geometry">
     <rect>
      <x>10</x>
      <y>10</y>
-     <width>520</width>
-     <height>360</height>
+     <width>525</width>
+     <height>350</height>
     </rect>
    </property>
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>525</width>
+     <height>350</height>
+    </size>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>325</width>
+     <height>350</height>
+    </size>
+   </property>
    <property name="styleSheet">
-    <string notr="true">QToolBox {
+    <string notr="true">QTabWidget {
 	background-color: rgb(190, 190, 190);
-	
 	border: 1px solid  rgb(100, 100, 100);
 	border-radius: 2px;
 }
 
-QToolBox:tab {
-	font: 75 11pt &quot;Liberation Sans&quot;;
+QTabWidget::pane {
+    border: 1px solid black;
+}
+
+QTabBar:tab {
+	width: 174px;
+	height: 30px;
+
+	font: 75 12pt &quot;Liberation Sans&quot;;
 	color: rgb(255, 255, 255);
-	padding-left: 180px;
-
+	
 	background-color: rgb(150, 150, 150);
-
+	
 	border-top: 1px solid  rgb(100, 100, 100);
+	border-right: 1px solid  rgb(100, 100, 100);
 	border-bottom: 1px solid  rgb(100, 100, 100);
+}
+
+QTabBar:tab:selected {
+    background-color: rgb(130, 130, 130);
 }
 </string>
    </property>
-   <property name="frameShape">
-    <enum>QFrame::NoFrame</enum>
-   </property>
    <property name="currentIndex">
-    <number>2</number>
+    <number>0</number>
    </property>
-   <widget class="QWidget" name="languagesTab">
-    <property name="geometry">
-     <rect>
-      <x>0</x>
-      <y>0</y>
-      <width>518</width>
-      <height>277</height>
-     </rect>
-    </property>
+   <widget class="QWidget" name="languageTab">
     <property name="styleSheet">
      <string notr="true">QWidget {
 	background-color: rgb(190, 190, 190);
-}
-</string>
+}</string>
     </property>
-    <attribute name="label">
-     <string>   Languages settings</string>
+    <attribute name="title">
+     <string>Languages</string>
     </attribute>
-    <widget class="QScrollArea" name="scrollArea">
-     <property name="geometry">
-      <rect>
-       <x>0</x>
-       <y>50</y>
-       <width>520</width>
-       <height>230</height>
-      </rect>
-     </property>
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="minimumSize">
-      <size>
-       <width>520</width>
-       <height>230</height>
-      </size>
-     </property>
-     <property name="maximumSize">
-      <size>
-       <width>520</width>
-       <height>230</height>
-      </size>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">QScrollArea {
-	border-top: 1px solid  rgb(100, 100, 100);
-}
-</string>
-     </property>
-     <property name="frameShape">
-      <enum>QFrame::NoFrame</enum>
-     </property>
-     <property name="frameShadow">
-      <enum>QFrame::Plain</enum>
-     </property>
-     <property name="verticalScrollBarPolicy">
-      <enum>Qt::ScrollBarAlwaysOff</enum>
-     </property>
-     <property name="horizontalScrollBarPolicy">
-      <enum>Qt::ScrollBarAlwaysOff</enum>
-     </property>
-     <property name="sizeAdjustPolicy">
-      <enum>QAbstractScrollArea::AdjustIgnored</enum>
-     </property>
-     <property name="widgetResizable">
-      <bool>true</bool>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
-     </property>
-     <widget class="QWidget" name="scrollAreaContents">
-      <property name="geometry">
-       <rect>
-        <x>0</x>
-        <y>0</y>
-        <width>518</width>
-        <height>228</height>
-       </rect>
-      </property>
-      <layout class="QFormLayout" name="formLayout">
-       <property name="sizeConstraint">
-        <enum>QLayout::SetDefaultConstraint</enum>
-       </property>
-       <property name="fieldGrowthPolicy">
-        <enum>QFormLayout::ExpandingFieldsGrow</enum>
-       </property>
-       <property name="rowWrapPolicy">
-        <enum>QFormLayout::WrapAllRows</enum>
-       </property>
-       <property name="horizontalSpacing">
-        <number>0</number>
-       </property>
-       <property name="verticalSpacing">
-        <number>0</number>
-       </property>
-       <property name="leftMargin">
-        <number>0</number>
-       </property>
-       <property name="topMargin">
-        <number>0</number>
-       </property>
-       <property name="rightMargin">
-        <number>0</number>
-       </property>
-       <property name="bottomMargin">
-        <number>0</number>
-       </property>
-      </layout>
-     </widget>
-    </widget>
     <widget class="QPushButton" name="addButton">
      <property name="geometry">
       <rect>
@@ -329,7 +251,7 @@ QPushButton:disabled {
     <widget class="QPushButton" name="deleteButton">
      <property name="geometry">
       <rect>
-       <x>430</x>
+       <x>435</x>
        <y>10</y>
        <width>80</width>
        <height>30</height>
@@ -362,184 +284,111 @@ QPushButton:disabled {
       <string>DELETE</string>
      </property>
     </widget>
-   </widget>
-   <widget class="QWidget" name="otherTab">
-    <property name="geometry">
-     <rect>
-      <x>0</x>
-      <y>0</y>
-      <width>518</width>
-      <height>277</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">QWidget {
-	background-color: rgb(190, 190, 190);
-}
-</string>
-    </property>
-    <attribute name="label">
-     <string>       Other settings</string>
-    </attribute>
-    <widget class="QFrame" name="frame2">
+    <widget class="QScrollArea" name="scrollArea">
      <property name="geometry">
       <rect>
        <x>0</x>
        <y>50</y>
-       <width>520</width>
-       <height>50</height>
+       <width>523</width>
+       <height>265</height>
       </rect>
      </property>
-     <property name="contextMenuPolicy">
-      <enum>Qt::NoContextMenu</enum>
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>523</width>
+       <height>265</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>523</width>
+       <height>265</height>
+      </size>
      </property>
      <property name="styleSheet">
-      <string notr="true">QFrame {
-	background-color: rgb(190, 190, 190);
-	
+      <string notr="true">QScrollArea {
 	border-top: 1px solid  rgb(100, 100, 100);
 }
 </string>
      </property>
      <property name="frameShape">
-      <enum>QFrame::StyledPanel</enum>
+      <enum>QFrame::NoFrame</enum>
      </property>
      <property name="frameShadow">
-      <enum>QFrame::Raised</enum>
+      <enum>QFrame::Plain</enum>
      </property>
-     <widget class="QLabel" name="dataPathLabel">
+     <property name="verticalScrollBarPolicy">
+      <enum>Qt::ScrollBarAlwaysOff</enum>
+     </property>
+     <property name="horizontalScrollBarPolicy">
+      <enum>Qt::ScrollBarAlwaysOff</enum>
+     </property>
+     <property name="sizeAdjustPolicy">
+      <enum>QAbstractScrollArea::AdjustIgnored</enum>
+     </property>
+     <property name="widgetResizable">
+      <bool>true</bool>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+     </property>
+     <widget class="QWidget" name="scrollAreaContents">
       <property name="geometry">
        <rect>
-        <x>10</x>
-        <y>10</y>
-        <width>130</width>
-        <height>30</height>
+        <x>0</x>
+        <y>0</y>
+        <width>521</width>
+        <height>263</height>
        </rect>
       </property>
-      <property name="contextMenuPolicy">
-       <enum>Qt::NoContextMenu</enum>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">QLabel {
-	font: 75 11pt &quot;Liberation Sans&quot;;
-	color: rgb(20, 20, 20);
-
-	border: 1px solid  rgb(100, 100, 100);
-	border-radius: 2px;
-}
-</string>
-      </property>
-      <property name="text">
-       <string>Default data path:</string>
-      </property>
-      <property name="textFormat">
-       <enum>Qt::PlainText</enum>
-      </property>
-     </widget>
-     <widget class="QLineEdit" name="dataPathEdit">
-      <property name="geometry">
-       <rect>
-        <x>149</x>
-        <y>10</y>
-        <width>271</width>
-        <height>30</height>
-       </rect>
-      </property>
-      <property name="font">
-       <font>
-        <family>Liberation Mono</family>
-        <pointsize>10</pointsize>
-        <weight>50</weight>
-        <italic>false</italic>
-        <bold>false</bold>
-       </font>
-      </property>
-      <property name="focusPolicy">
-       <enum>Qt::ClickFocus</enum>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">QLineEdit {
-	font: 10pt &quot;Liberation Mono&quot;;
-	color: rgb(20, 20, 20);
-
-	background-color: rgb(255, 255, 255);
-
-	border: 1px solid  rgb(100, 100, 100);
-	border-radius: 2px;
-}
-</string>
-      </property>
-      <property name="text">
-       <string>./data</string>
-      </property>
-      <property name="readOnly">
-       <bool>false</bool>
-      </property>
-      <property name="clearButtonEnabled">
-       <bool>true</bool>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="dataPathButton">
-      <property name="geometry">
-       <rect>
-        <x>430</x>
-        <y>10</y>
-        <width>80</width>
-        <height>30</height>
-       </rect>
-      </property>
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="minimumSize">
-       <size>
-        <width>80</width>
-        <height>30</height>
-       </size>
-      </property>
-      <property name="maximumSize">
-       <size>
-        <width>80</width>
-        <height>30</height>
-       </size>
-      </property>
-      <property name="contextMenuPolicy">
-       <enum>Qt::NoContextMenu</enum>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">QPushButton {
-	font: 75 12pt &quot;Liberation Sans&quot;;
-	color: rgb(255, 255, 255);
-
-	background-color: rgb(150, 150, 150);
-
-	border: 1px solid  rgb(100, 100, 100);
-	border-radius: 2px;
-}
-
-QPushButton:hover {
-	background-color: rgb(160, 160, 160);
-}
-
-QPushButton:disabled {
-	background-color: rgb(190, 190, 190);
-}
-</string>
-      </property>
-      <property name="text">
-       <string>...</string>
-      </property>
+      <layout class="QFormLayout" name="formLayout">
+       <property name="sizeConstraint">
+        <enum>QLayout::SetDefaultConstraint</enum>
+       </property>
+       <property name="fieldGrowthPolicy">
+        <enum>QFormLayout::ExpandingFieldsGrow</enum>
+       </property>
+       <property name="rowWrapPolicy">
+        <enum>QFormLayout::WrapAllRows</enum>
+       </property>
+       <property name="horizontalSpacing">
+        <number>0</number>
+       </property>
+       <property name="verticalSpacing">
+        <number>0</number>
+       </property>
+       <property name="leftMargin">
+        <number>0</number>
+       </property>
+       <property name="topMargin">
+        <number>0</number>
+       </property>
+       <property name="rightMargin">
+        <number>0</number>
+       </property>
+       <property name="bottomMargin">
+        <number>0</number>
+       </property>
+      </layout>
      </widget>
     </widget>
+   </widget>
+   <widget class="QWidget" name="otherTab">
+    <attribute name="title">
+     <string>Other settings</string>
+    </attribute>
     <widget class="QFrame" name="frame3">
      <property name="geometry">
       <rect>
        <x>0</x>
-       <y>0</y>
-       <width>520</width>
+       <y>50</y>
+       <width>523</width>
        <height>50</height>
       </rect>
      </property>
@@ -550,7 +399,7 @@ QPushButton:disabled {
       <string notr="true">QFrame {
 	background-color: rgb(190, 190, 190);
 	
-	border-top: 1px solid  rgb(100, 100, 100);
+	border-bottom: 1px solid  rgb(100, 100, 100);
 }
 </string>
      </property>
@@ -565,7 +414,7 @@ QPushButton:disabled {
        <rect>
         <x>10</x>
         <y>10</y>
-        <width>130</width>
+        <width>140</width>
         <height>30</height>
        </rect>
       </property>
@@ -583,7 +432,7 @@ QPushButton:disabled {
 </string>
       </property>
       <property name="text">
-       <string>Compressing:</string>
+       <string>Compressing level:</string>
       </property>
      </widget>
      <widget class="CustomComboBox" name="compressingBox">
@@ -592,7 +441,7 @@ QPushButton:disabled {
       </property>
       <property name="geometry">
        <rect>
-        <x>150</x>
+        <x>160</x>
         <y>10</y>
         <width>60</width>
         <height>30</height>
@@ -680,18 +529,171 @@ QComboBox:disabled {
       </item>
      </widget>
     </widget>
+    <widget class="QFrame" name="frame2">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>523</width>
+       <height>50</height>
+      </rect>
+     </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::NoContextMenu</enum>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QFrame {
+	background-color: rgb(190, 190, 190);
+	
+	border-bottom: 1px solid  rgb(100, 100, 100);
+}
+</string>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::StyledPanel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Raised</enum>
+     </property>
+     <widget class="QLabel" name="dataPathLabel">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>10</y>
+        <width>140</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="contextMenuPolicy">
+       <enum>Qt::NoContextMenu</enum>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QLabel {
+	font: 75 11pt &quot;Liberation Sans&quot;;
+	color: rgb(20, 20, 20);
+
+	border: 1px solid  rgb(100, 100, 100);
+	border-radius: 2px;
+}
+</string>
+      </property>
+      <property name="text">
+       <string>Default data path:</string>
+      </property>
+      <property name="textFormat">
+       <enum>Qt::PlainText</enum>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="dataPathEdit">
+      <property name="geometry">
+       <rect>
+        <x>160</x>
+        <y>10</y>
+        <width>263</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Liberation Mono</family>
+        <pointsize>10</pointsize>
+        <weight>50</weight>
+        <italic>false</italic>
+        <bold>false</bold>
+       </font>
+      </property>
+      <property name="focusPolicy">
+       <enum>Qt::ClickFocus</enum>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QLineEdit {
+	font: 10pt &quot;Liberation Mono&quot;;
+	color: rgb(20, 20, 20);
+
+	background-color: rgb(255, 255, 255);
+
+	border: 1px solid  rgb(100, 100, 100);
+	border-radius: 2px;
+}
+</string>
+      </property>
+      <property name="text">
+       <string>./data</string>
+      </property>
+      <property name="readOnly">
+       <bool>false</bool>
+      </property>
+      <property name="clearButtonEnabled">
+       <bool>true</bool>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="dataPathButton">
+      <property name="geometry">
+       <rect>
+        <x>433</x>
+        <y>10</y>
+        <width>80</width>
+        <height>30</height>
+       </rect>
+      </property>
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="minimumSize">
+       <size>
+        <width>80</width>
+        <height>30</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>80</width>
+        <height>30</height>
+       </size>
+      </property>
+      <property name="contextMenuPolicy">
+       <enum>Qt::NoContextMenu</enum>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton {
+	font: 75 12pt &quot;Liberation Sans&quot;;
+	color: rgb(255, 255, 255);
+
+	background-color: rgb(150, 150, 150);
+
+	border: 1px solid  rgb(100, 100, 100);
+	border-radius: 2px;
+}
+
+QPushButton:hover {
+	background-color: rgb(160, 160, 160);
+}
+
+QPushButton:disabled {
+	background-color: rgb(190, 190, 190);
+}
+</string>
+      </property>
+      <property name="text">
+       <string>...</string>
+      </property>
+     </widget>
+    </widget>
    </widget>
    <widget class="QWidget" name="aboutTab">
-    <attribute name="label">
-     <string>              About</string>
+    <attribute name="title">
+     <string>About</string>
     </attribute>
     <widget class="QPlainTextEdit" name="aboutEdit">
      <property name="geometry">
       <rect>
        <x>10</x>
        <y>10</y>
-       <width>500</width>
-       <height>257</height>
+       <width>503</width>
+       <height>295</height>
       </rect>
      </property>
      <property name="styleSheet">

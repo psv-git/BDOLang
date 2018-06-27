@@ -21,6 +21,8 @@ int RunApplication(int argc, char *argv[]) {
 
   QApplication app(argc, argv);
   Settings::getInstance().setFonts();
+  LanguageHandler::getInstance();
+  ErrorHandler::getInstance();
 
   WindowsHandler wh;
 
