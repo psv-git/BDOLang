@@ -25,8 +25,8 @@ DEFINES += QT_DEPRECATED_WARNINGS
 INCLUDEPATH += \
     src/data \
     src/elements \
-    src/service \
     src/global \
+    src/interfaces \
     src/windows
 
 SOURCES += \
@@ -36,6 +36,7 @@ SOURCES += \
     src/global/ApplicationFunctions.cpp \
     src/global/Settings.cpp \
     src/global/ErrorHandler.cpp \
+    src/global/LanguageHandler.cpp \
     src/windows/WindowsHandler.cpp \
     src/windows/MainWindow.cpp \
     src/windows/ChooseFilesWindow.cpp \
@@ -43,8 +44,7 @@ SOURCES += \
     src/windows/ProcessingWindow.cpp \
     src/windows/TranslatingWindow.cpp \
     src/elements/CustomComboBox.cpp \
-    src/elements/LanguageWidget.cpp \
-    src/global/LanguageHandler.cpp
+    src/elements/LanguageWidget.cpp
 
 HEADERS += \
     src/data/DataHandler.hpp \
@@ -54,6 +54,8 @@ HEADERS += \
     src/global/ApplicationGlobal.hpp \
     src/global/Settings.hpp \
     src/global/ErrorHandler.hpp \
+    src/global/LanguageHandler.hpp \
+    src/interfaces/ILanguageHandled.hpp \
     src/windows/WindowsHandler.hpp \
     src/windows/MainWindow.hpp \
     src/windows/ChooseFilesWindow.hpp \
@@ -61,8 +63,7 @@ HEADERS += \
     src/windows/ProcessingWindow.hpp \
     src/windows/TranslatingWindow.hpp \
     src/elements/CustomComboBox.hpp \
-    src/elements/LanguageWidget.hpp \
-    src/global/LanguageHandler.hpp
+    src/elements/LanguageWidget.hpp
 
 FORMS += \
     src/forms/MainWindow.ui \

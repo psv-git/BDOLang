@@ -202,6 +202,9 @@ QPushButton:disabled {
    </property>
   </widget>
   <widget class="QCheckBox" name="deletableCheckBox">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>463</x>
@@ -216,7 +219,7 @@ QPushButton:disabled {
 	border: none;
 }
 
-QCheckBox::indicator {
+QCheckBox:indicator {
 	width: 20px;
 	height: 20px;
 }
@@ -227,6 +230,14 @@ QCheckBox:indicator:checked {
 
 QCheckBox:indicator:unchecked {
     image: url(:/images/images/unchecked-checkbox.png);
+}
+
+QCheckBox:indicator:checked:disabled  {
+	image: url(:/images/images/disabled-checkbox.png);
+}
+  
+QCheckBox:indicator:unchecked:disabled {
+	image: url(:/images/images/disabled-checkbox.png);
 }
 </string>
    </property>

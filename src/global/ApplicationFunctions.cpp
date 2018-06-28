@@ -1,3 +1,6 @@
+#include <QFileDialog>
+#include <QFileInfo>
+#include <QTimer>
 #include "ApplicationFunctions.hpp"
 #include "WindowsHandler.hpp"
 
@@ -20,13 +23,18 @@ int RunApplication(int argc, char *argv[]) {
   }
 
   QApplication app(argc, argv);
-  Settings::getInstance().setFonts();
-  LanguageHandler::getInstance();
-  ErrorHandler::getInstance();
 
+  Settings::getInstance().setFonts();
   WindowsHandler wh;
 
   return app.exec();
+}
+
+
+void Delay(int ms) {
+  QEventLoop loop;
+  QTimer::singleShot(ms, &loop, &QEventLoop::quit);
+  loop.exec();
 }
 
 // paths & files ======================================================================

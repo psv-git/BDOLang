@@ -7,12 +7,14 @@ namespace Ui { class SettingsWindow; }
 class LanguageWidget;
 
 
-class SettingsWindow : public QWidget {
+class SettingsWindow : public QWidget, public ILanguageHandled {
 Q_OBJECT
 
 public:
   explicit SettingsWindow(QWidget *parent = nullptr);
   ~SettingsWindow();
+
+  virtual void updateLanguage();
 
 signals:
   void buttonClicked(MODE mode);

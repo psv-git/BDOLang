@@ -1,7 +1,7 @@
 #ifndef LANGUAGEWIDGET_HPP
 #define LANGUAGEWIDGET_HPP
 
-#include "ApplicationGlobal.hpp"
+#include "ApplicationFunctions.hpp"
 
 namespace Ui { class LanguageWidget; }
 
@@ -19,12 +19,12 @@ public:
   void setLocFileName(const QString &fileName);
   void setTextFileName(const QString &fileName);
 
-public slots:
-  void addLanguage(LANG language);
-  void removeLanguage(LANG language);
+  void save();
+  void updateLanguage();
 
 private slots:
   void update();
+  void buttonClick();
 
 private:
   Ui::LanguageWidget *ui           = nullptr;

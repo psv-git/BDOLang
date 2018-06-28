@@ -8,6 +8,8 @@
 
 int RunApplication(int argc, char *argv[]);
 
+void Delay(int ms);
+
 // paths & files ======================================================================
 
 const QString GetDirectoryPath(const QString &title);

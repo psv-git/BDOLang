@@ -2,6 +2,7 @@
 #define LANGUAGEHANDLER_HPP
 
 #include "Headers.hpp"
+#include "ILanguageHandled.hpp"
 
 
 enum LANG : int { EMPTY, EN, AR, BE, EL, DA, IW, ES, IT, ZH, KO, DE, RU, TR, UK, FR, JA };
@@ -21,24 +22,31 @@ public:
   LanguageHandler(LanguageHandler const&)              = delete;
   LanguageHandler& operator = (LanguageHandler const&) = delete;
 
-  void setHandledObjects(QVector<LanguageWidget*> &languageWidgetsList);
+  void setHandledObject(ILanguageHandled *handledObject);
 
   const QMap<LANG, QString>& getLanguagesMap() const;
 
-  LANG toLang(const QString &language) const;
-  const QString toString(LANG language) const;
-  bool isBlocked(LANG language) const;
+  bool isWasBlocking() const;
+  LANG getLastChangedLanguage() const;
 
-  void blockLanguage(LanguageWidget *sender, LANG language);
-  void unblockLanguage(LanguageWidget *sender, LANG language);
+  LANG toLang(const QString &language)  const;
+  const QString toString(LANG language) const;
+  bool isLanguageBlocked(LANG language) const;
+
+  void blockLanguage(LANG language);
+  void unblockLanguage(LANG language);
 
 private:
   LanguageHandler();
   ~LanguageHandler();
 
-  QVector<LanguageWidget*> *languageWidgetsList = nullptr;
+  QVector<ILanguageHandled*> handledObjectsList;
+
   QMap<LANG, QString> languagesMap;
   QVector<LANG> blockedLanguagesList;
+
+  LANG lastChangedLanguage = LANG::EMPTY;
+  bool wasBlocking = false; // is last change was blocking or unblocking?
 
 };
 

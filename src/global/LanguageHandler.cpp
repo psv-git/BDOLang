@@ -28,13 +28,23 @@ LanguageHandler::~LanguageHandler() {}
 
 // public methods =============================================================
 
-void LanguageHandler::setHandledObjects(QVector<LanguageWidget*> &languageWidgetsList) {
-  this->languageWidgetsList = &languageWidgetsList;
+void LanguageHandler::setHandledObject(ILanguageHandled *handledObject) {
+  handledObjectsList.push_back(handledObject);
 }
 
 
 const QMap<LANG, QString>& LanguageHandler::getLanguagesMap() const {
   return languagesMap;
+}
+
+
+bool LanguageHandler::isWasBlocking() const {
+  return wasBlocking;
+}
+
+
+LANG LanguageHandler::getLastChangedLanguage() const {
+  return lastChangedLanguage;
 }
 
 
@@ -48,28 +58,32 @@ const QString LanguageHandler::toString(LANG language) const {
 }
 
 
-bool LanguageHandler::isBlocked(LANG language) const {
+bool LanguageHandler::isLanguageBlocked(LANG language) const {
   return blockedLanguagesList.contains(language);
 }
 
 
-void LanguageHandler::blockLanguage(LanguageWidget *sender, LANG language) {
-  if (!blockedLanguagesList.contains(language)) {
-    blockedLanguagesList.push_back(language);
-    for (int i = 0; i < languageWidgetsList->size(); i++) {
-      if (languageWidgetsList->at(i) != sender) {
-        languageWidgetsList->at(i)->removeLanguage(language);
+void LanguageHandler::blockLanguage(LANG language) {
+  if (language != LANG::EMPTY) {
+    if (!blockedLanguagesList.contains(language)) {
+      wasBlocking = true;
+      lastChangedLanguage = language;
+      blockedLanguagesList.push_back(language);
+      for (int i = 0; i < handledObjectsList.size(); i++) {
+        handledObjectsList[i]->updateLanguage();
       }
     }
   }
 }
 
 
-void LanguageHandler::unblockLanguage(LanguageWidget *sender, LANG language) {
-  blockedLanguagesList.removeOne(language);
-  for (int i = 0; i < languageWidgetsList->size(); i++) {
-    if (languageWidgetsList->at(i) != sender) {
-      languageWidgetsList->at(i)->addLanguage(language);
+void LanguageHandler::unblockLanguage(LANG language) {
+  if (language != LANG::EMPTY) {
+    wasBlocking = false;
+    lastChangedLanguage = language;
+    blockedLanguagesList.removeOne(language);
+    for (int i = 0; i < handledObjectsList.size(); i++) {
+      handledObjectsList[i]->updateLanguage();
     }
   }
 }
