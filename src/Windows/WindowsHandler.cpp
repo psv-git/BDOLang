@@ -8,6 +8,7 @@
 
 WindowsHandler::WindowsHandler(QObject *parent) : QObject(parent) {
   createWindow(WTYPE::MAINW);
+  createWindow(WTYPE::SETTW);
   mainWindow->show();
 }
 
@@ -27,12 +28,10 @@ void WindowsHandler::buttonClick(MODE mode) {
   QObject *sender = QObject::sender();
   if (sender == mainWindow) {
     if (mode == MODE::EXIT) QApplication::quit();
-    if (mode == MODE::SETTINGS) {
-      if (!settingsWindow) createWindow(WTYPE::SETTW);
-      settingsWindow->show();
-    } else {
-      if (!chooseFilesWindow) createWindow(WTYPE::CFSW);
-      chooseFilesWindow->show(mode);
+    if (mode == MODE::SETTINGS) settingsWindow->show();
+    else {
+     if (!chooseFilesWindow) createWindow(WTYPE::CFSW);
+     chooseFilesWindow->show(mode);
     }
   } else if (sender == chooseFilesWindow) {
     chooseFilesWindow->hide();

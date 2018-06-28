@@ -13,6 +13,9 @@ public:
   explicit ProcessingWindow(QWidget *parent = nullptr);
   ~ProcessingWindow();
 
+protected:
+  void closeEvent(QCloseEvent *event);
+
 signals:
   void buttonClicked(MODE mode);
 
@@ -28,6 +31,8 @@ private:
   Ui::ProcessingWindow *ui = nullptr;
   Settings *settings = nullptr;
   ErrorHandler *errorHandler = nullptr;
+
+  QThread *thread = nullptr;
 
 };
 

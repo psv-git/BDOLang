@@ -5,7 +5,7 @@
 #include "ILanguageHandled.hpp"
 
 
-enum LANG : int { EMPTY, EN, AR, BE, EL, DA, IW, ES, IT, ZH, KO, DE, RU, TR, UK, FR, JA };
+enum LANG : int { EMPTY, EN, AR, BE, EL, DA, IW, ES, IT, ZH, KO, DE, RU, TR, UK, FR, JA, NONE };
 Q_DECLARE_METATYPE(LANG)
 
 class LanguageWidget;
@@ -24,7 +24,8 @@ public:
 
   void setHandledObject(ILanguageHandled *handledObject);
 
-  const QMap<LANG, QString>& getLanguagesMap() const;
+  const QMap<LANG, QString>& getAllLanguages() const;
+  const QStringList getAllowedLanguages() const;
 
   bool isWasBlocking() const;
   LANG getLastChangedLanguage() const;

@@ -22,7 +22,7 @@ SettingsWindow::SettingsWindow(QWidget *parent) : QWidget(parent), ui(new Ui::Se
   connect(ui->deleteButton, SIGNAL(released()), this, SLOT(buttonClick()));
   connect(ui->dataPathButton, SIGNAL(released()), this, SLOT(buttonClick()));
 
-  loadLanguageWidgets();
+  addLanguageWidgets();
 }
 
 
@@ -33,11 +33,16 @@ SettingsWindow::~SettingsWindow() {
   }
 }
 
+// events =====================================================================
+
+void SettingsWindow::closeEvent(QCloseEvent *event) {
+  emit buttonClicked(MODE::CLOSE);
+  QWidget::closeEvent(event);
+}
+
 // public slots ===============================================================
 
 void SettingsWindow::show() {
-  ui->compressingBox->setValue(settings->getSetting("", "compressing_level", DEFAULT_SETTINGS.compressingLevel).toInt());
-  ui->dataPathEdit->setText(settings->getSetting("", "data_path", DEFAULT_SETTINGS.dataDirectoryName).toString());
   QWidget::show();
 }
 
@@ -76,10 +81,15 @@ void SettingsWindow::buttonClick() {
 
 // private methods ============================================================
 
-void SettingsWindow::loadLanguageWidgets() {
-  QMap<QString, QPair<QString, QString>> languagesMap = settings->getLanguageWidgetsSettings();
-  for (auto language : languagesMap.keys()) {
-    addLanguageWidget(true, languageHandler->toLang(language), languagesMap.value(language).first, languagesMap.value(language).second);
+void SettingsWindow::addLanguageWidgets() {
+  QStringList groups = settings->getGroups();
+  for (int i = 0; i < groups.size(); i++) {
+    LANG language = languageHandler->toLang(groups[i]);
+    if (language != LANG::NONE) {
+      QString locFileName = settings->getSetting(groups[i], "loc_file_name", "").toString();
+      QString textFileName = settings->getSetting(groups[i], "text_file_name", "").toString();
+      addLanguageWidget(true, language, locFileName, textFileName);
+    }
   }
 }
 

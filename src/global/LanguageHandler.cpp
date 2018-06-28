@@ -33,8 +33,19 @@ void LanguageHandler::setHandledObject(ILanguageHandled *handledObject) {
 }
 
 
-const QMap<LANG, QString>& LanguageHandler::getLanguagesMap() const {
+const QMap<LANG, QString>& LanguageHandler::getAllLanguages() const {
   return languagesMap;
+}
+
+
+const QStringList LanguageHandler::getAllowedLanguages() const {
+  QStringList allowedLanguagesMap;
+  for (auto language : languagesMap.keys()) {
+    if (isLanguageBlocked(language)) {
+      allowedLanguagesMap.push_back(languagesMap.value(language, ""));
+    }
+  }
+  return allowedLanguagesMap;
 }
 
 
@@ -49,7 +60,7 @@ LANG LanguageHandler::getLastChangedLanguage() const {
 
 
 LANG LanguageHandler::toLang(const QString &language) const {
-  return languagesMap.key(language, LANG::EMPTY);
+  return languagesMap.key(language, LANG::NONE);
 }
 
 

@@ -22,13 +22,15 @@ public:
     static Settings instance;
     return instance;
   }
+
   Settings(Settings const&) = delete;
   Settings& operator = (Settings const&) = delete;
 
-  QMap<QString, QPair<QString, QString>> getLanguageWidgetsSettings();
+  QStringList getGroups();
 
   QVariant getSetting(const QString &group, const QString &key, const QVariant &defaultValue);
   void setSetting(const QString &group, const QString &key, const QVariant &value);
+  void removeSetting(const QString &key);
 
   QFont getFont(const QString &family, const QString &style, int pointSize);
   void setFonts();

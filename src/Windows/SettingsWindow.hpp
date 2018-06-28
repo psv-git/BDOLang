@@ -16,6 +16,9 @@ public:
 
   virtual void updateLanguage();
 
+protected:
+  void closeEvent(QCloseEvent *event);
+
 signals:
   void buttonClicked(MODE mode);
 
@@ -32,7 +35,7 @@ private:
 
   QVector<LanguageWidget*> languageWidgetsList;
 
-  void loadLanguageWidgets();
+  void addLanguageWidgets();
   void addLanguageWidget(bool deletable, LANG language, const QString &locFileName, const QString &textFileName);
   void deleteLanguageWidgets();
 

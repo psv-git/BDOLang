@@ -5,7 +5,7 @@
 ErrorHandler::ErrorHandler(QWidget *parent) : QWidget(parent), ui(new Ui::ErrorWindow) {
   ui->setupUi(this);
 
-  connect(ui->okButton, SIGNAL(released()), this, SLOT(buttonClicked()));
+  connect(ui->okButton, SIGNAL(released()), this, SLOT(buttonClick()));
 }
 
 

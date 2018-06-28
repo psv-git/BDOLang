@@ -8,8 +8,8 @@ LanguageWidget::LanguageWidget(QWidget *parent) : QWidget(parent), ui(new Ui::La
   languageHandler = &LanguageHandler::getInstance();
 
   // add possible languages into combo box
-  for (LANG language : languageHandler->getLanguagesMap().keys()) {
-    if (!languageHandler->isLanguageBlocked(language)) ui->languageComboBox->addItem(languageHandler->getLanguagesMap().value(language), language);
+  for (LANG language : languageHandler->getAllLanguages().keys()) {
+    if (!languageHandler->isLanguageBlocked(language)) ui->languageComboBox->addItem(languageHandler->getAllLanguages().value(language), language);
   }
 
   connect(ui->languageComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(update()));
@@ -19,7 +19,10 @@ LanguageWidget::LanguageWidget(QWidget *parent) : QWidget(parent), ui(new Ui::La
 
 
 LanguageWidget::~LanguageWidget() {
-  languageHandler->unblockLanguage(currentLanguage);
+  if (needToDelete()) {
+    languageHandler->unblockLanguage(currentLanguage);
+    settings->removeSetting(languageHandler->toString(currentLanguage));
+  }
   delete ui;
 }
 
@@ -57,8 +60,12 @@ void LanguageWidget::setTextFileName(const QString &fileName) {
 
 
 void LanguageWidget::save() {
-  settings->setSetting(languageHandler->toString(currentLanguage), "loc_file_name", ui->locFileNameEdit->text());
-  settings->setSetting(languageHandler->toString(currentLanguage), "text_file_name", ui->textFileNameEdit->text());
+  if (currentLanguage != LANG::EMPTY) {
+    if (!ui->locFileNameEdit->text().isEmpty() && !ui->textFileNameEdit->text().isEmpty()) {
+      settings->setSetting(languageHandler->toString(currentLanguage), "loc_file_name", ui->locFileNameEdit->text());
+      settings->setSetting(languageHandler->toString(currentLanguage), "text_file_name", ui->textFileNameEdit->text());
+    }
+  }
 }
 
 

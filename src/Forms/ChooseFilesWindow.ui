@@ -172,7 +172,7 @@ QPushButton:disabled {
      <string>...</string>
     </property>
    </widget>
-   <widget class="CustomComboBox" name="languageBox">
+   <widget class="CustomComboBox" name="sourceLanguageComboBox">
     <property name="enabled">
      <bool>true</bool>
     </property>
@@ -214,7 +214,7 @@ QComboBox::down-arrow {
 </string>
     </property>
     <property name="currentText">
-     <string>      EN</string>
+     <string/>
     </property>
     <property name="maxCount">
      <number>100</number>
@@ -222,16 +222,6 @@ QComboBox::down-arrow {
     <property name="frame">
      <bool>true</bool>
     </property>
-    <item>
-     <property name="text">
-      <string>      EN</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>      RU</string>
-     </property>
-    </item>
    </widget>
   </widget>
   <widget class="QFrame" name="frame2">
@@ -356,7 +346,7 @@ QPushButton:disabled {
      <string>...</string>
     </property>
    </widget>
-   <widget class="CustomComboBox" name="languageBox_2">
+   <widget class="CustomComboBox" name="targetLanguageComboBox">
     <property name="enabled">
      <bool>true</bool>
     </property>
@@ -398,7 +388,7 @@ QComboBox::down-arrow {
 </string>
     </property>
     <property name="currentText">
-     <string>      EN</string>
+     <string/>
     </property>
     <property name="maxCount">
      <number>100</number>
@@ -406,16 +396,6 @@ QComboBox::down-arrow {
     <property name="frame">
      <bool>true</bool>
     </property>
-    <item>
-     <property name="text">
-      <string>      EN</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>      RU</string>
-     </property>
-    </item>
    </widget>
   </widget>
   <widget class="QFrame" name="frame3">

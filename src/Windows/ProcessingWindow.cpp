@@ -20,6 +20,14 @@ ProcessingWindow::~ProcessingWindow() {
   delete ui;
 }
 
+// events =====================================================================
+
+void ProcessingWindow::closeEvent(QCloseEvent *event) {
+  // TODO: kill thread there
+  emit buttonClicked(MODE::CLOSE);
+  QWidget::closeEvent(event);
+}
+
 // public slots ===============================================================
 
 void ProcessingWindow::show(const QString &srcFilePath, const QString &targFilePath, MODE mode) {
@@ -28,12 +36,12 @@ void ProcessingWindow::show(const QString &srcFilePath, const QString &targFileP
   ui->messageLabel->setText("PROCESSING");
   QWidget::show();
 
-  // work in another thread
-  QThread* thread = new QThread;
+  // work on another thread
+  thread = new QThread;
   DataHandler* dataHandler = new DataHandler(srcFilePath, targFilePath, mode);
 
   dataHandler->moveToThread(thread);
-  connect(thread, SIGNAL(started()), dataHandler, SLOT(process()));
+  connect(thread, SIGNAL(started()), dataHandler, SLOT(start()));
   connect(thread, SIGNAL(finished()), thread, SLOT(deleteLater()));
   connect(thread, SIGNAL(finished()), this, SLOT(complete()));
 
