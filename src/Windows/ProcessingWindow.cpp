@@ -9,7 +9,7 @@ ProcessingWindow::ProcessingWindow(QWidget *parent) : QWidget(parent), ui(new Ui
   settings = &Settings::getInstance();
   errorHandler = &ErrorHandler::getInstance();
 
-  ui->exitButton->setFont(settings->getFont("Liberation Sans",   "Bold", 12));
+  ui->exitButton->setFont(settings->getFont("Liberation Sans", "Bold", 12));
   ui->messageLabel->setFont(settings->getFont("Liberation Sans", "Bold", 20));
 
   connect(ui->exitButton, SIGNAL(released()), this, SLOT(buttonClick()));

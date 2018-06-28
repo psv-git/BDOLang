@@ -19,7 +19,7 @@ public:
     return instance;
   }
 
-  LanguageHandler(LanguageHandler const&)              = delete;
+  LanguageHandler(LanguageHandler const&) = delete;
   LanguageHandler& operator = (LanguageHandler const&) = delete;
 
   void setHandledObject(ILanguageHandled *handledObject);
@@ -29,7 +29,7 @@ public:
   bool isWasBlocking() const;
   LANG getLastChangedLanguage() const;
 
-  LANG toLang(const QString &language)  const;
+  LANG toLang(const QString &language) const;
   const QString toString(LANG language) const;
   bool isLanguageBlocked(LANG language) const;
 

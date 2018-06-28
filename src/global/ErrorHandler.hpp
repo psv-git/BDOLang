@@ -3,8 +3,11 @@
 
 #include "Headers.hpp"
 
+namespace Ui { class ErrorWindow; }
 
-class ErrorHandler {
+
+class ErrorHandler : QWidget {
+Q_OBJECT
 
 public:
   static ErrorHandler& getInstance() {
@@ -12,16 +15,22 @@ public:
     return instance;
   }
 
-  ErrorHandler(ErrorHandler const&)              = delete;
+  ErrorHandler(ErrorHandler const&) = delete;
   ErrorHandler& operator = (ErrorHandler const&) = delete;
 
   void addException(const QString &exceptionMessage);
+
+public slots:
   void showMessage();
 
+private slots:
+  void buttonClick();
+
 private:
-  ErrorHandler();
+  ErrorHandler(QWidget *parent = nullptr);
   ~ErrorHandler();
 
+  Ui::ErrorWindow *ui = nullptr;
   QStringList exceptionsMessagesList;
 
 };

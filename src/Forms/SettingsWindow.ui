@@ -722,7 +722,8 @@ QPushButton:disabled {
 
 	border: 1px solid  rgb(20, 20, 20);
 	border-radius: 2px;
-}</string>
+}
+</string>
      </property>
      <property name="frameShadow">
       <enum>QFrame::Plain</enum>

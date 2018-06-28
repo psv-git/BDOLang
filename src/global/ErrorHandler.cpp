@@ -1,20 +1,19 @@
-#include <QErrorMessage>
 #include "ErrorHandler.hpp"
+#include "ui_ErrorWindow.h"
 
 
-ErrorHandler::ErrorHandler() {
-  QErrorMessage::qtHandler()->setModal(true);
+ErrorHandler::ErrorHandler(QWidget *parent) : QWidget(parent), ui(new Ui::ErrorWindow) {
+  ui->setupUi(this);
+
+  connect(ui->okButton, SIGNAL(released()), this, SLOT(buttonClicked()));
 }
 
 
-ErrorHandler::~ErrorHandler() {}
-
-// public methods =============================================================
-
-void ErrorHandler::addException(const QString &exceptionMessage) {
-  exceptionsMessagesList.push_back(exceptionMessage);
+ErrorHandler::~ErrorHandler() {
+  delete ui;
 }
 
+// public slots ===============================================================
 
 void ErrorHandler::showMessage() {
   QString exceptionMessage;
@@ -23,5 +22,19 @@ void ErrorHandler::showMessage() {
     exceptionMessage.push_back('\n');
   }
   exceptionsMessagesList.clear();
-  QErrorMessage::qtHandler()->showMessage(exceptionMessage);
+  ui->errorEdit->appendPlainText(exceptionMessage);
+  this->show();
+}
+
+// public methods =============================================================
+
+void ErrorHandler::addException(const QString &exceptionMessage) {
+  exceptionsMessagesList.push_back(exceptionMessage);
+}
+
+// private slots ==============================================================
+
+void ErrorHandler::buttonClick() {
+  ui->errorEdit->clear();
+  this->hide();
 }

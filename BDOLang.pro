@@ -71,7 +71,8 @@ FORMS += \
     src/forms/SettingsWindow.ui \
     src/forms/ProcessingWindow.ui \
     src/forms/TranslatingWindow.ui \
-    src/forms/LanguageWidget.ui
+    src/forms/LanguageWidget.ui \
+    src/forms/ErrorWindow.ui
 
 DISTFILES += \
     .gitignore \

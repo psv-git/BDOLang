@@ -7,7 +7,8 @@
 SettingsWindow::SettingsWindow(QWidget *parent) : QWidget(parent), ui(new Ui::SettingsWindow) {
   ui->setupUi(this);
   settings = &Settings::getInstance();
-  LanguageHandler::getInstance().setHandledObject(this);
+  languageHandler = &LanguageHandler::getInstance();
+  languageHandler->setHandledObject(this);
 
   ui->saveButton->setFont(settings->getFont("Liberation Sans", "Bold", 12));
   ui->cancelButton->setFont(settings->getFont("Liberation Sans", "Bold", 12));
@@ -15,13 +16,13 @@ SettingsWindow::SettingsWindow(QWidget *parent) : QWidget(parent), ui(new Ui::Se
   ui->compressingLabel->setFont(settings->getFont("Liberation Sans", "Bold", 11));
   ui->aboutEdit->setFont(settings->getFont("Liberation Sans", "Bold", 10));
 
-  connect(ui->saveButton,     SIGNAL(released()), this, SLOT(buttonClick()));
-  connect(ui->cancelButton,   SIGNAL(released()), this, SLOT(buttonClick()));
-  connect(ui->addButton,      SIGNAL(released()), this, SLOT(buttonClick()));
-  connect(ui->deleteButton,   SIGNAL(released()), this, SLOT(buttonClick()));
+  connect(ui->saveButton, SIGNAL(released()), this, SLOT(buttonClick()));
+  connect(ui->cancelButton, SIGNAL(released()), this, SLOT(buttonClick()));
+  connect(ui->addButton, SIGNAL(released()), this, SLOT(buttonClick()));
+  connect(ui->deleteButton, SIGNAL(released()), this, SLOT(buttonClick()));
   connect(ui->dataPathButton, SIGNAL(released()), this, SLOT(buttonClick()));
 
-  addLanguageWidget(false, LANG::EN, "languagedata_en.loc", "languagedata_en.txt");
+  loadLanguageWidgets();
 }
 
 
@@ -35,7 +36,8 @@ SettingsWindow::~SettingsWindow() {
 // public slots ===============================================================
 
 void SettingsWindow::show() {
-  ui->compressingBox->setValue(settings->getSetting("compressing/compressing_level", DEFAULT_SETTINGS.compressingLevel).toInt());
+  ui->compressingBox->setValue(settings->getSetting("", "compressing_level", DEFAULT_SETTINGS.compressingLevel).toInt());
+  ui->dataPathEdit->setText(settings->getSetting("", "data_path", DEFAULT_SETTINGS.dataDirectoryName).toString());
   QWidget::show();
 }
 
@@ -52,26 +54,35 @@ void SettingsWindow::updateLanguage() {
 void SettingsWindow::buttonClick() {
   QObject *obj = QObject::sender();
   QString objName = obj->objectName();
-  if (objName == "addButton")           addLanguageWidget(true, LANG::EMPTY, "", "");
-  else if (objName == "deleteButton")   deleteLanguageWidgets();
+  if (objName == "addButton") addLanguageWidget(true, LANG::EMPTY, "", "");
+  else if (objName == "deleteButton") deleteLanguageWidgets();
   else if (objName == "dataPathButton") ui->dataPathEdit->setText(GetDirectoryPath(tr("Choose directory")));
-  else if (objName == "cancelButton")   emit buttonClicked(MODE::CLOSE);
+  else if (objName == "cancelButton") emit buttonClicked(MODE::CLOSE);
   else if (objName == "saveButton") {
     // save compressing level
-    settings->setSetting("compressing/compressing_level", ui->compressingBox->getValue());
+    settings->setSetting("", "compressing_level", ui->compressingBox->getValue());
     // save data path
     QString tmp = ui->dataPathEdit->text();
     if (tmp.isEmpty()) tmp = DEFAULT_SETTINGS.dataDirectoryName;
-    if (tmp.back() != '/') tmp.append('/');
-    settings->setSetting("paths/data_directory", tmp);
+    settings->setSetting("", "data_path", tmp);
     // save language widgets
     for (int i = 0; i < languageWidgetsList.size(); i++) {
       languageWidgetsList[i]->save();
     }
+    settings->saveSettings();
+    emit buttonClicked(MODE::CLOSE);
   }
 }
 
 // private methods ============================================================
+
+void SettingsWindow::loadLanguageWidgets() {
+  QMap<QString, QPair<QString, QString>> languagesMap = settings->getLanguageWidgetsSettings();
+  for (auto language : languagesMap.keys()) {
+    addLanguageWidget(true, languageHandler->toLang(language), languagesMap.value(language).first, languagesMap.value(language).second);
+  }
+}
+
 
 void SettingsWindow::addLanguageWidget(bool deletable, LANG language, const QString &locFileName, const QString &textFileName) {
   LanguageWidget *lw = new LanguageWidget();
@@ -94,5 +105,3 @@ void SettingsWindow::deleteLanguageWidgets() {
     } else it++;
   }
 }
-
-

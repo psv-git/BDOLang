@@ -326,7 +326,7 @@ void DataHandler::compressData(QDataStream& from, QDataStream& to) {
     throw;
   }
 
-  int level = settings->getSetting("compressing/compressing_level", 1).toInt();
+  int level = settings->getSetting("", "compressing_level", 1).toInt();
   int result = compress2(outBuff, &compressedDataSize, inBuff, uncompressedDataSize, level);
 
   if (inBuff)  delete[] inBuff;

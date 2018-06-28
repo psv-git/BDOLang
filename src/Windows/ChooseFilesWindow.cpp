@@ -29,7 +29,7 @@ ChooseFilesWindow::~ChooseFilesWindow() {
 // public slots ===============================================================
 
 void ChooseFilesWindow::show(MODE mode) {
-  QString dataPath = settings->getSetting("path/data_directory", DEFAULT_SETTINGS.dataDirectoryName).toString();
+//  QString dataPath = settings->getSetting("path/data_directory", DEFAULT_SETTINGS.dataDirectoryName).toString();
 
 //  if (mode == MODE::BIN_TO_TEXT) {
 //    ui->sourcePathEdit->setText(dataPath + "/" + settings->getSetting("path/source_loc_name", DEFAULT_SETTINGS.sourceLocFileName).toString());

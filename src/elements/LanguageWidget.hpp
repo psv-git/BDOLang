@@ -27,9 +27,10 @@ private slots:
   void buttonClick();
 
 private:
-  Ui::LanguageWidget *ui           = nullptr;
+  Ui::LanguageWidget *ui = nullptr;
+  Settings *settings = nullptr;
   LanguageHandler *languageHandler = nullptr;
-  LANG currentLanguage;
+  LANG currentLanguage = LANG::EMPTY;
 
 };
 

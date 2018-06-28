@@ -25,8 +25,8 @@ private slots:
   void buttonClick();
 
 private:
-  Ui::ProcessingWindow *ui   = nullptr;
-  Settings *settings         = nullptr;
+  Ui::ProcessingWindow *ui = nullptr;
+  Settings *settings = nullptr;
   ErrorHandler *errorHandler = nullptr;
 
 };

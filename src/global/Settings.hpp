@@ -22,14 +22,15 @@ public:
     static Settings instance;
     return instance;
   }
-
-  Settings(Settings const&)              = delete;
+  Settings(Settings const&) = delete;
   Settings& operator = (Settings const&) = delete;
 
-  QVariant getSetting(const QString &key, const QVariant &defaultValue = QVariant());
-  QFont getFont(const QString &family, const QString &style, int pointSize);
+  QMap<QString, QPair<QString, QString>> getLanguageWidgetsSettings();
 
-  void setSetting(const QString &key, const QVariant &value);
+  QVariant getSetting(const QString &group, const QString &key, const QVariant &defaultValue);
+  void setSetting(const QString &group, const QString &key, const QVariant &value);
+
+  QFont getFont(const QString &family, const QString &style, int pointSize);
   void setFonts();
 
   void saveSettings();
@@ -38,7 +39,7 @@ private:
   Settings();
   ~Settings();
 
-  QSettings *settings      = nullptr;
+  QSettings *settings = nullptr;
   QFontDatabase *fontsList = nullptr;
 
 };

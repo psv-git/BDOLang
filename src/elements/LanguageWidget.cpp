@@ -4,16 +4,17 @@
 
 LanguageWidget::LanguageWidget(QWidget *parent) : QWidget(parent), ui(new Ui::LanguageWidget) {
   ui->setupUi(this);
+  settings = &Settings::getInstance();
   languageHandler = &LanguageHandler::getInstance();
 
   // add possible languages into combo box
-  for(LANG language : languageHandler->getLanguagesMap().keys()) {
+  for (LANG language : languageHandler->getLanguagesMap().keys()) {
     if (!languageHandler->isLanguageBlocked(language)) ui->languageComboBox->addItem(languageHandler->getLanguagesMap().value(language), language);
   }
 
-  connect(ui->languageComboBox,   SIGNAL(currentIndexChanged(int)), this, SLOT(update()));
-  connect(ui->locFileNameButton,  SIGNAL(released()),               this, SLOT(buttonClick()));
-  connect(ui->textFileNameButton, SIGNAL(released()),               this, SLOT(buttonClick()));
+  connect(ui->languageComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(update()));
+  connect(ui->locFileNameButton, SIGNAL(released()), this, SLOT(buttonClick()));
+  connect(ui->textFileNameButton, SIGNAL(released()), this, SLOT(buttonClick()));
 }
 
 
@@ -56,7 +57,8 @@ void LanguageWidget::setTextFileName(const QString &fileName) {
 
 
 void LanguageWidget::save() {
-  return;
+  settings->setSetting(languageHandler->toString(currentLanguage), "loc_file_name", ui->locFileNameEdit->text());
+  settings->setSetting(languageHandler->toString(currentLanguage), "text_file_name", ui->textFileNameEdit->text());
 }
 
 
