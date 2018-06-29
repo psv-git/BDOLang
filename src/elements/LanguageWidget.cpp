@@ -6,11 +6,6 @@ LanguageWidget::LanguageWidget(QWidget *parent) : QWidget(parent), ui(new Ui::La
   settings = &Settings::getInstance();
   languageHandler = &LanguageHandler::getInstance();
   initUi();
-
-  // add possible languages into combo box
-  for (LANG language : languageHandler->getAllLanguages().keys()) {
-    if (!languageHandler->isLanguageBlocked(language)) ui->languageComboBox->addItem(languageHandler->getAllLanguages().value(language), language);
-  }
 }
 
 
@@ -98,7 +93,23 @@ void LanguageWidget::buttonClick() {
 void LanguageWidget::initUi() {
   ui->setupUi(this);
 
+  ui->languageLabel->setFont(settings->getFont("Liberation Sans", "Bold", 11));
+  ui->languageComboBox->setFont(settings->getFont("Liberation Sans", "Bold", 12));
+
+  ui->locFileNameLabel->setFont(settings->getFont("Liberation Sans", "Bold", 11));
+  ui->locFileNameEdit->setFont(settings->getFont("Liberation Mono", "Regular", 10));
+  ui->locFileNameButton->setFont(settings->getFont("Liberation Sans", "Bold", 12));
+
+  ui->textFileNameLabel->setFont(settings->getFont("Liberation Sans", "Bold", 11));
+  ui->textFileNameEdit->setFont(settings->getFont("Liberation Mono", "Regular", 10));
+  ui->textFileNameButton->setFont(settings->getFont("Liberation Sans", "Bold", 12));
+
   connect(ui->languageComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(update()));
   connect(ui->locFileNameButton, SIGNAL(released()), this, SLOT(buttonClick()));
   connect(ui->textFileNameButton, SIGNAL(released()), this, SLOT(buttonClick()));
+
+  // add possible languages into combo box
+  for (LANG language : languageHandler->getAllLanguages().keys()) {
+    if (!languageHandler->isLanguageBlocked(language)) ui->languageComboBox->addItem(languageHandler->getAllLanguages().value(language), language);
+  }
 }

@@ -211,14 +211,14 @@ void DataHandler::mergeData(QVector<DataRow*>& from, QVector<DataRow*>& to) {
 // decrypt data from input file to data container
 void DataHandler::decryptData(QDataStream& from, QVector<DataRow*>& to) {
   QFile tmpFile(TMP_FILE_NAME);
+  OpenFile(tmpFile, QIODevice::ReadWrite, "DataHandler::decryptData()");
+  QDataStream tmp(&tmpFile);
+
+  uncompressData(from, tmp);
+
+  tmp.device()->seek(0); // set pos to file begin
+
   try {
-    OpenFile(tmpFile, QIODevice::ReadWrite, "DataHandler::decryptData()");
-    QDataStream tmp(&tmpFile);
-
-    uncompressData(from, tmp);
-
-    tmp.device()->seek(0); // set pos to file begin
-
     // decrypting uncompressed data
     while (true) {
       DataRow* dataRow = new DataRow();
@@ -228,28 +228,29 @@ void DataHandler::decryptData(QDataStream& from, QVector<DataRow*>& to) {
     }
   }
   catch (...) {
+    errorHandler->addException("In function \"DataHandler::decryptData()\" read data was failed.");
     if (tmpFile.isOpen()) CloseFile(tmpFile, "DataHandler::decryptData()");
     RemoveFile(tmpFile, "DataHandler::decryptData()");
-    throw;
+    throw false;
   }
-  CloseFile(tmpFile,  "DataHandler::decryptData()");
+  CloseFile(tmpFile, "DataHandler::decryptData()");
   RemoveFile(tmpFile, "DataHandler::decryptData()");
 }
 
 
 // uncompress data from input file to tmp data file
 void DataHandler::uncompressData(QDataStream& from, QDataStream& to) {
-  unsigned long compressedDataSize   = 0;
+  unsigned long compressedDataSize = 0;
   unsigned long uncompressedDataSize = 0;
-  int ulSize      = static_cast<int>(sizeof(uint32_t)); // guaranteed 4 bytes length for unsigned long
-  int dataLength  = 0;
+  int ulSize = static_cast<int>(sizeof(uint32_t)); // guaranteed 4 bytes length for unsigned long
+  int dataLength = 0;
 
-  dataLength         = static_cast<int>(from.device()->size());
+  dataLength = static_cast<int>(from.device()->size());
   compressedDataSize = static_cast<unsigned long>(dataLength - ulSize); // 1st 4 bytes holds information about uncompressed data size
 
   ReadDataFromStream(from, uncompressedDataSize, ulSize, "DataHandler::uncompressData()");
 
-  uint8_t *inBuff  = nullptr;
+  uint8_t *inBuff = nullptr;
   uint8_t *outBuff = nullptr;
   try {
     inBuff = new uint8_t[compressedDataSize];
@@ -257,10 +258,10 @@ void DataHandler::uncompressData(QDataStream& from, QDataStream& to) {
     ReadDataFromStream(from, *inBuff, compressedDataSize, "DataHandler::uncompressData()");
   }
   catch (...) {
-    if (inBuff)  delete[] inBuff;
+    if (inBuff) delete[] inBuff;
     if (outBuff) delete[] outBuff;
     errorHandler->addException("In function \"DataHandler::uncompressData()\" allocated memory was failed.");
-    throw;
+    throw false;
   }
 
   int result = uncompress(outBuff, &uncompressedDataSize, inBuff, compressedDataSize);
@@ -272,7 +273,7 @@ void DataHandler::uncompressData(QDataStream& from, QDataStream& to) {
   } else {
     if (outBuff) delete[] outBuff;
     errorHandler->addException("In function \"DataHandler::uncompressData()\" uncompress was failed.");
-    throw;
+    throw false;
   }
 }
 
@@ -296,9 +297,9 @@ void DataHandler::encryptData(QVector<DataRow*>& from, QDataStream& to) {
   catch (...) {
     if (tmpFile.isOpen()) CloseFile(tmpFile, "DataHandler::encryptData()");
     RemoveFile(tmpFile, "DataHandler::encryptData()");
-    throw;
+    throw false;
   }
-  CloseFile(tmpFile,  "DataHandler::encryptData()");
+  CloseFile(tmpFile, "DataHandler::encryptData()");
   RemoveFile(tmpFile, "DataHandler::encryptData()");
 }
 
@@ -306,37 +307,41 @@ void DataHandler::encryptData(QVector<DataRow*>& from, QDataStream& to) {
 //
 void DataHandler::compressData(QDataStream& from, QDataStream& to) {
   unsigned long uncompressedDataSize = 0;
-  unsigned long compressedDataSize   = 0;
+  unsigned long compressedDataSize = 0;
   int ulSize = static_cast<int>(sizeof(uint32_t)); // guaranteed 4 bytes length for unsigned long
 
   uncompressedDataSize = static_cast<int>(from.device()->size());
-  compressedDataSize   = compressBound(uncompressedDataSize);
+  compressedDataSize = compressBound(uncompressedDataSize);
 
-  uint8_t *inBuff  = nullptr;
+  uint8_t *inBuff = nullptr;
   uint8_t *outBuff = nullptr;
   try {
     inBuff = new uint8_t[uncompressedDataSize];
     outBuff = new uint8_t[compressedDataSize];
-    ReadDataFromStream(from, *inBuff, uncompressedDataSize, "DataHandler::compressData()");
   }
   catch (...) {
-    if (inBuff)  delete[] inBuff;
+    if (inBuff) delete[] inBuff;
     if (outBuff) delete[] outBuff;
     errorHandler->addException("In function \"DataHandler::compressData()\" allocated memory was failed.");
-    throw;
+    throw false;
   }
 
-  int level = settings->getSetting("", "compressing_level", 1).toInt();
-  int result = compress2(outBuff, &compressedDataSize, inBuff, uncompressedDataSize, level);
+  try {
+    ReadDataFromStream(from, *inBuff, uncompressedDataSize, "DataHandler::compressData()");
+    int level = settings->getSetting("", "compressing_level", 1).toInt();
+    int result = compress2(outBuff, &compressedDataSize, inBuff, uncompressedDataSize, level);
 
-  if (inBuff)  delete[] inBuff;
-  if (result == Z_OK) {
+    if (inBuff) delete[] inBuff;
+    if (result != Z_OK) {
+      if (outBuff) delete[] outBuff;
+      throw false;
+    }
     WriteDataToStream(to, uncompressedDataSize, ulSize, "DataHandler::compressData()");
     WriteDataToStream(to, *outBuff, static_cast<int>(compressedDataSize), "DataHandler::compressData()");
     if (outBuff) delete[] outBuff;
-  } else {
-    if (outBuff) delete[] outBuff;
-    errorHandler->addException("In function \"DataHandler::compressData()\" compress was failed.");
-    throw;
+  }
+  catch (...) {
+    errorHandler->addException("In function \"DataHandler::compressData()\" compressing was failed.");
+    throw false;
   }
 }

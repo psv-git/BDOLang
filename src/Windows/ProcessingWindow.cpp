@@ -69,8 +69,8 @@ void ProcessingWindow::buttonClick() {
 void ProcessingWindow::initUi() {
   ui->setupUi(this);
 
-  ui->exitButton->setFont(settings->getFont("Liberation Sans", "Bold", 12));
   ui->messageLabel->setFont(settings->getFont("Liberation Sans", "Bold", 20));
+  ui->exitButton->setFont(settings->getFont("Liberation Sans", "Bold", 12));
 
   connect(ui->exitButton, SIGNAL(released()), this, SLOT(buttonClick()));
 }

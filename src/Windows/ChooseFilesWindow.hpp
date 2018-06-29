@@ -32,6 +32,7 @@ private:
   LanguageHandler *languageHandler = nullptr;
   MODE mode = MODE::NONE;
 
+  void initUi();
   void addAllowedLanguages();
 
 };

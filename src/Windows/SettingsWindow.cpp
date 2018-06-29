@@ -29,6 +29,8 @@ void SettingsWindow::closeEvent(QCloseEvent *event) {
 // public slots ===============================================================
 
 void SettingsWindow::show() {
+  ui->compressingBox->setValue(settings->getSetting("", "compressing_level", 1).toInt());
+  ui->dataPathEdit->setText(settings->getSetting("", "data_path", DEFAULT_SETTINGS.dataDirectoryName).toString());
   QWidget::show();
 }
 
@@ -70,11 +72,20 @@ void SettingsWindow::buttonClick() {
 void SettingsWindow::initUi() {
   ui->setupUi(this);
 
+  ui->addButton->setFont(settings->getFont("Liberation Sans", "Bold", 12));
+  ui->deleteButton->setFont(settings->getFont("Liberation Sans", "Bold", 12));
+
+  ui->dataPathLabel->setFont(settings->getFont("Liberation Sans", "Bold", 11));
+  ui->dataPathEdit->setFont(settings->getFont("Liberation Mono", "Regular", 10));
+  ui->dataPathButton->setFont(settings->getFont("Liberation Sans", "Bold", 12));
+
+  ui->compressingLabel->setFont(settings->getFont("Liberation Sans", "Bold", 11));
+  ui->compressingBox->setFont(settings->getFont("Liberation Sans", "Bold", 12));
+
+  ui->aboutEdit->setFont(settings->getFont("Liberation Sans", "Bold", 11));
+
   ui->saveButton->setFont(settings->getFont("Liberation Sans", "Bold", 12));
   ui->cancelButton->setFont(settings->getFont("Liberation Sans", "Bold", 12));
-  ui->compressingBox->setFont(settings->getFont("Liberation Sans", "Bold", 12));
-  ui->compressingLabel->setFont(settings->getFont("Liberation Sans", "Bold", 11));
-  ui->aboutEdit->setFont(settings->getFont("Liberation Sans", "Bold", 10));
 
   connect(ui->saveButton, SIGNAL(released()), this, SLOT(buttonClick()));
   connect(ui->cancelButton, SIGNAL(released()), this, SLOT(buttonClick()));

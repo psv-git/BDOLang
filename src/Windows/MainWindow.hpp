@@ -28,6 +28,8 @@ private:
   Ui::MainWindow *ui = nullptr;
   Settings *settings = nullptr;
 
+  void initUi();
+
 };
 
 
