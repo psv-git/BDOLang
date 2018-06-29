@@ -32,6 +32,8 @@ private:
   LanguageHandler *languageHandler = nullptr;
   LANG currentLanguage = LANG::EMPTY;
 
+  void initUi();
+
 };
 
 

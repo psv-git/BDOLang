@@ -3,18 +3,14 @@
 
 
 LanguageWidget::LanguageWidget(QWidget *parent) : QWidget(parent), ui(new Ui::LanguageWidget) {
-  ui->setupUi(this);
   settings = &Settings::getInstance();
   languageHandler = &LanguageHandler::getInstance();
+  initUi();
 
   // add possible languages into combo box
   for (LANG language : languageHandler->getAllLanguages().keys()) {
     if (!languageHandler->isLanguageBlocked(language)) ui->languageComboBox->addItem(languageHandler->getAllLanguages().value(language), language);
   }
-
-  connect(ui->languageComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(update()));
-  connect(ui->locFileNameButton, SIGNAL(released()), this, SLOT(buttonClick()));
-  connect(ui->textFileNameButton, SIGNAL(released()), this, SLOT(buttonClick()));
 }
 
 
@@ -95,4 +91,14 @@ void LanguageWidget::buttonClick() {
   QString objName = obj->objectName();
   if (objName == "locFileNameButton") ui->locFileNameEdit->setText(GetFileName(tr("Choose file"), tr("Files extensions (*)")));
   else ui->textFileNameEdit->setText(GetFileName(tr("Choose file"), tr("Files extensions (*)")));
+}
+
+// private methods ============================================================
+
+void LanguageWidget::initUi() {
+  ui->setupUi(this);
+
+  connect(ui->languageComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(update()));
+  connect(ui->locFileNameButton, SIGNAL(released()), this, SLOT(buttonClick()));
+  connect(ui->textFileNameButton, SIGNAL(released()), this, SLOT(buttonClick()));
 }

@@ -29,7 +29,8 @@ private:
   ProcessingWindow *processingWindow   = nullptr;
   TranslatingWindow *translatingWindow = nullptr;
 
-  void createWindow(WTYPE type);
+  template <typename WT>
+  friend WT* createWindow(WindowsHandler *wh);
 
 };
 

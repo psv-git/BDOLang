@@ -7,7 +7,6 @@
 #include "LanguageHandler.hpp"
 
 
-enum class WTYPE : int { CFSW, MAINW, PROCW, SETTW, TRANSW };
 enum class MODE  : int { MERGE_BIN, MERGE_TEXT, BIN_TO_TEXT, TEXT_TO_BIN, TRANSLATE, COMP_BY_SIZE, COMP_BY_STR, SETTINGS, CLOSE, EXIT, NONE };
 
 

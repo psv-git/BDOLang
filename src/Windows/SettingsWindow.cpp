@@ -5,24 +5,10 @@
 
 
 SettingsWindow::SettingsWindow(QWidget *parent) : QWidget(parent), ui(new Ui::SettingsWindow) {
-  ui->setupUi(this);
   settings = &Settings::getInstance();
   languageHandler = &LanguageHandler::getInstance();
   languageHandler->setHandledObject(this);
-
-  ui->saveButton->setFont(settings->getFont("Liberation Sans", "Bold", 12));
-  ui->cancelButton->setFont(settings->getFont("Liberation Sans", "Bold", 12));
-  ui->compressingBox->setFont(settings->getFont("Liberation Sans", "Bold", 12));
-  ui->compressingLabel->setFont(settings->getFont("Liberation Sans", "Bold", 11));
-  ui->aboutEdit->setFont(settings->getFont("Liberation Sans", "Bold", 10));
-
-  connect(ui->saveButton, SIGNAL(released()), this, SLOT(buttonClick()));
-  connect(ui->cancelButton, SIGNAL(released()), this, SLOT(buttonClick()));
-  connect(ui->addButton, SIGNAL(released()), this, SLOT(buttonClick()));
-  connect(ui->deleteButton, SIGNAL(released()), this, SLOT(buttonClick()));
-  connect(ui->dataPathButton, SIGNAL(released()), this, SLOT(buttonClick()));
-
-  addLanguageWidgets();
+  initUi();
 }
 
 
@@ -80,6 +66,25 @@ void SettingsWindow::buttonClick() {
 }
 
 // private methods ============================================================
+
+void SettingsWindow::initUi() {
+  ui->setupUi(this);
+
+  ui->saveButton->setFont(settings->getFont("Liberation Sans", "Bold", 12));
+  ui->cancelButton->setFont(settings->getFont("Liberation Sans", "Bold", 12));
+  ui->compressingBox->setFont(settings->getFont("Liberation Sans", "Bold", 12));
+  ui->compressingLabel->setFont(settings->getFont("Liberation Sans", "Bold", 11));
+  ui->aboutEdit->setFont(settings->getFont("Liberation Sans", "Bold", 10));
+
+  connect(ui->saveButton, SIGNAL(released()), this, SLOT(buttonClick()));
+  connect(ui->cancelButton, SIGNAL(released()), this, SLOT(buttonClick()));
+  connect(ui->addButton, SIGNAL(released()), this, SLOT(buttonClick()));
+  connect(ui->deleteButton, SIGNAL(released()), this, SLOT(buttonClick()));
+  connect(ui->dataPathButton, SIGNAL(released()), this, SLOT(buttonClick()));
+
+  addLanguageWidgets();
+}
+
 
 void SettingsWindow::addLanguageWidgets() {
   QStringList groups = settings->getGroups();

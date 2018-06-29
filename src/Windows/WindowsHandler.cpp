@@ -7,8 +7,8 @@
 
 
 WindowsHandler::WindowsHandler(QObject *parent) : QObject(parent) {
-  createWindow(WTYPE::MAINW);
-  createWindow(WTYPE::SETTW);
+  mainWindow = createWindow<MainWindow>(this);
+  settingsWindow = createWindow<SettingsWindow>(this);
   mainWindow->show();
 }
 
@@ -30,7 +30,7 @@ void WindowsHandler::buttonClick(MODE mode) {
     if (mode == MODE::EXIT) QApplication::quit();
     if (mode == MODE::SETTINGS) settingsWindow->show();
     else {
-     if (!chooseFilesWindow) createWindow(WTYPE::CFSW);
+     if (!chooseFilesWindow) chooseFilesWindow = createWindow<ChooseFilesWindow>(this);
      chooseFilesWindow->show(mode);
     }
   } else if (sender == chooseFilesWindow) {
@@ -48,30 +48,33 @@ void WindowsHandler::buttonClick(const QString &srcFilePath, const QString &targ
   chooseFilesWindow->hide();
   mainWindow->hide();
   if (mode == MODE::BIN_TO_TEXT || mode == MODE::TEXT_TO_BIN || mode == MODE::MERGE_TEXT || mode == MODE::MERGE_BIN) {
-    if (!processingWindow) createWindow(WTYPE::PROCW);
+    if (!processingWindow) processingWindow = createWindow<ProcessingWindow>(this);
     processingWindow->show(srcFilePath, targFilePath, mode);
   }
 }
 
-// private methods ============================================================
+// friend functions ===========================================================
 
-// TODO: to template fabric
-void WindowsHandler::createWindow(WTYPE type) {
-  if (type == WTYPE::MAINW) {
-    mainWindow = new MainWindow();
-    connect(mainWindow, SIGNAL(buttonClicked(MODE)), this, SLOT(buttonClick(MODE)));
-  } else if (type == WTYPE::CFSW) {
-    chooseFilesWindow =  new ChooseFilesWindow();
-    connect(chooseFilesWindow, SIGNAL(buttonClicked(MODE)), this, SLOT(buttonClick(MODE)));
-    connect(chooseFilesWindow, SIGNAL(buttonClicked(const QString&, const QString&)), this, SLOT(buttonClick(const QString&, const QString&)));
-    connect(chooseFilesWindow, SIGNAL(buttonClicked(MODE)), mainWindow, SLOT(unlockWindow()));
-  } else if (type == WTYPE::SETTW) {
-    settingsWindow = new SettingsWindow();
-    connect(settingsWindow, SIGNAL(buttonClicked(MODE)), this, SLOT(buttonClick(MODE)));
-    connect(settingsWindow, SIGNAL(buttonClicked(MODE)), mainWindow, SLOT(unlockWindow()));
-  } else if (type == WTYPE::PROCW) {
-    processingWindow = new ProcessingWindow();
-    connect(processingWindow, SIGNAL(buttonClicked(MODE)),  this, SLOT(buttonClick(MODE)));
-    connect(processingWindow, SIGNAL(buttonClicked(MODE)), mainWindow, SLOT(unlockWindow()));
+template <typename WT>
+WT*  createWindow(WindowsHandler *wh) {
+  WT *nw;
+  if (typeid(WT) == typeid(MainWindow)) {
+    nw = new WT();
+    nw->connect(nw, SIGNAL(buttonClicked(MODE)), wh, SLOT(buttonClick(MODE)));
+  } else if (typeid(WT) == typeid(ChooseFilesWindow)) {
+    nw = new WT();
+    nw->connect(nw, SIGNAL(buttonClicked(MODE)), wh, SLOT(buttonClick(MODE)));
+    nw->connect(nw, SIGNAL(buttonClicked(const QString&, const QString&)), wh, SLOT(buttonClick(const QString&, const QString&)));
+    nw->connect(nw, SIGNAL(buttonClicked(MODE)), wh->mainWindow, SLOT(unlockWindow()));
+  } else if (typeid(WT) == typeid(SettingsWindow)) {
+    nw = new WT();
+    nw->connect(nw, SIGNAL(buttonClicked(MODE)), wh, SLOT(buttonClick(MODE)));
+    nw->connect(nw, SIGNAL(buttonClicked(MODE)), wh->mainWindow, SLOT(unlockWindow()));
   }
+  else if (typeid(WT) == typeid(ProcessingWindow)) {
+    nw = new WT();
+    nw->connect(nw, SIGNAL(buttonClicked(MODE)), wh, SLOT(buttonClick(MODE)));
+    nw->connect(nw, SIGNAL(buttonClicked(MODE)), wh->mainWindow, SLOT(unlockWindow()));
+  }
+  return nw;
 }

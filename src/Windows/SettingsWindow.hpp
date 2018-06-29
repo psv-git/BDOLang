@@ -35,6 +35,7 @@ private:
 
   QVector<LanguageWidget*> languageWidgetsList;
 
+  void initUi();
   void addLanguageWidgets();
   void addLanguageWidget(bool deletable, LANG language, const QString &locFileName, const QString &textFileName);
   void deleteLanguageWidgets();

@@ -34,6 +34,8 @@ private:
 
   QThread *thread = nullptr;
 
+  void initUi();
+
 };
 
 
