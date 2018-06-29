@@ -8,6 +8,7 @@ class MEMError : public IError {
 
 public:
   MEMError(const QString &message);
+  ~MEMError();
 
   const QString& what() const;
 

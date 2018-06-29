@@ -2,9 +2,9 @@
 #define SETTINGSWINDOW_HPP
 
 #include "ApplicationFunctions.hpp"
+#include "ILanguageHandled.hpp"
 
 namespace Ui { class SettingsWindow; }
-class LanguageWidget;
 
 
 class SettingsWindow : public QWidget, public ILanguageHandled {
