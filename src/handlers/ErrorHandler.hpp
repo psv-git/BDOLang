@@ -1,7 +1,7 @@
 #ifndef ERRORHANDLER_HPP
 #define ERRORHANDLER_HPP
 
-#include "Headers.hpp"
+#include "headers.hpp"
 
 namespace Ui { class ErrorWindow; }
 

@@ -8,7 +8,7 @@ const char* TMP_FILE_NAME = "./data/tmp.bss";
 // ============================================================================
 
 DataHandler::DataHandler(const QString &fromFilePath, const QString &toFilePath, MODE mode) : QObject(nullptr) {
-  settings = &Settings::getInstance();
+  settingsHandler = &SettingsHandler::getInstance();
   errorHandler = &ErrorHandler::getInstance();
   DataHandler::fromFilePath = fromFilePath;
   DataHandler::toFilePath = toFilePath;
@@ -168,6 +168,7 @@ void DataHandler::deleteData(QVector<DataRow*>& dataRowsContainer) {
   }
 }
 
+// ============================================================================
 
 void DataHandler::mergeData(QVector<DataRow*>& from, QVector<DataRow*>& to) {
   std::sort(to.begin(), to.end(), [](DataRow *ptr1, DataRow *ptr2) -> bool { return *ptr1 < *ptr2; }); // sorting rows by [sheet, id1, id2, id3, id4]
@@ -208,17 +209,17 @@ void DataHandler::mergeData(QVector<DataRow*>& from, QVector<DataRow*>& to) {
   }
 }
 
+// ============================================================================
+
 // decrypt data from input file to data container
 void DataHandler::decryptData(QDataStream& from, QVector<DataRow*>& to) {
   QFile tmpFile(TMP_FILE_NAME);
   OpenFile(tmpFile, QIODevice::ReadWrite, "DataHandler::decryptData()");
   QDataStream tmp(&tmpFile);
 
-  uncompressData(from, tmp);
-
-  tmp.device()->seek(0); // set pos to file begin
-
   try {
+    uncompressData(from, tmp);
+
     // decrypting uncompressed data
     while (true) {
       DataRow* dataRow = new DataRow();
@@ -238,45 +239,69 @@ void DataHandler::decryptData(QDataStream& from, QVector<DataRow*>& to) {
 }
 
 
-// uncompress data from input file to tmp data file
+// decompress data from input file to tmp data file
 void DataHandler::uncompressData(QDataStream& from, QDataStream& to) {
-  unsigned long compressedDataSize = 0;
+  unsigned long expectedUncompressedDataSize = 0;
   unsigned long uncompressedDataSize = 0;
-  int ulSize = static_cast<int>(sizeof(uint32_t)); // guaranteed 4 bytes length for unsigned long
-  int dataLength = 0;
-
-  dataLength = static_cast<int>(from.device()->size());
-  compressedDataSize = static_cast<unsigned long>(dataLength - ulSize); // 1st 4 bytes holds information about uncompressed data size
-
-  ReadDataFromStream(from, uncompressedDataSize, ulSize, "DataHandler::uncompressData()");
+  unsigned int BUFF_SIZE = 30000;
 
   uint8_t *inBuff = nullptr;
   uint8_t *outBuff = nullptr;
   try {
-    inBuff = new uint8_t[compressedDataSize];
-    outBuff = new uint8_t[uncompressedDataSize];
-    ReadDataFromStream(from, *inBuff, compressedDataSize, "DataHandler::uncompressData()");
+    inBuff = new uint8_t[BUFF_SIZE];
+    outBuff = new uint8_t[BUFF_SIZE];
+    ReadDataFromStream(from, expectedUncompressedDataSize, 4, "DataHandler::uncompressData()");
   }
   catch (...) {
     if (inBuff) delete[] inBuff;
     if (outBuff) delete[] outBuff;
-    errorHandler->addException("In function \"DataHandler::uncompressData()\" allocated memory was failed.");
+    errorHandler->addException("In function \"DataHandler::uncompressData()\" allocating memory for buffer was failed.");
     throw false;
   }
 
-  int result = uncompress(outBuff, &uncompressedDataSize, inBuff, compressedDataSize);
 
-  if (inBuff) delete[] inBuff;
-  if (result == Z_OK) {
-    WriteDataToStream(to, *outBuff, uncompressedDataSize, "DataHandler::uncompressData()");
+  z_stream stream = { 0 };
+  try {
+    int result = inflateInit(&stream);
+    if (result != Z_OK) throw false;
+
+    do {
+      result = ReadDataFromStream(from, *inBuff, BUFF_SIZE, "DataHandler::uncompressData()"); // number of bytes available at next_in
+      stream.avail_in = static_cast<unsigned int>(result); // negative value get throw in read function
+      stream.next_in = inBuff; // next input byte
+      if (stream.avail_in == 0) break;
+
+      do {
+        stream.avail_out = BUFF_SIZE; // remaining free space at next_out
+        stream.next_out = outBuff; // next output byte should be put there
+        result = inflate(&stream, Z_NO_FLUSH); // decompress data
+        if (result == Z_NEED_DICT || result == Z_DATA_ERROR || result == Z_MEM_ERROR) throw false;
+
+        int have = BUFF_SIZE - stream.avail_out; // decompressed data size
+        uncompressedDataSize += have;
+        WriteDataToStream(to, *outBuff, have, "DataHandler::uncompressData()"); // write decompressed data to out file
+      } while (stream.avail_out == 0);
+    } while (result != Z_STREAM_END);
+  }
+  catch (...) {
+    if (inBuff) delete[] inBuff;
     if (outBuff) delete[] outBuff;
-  } else {
-    if (outBuff) delete[] outBuff;
-    errorHandler->addException("In function \"DataHandler::uncompressData()\" uncompress was failed.");
+    inflateEnd(&stream);
+    throw false;
+  }
+
+  to.device()->seek(0); // set pos to file begin
+  delete[] inBuff;
+  delete[] outBuff;
+  inflateEnd(&stream);
+
+  if (uncompressedDataSize != expectedUncompressedDataSize) {
+    errorHandler->addException("In function \"DataHandler::uncompressData()\" decompressed data is not valid.");
     throw false;
   }
 }
 
+// ============================================================================
 
 // encrypt data to output binary file from data container
 void DataHandler::encryptData(QVector<DataRow*>& from, QDataStream& to) {
@@ -328,7 +353,7 @@ void DataHandler::compressData(QDataStream& from, QDataStream& to) {
 
   try {
     ReadDataFromStream(from, *inBuff, uncompressedDataSize, "DataHandler::compressData()");
-    int level = settings->getSetting("", "compressing_level", 1).toInt();
+    int level = settingsHandler->getSetting("", "compressing_level", 1).toInt();
     int result = compress2(outBuff, &compressedDataSize, inBuff, uncompressedDataSize, level);
 
     if (inBuff) delete[] inBuff;

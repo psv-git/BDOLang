@@ -17,8 +17,8 @@ ErrorHandler::~ErrorHandler() {
 
 void ErrorHandler::showMessage() {
   QString exceptionMessage;
-  for (int i = 0; i < exceptionsMessagesList.size(); i++) {
-    exceptionMessage = exceptionMessage + QString::number(i + 1) + ") " + exceptionsMessagesList.at(i) + "\n";
+  for (int i = exceptionsMessagesList.size(); i > 0; i--) {
+    exceptionMessage = exceptionMessage + QString::number(i) + ") " + exceptionsMessagesList.at(i - 1) + "\n";
   }
   exceptionsMessagesList.clear();
   ui->errorEdit->appendPlainText(exceptionMessage);

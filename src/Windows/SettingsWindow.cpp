@@ -5,7 +5,7 @@
 
 
 SettingsWindow::SettingsWindow(QWidget *parent) : QWidget(parent), ui(new Ui::SettingsWindow) {
-  settings = &Settings::getInstance();
+  settingsHandler = &SettingsHandler::getInstance();
   languageHandler = &LanguageHandler::getInstance();
   languageHandler->setHandledObject(this);
   initUi();
@@ -29,8 +29,8 @@ void SettingsWindow::closeEvent(QCloseEvent *event) {
 // public slots ===============================================================
 
 void SettingsWindow::show() {
-  ui->compressingBox->setValue(settings->getSetting("", "compressing_level", 1).toInt());
-  ui->dataPathEdit->setText(settings->getSetting("", "data_path", DEFAULT_SETTINGS.dataDirectoryName).toString());
+  ui->compressingBox->setValue(settingsHandler->getSetting("", "compressing_level", 1).toInt());
+  ui->dataPathEdit->setText(settingsHandler->getSetting("", "data_path", DEFAULT_SETTINGS.dataDirectoryName).toString());
   QWidget::show();
 }
 
@@ -53,16 +53,16 @@ void SettingsWindow::buttonClick() {
   else if (objName == "cancelButton") emit buttonClicked(MODE::CLOSE);
   else if (objName == "saveButton") {
     // save compressing level
-    settings->setSetting("", "compressing_level", ui->compressingBox->getValue());
+    settingsHandler->setSetting("", "compressing_level", ui->compressingBox->getValue());
     // save data path
     QString tmp = ui->dataPathEdit->text();
     if (tmp.isEmpty()) tmp = DEFAULT_SETTINGS.dataDirectoryName;
-    settings->setSetting("", "data_path", tmp);
+    settingsHandler->setSetting("", "data_path", tmp);
     // save language widgets
     for (int i = 0; i < languageWidgetsList.size(); i++) {
       languageWidgetsList[i]->save();
     }
-    settings->saveSettings();
+    settingsHandler->saveSettings();
     emit buttonClicked(MODE::CLOSE);
   }
 }
@@ -72,20 +72,20 @@ void SettingsWindow::buttonClick() {
 void SettingsWindow::initUi() {
   ui->setupUi(this);
 
-  ui->addButton->setFont(settings->getFont("Liberation Sans", "Bold", 12));
-  ui->deleteButton->setFont(settings->getFont("Liberation Sans", "Bold", 12));
+  ui->addButton->setFont(settingsHandler->getFont("Liberation Sans", "Bold", 12));
+  ui->deleteButton->setFont(settingsHandler->getFont("Liberation Sans", "Bold", 12));
 
-  ui->dataPathLabel->setFont(settings->getFont("Liberation Sans", "Bold", 11));
-  ui->dataPathEdit->setFont(settings->getFont("Liberation Mono", "Regular", 10));
-  ui->dataPathButton->setFont(settings->getFont("Liberation Sans", "Bold", 12));
+  ui->dataPathLabel->setFont(settingsHandler->getFont("Liberation Sans", "Bold", 11));
+  ui->dataPathEdit->setFont(settingsHandler->getFont("Liberation Mono", "Regular", 10));
+  ui->dataPathButton->setFont(settingsHandler->getFont("Liberation Sans", "Bold", 12));
 
-  ui->compressingLabel->setFont(settings->getFont("Liberation Sans", "Bold", 11));
-  ui->compressingBox->setFont(settings->getFont("Liberation Sans", "Bold", 12));
+  ui->compressingLabel->setFont(settingsHandler->getFont("Liberation Sans", "Bold", 11));
+  ui->compressingBox->setFont(settingsHandler->getFont("Liberation Sans", "Bold", 12));
 
-  ui->aboutEdit->setFont(settings->getFont("Liberation Sans", "Bold", 11));
+  ui->aboutEdit->setFont(settingsHandler->getFont("Liberation Sans", "Bold", 11));
 
-  ui->saveButton->setFont(settings->getFont("Liberation Sans", "Bold", 12));
-  ui->cancelButton->setFont(settings->getFont("Liberation Sans", "Bold", 12));
+  ui->saveButton->setFont(settingsHandler->getFont("Liberation Sans", "Bold", 12));
+  ui->cancelButton->setFont(settingsHandler->getFont("Liberation Sans", "Bold", 12));
 
   connect(ui->saveButton, SIGNAL(released()), this, SLOT(buttonClick()));
   connect(ui->cancelButton, SIGNAL(released()), this, SLOT(buttonClick()));
@@ -98,12 +98,12 @@ void SettingsWindow::initUi() {
 
 
 void SettingsWindow::addLanguageWidgets() {
-  QStringList groups = settings->getGroups();
+  QStringList groups = settingsHandler->getGroups();
   for (int i = 0; i < groups.size(); i++) {
     LANG language = languageHandler->toLang(groups[i]);
     if (language != LANG::NONE) {
-      QString locFileName = settings->getSetting(groups[i], "loc_file_name", "").toString();
-      QString textFileName = settings->getSetting(groups[i], "text_file_name", "").toString();
+      QString locFileName = settingsHandler->getSetting(groups[i], "loc_file_name", "").toString();
+      QString textFileName = settingsHandler->getSetting(groups[i], "text_file_name", "").toString();
       addLanguageWidget(true, language, locFileName, textFileName);
     }
   }

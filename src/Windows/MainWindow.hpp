@@ -26,7 +26,7 @@ private slots:
 
 private:
   Ui::MainWindow *ui = nullptr;
-  Settings *settings = nullptr;
+  SettingsHandler *settingsHandler = nullptr;
 
   void initUi();
 

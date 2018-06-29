@@ -1,8 +1,8 @@
 #ifndef APPLICATIONGLOBAL_HPP
 #define APPLICATIONGLOBAL_HPP
 
-#include "Headers.hpp"
-#include "Settings.hpp"
+#include "headers.hpp"
+#include "SettingsHandler.hpp"
 #include "ErrorHandler.hpp"
 #include "LanguageHandler.hpp"
 

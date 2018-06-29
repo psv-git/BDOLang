@@ -30,7 +30,7 @@ private slots:
 
 private:
   Ui::SettingsWindow *ui = nullptr;
-  Settings *settings = nullptr;
+  SettingsHandler *settingsHandler = nullptr;
   LanguageHandler *languageHandler = nullptr;
 
   QVector<LanguageWidget*> languageWidgetsList;

@@ -28,7 +28,7 @@ private slots:
 
 private:
   Ui::ChooseFilesWindow *ui = nullptr;
-  Settings *settings = nullptr;
+  SettingsHandler *settingsHandler = nullptr;
   LanguageHandler *languageHandler = nullptr;
   MODE mode = MODE::NONE;
 

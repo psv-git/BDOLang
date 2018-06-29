@@ -22,7 +22,7 @@ public slots:
   void stop();
 
 private:
-  Settings *settings = nullptr;
+  SettingsHandler *settingsHandler = nullptr;
   ErrorHandler *errorHandler = nullptr;
   QString fromFilePath;
   QString toFilePath;

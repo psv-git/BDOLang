@@ -1,7 +1,7 @@
-#ifndef SETTINGS_HPP
-#define SETTINGS_HPP
+#ifndef SETTINGSHANDLER_HPP
+#define SETTINGSHANDLER_HPP
 
-#include "Headers.hpp"
+#include "headers.hpp"
 class QSettings;
 class QFontDatabase;
 
@@ -15,16 +15,16 @@ struct DefaultSettings {
 extern const DefaultSettings DEFAULT_SETTINGS;
 
 
-class Settings {
+class SettingsHandler {
 
 public:
-  static Settings& getInstance() {
-    static Settings instance;
+  static SettingsHandler& getInstance() {
+    static SettingsHandler instance;
     return instance;
   }
 
-  Settings(Settings const&) = delete;
-  Settings& operator = (Settings const&) = delete;
+  SettingsHandler(SettingsHandler const&) = delete;
+  SettingsHandler& operator = (SettingsHandler const&) = delete;
 
   QStringList getGroups();
 
@@ -38,8 +38,8 @@ public:
   void saveSettings();
 
 private:
-  Settings();
-  ~Settings();
+  SettingsHandler();
+  ~SettingsHandler();
 
   QSettings *settings = nullptr;
   QFontDatabase *fontsList = nullptr;
@@ -47,4 +47,4 @@ private:
 };
 
 
-#endif // SETTINGS_HPP
+#endif // SETTINGSHANDLER_HPP

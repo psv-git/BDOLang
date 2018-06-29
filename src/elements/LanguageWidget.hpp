@@ -28,7 +28,7 @@ private slots:
 
 private:
   Ui::LanguageWidget *ui = nullptr;
-  Settings *settings = nullptr;
+  SettingsHandler *settingsHandler = nullptr;
   LanguageHandler *languageHandler = nullptr;
   LANG currentLanguage = LANG::EMPTY;
 

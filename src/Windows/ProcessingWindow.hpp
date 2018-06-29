@@ -29,7 +29,7 @@ private slots:
 
 private:
   Ui::ProcessingWindow *ui = nullptr;
-  Settings *settings = nullptr;
+  SettingsHandler *settingsHandler = nullptr;
   ErrorHandler *errorHandler = nullptr;
 
   QThread *thread = nullptr;

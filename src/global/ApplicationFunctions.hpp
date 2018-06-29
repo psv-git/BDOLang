@@ -25,24 +25,26 @@ void RemoveFile(QFile& file, const QString& functionName = "");
 // i/o ========================================================================
 
 template <typename V>
-void ReadDataFromStream(QDataStream& stream, V& var, int size = 0, const QString &functionName = "") {
+int ReadDataFromStream(QDataStream& stream, V& var, int size = 0, const QString &functionName = "") {
   if (size == 0) size = static_cast<int>(sizeof(var));
-  stream.readRawData(reinterpret_cast<char*>(&var), size);
-  if (stream.status() == QDataStream::ReadCorruptData) {
+  int count = stream.readRawData(reinterpret_cast<char*>(&var), size);
+  if (count < 0) {
     ErrorHandler::getInstance().addException("In function \"" + functionName + "\" read data from file was failed.");
     throw false;
   }
+  return count;
 }
 
 
 template <typename V>
-void WriteDataToStream(QDataStream& stream, V& var, int size = 0, const QString &functionName = "") {
+int WriteDataToStream(QDataStream& stream, V& var, int size = 0, const QString &functionName = "") {
   if (size == 0) size = static_cast<int>(sizeof(var));
-  stream.writeRawData(reinterpret_cast<char*>(&var), size);
-  if (stream.status() == QDataStream::WriteFailed) {
+  int count = stream.writeRawData(reinterpret_cast<char*>(&var), size);
+  if (count < 0) {
     ErrorHandler::getInstance().addException("In function \"" + functionName + "\" write data from file was failed.");
     throw false;
   }
+  return count;
 }
 
 

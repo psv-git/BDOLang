@@ -3,7 +3,7 @@
 
 
 LanguageWidget::LanguageWidget(QWidget *parent) : QWidget(parent), ui(new Ui::LanguageWidget) {
-  settings = &Settings::getInstance();
+  settingsHandler = &SettingsHandler::getInstance();
   languageHandler = &LanguageHandler::getInstance();
   initUi();
 }
@@ -12,7 +12,7 @@ LanguageWidget::LanguageWidget(QWidget *parent) : QWidget(parent), ui(new Ui::La
 LanguageWidget::~LanguageWidget() {
   if (needToDelete()) {
     languageHandler->unblockLanguage(currentLanguage);
-    settings->removeSetting(languageHandler->toString(currentLanguage));
+    settingsHandler->removeSetting(languageHandler->toString(currentLanguage));
   }
   delete ui;
 }
@@ -53,8 +53,8 @@ void LanguageWidget::setTextFileName(const QString &fileName) {
 void LanguageWidget::save() {
   if (currentLanguage != LANG::EMPTY) {
     if (!ui->locFileNameEdit->text().isEmpty() && !ui->textFileNameEdit->text().isEmpty()) {
-      settings->setSetting(languageHandler->toString(currentLanguage), "loc_file_name", ui->locFileNameEdit->text());
-      settings->setSetting(languageHandler->toString(currentLanguage), "text_file_name", ui->textFileNameEdit->text());
+      settingsHandler->setSetting(languageHandler->toString(currentLanguage), "loc_file_name", ui->locFileNameEdit->text());
+      settingsHandler->setSetting(languageHandler->toString(currentLanguage), "text_file_name", ui->textFileNameEdit->text());
     }
   }
 }
@@ -93,16 +93,16 @@ void LanguageWidget::buttonClick() {
 void LanguageWidget::initUi() {
   ui->setupUi(this);
 
-  ui->languageLabel->setFont(settings->getFont("Liberation Sans", "Bold", 11));
-  ui->languageComboBox->setFont(settings->getFont("Liberation Sans", "Bold", 12));
+  ui->languageLabel->setFont(settingsHandler->getFont("Liberation Sans", "Bold", 11));
+  ui->languageComboBox->setFont(settingsHandler->getFont("Liberation Sans", "Bold", 12));
 
-  ui->locFileNameLabel->setFont(settings->getFont("Liberation Sans", "Bold", 11));
-  ui->locFileNameEdit->setFont(settings->getFont("Liberation Mono", "Regular", 10));
-  ui->locFileNameButton->setFont(settings->getFont("Liberation Sans", "Bold", 12));
+  ui->locFileNameLabel->setFont(settingsHandler->getFont("Liberation Sans", "Bold", 11));
+  ui->locFileNameEdit->setFont(settingsHandler->getFont("Liberation Mono", "Regular", 10));
+  ui->locFileNameButton->setFont(settingsHandler->getFont("Liberation Sans", "Bold", 12));
 
-  ui->textFileNameLabel->setFont(settings->getFont("Liberation Sans", "Bold", 11));
-  ui->textFileNameEdit->setFont(settings->getFont("Liberation Mono", "Regular", 10));
-  ui->textFileNameButton->setFont(settings->getFont("Liberation Sans", "Bold", 12));
+  ui->textFileNameLabel->setFont(settingsHandler->getFont("Liberation Sans", "Bold", 11));
+  ui->textFileNameEdit->setFont(settingsHandler->getFont("Liberation Mono", "Regular", 10));
+  ui->textFileNameButton->setFont(settingsHandler->getFont("Liberation Sans", "Bold", 12));
 
   connect(ui->languageComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(update()));
   connect(ui->locFileNameButton, SIGNAL(released()), this, SLOT(buttonClick()));

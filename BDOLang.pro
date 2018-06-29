@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -25,7 +25,9 @@ DEFINES += QT_DEPRECATED_WARNINGS
 INCLUDEPATH += \
     src/data \
     src/elements \
+    src/errors \
     src/global \
+    src/handlers \
     src/interfaces \
     src/windows
 
@@ -33,37 +35,45 @@ SOURCES += \
     src/main.cpp \
     src/data/DataHandler.cpp \
     src/data/DataRow.cpp \
+    src/elements/CustomComboBox.cpp \
+    src/elements/LanguageWidget.cpp \
+    src/errors/IOError.cpp \
+    src/errors/MEMError.cpp \
     src/global/ApplicationFunctions.cpp \
-    src/global/Settings.cpp \
-    src/global/ErrorHandler.cpp \
-    src/global/LanguageHandler.cpp \
+    src/handlers/ErrorHandler.cpp \
+    src/handlers/LanguageHandler.cpp \
+    src/handlers/SettingsHandler.cpp \
+    src/handlers/WindowsHandler.cpp \
     src/windows/WindowsHandler.cpp \
     src/windows/MainWindow.cpp \
     src/windows/ChooseFilesWindow.cpp \
     src/windows/SettingsWindow.cpp \
     src/windows/ProcessingWindow.cpp \
-    src/windows/TranslatingWindow.cpp \
-    src/elements/CustomComboBox.cpp \
-    src/elements/LanguageWidget.cpp
+    src/windows/TranslatingWindow.cpp
 
 HEADERS += \
+    src/headers.hpp \
     src/data/DataHandler.hpp \
     src/data/DataRow.hpp \
+    src/elements/CustomComboBox.hpp \
+    src/elements/LanguageWidget.hpp \
+    src/errors/IOError.hpp \
+    src/errors/MEMError.hpp \
     src/global/Headers.hpp \
     src/global/ApplicationFunctions.hpp \
     src/global/ApplicationGlobal.hpp \
-    src/global/Settings.hpp \
-    src/global/ErrorHandler.hpp \
-    src/global/LanguageHandler.hpp \
+    src/handlers/ErrorHandler.hpp \
+    src/handlers/LanguageHandler.hpp \
+    src/handlers/SettingsHandler.hpp \
+    src/handlers/WindowsHandler.hpp \
     src/interfaces/ILanguageHandled.hpp \
+    src/interfaces/IError.hpp \
     src/windows/WindowsHandler.hpp \
     src/windows/MainWindow.hpp \
     src/windows/ChooseFilesWindow.hpp \
     src/windows/SettingsWindow.hpp \
     src/windows/ProcessingWindow.hpp \
-    src/windows/TranslatingWindow.hpp \
-    src/elements/CustomComboBox.hpp \
-    src/elements/LanguageWidget.hpp
+    src/windows/TranslatingWindow.hpp
 
 FORMS += \
     src/forms/MainWindow.ui \
