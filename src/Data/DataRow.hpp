@@ -24,10 +24,10 @@ public:
 
   void setString(const QString &string);
 
-  void readBinDataFrom(QDataStream& input);
-  void writeBinDataTo(QDataStream& output);
-  void readTextDataFrom(QTextStream& input);
-  void writeTextDataTo(QTextStream& output);
+  bool readBinDataFrom(QDataStream& input);
+  bool writeBinDataTo(QDataStream& output);
+  bool readTextDataFrom(QTextStream& input);
+  bool writeTextDataTo(QTextStream& output);
 
 private:
   unsigned long  size  = 0;

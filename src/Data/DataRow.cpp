@@ -45,14 +45,14 @@ void DataRow::setString(const QString &string) { DataRow::string = string; }
 // public methods =============================================================
 
 // read from input stream (binary mode)
-void DataRow::readBinDataFrom(QDataStream& input) {
+bool DataRow::readBinDataFrom(QDataStream& input) {
   try {
-    ReadDataFromStream(input, size,  0);
+    ReadDataFromStream(input, size, 0);
     ReadDataFromStream(input, sheet, 0);
-    ReadDataFromStream(input, id1,   0);
-    ReadDataFromStream(input, id2,   0);
-    ReadDataFromStream(input, id3.split[0],  0);
-    ReadDataFromStream(input, id4.split[0],  0);
+    ReadDataFromStream(input, id1, 0);
+    ReadDataFromStream(input, id2, 0);
+    ReadDataFromStream(input, id3.split[0], 0);
+    ReadDataFromStream(input, id4.split[0], 0);
     char16_t wch;
     for (size_t i = 0; i < static_cast<int>(size); i++) {
       ReadDataFromStream(input, wch, 0);
@@ -64,20 +64,25 @@ void DataRow::readBinDataFrom(QDataStream& input) {
     ReadDataFromStream(input, wch, 0);
     ReadDataFromStream(input, wch, 0);
   }
-  catch (const std::ios_base::failure &err) { throw err; }
+  catch (const std::ios_base::failure &err) {
+    ErrorHandler::getInstance().addErrorMessage("In function \"DataRow::readBinDataFrom\" " + err.what());
+    return false;
+  }
+  catch (...) { return false; }
+  return true;
 }
 
 
 // write to out stream (binary mode)
-void DataRow::writeBinDataTo(QDataStream& output) {
+bool DataRow::writeBinDataTo(QDataStream& output) {
   QRegularExpression reppat("\\\\n");
   string.replace(reppat, "\n"); // replace '\n' to LF
   try {
     size = static_cast<unsigned long>(string.count());
-    WriteDataToStream(output, size,  0);
+    WriteDataToStream(output, size, 0);
     WriteDataToStream(output, sheet, 0);
-    WriteDataToStream(output, id1,   0);
-    WriteDataToStream(output, id2,   0);
+    WriteDataToStream(output, id1, 0);
+    WriteDataToStream(output, id2, 0);
     WriteDataToStream(output, id3.split[0],  0);
     WriteDataToStream(output, id4.split[0],  0);
     char16_t wch;
@@ -90,35 +95,56 @@ void DataRow::writeBinDataTo(QDataStream& output) {
     WriteDataToStream(output, wch, 0);
     WriteDataToStream(output, wch, 0);
   }
-  catch (const std::ios_base::failure &err) { throw err; }
+  catch (const std::ios_base::failure &err) {
+    ErrorHandler::getInstance().addErrorMessage("In function \"DataRow::writeBinDataTo\" " + err.what());
+    return false;
+  }
+  catch (...) { throw false; }
+  return true;
 }
 
 
 // read from in stream (text mode)
-void DataRow::readTextDataFrom(QTextStream& input) {
-  input >> sheet;
-  input >> id1;
-  input >> id2;
-  input >> id3.solid;
-  input >> id4.solid;
-  input.readLineInto(&string);
+bool DataRow::readTextDataFrom(QTextStream& input) {
+  try {
+    input >> sheet;
+    input >> id1;
+    input >> id2;
+    input >> id3.solid;
+    input >> id4.solid;
+    input.readLineInto(&string);
 
-  if (input.status() == QTextStream::ReadCorruptData) throw std::ios_base::failure("read data from file was failed.");
+    if (input.status() == QTextStream::ReadCorruptData) throw std::ios_base::failure("read data from file was failed.");
 
-  // formating string
-  QRegularExpression rempat("(^\t\"|\r|\"$)");
-  string.remove(rempat); // remove tabulation, quotes, CR
+    // formating string
+    QRegularExpression rempat("(^\t\"|\r|\"$)");
+    string.remove(rempat); // remove tabulation, quotes, CR
+  }
+  catch (const std::ios_base::failure &err) {
+    ErrorHandler::getInstance().addErrorMessage("In function \"DataRow::readTextDataFrom\" " + err.what());
+    return false;
+  }
+  catch (...) { return false; }
+  return true;
 }
 
 
 // write to out stream (text mode)
-void DataRow::writeTextDataTo(QTextStream& output) {
-  output << sheet     << '\t';
-  output << id1       << '\t';
-  output << id2       << '\t';
-  output << id3.solid << '\t';
-  output << id4.solid << '\t';
-  output << '"' << string << '"' << '\n';
+bool DataRow::writeTextDataTo(QTextStream& output) {
+  try {
+    output << sheet << '\t';
+    output << id1 << '\t';
+    output << id2 << '\t';
+    output << id3.solid << '\t';
+    output << id4.solid << '\t';
+    output << '"' << string << '"' << '\n';
 
-  if (output.status() == QTextStream::WriteFailed) throw std::ios_base::failure("write data from file was failed.");
+    if (output.status() == QTextStream::WriteFailed) throw std::ios_base::failure("write data from file was failed.");
+  }
+  catch (const std::ios_base::failure &err) {
+    ErrorHandler::getInstance().addErrorMessage("In function \"DataRow::writeTextDataTo\" " + err.what());
+    return false;
+  }
+  catch (...) { return false; }
+  return true;
 }

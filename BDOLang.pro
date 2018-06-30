@@ -36,7 +36,6 @@ INCLUDEPATH += \
 
 SOURCES += \
     src/main.cpp \
-    src/data/DataHandler.cpp \
     src/data/DataRow.cpp \
     src/elements/CustomComboBox.cpp \
     src/elements/LanguageWidget.cpp \
@@ -49,11 +48,11 @@ SOURCES += \
     src/windows/MainWindow.cpp \
     src/windows/ProcessingWindow.cpp \
     src/windows/SettingsWindow.cpp \
-    src/windows/TranslatingWindow.cpp
+    src/windows/TranslatingWindow.cpp \
+    src/handlers/DataHandler.cpp
 
 HEADERS += \
     src/headers.hpp \
-    src/data/DataHandler.hpp \
     src/data/DataRow.hpp \
     src/elements/CustomComboBox.hpp \
     src/elements/LanguageWidget.hpp \
@@ -68,7 +67,8 @@ HEADERS += \
     src/windows/MainWindow.hpp \
     src/windows/ProcessingWindow.hpp \
     src/windows/SettingsWindow.hpp \
-    src/windows/TranslatingWindow.hpp
+    src/windows/TranslatingWindow.hpp \
+    src/handlers/DataHandler.hpp
 
 RESOURCES += \
     res/Res.qrc

@@ -28,10 +28,9 @@ private:
   QString toFilePath;
   MODE mode;
 
-  bool mergeFiles(const QString &fromFilePath,  const QString &toFilePath, MODE mode);
-  bool convertFile(const QString &fromFilePath, const QString &toFilePath, MODE mode);
+  bool process(const QString &fromFilePath,  const QString &toFilePath, MODE mode);
 
-  void readDataFromBinStream(QDataStream& from, QVector<DataRow*>& to);
+  bool readDataFromBinStream(QDataStream& from, QVector<DataRow*>& to);
   void writeDataToBinStream(QVector<DataRow*>& from, QDataStream& to);
   void readDataFromTextStream(QTextStream& from, QVector<DataRow*>& to);
   void writeDataToTextStream(QVector<DataRow*>& from, QTextStream& to);
@@ -39,8 +38,8 @@ private:
   void mergeData(QVector<DataRow*>& from, QVector<DataRow*>& to);
   bool decryptData(QDataStream& from, QVector<DataRow*>& to);
   bool uncompressData(QDataStream& from, QDataStream& to);
-  void encryptData(QVector<DataRow*>& from, QDataStream& to);
-  void compressData(QDataStream& from, QDataStream& to);
+  bool encryptData(QVector<DataRow*>& from, QDataStream& to);
+  bool compressData(QDataStream& from, QDataStream& to);
 
 };
 
