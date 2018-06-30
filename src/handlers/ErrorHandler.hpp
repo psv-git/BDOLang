@@ -18,7 +18,7 @@ public:
   ErrorHandler(ErrorHandler const&) = delete;
   ErrorHandler& operator = (ErrorHandler const&) = delete;
 
-  void addException(const QString &exceptionMessage);
+  void addErrorMessage(const QString &errorMessage);
 
 public slots:
   void showMessage();
@@ -31,7 +31,7 @@ private:
   ~ErrorHandler();
 
   Ui::ErrorWindow *ui = nullptr;
-  QStringList exceptionsMessagesList;
+  QStringList errorsMessagesList;
 
 };
 

@@ -37,8 +37,8 @@ private:
   void writeDataToTextStream(QVector<DataRow*>& from, QTextStream& to);
   void deleteData(QVector<DataRow*>& dataRowsContainer);
   void mergeData(QVector<DataRow*>& from, QVector<DataRow*>& to);
-  void decryptData(QDataStream& from, QVector<DataRow*>& to);
-  void uncompressData(QDataStream& from, QDataStream& to);
+  bool decryptData(QDataStream& from, QVector<DataRow*>& to);
+  bool uncompressData(QDataStream& from, QDataStream& to);
   void encryptData(QVector<DataRow*>& from, QDataStream& to);
   void compressData(QDataStream& from, QDataStream& to);
 

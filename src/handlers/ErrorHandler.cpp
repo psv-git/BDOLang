@@ -16,19 +16,19 @@ ErrorHandler::~ErrorHandler() {
 // public slots ===============================================================
 
 void ErrorHandler::showMessage() {
-  QString exceptionMessage;
-  for (int i = exceptionsMessagesList.size(); i > 0; i--) {
-    exceptionMessage = exceptionMessage + QString::number(i) + ") " + exceptionsMessagesList.at(i - 1) + "\n";
+  QString errorMessage;
+  for (int i = errorsMessagesList.size(); i > 0; i--) {
+    errorMessage = errorMessage + QString::number(i) + ") " + errorsMessagesList.at(i - 1) + "\n";
   }
-  exceptionsMessagesList.clear();
-  ui->errorEdit->appendPlainText(exceptionMessage);
+  errorsMessagesList.clear();
+  ui->errorEdit->appendPlainText(errorMessage);
   this->show();
 }
 
 // public methods =============================================================
 
-void ErrorHandler::addException(const QString &exceptionMessage) {
-  exceptionsMessagesList.push_back(exceptionMessage);
+void ErrorHandler::addErrorMessage(const QString &errorMessage) {
+  errorsMessagesList.push_back(errorMessage);
 }
 
 // private slots ==============================================================

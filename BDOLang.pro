@@ -29,19 +29,17 @@ INCLUDEPATH += \
     src/ \
     src/data \
     src/elements \
-    src/errors \
     src/global \
     src/handlers \
     src/interfaces \
     src/windows
 
 SOURCES += \
+    src/main.cpp \
     src/data/DataHandler.cpp \
     src/data/DataRow.cpp \
     src/elements/CustomComboBox.cpp \
     src/elements/LanguageWidget.cpp \
-    src/errors/IOError.cpp \
-    src/errors/MEMError.cpp \
     src/global/ApplicationFunctions.cpp \
     src/handlers/ErrorHandler.cpp \
     src/handlers/LanguageHandler.cpp \
@@ -51,30 +49,26 @@ SOURCES += \
     src/windows/MainWindow.cpp \
     src/windows/ProcessingWindow.cpp \
     src/windows/SettingsWindow.cpp \
-    src/windows/TranslatingWindow.cpp \
-    src/main.cpp
+    src/windows/TranslatingWindow.cpp
 
 HEADERS += \
+    src/headers.hpp \
     src/data/DataHandler.hpp \
     src/data/DataRow.hpp \
     src/elements/CustomComboBox.hpp \
     src/elements/LanguageWidget.hpp \
-    src/errors/IOError.hpp \
-    src/errors/MEMError.hpp \
     src/global/ApplicationFunctions.hpp \
     src/global/ApplicationGlobal.hpp \
     src/handlers/ErrorHandler.hpp \
     src/handlers/LanguageHandler.hpp \
     src/handlers/SettingsHandler.hpp \
     src/handlers/WindowsHandler.hpp \
-    src/interfaces/IError.hpp \
     src/interfaces/ILanguageHandled.hpp \
     src/windows/ChooseFilesWindow.hpp \
     src/windows/MainWindow.hpp \
     src/windows/ProcessingWindow.hpp \
     src/windows/SettingsWindow.hpp \
-    src/windows/TranslatingWindow.hpp \
-    src/headers.hpp
+    src/windows/TranslatingWindow.hpp
 
 RESOURCES += \
     res/Res.qrc

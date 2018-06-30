@@ -63,27 +63,18 @@ const QString GetFileName(const QString &title, const QString &extStr) {
 }
 
 
-void OpenFile(QFile& file, QFlags<QIODevice::OpenModeFlag> openMode, const QString &functionName) {
-  if (!file.open(openMode)) {
-    ErrorHandler::getInstance().addException("In function \"" + functionName + "\" opening \"" + file.fileName() + "\" file was failed.");
-    throw false;
-  }
+void OpenFile(QFile& file, QFlags<QIODevice::OpenModeFlag> openMode) {
+  if (!file.open(openMode)) throw std::ios_base::failure("opening \"" + file.fileName() + "\" file was failed.");
 }
 
 
-void CloseFile(QFile& file, const QString &functionName) {
+void CloseFile(QFile& file) {
   file.close();
-  if (file.isOpen()) {
-    ErrorHandler::getInstance().addException("In function \"" + functionName + "\" closing \"" + file.fileName() + "\" file was failed.");
-    throw false;
-  }
+  if (file.isOpen()) throw std::ios_base::failure("closing \"" + file.fileName() + "\" file was failed.");
 }
 
 
-void RemoveFile(QFile& file, const QString &functionName) {
-  if (file.isOpen()) CloseFile(file, functionName);
-  if (!file.remove()) {
-    ErrorHandler::getInstance().addException("In function \"" + functionName + "\" removing \"" + file.fileName() + "\" file was failed.");
-    throw false;
-  }
+void RemoveFile(QFile& file) {
+  if (file.isOpen()) file.close();;
+  if (!file.remove()) throw std::ios_base::failure("removing \"" + file.fileName() + "\" file was failed.");
 }

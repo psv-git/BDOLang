@@ -47,24 +47,24 @@ void DataRow::setString(const QString &string) { DataRow::string = string; }
 // read from input stream (binary mode)
 void DataRow::readBinDataFrom(QDataStream& input) {
   try {
-    ReadDataFromStream(input, size,  0, "DataRow::readBinDataFrom()");
-    ReadDataFromStream(input, sheet, 0, "DataRow::readBinDataFrom()");
-    ReadDataFromStream(input, id1,   0, "DataRow::readBinDataFrom()");
-    ReadDataFromStream(input, id2,   0, "DataRow::readBinDataFrom()");
-    ReadDataFromStream(input, id3.split[0],  0, "DataRow::readBinDataFrom()");
-    ReadDataFromStream(input, id4.split[0],  0, "DataRow::readBinDataFrom()");
+    ReadDataFromStream(input, size,  0);
+    ReadDataFromStream(input, sheet, 0);
+    ReadDataFromStream(input, id1,   0);
+    ReadDataFromStream(input, id2,   0);
+    ReadDataFromStream(input, id3.split[0],  0);
+    ReadDataFromStream(input, id4.split[0],  0);
     char16_t wch;
     for (size_t i = 0; i < static_cast<int>(size); i++) {
-      ReadDataFromStream(input, wch, 0, "DataRow::readBinDataFrom()");
+      ReadDataFromStream(input, wch, 0);
       if (wch == CR_CODE) continue;                // skip CR if exist
       if (wch == LF_CODE) string.push_back("\\n"); // replace LF to '\n'
       else string.push_back(wch);
     }
     // read four null bytes
-    ReadDataFromStream(input, wch, 0, "DataRow::readBinDataFrom()");
-    ReadDataFromStream(input, wch, 0, "DataRow::readBinDataFrom()");
+    ReadDataFromStream(input, wch, 0);
+    ReadDataFromStream(input, wch, 0);
   }
-  catch (...) { throw false; }
+  catch (const std::ios_base::failure &err) { throw err; }
 }
 
 
@@ -72,25 +72,25 @@ void DataRow::readBinDataFrom(QDataStream& input) {
 void DataRow::writeBinDataTo(QDataStream& output) {
   QRegularExpression reppat("\\\\n");
   string.replace(reppat, "\n"); // replace '\n' to LF
-  size = static_cast<unsigned long>(string.count());
   try {
-    WriteDataToStream(output, size,  0, "DataRow::writeBinDataTo()");
-    WriteDataToStream(output, sheet, 0, "DataRow::writeBinDataTo()");
-    WriteDataToStream(output, id1,   0, "DataRow::writeBinDataTo()");
-    WriteDataToStream(output, id2,   0, "DataRow::writeBinDataTo()");
-    WriteDataToStream(output, id3.split[0],  0, "DataRow::writeBinDataTo()");
-    WriteDataToStream(output, id4.split[0],  0, "DataRow::writeBinDataTo()");
+    size = static_cast<unsigned long>(string.count());
+    WriteDataToStream(output, size,  0);
+    WriteDataToStream(output, sheet, 0);
+    WriteDataToStream(output, id1,   0);
+    WriteDataToStream(output, id2,   0);
+    WriteDataToStream(output, id3.split[0],  0);
+    WriteDataToStream(output, id4.split[0],  0);
     char16_t wch;
     for (int i = 0; i < static_cast<int>(size); i++) {
       wch = static_cast<char16_t>(string[i].unicode());
-      WriteDataToStream(output, wch, 0, "DataRow::writeBinDataTo()");
+      WriteDataToStream(output, wch, 0);
     }
     // write four null bytes
     wch = 0x0000;
-    WriteDataToStream(output, wch, 0, "DataRow::writeBinDataTo()");
-    WriteDataToStream(output, wch, 0, "DataRow::writeBinDataTo()");
+    WriteDataToStream(output, wch, 0);
+    WriteDataToStream(output, wch, 0);
   }
-  catch (...) { throw false; }
+  catch (const std::ios_base::failure &err) { throw err; }
 }
 
 
@@ -103,7 +103,7 @@ void DataRow::readTextDataFrom(QTextStream& input) {
   input >> id4.solid;
   input.readLineInto(&string);
 
-  if (input.status() == QTextStream::WriteFailed) throw false;
+  if (input.status() == QTextStream::ReadCorruptData) throw std::ios_base::failure("read data from file was failed.");
 
   // formating string
   QRegularExpression rempat("(^\t\"|\r|\"$)");
@@ -120,5 +120,5 @@ void DataRow::writeTextDataTo(QTextStream& output) {
   output << id4.solid << '\t';
   output << '"' << string << '"' << '\n';
 
-  if (output.status() == QTextStream::ReadCorruptData) throw false;
+  if (output.status() == QTextStream::WriteFailed) throw std::ios_base::failure("write data from file was failed.");
 }

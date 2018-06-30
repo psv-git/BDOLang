@@ -2,6 +2,9 @@
 #define APPLICATIONGLOBAL_HPP
 
 #include "headers.hpp"
+#include "IOError.hpp"
+#include "ALError.hpp"
+#include "FLError.hpp"
 #include "SettingsHandler.hpp"
 #include "ErrorHandler.hpp"
 #include "LanguageHandler.hpp"
