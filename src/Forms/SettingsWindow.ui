@@ -743,9 +743,7 @@ Developed using Qt framework.
 
 Created by PSV:  https://github.com/psv-git
 
-Thanks for:
-AMGarkin:  https://github.com/AMGarkin
-buzarini</string>
+Thanks for: AMGarkin, buzarini</string>
      </property>
      <property name="textInteractionFlags">
       <set>Qt::LinksAccessibleByKeyboard|Qt::LinksAccessibleByMouse|Qt::TextBrowserInteraction|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>

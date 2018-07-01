@@ -64,17 +64,17 @@ const QString GetFileName(const QString &title, const QString &extStr) {
 
 
 void OpenFile(QFile& file, QFlags<QIODevice::OpenModeFlag> openMode) {
-  if (!file.open(openMode)) throw std::ios_base::failure("opening \"" + file.fileName() + "\" file was failed.");
+  if (!file.open(openMode)) throw std::ios_base::failure("opening \"" + file.fileName().toStdString() + "\" file was failed.");
 }
 
 
 void CloseFile(QFile& file) {
   file.close();
-  if (file.isOpen()) throw std::ios_base::failure("closing \"" + file.fileName() + "\" file was failed.");
+  if (file.isOpen()) throw std::ios_base::failure("closing \"" + file.fileName().toStdString() + "\" file was failed.");
 }
 
 
 void RemoveFile(QFile& file) {
   if (file.isOpen()) file.close();;
-  if (!file.remove()) throw std::ios_base::failure("removing \"" + file.fileName() + "\" file was failed.");
+  if (!file.remove()) throw std::ios_base::failure("removing \"" + file.fileName().toStdString() + "\" file was failed.");
 }

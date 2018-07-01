@@ -44,12 +44,12 @@ SOURCES += \
     src/handlers/LanguageHandler.cpp \
     src/handlers/SettingsHandler.cpp \
     src/handlers/WindowsHandler.cpp \
+    src/handlers/DataHandler.cpp \
     src/windows/ChooseFilesWindow.cpp \
     src/windows/MainWindow.cpp \
     src/windows/ProcessingWindow.cpp \
     src/windows/SettingsWindow.cpp \
-    src/windows/TranslatingWindow.cpp \
-    src/handlers/DataHandler.cpp
+    src/windows/TranslatingWindow.cpp
 
 HEADERS += \
     src/headers.hpp \
@@ -62,13 +62,13 @@ HEADERS += \
     src/handlers/LanguageHandler.hpp \
     src/handlers/SettingsHandler.hpp \
     src/handlers/WindowsHandler.hpp \
+    src/handlers/DataHandler.hpp \
     src/interfaces/ILanguageHandled.hpp \
     src/windows/ChooseFilesWindow.hpp \
     src/windows/MainWindow.hpp \
     src/windows/ProcessingWindow.hpp \
     src/windows/SettingsWindow.hpp \
-    src/windows/TranslatingWindow.hpp \
-    src/handlers/DataHandler.hpp
+    src/windows/TranslatingWindow.hpp
 
 RESOURCES += \
     res/Res.qrc

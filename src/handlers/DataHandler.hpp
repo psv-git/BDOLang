@@ -30,7 +30,7 @@ private:
 
   bool process(const QString &fromFilePath,  const QString &toFilePath, MODE mode);
 
-  bool readDataFromBinStream(QDataStream& from, QVector<DataRow*>& to);
+  void readDataFromBinStream(QDataStream& from, QVector<DataRow*>& to);
   void writeDataToBinStream(QVector<DataRow*>& from, QDataStream& to);
   void readDataFromTextStream(QTextStream& from, QVector<DataRow*>& to);
   void writeDataToTextStream(QVector<DataRow*>& from, QTextStream& to);

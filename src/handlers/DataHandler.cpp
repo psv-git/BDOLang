@@ -35,21 +35,23 @@ bool DataHandler::process(const QString &fromFilePath, const QString &toFilePath
   bool isError = true;
   QFile fromFile(fromFilePath);
   QFile toFile(toFilePath);
+  QVector<DataRow*> originalRowsContainer;
+  QVector<DataRow*> translatedRowsContainer;
   try {
     OpenFile(fromFile, QIODevice::ReadOnly);
     OpenFile(toFile, QIODevice::ReadWrite);
-    QVector<DataRow*> originalRowsContainer;
-    QVector<DataRow*> translatedRowsContainer;
 
     if (mode == MODE::BIN_TO_TEXT) {
       QDataStream from(&fromFile);
       QTextStream to(&toFile);
       readDataFromBinStream(from, originalRowsContainer);
+      toFile.resize(0); // clean output file
       writeDataToTextStream(originalRowsContainer, to);
     } else if (mode == MODE::TEXT_TO_BIN) {
       QTextStream from(&fromFile);
       QDataStream to(&toFile);
       readDataFromTextStream(from, originalRowsContainer);
+      toFile.resize(0);
       writeDataToBinStream(originalRowsContainer, to);
     } else if (mode == MODE::MERGE_BIN) {
       QDataStream from(&fromFile);
@@ -57,6 +59,7 @@ bool DataHandler::process(const QString &fromFilePath, const QString &toFilePath
       readDataFromBinStream(from, translatedRowsContainer);
       readDataFromBinStream(to, originalRowsContainer);
       mergeData(translatedRowsContainer, originalRowsContainer);
+      toFile.resize(0);
       writeDataToBinStream(originalRowsContainer, to);
     } else if (mode == MODE::MERGE_TEXT) {
       QTextStream from(&fromFile);
@@ -64,31 +67,30 @@ bool DataHandler::process(const QString &fromFilePath, const QString &toFilePath
       readDataFromTextStream(from, translatedRowsContainer);
       readDataFromTextStream(to, originalRowsContainer);
       mergeData(translatedRowsContainer, originalRowsContainer);
+      toFile.resize(0);
       writeDataToTextStream(originalRowsContainer, to);
     }
 
-    deleteData(originalRowsContainer);
-    deleteData(translatedRowsContainer);
     isError = false;
   }
   catch (const std::runtime_error &err) {
-    errorHandler.addErrorMessage("In function \"DataHandler::process\" " + err.what());
-  }
-  catch (const std::ios_base::failure &err) {
-    errorHandler.addErrorMessage("In function \"DataHandler::process\" " + err.what());
+    errorHandler->addErrorMessage("In function \"DataHandler::process\" " + QString(err.what()));
   }
   catch (...) {
-    errorHandler.addErrorMessage("In function \"DataHandler::process\" something went wrong.");
+    errorHandler->addErrorMessage("In function \"DataHandler::process\" something went wrong.");
   }
 
   try {
     if (fromFile.isOpen()) CloseFile(fromFile);
     if (toFile.isOpen()) CloseFile(toFile);
   }
-  catch (const std::ios_base::failure &err) {
+  catch (const std::runtime_error &err) {
     isError = true;
-    errorHandler.addErrorMessage("In function \"DataHandler::process\" " + err.what());
+    errorHandler->addErrorMessage("In function \"DataHandler::process\" " + QString(err.what()));
   }
+
+  deleteData(originalRowsContainer);
+  deleteData(translatedRowsContainer);
 
   return !isError;
 }
@@ -97,19 +99,24 @@ bool DataHandler::process(const QString &fromFilePath, const QString &toFilePath
 
 // read data rows from compressed input binary file
 void DataHandler::readDataFromBinStream(QDataStream& from, QVector<DataRow*>& to) {
+  from.device()->reset();
+  from.resetStatus();
   if (!decryptData(from, to)) throw std::runtime_error("read data from bin stream was failed.");
 }
 
 
 // write data rows to compressed output bin file
 void DataHandler::writeDataToBinStream(QVector<DataRow*>& from, QDataStream& to) {
-  to.device()->seek(0);
+  to.device()->reset();
+  to.resetStatus();
   if (!encryptData(from, to)) throw std::runtime_error("write data to bin stream was failed.");
 }
 
 
 // read data rows from input text file
 void DataHandler::readDataFromTextStream(QTextStream& from, QVector<DataRow*>& to) {
+  from.device()->seek(0);
+  from.resetStatus();
   from.setAutoDetectUnicode(true);
   from.skipWhiteSpace();
   try {
@@ -120,8 +127,8 @@ void DataHandler::readDataFromTextStream(QTextStream& from, QVector<DataRow*>& t
       if (from.atEnd()) break;
     }
   }
-  catch (const std::bad_alloc &err) {
-    errorHandler.addErrorMessage("In function \"DataHandler::readDataFromTextStream\" allocating memory was failed.");
+  catch (std::bad_alloc) {
+    errorHandler->addErrorMessage("In function \"DataHandler::readDataFromTextStream\" allocating memory was failed.");
     throw std::runtime_error("read data from text stream was failed.");
   }
   catch (...) {
@@ -133,6 +140,7 @@ void DataHandler::readDataFromTextStream(QTextStream& from, QVector<DataRow*>& t
 // write data rows to output text file
 void DataHandler::writeDataToTextStream(QVector<DataRow*>& from, QTextStream& to) {
   to.device()->seek(0);
+  to.resetStatus();
   to.setCodec("UTF-8");
   to.setGenerateByteOrderMark(true);
   try {
@@ -205,10 +213,9 @@ bool DataHandler::decryptData(QDataStream& from, QVector<DataRow*>& to) {
   QDataStream tmp(&tmpFile);
   try {
     OpenFile(tmpFile, QIODevice::ReadWrite);
-
     if (!uncompressData(from, tmp)) throw std::runtime_error("uncompressing data was failed.");
-
-    // decrypting uncompressed data
+    tmp.device()->reset();
+    tmp.resetStatus();
     while (true) {
       DataRow* dataRow = new DataRow();
       if (!dataRow->readBinDataFrom(tmp)) throw std::ios_base::failure("read data was failed.");
@@ -218,22 +225,19 @@ bool DataHandler::decryptData(QDataStream& from, QVector<DataRow*>& to) {
     isError = false;
   }
   catch (const std::runtime_error &err) {
-    errorHandler.addErrorMessage("In function \"DataHandler::decryptData\" " + err.what());
-  }
-  catch (const std::ios_base::failure &err) {
-    errorHandler.addErrorMessage("In function \"DataHandler::decryptData\" " + err.what());
+    errorHandler->addErrorMessage("In function \"DataHandler::decryptData\" " + QString(err.what()));
   }
   catch (...) {
-    errorHandler.addErrorMessage("In function \"DataHandler::decryptData\" something went wrong.");
+    errorHandler->addErrorMessage("In function \"DataHandler::decryptData\" something went wrong.");
   }
 
   try {
     if (tmpFile.isOpen()) CloseFile(tmpFile);
     RemoveFile(tmpFile);
   }
-  catch (const std::ios_base::failure &err) {
+  catch (const std::runtime_error &err) {
     isError = true;
-    errorHandler.addErrorMessage("In function \"DataHandler::decryptData\" " + err.what());
+    errorHandler->addErrorMessage("In function \"DataHandler::decryptData\" " + QString(err.what()));
   }
 
   return !isError;
@@ -245,57 +249,47 @@ bool DataHandler::uncompressData(QDataStream& from, QDataStream& to) {
   bool isError = true;
   unsigned long expectedUncompressedDataSize = 0;
   unsigned long uncompressedDataSize = 0;
-  unsigned int BUFF_SIZE = 30000; // TODO: change buffer size
+  unsigned int BUFF_SIZE = 16384; // TODO: change buffer size
   uint8_t *inBuff = nullptr;
   uint8_t *outBuff = nullptr;
-  z_stream stream;
+  z_stream stream = { 0 };
   try {
     inBuff = new uint8_t[BUFF_SIZE];
     outBuff = new uint8_t[BUFF_SIZE];
-    stream = { 0 };
-
     ReadDataFromStream(from, expectedUncompressedDataSize, 4); // read uncompressed data size from input file
-
     int result = inflateInit(&stream);
     if (result != Z_OK) throw std::runtime_error("inflate init was failed.");
-
     do {
       result = ReadDataFromStream(from, *inBuff, BUFF_SIZE); // number of bytes available at next_in
       stream.avail_in = static_cast<unsigned int>(result); // negative value get throw in read function
       stream.next_in = inBuff; // next input byte
       if (stream.avail_in == 0) break;
-
       do {
         stream.avail_out = BUFF_SIZE; // remaining free space at next_out
         stream.next_out = outBuff; // next output byte should be put there
         result = inflate(&stream, Z_NO_FLUSH); // decompress data
         if (result != Z_OK && result != Z_STREAM_END) throw std::runtime_error("inflate was failed.");
-
         int have = BUFF_SIZE - stream.avail_out; // decompressed data size
         uncompressedDataSize += have;
-        WriteDataToStream(to, *outBuff, have); // write decompressed data to out file
+        if (have > 0) WriteDataToStream(to, *outBuff, have); // write decompressed data to out file
       } while (stream.avail_out == 0);
     } while (result != Z_STREAM_END);
     if (uncompressedDataSize != expectedUncompressedDataSize) throw std::runtime_error("bad decompressed data length.");
-    to.device()->seek(0); // set pos to file begin
     isError = false;
   }
   catch (const std::runtime_error &err) {
-    errorHandler.addErrorMessage("In function \"DataHandler::uncompressData\" " + err.what());
+    errorHandler->addErrorMessage("In function \"DataHandler::uncompressData\" " + QString(err.what()));
   }
-  catch (const std::ios_base::failure &err) {
-    errorHandler.addErrorMessage("In function \"DataHandler::uncompressData\" " + err.what());
-  }
-  catch (const std::bad_alloc &err) {
-    errorHandler.addErrorMessage("In function \"DataHandler::uncompressData\" allocating memory was failed.");
+  catch (std::bad_alloc) {
+    errorHandler->addErrorMessage("In function \"DataHandler::uncompressData\" allocating memory was failed.");
   }
   catch (...) {
-    errorHandler.addErrorMessage("In function \"DataHandler::uncompressData\" something went wrong.");
+    errorHandler->addErrorMessage("In function \"DataHandler::uncompressData\" something went wrong.");
   }
 
+  inflateEnd(&stream);
   if (inBuff) delete[] inBuff;
   if (outBuff) delete[] outBuff;
-  inflateEnd(&stream);
 
   return !isError;
 }
@@ -309,34 +303,28 @@ bool DataHandler::encryptData(QVector<DataRow*>& from, QDataStream& to) {
   QDataStream tmp(&tmpFile);
   try {
     OpenFile(tmpFile, QIODevice::ReadWrite);
-
-    // write data rows to uncompressed tmp data file
     for (int i = 0; i < from.size(); i++) {
       if (!from[i]->writeBinDataTo(tmp)) throw std::ios_base::failure("write data was failed.");
     }
-
-    tmp.device()->seek(0); // set pos to file begin
-
+    tmp.device()->reset();
+    tmp.resetStatus();
     if (!compressData(tmp, to)) throw std::runtime_error("compressing data was failed.");
     isError = false;
   }
   catch (const std::runtime_error &err) {
-    errorHandler.addErrorMessage("In function \"DataHandler::encryptData\" " + err.what());
-  }
-  catch (const std::ios_base::failure &err) {
-    errorHandler.addErrorMessage("In function \"DataHandler::encryptData\" " + err.what());
+    errorHandler->addErrorMessage("In function \"DataHandler::encryptData\" " + QString(err.what()));
   }
   catch (...) {
-    errorHandler.addErrorMessage("In function \"DataHandler::encryptData\" something went wrong.");
+    errorHandler->addErrorMessage("In function \"DataHandler::encryptData\" something went wrong.");
   }
 
   try {
     if (tmpFile.isOpen()) CloseFile(tmpFile);
     RemoveFile(tmpFile);
   }
-  catch (const std::ios_base::failure &err) {
+  catch (const std::runtime_error &err) {
     isError = true;
-    errorHandler.addErrorMessage("In function \"DataHandler::encryptData\" " + err.what());
+    errorHandler->addErrorMessage("In function \"DataHandler::encryptData\" " + QString(err.what()));
   }
 
   return !isError;
@@ -347,62 +335,47 @@ bool DataHandler::encryptData(QVector<DataRow*>& from, QDataStream& to) {
 bool DataHandler::compressData(QDataStream& from, QDataStream& to) {
   bool isError = true;
   unsigned long uncompressedDataSize = 0;
-  unsigned int BUFF_SIZE = 30000; // TODO: change buffer size
+  unsigned int BUFF_SIZE = 16384; // TODO: change buffer size
   uint8_t *inBuff = nullptr;
   uint8_t *outBuff = nullptr;
-  z_stream stream;
+  z_stream stream = { 0 };
+  int flush, result;
   try {
     inBuff = new uint8_t[BUFF_SIZE];
     outBuff = new uint8_t[BUFF_SIZE];
-    stream = { 0 };
-    int flush, ret;
-
     uncompressedDataSize = static_cast<unsigned long>(from.device()->size());
-
-    WriteDataToStream(to, uncompressedDataSize, 4); // write uncompressed data size to output file
-
+    WriteDataToStream(to, uncompressedDataSize, 4);
     int level = settingsHandler->getSetting("", "compressing_level", 1).toInt();
     if (deflateInit(&stream, level) != Z_OK) throw std::runtime_error("deflate init was failed.");
-
-    // write compressed data from tmp file to output file
     do {
-      ReadDataFromStream(from, *inBuff, BUFF_SIZE); // read data from file to input buffer
-
-      stream.avail_in = (unsigned int)from.gcount(); // number of bytes available at next_in
+      stream.avail_in = static_cast<unsigned int>(ReadDataFromStream(from, *inBuff, static_cast<int>(BUFF_SIZE)));
       stream.next_in = inBuff;
-
-      flush = from.eof() ? Z_FINISH : Z_NO_FLUSH; // set flush state
-
+      flush = (from.device()->atEnd()) ? Z_FINISH : Z_NO_FLUSH;
       do {
         stream.avail_out = BUFF_SIZE; // remaining free space at next_out
         stream.next_out = outBuff; // next output byte should be put there
-        ret = deflate(&stream, flush);
-
-        if (ret == Z_STREAM_ERROR || ret == Z_BUF_ERROR) throw std::runtime_error("deflate was failed.");
-
-        uint32_t have = BUFF_SIZE - stream.avail_out; // compressed data size on current iteration
-        WriteDataToStream(to, *outBuff, have); // write compressed data to out file
+        result = deflate(&stream, flush);
+        if (result == Z_STREAM_ERROR || result == Z_BUF_ERROR) throw std::runtime_error("deflate was failed.");
+        int have = static_cast<int>(BUFF_SIZE - stream.avail_out); // compressed data size on current iteration
+        if (have > 0) WriteDataToStream(to, *outBuff, have);
       } while (stream.avail_out == 0);
     } while (flush != Z_FINISH);
-    if (ret != Z_STREAM_END) throw std::runtime_error("compressed was failed.");
+    if (result != Z_STREAM_END) throw std::runtime_error("compressed was failed.");
     isError = false;
   }
   catch (const std::runtime_error &err) {
-    errorHandler.addErrorMessage("In function \"DataHandler::compressData\" " + err.what());
+    errorHandler->addErrorMessage("In function \"DataHandler::compressData\" " + QString(err.what()));
   }
-  catch (const std::ios_base::failure &err) {
-    errorHandler.addErrorMessage("In function \"DataHandler::compressData\" " + err.what());
-  }
-  catch (const std::bad_alloc &err) {
-    errorHandler.addErrorMessage("In function \"DataHandler::compressData\" allocating memory was failed.");
+  catch (std::bad_alloc) {
+    errorHandler->addErrorMessage("In function \"DataHandler::compressData\" allocating memory was failed.");
   }
   catch (...) {
-    errorHandler.addErrorMessage("In function \"DataHandler::compressData\" something went wrong.");
+    errorHandler->addErrorMessage("In function \"DataHandler::compressData\" something went wrong.");
   }
 
+  deflateEnd(&stream);
   if (inBuff) delete[] inBuff;
   if (outBuff) delete[] outBuff;
-  inflateEnd(&stream);
 
-  return isError;
+  return !isError;
 }
