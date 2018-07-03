@@ -6,21 +6,9 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>600</width>
+    <width>545</width>
     <height>430</height>
    </rect>
-  </property>
-  <property name="minimumSize">
-   <size>
-    <width>600</width>
-    <height>430</height>
-   </size>
-  </property>
-  <property name="maximumSize">
-   <size>
-    <width>600</width>
-    <height>430</height>
-   </size>
   </property>
   <property name="contextMenuPolicy">
    <enum>Qt::NoContextMenu</enum>
@@ -45,7 +33,7 @@
      <rect>
       <x>10</x>
       <y>360</y>
-      <width>580</width>
+      <width>525</width>
       <height>60</height>
      </rect>
     </property>
@@ -74,7 +62,7 @@
       <rect>
        <x>10</x>
        <y>10</y>
-       <width>250</width>
+       <width>230</width>
        <height>40</height>
       </rect>
      </property>
@@ -117,9 +105,9 @@ QPushButton:disabled {
      </property>
      <property name="geometry">
       <rect>
-       <x>320</x>
+       <x>285</x>
        <y>10</y>
-       <width>250</width>
+       <width>230</width>
        <height>40</height>
       </rect>
      </property>
@@ -159,7 +147,7 @@ QPushButton:disabled {
      <rect>
       <x>10</x>
       <y>10</y>
-      <width>580</width>
+      <width>525</width>
       <height>60</height>
      </rect>
     </property>
@@ -188,7 +176,7 @@ QPushButton:disabled {
       <rect>
        <x>10</x>
        <y>10</y>
-       <width>250</width>
+       <width>230</width>
        <height>40</height>
       </rect>
      </property>
@@ -225,9 +213,9 @@ QPushButton:disabled {
     <widget class="QPushButton" name="ttbButton">
      <property name="geometry">
       <rect>
-       <x>320</x>
+       <x>285</x>
        <y>10</y>
-       <width>250</width>
+       <width>230</width>
        <height>40</height>
       </rect>
      </property>
@@ -267,7 +255,7 @@ QPushButton:disabled {
      <rect>
       <x>10</x>
       <y>80</y>
-      <width>580</width>
+      <width>525</width>
       <height>60</height>
      </rect>
     </property>
@@ -296,7 +284,7 @@ QPushButton:disabled {
       <rect>
        <x>10</x>
        <y>10</y>
-       <width>250</width>
+       <width>230</width>
        <height>40</height>
       </rect>
      </property>
@@ -336,9 +324,9 @@ QPushButton:disabled {
      </property>
      <property name="geometry">
       <rect>
-       <x>320</x>
+       <x>285</x>
        <y>10</y>
-       <width>250</width>
+       <width>230</width>
        <height>40</height>
       </rect>
      </property>
@@ -381,21 +369,9 @@ QPushButton:disabled {
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>600</width>
+      <width>545</width>
       <height>430</height>
      </rect>
-    </property>
-    <property name="minimumSize">
-     <size>
-      <width>600</width>
-      <height>430</height>
-     </size>
-    </property>
-    <property name="maximumSize">
-     <size>
-      <width>600</width>
-      <height>430</height>
-     </size>
     </property>
     <property name="contextMenuPolicy">
      <enum>Qt::NoContextMenu</enum>

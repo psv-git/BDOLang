@@ -36,11 +36,15 @@ void TextDataWriter::process() {
   try {
     if (!m_isError && !m_isComplete) {
       QMutexLocker locker(&m_lock);
-      if (!m_from->at(m_counter)->writeTextDataTo(*m_to)) throw false;
+      m_from->at(m_counter)->writeTextDataTo(*m_to);
       m_counter++;
       m_currentProgress = static_cast<int>((100 * m_counter) / m_maxCount);
       if (m_counter == m_maxCount) m_isComplete = true;
     }
+  }
+  catch (const std::runtime_error &err) {
+    m_isError = true;
+    ErrorHandler::getInstance().addErrorMessage("In function \"TextDataWriter::process\" " + QString(err.what()));
   }
   catch (...) {
     m_isError = true;

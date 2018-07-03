@@ -40,7 +40,7 @@ private:
   bool readDataFromTextStream(QTextStream& from, QVector<DataRow*>& to);
   bool writeDataToTextStream(QVector<DataRow*>& from, QTextStream& to);
   void deleteData(QVector<DataRow*>& dataRowsContainer);
-  void mergeData(QVector<DataRow*>& from, QVector<DataRow*>& to);
+  bool mergeData(QVector<DataRow*>& from, QVector<DataRow*>& to);
   bool decryptData(QDataStream& from, QVector<DataRow*>& to);
   bool uncompressData(QDataStream& from, QDataStream& to);
   bool encryptData(QVector<DataRow*>& from, QDataStream& to);

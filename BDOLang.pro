@@ -51,7 +51,8 @@ SOURCES += \
     src/windows/SettingsWindow.cpp \
     src/windows/TranslatingWindow.cpp \
     src/data/TextDataReader.cpp \
-    src/data/TextDataWriter.cpp
+    src/data/TextDataWriter.cpp \
+    src/data/DataEncryptor.cpp
 
 HEADERS += \
     src/headers.hpp \
@@ -72,7 +73,8 @@ HEADERS += \
     src/windows/SettingsWindow.hpp \
     src/windows/TranslatingWindow.hpp \
     src/data/TextDataReader.hpp \
-    src/data/TextDataWriter.hpp
+    src/data/TextDataWriter.hpp \
+    src/data/DataEncryptor.hpp
 
 RESOURCES += \
     res/Res.qrc

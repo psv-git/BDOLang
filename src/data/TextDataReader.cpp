@@ -37,12 +37,16 @@ void TextDataReader::process() {
     if (!m_isError && !m_isComplete) {
       QMutexLocker locker(&m_lock);
       DataRow* dataRow = new DataRow();
-      if (!dataRow->readTextDataFrom(*m_from)) throw false;
+      dataRow->readTextDataFrom(*m_from);
       m_to->push_back(dataRow);
       qint64 currentSize = m_from->device()->pos();
       m_currentProgress = static_cast<int>((100 * currentSize) / m_fullSize);
       if (m_from->atEnd()) m_isComplete = true;
     }
+  }
+  catch (const std::runtime_error &err) {
+    m_isError = true;
+    ErrorHandler::getInstance().addErrorMessage("In function \"TextDataReader::process\" " + QString(err.what()));
   }
   catch (std::bad_alloc) {
     m_isError = true;
