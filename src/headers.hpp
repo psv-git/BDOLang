@@ -5,6 +5,8 @@
 // qt headers
 #include <QApplication>
 #include <QWidget>
+#include <QTimer>
+#include <QMutex>
 #include <QDir>
 #include <QFile>
 #include <QDataStream>

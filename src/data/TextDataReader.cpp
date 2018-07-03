@@ -1,16 +1,15 @@
 #include "TextDataReader.hpp"
-#include "DataRow.hpp"
 
 
 TextDataReader::TextDataReader(QTextStream& from, QVector<DataRow*>& to) {
-  TextDataReader::from = &from;
-  TextDataReader::to = &to;
+  m_from = &from;
+  m_to = &to;
+  m_fullSize = m_from->device()->size();
 
-  from.device()->seek(0);
-  from.resetStatus();
-  from.setAutoDetectUnicode(true);
-  from.skipWhiteSpace();
-  fullSize = from.device()->size();
+  m_from->device()->seek(0);
+  m_from->resetStatus();
+  m_from->setAutoDetectUnicode(true);
+  m_from->skipWhiteSpace();
 }
 
 
@@ -19,22 +18,38 @@ TextDataReader::~TextDataReader() {}
 // ============================================================================
 
 bool TextDataReader::isComplete() {
-  QMutexLocker locker(&lock);
-  return complete;
+  return m_isComplete;
+}
+
+
+bool TextDataReader::isError() {
+  return m_isError;
 }
 
 
 int TextDataReader::getProgress() {
-  return progress;
+  return m_currentProgress;
 }
 
 
 void TextDataReader::process() {
-  QMutexLocker locker(&lock);
-  DataRow* dataRow = new DataRow();
-  if (!dataRow->readTextDataFrom(*from)) throw false;
-  to->push_back(dataRow);
-  qint64 currentSize = from->device()->pos();
-  progress = (100 * currentSize) / fullSize;
-  if (from->atEnd()) complete = true;
+  try {
+    if (!m_isError && !m_isComplete) {
+      QMutexLocker locker(&m_lock);
+      DataRow* dataRow = new DataRow();
+      if (!dataRow->readTextDataFrom(*m_from)) throw false;
+      m_to->push_back(dataRow);
+      qint64 currentSize = m_from->device()->pos();
+      m_currentProgress = static_cast<int>((100 * currentSize) / m_fullSize);
+      if (m_from->atEnd()) m_isComplete = true;
+    }
+  }
+  catch (std::bad_alloc) {
+    m_isError = true;
+    ErrorHandler::getInstance().addErrorMessage("In function \"TextDataReader::process\" allocating memory was failed.");
+  }
+  catch (...) {
+    m_isError = true;
+    ErrorHandler::getInstance().addErrorMessage("In function \"TextDataReader::process\" something went wrong.");
+  }
 }

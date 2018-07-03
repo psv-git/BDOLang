@@ -5,15 +5,15 @@
 #include "DataHandler.hpp"
 
 
-ProcessingWindow::ProcessingWindow(QWidget *parent) : QWidget(parent), ui(new Ui::ProcessingWindow) {
-  settingsHandler = &SettingsHandler::getInstance();
-  errorHandler = &ErrorHandler::getInstance();
+ProcessingWindow::ProcessingWindow(QWidget *parent) : QWidget(parent), m_ui(new Ui::ProcessingWindow) {
+  m_settingsHandler = &SettingsHandler::getInstance();
+  m_errorHandler = &ErrorHandler::getInstance();
   initUi();
 }
 
 
 ProcessingWindow::~ProcessingWindow() {
-  delete ui;
+  delete m_ui;
 }
 
 // events =====================================================================
@@ -29,53 +29,36 @@ bool ProcessingWindow::event(QEvent *event) {
 
 void ProcessingWindow::show(const QString &srcFilePath, const QString &targFilePath, MODE mode) {
 //  this->blockSignals(true);
-  ui->exitButton->setEnabled(false);
-  ui->messageLabel->setText("PROCESSING");
+  m_ui->exitButton->setEnabled(false);
   QWidget::show();
 
-  // work on another thread
-//  QThread *thread = new QThread();
-//  QTimer *timer = new QTimer();
-  DataHandler *dataHandler = new DataHandler(srcFilePath, targFilePath, mode);
+  DataHandler dataHandler(srcFilePath, targFilePath, mode);
 
-  connect(dataHandler, SIGNAL(progressed(int)), ui->progressBar, SLOT(setValue(int)));
-  connect(dataHandler, SIGNAL(completed()), this, SLOT(complete()));
-  connect(dataHandler, SIGNAL(failed()), this, SLOT(error()));
+  connect(&dataHandler, SIGNAL(started(QString)), this, SLOT(start(QString)));
+  connect(&dataHandler, SIGNAL(progressed(int)), m_ui->progressBar, SLOT(setValue(int)));
+  connect(&dataHandler, SIGNAL(stopped()), this, SLOT(stop()));
+  connect(&dataHandler, SIGNAL(failed()), this, SLOT(fail()));
 
-  dataHandler->run();
-
-//  timer->setInterval(1000);
-
-//  connect(dataHandler, SIGNAL(progressed(int)), ui->progressBar, SLOT(setValue(int)));
-//  connect(dataHandler, SIGNAL(failed()), this, SLOT(error()));
-//  connect(dataHandler, SIGNAL(failed()), thread, SLOT(quit()));
-//  connect(dataHandler, SIGNAL(completed()), this, SLOT(complete()));
-//  connect(dataHandler, SIGNAL(completed()), thread, SLOT(quit()));
-
-//  connect(thread, SIGNAL(started()), timer, SLOT(start()));
-//  connect(thread, SIGNAL(finished()), timer, SLOT(deleteLater()));
-//  connect(thread, SIGNAL(finished()), dataHandler, SLOT(deleteLater()));
-
-//  connect(timer, SIGNAL(timeout()), dataHandler, SLOT(test()));
-
-//  dataHandler->moveToThread(thread);
-//  timer->moveToThread(thread);
-
-//  thread->start();
-
+  dataHandler.run();
 }
 
 // private slots ==============================================================
 
-void ProcessingWindow::complete() {
-  ui->exitButton->setEnabled(true);
-  ui->messageLabel->setText("DONE");
+void ProcessingWindow::start(const QString &msg) {
+  m_ui->progressBar->setValue(0);
+  m_ui->messageLabel->setText(msg);
+}
+
+
+void ProcessingWindow::stop() {
+  m_ui->exitButton->setEnabled(true);
+  m_ui->messageLabel->setText("DONE");
 //  this->blockSignals(false);
 }
 
 
-void ProcessingWindow::error() {
-  errorHandler->showMessage();
+void ProcessingWindow::fail() {
+  m_errorHandler->showMessage();
 }
 
 
@@ -86,10 +69,10 @@ void ProcessingWindow::buttonClick() {
 // private methods ============================================================
 
 void ProcessingWindow::initUi() {
-  ui->setupUi(this);
+  m_ui->setupUi(this);
 
-  ui->messageLabel->setFont(settingsHandler->getFont("Liberation Sans", "Bold", 20));
-  ui->exitButton->setFont(settingsHandler->getFont("Liberation Sans", "Bold", 12));
+  m_ui->messageLabel->setFont(m_settingsHandler->getFont("Liberation Sans", "Bold", 20));
+  m_ui->exitButton->setFont(m_settingsHandler->getFont("Liberation Sans", "Bold", 12));
 
-  connect(ui->exitButton, SIGNAL(released()), this, SLOT(buttonClick()));
+  connect(m_ui->exitButton, SIGNAL(released()), this, SLOT(buttonClick()));
 }

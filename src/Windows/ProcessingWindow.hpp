@@ -23,14 +23,15 @@ public slots:
   void show(const QString &srcFilePath, const QString &targFilePath, MODE mode);
 
 private slots:
-  void complete();
-  void error();
+  void start(const QString &msg);
+  void stop();
+  void fail();
   void buttonClick();
 
 private:
-  Ui::ProcessingWindow *ui = nullptr;
-  SettingsHandler *settingsHandler = nullptr;
-  ErrorHandler *errorHandler = nullptr;
+  Ui::ProcessingWindow *m_ui = nullptr;
+  SettingsHandler *m_settingsHandler = nullptr;
+  ErrorHandler *m_errorHandler = nullptr;
 
   void initUi();
 

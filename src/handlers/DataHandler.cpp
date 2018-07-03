@@ -1,8 +1,8 @@
 #include <QThread>
-#include <QTimer>
 #include <QtZlib/zlib.h>
 #include "DataHandler.hpp"
-#include "DataRow.hpp"
+#include "TextDataReader.hpp"
+#include "TextDataWriter.hpp"
 
 
 const char* TMP_FILE_NAME = "./data/tmp.bss";
@@ -10,11 +10,11 @@ const char* TMP_FILE_NAME = "./data/tmp.bss";
 // ============================================================================
 
 DataHandler::DataHandler(const QString &fromFilePath, const QString &toFilePath, MODE mode) {
-  settingsHandler = &SettingsHandler::getInstance();
-  errorHandler = &ErrorHandler::getInstance();
-  DataHandler::fromFilePath = fromFilePath;
-  DataHandler::toFilePath = toFilePath;
-  DataHandler::mode = mode;
+  m_settingsHandler = &SettingsHandler::getInstance();
+  m_errorHandler = &ErrorHandler::getInstance();
+  m_fromFilePath = fromFilePath;
+  m_toFilePath = toFilePath;
+  m_mode = mode;
 }
 
 
@@ -23,9 +23,9 @@ DataHandler::~DataHandler() {}
 // public slots ===============================================================
 
 void DataHandler::run() {
-  emit started();
-  if (!process(fromFilePath, toFilePath, mode)) emit failed();
-  emit completed();
+  emit runned();
+  if (!process(m_fromFilePath, m_toFilePath, m_mode)) emit failed();
+  emit stopped();
 }
 
 // private methods ============================================================
@@ -74,10 +74,10 @@ bool DataHandler::process(const QString &fromFilePath, const QString &toFilePath
     isError = false;
   }
   catch (const std::runtime_error &err) {
-    errorHandler->addErrorMessage("In function \"DataHandler::process\" " + QString(err.what()));
+    m_errorHandler->addErrorMessage("In function \"DataHandler::process\" " + QString(err.what()));
   }
   catch (...) {
-    errorHandler->addErrorMessage("In function \"DataHandler::process\" something went wrong.");
+    m_errorHandler->addErrorMessage("In function \"DataHandler::process\" something went wrong.");
   }
 
   try {
@@ -86,7 +86,7 @@ bool DataHandler::process(const QString &fromFilePath, const QString &toFilePath
   }
   catch (const std::runtime_error &err) {
     isError = true;
-    errorHandler->addErrorMessage("In function \"DataHandler::process\" " + QString(err.what()));
+    m_errorHandler->addErrorMessage("In function \"DataHandler::process\" " + QString(err.what()));
   }
 
   deleteData(originalRowsContainer);
@@ -98,33 +98,34 @@ bool DataHandler::process(const QString &fromFilePath, const QString &toFilePath
 // ============================================================================
 
 // read data rows from compressed input binary file
-void DataHandler::readDataFromBinStream(QDataStream& from, QVector<DataRow*>& to) {
+bool DataHandler::readDataFromBinStream(QDataStream& from, QVector<DataRow*>& to) {
   from.device()->reset();
   from.resetStatus();
-  if (!decryptData(from, to)) throw std::runtime_error("read data from bin stream was failed.");
+  return decryptData(from, to);
 }
 
 
 // write data rows to compressed output bin file
-void DataHandler::writeDataToBinStream(QVector<DataRow*>& from, QDataStream& to) {
+bool DataHandler::writeDataToBinStream(QVector<DataRow*>& from, QDataStream& to) {
   to.device()->reset();
   to.resetStatus();
-  if (!encryptData(from, to)) throw std::runtime_error("write data to bin stream was failed.");
+  return encryptData(from, to);
 }
 
 
-
-#include "TextDataReader.hpp"
 // read data rows from input text file
-void DataHandler::readDataFromTextStream(QTextStream& from, QVector<DataRow*>& to) {
-  QTimer *timer = new QTimer();
-  QThread *thread = new QThread();
+bool DataHandler::readDataFromTextStream(QTextStream& from, QVector<DataRow*>& to) {
+  emit started("READ TEXT DATA");
+  bool isError = false;
+  QThread *thread = new QThread;
+  QTimer *timer = new QTimer;
   TextDataReader *reader = new TextDataReader(from, to);
 
   connect(thread, SIGNAL(started()), timer, SLOT(start()));
   connect(timer, SIGNAL(timeout()), reader, SLOT(process()));
   connect(thread, SIGNAL(finished()), timer, SLOT(deleteLater()));
   connect(thread, SIGNAL(finished()), reader, SLOT(deleteLater()));
+  connect(thread, SIGNAL(finished()), thread, SLOT(deleteLater()));
 
   timer->setInterval(0);
   timer->moveToThread(thread);
@@ -132,33 +133,57 @@ void DataHandler::readDataFromTextStream(QTextStream& from, QVector<DataRow*>& t
 
   thread->start();
 
-  // wait work complete and simultaneously get progress
+  // wait work complete and simultaneously get progress status
   do {
     emit progressed(reader->getProgress());
+    if (reader->isError()) {
+      isError = true;
+      break;
+    }
     Delay(100);
   } while (!reader->isComplete());
 
   thread->quit();
   thread->wait();
+
+  return !isError;
 }
 
 
-
-
 // write data rows to output text file
-void DataHandler::writeDataToTextStream(QVector<DataRow*>& from, QTextStream& to) {
-  to.device()->seek(0);
-  to.resetStatus();
-  to.setCodec("UTF-8");
-  to.setGenerateByteOrderMark(true);
-  try {
-    for (int i = 0; i < from.size(); i++) {
-      if (!from[i]->writeTextDataTo(to)) throw false;
+bool DataHandler::writeDataToTextStream(QVector<DataRow*>& from, QTextStream& to) {
+  emit started("WRITE TEXT DATA");
+  bool isError = false;
+  QTimer *timer = new QTimer;
+  QThread *thread = new QThread;
+  TextDataWriter *writer = new TextDataWriter(from, to);
+
+  connect(thread, SIGNAL(started()), timer, SLOT(start()));
+  connect(timer, SIGNAL(timeout()), writer, SLOT(process()));
+  connect(thread, SIGNAL(finished()), timer, SLOT(deleteLater()));
+  connect(thread, SIGNAL(finished()), writer, SLOT(deleteLater()));
+  connect(thread, SIGNAL(finished()), thread, SLOT(deleteLater()));
+
+  timer->setInterval(0);
+  timer->moveToThread(thread);
+  writer->moveToThread(thread);
+
+  thread->start();
+
+  // wait work complete and simultaneously get progress status
+  do {
+    emit progressed(writer->getProgress());
+    if (writer->isError()) {
+      isError = true;
+      break;
     }
-  }
-  catch (...) {
-    throw std::runtime_error("write data to text stream was failed.");
-  }
+    Delay(100);
+  } while (!writer->isComplete());
+
+  thread->quit();
+  thread->wait();
+
+  return !isError;
 }
 
 
@@ -230,10 +255,10 @@ bool DataHandler::decryptData(QDataStream& from, QVector<DataRow*>& to) {
     isError = false;
   }
   catch (const std::runtime_error &err) {
-    errorHandler->addErrorMessage("In function \"DataHandler::decryptData\" " + QString(err.what()));
+    m_errorHandler->addErrorMessage("In function \"DataHandler::decryptData\" " + QString(err.what()));
   }
   catch (...) {
-    errorHandler->addErrorMessage("In function \"DataHandler::decryptData\" something went wrong.");
+    m_errorHandler->addErrorMessage("In function \"DataHandler::decryptData\" something went wrong.");
   }
 
   try {
@@ -242,7 +267,7 @@ bool DataHandler::decryptData(QDataStream& from, QVector<DataRow*>& to) {
   }
   catch (const std::runtime_error &err) {
     isError = true;
-    errorHandler->addErrorMessage("In function \"DataHandler::decryptData\" " + QString(err.what()));
+    m_errorHandler->addErrorMessage("In function \"DataHandler::decryptData\" " + QString(err.what()));
   }
 
   return !isError;
@@ -283,13 +308,13 @@ bool DataHandler::uncompressData(QDataStream& from, QDataStream& to) {
     isError = false;
   }
   catch (const std::runtime_error &err) {
-    errorHandler->addErrorMessage("In function \"DataHandler::uncompressData\" " + QString(err.what()));
+    m_errorHandler->addErrorMessage("In function \"DataHandler::uncompressData\" " + QString(err.what()));
   }
   catch (std::bad_alloc) {
-    errorHandler->addErrorMessage("In function \"DataHandler::uncompressData\" allocating memory was failed.");
+    m_errorHandler->addErrorMessage("In function \"DataHandler::uncompressData\" allocating memory was failed.");
   }
   catch (...) {
-    errorHandler->addErrorMessage("In function \"DataHandler::uncompressData\" something went wrong.");
+    m_errorHandler->addErrorMessage("In function \"DataHandler::uncompressData\" something went wrong.");
   }
 
   inflateEnd(&stream);
@@ -317,10 +342,10 @@ bool DataHandler::encryptData(QVector<DataRow*>& from, QDataStream& to) {
     isError = false;
   }
   catch (const std::runtime_error &err) {
-    errorHandler->addErrorMessage("In function \"DataHandler::encryptData\" " + QString(err.what()));
+    m_errorHandler->addErrorMessage("In function \"DataHandler::encryptData\" " + QString(err.what()));
   }
   catch (...) {
-    errorHandler->addErrorMessage("In function \"DataHandler::encryptData\" something went wrong.");
+    m_errorHandler->addErrorMessage("In function \"DataHandler::encryptData\" something went wrong.");
   }
 
   try {
@@ -329,7 +354,7 @@ bool DataHandler::encryptData(QVector<DataRow*>& from, QDataStream& to) {
   }
   catch (const std::runtime_error &err) {
     isError = true;
-    errorHandler->addErrorMessage("In function \"DataHandler::encryptData\" " + QString(err.what()));
+    m_errorHandler->addErrorMessage("In function \"DataHandler::encryptData\" " + QString(err.what()));
   }
 
   return !isError;
@@ -350,7 +375,7 @@ bool DataHandler::compressData(QDataStream& from, QDataStream& to) {
     outBuff = new uint8_t[BUFF_SIZE];
     uncompressedDataSize = static_cast<unsigned long>(from.device()->size());
     WriteDataToStream(to, uncompressedDataSize, 4);
-    int level = settingsHandler->getSetting("", "compressing_level", 1).toInt();
+    int level = m_settingsHandler->getSetting("", "compressing_level", 1).toInt();
     if (deflateInit(&stream, level) != Z_OK) throw std::runtime_error("deflate init was failed.");
     do {
       stream.avail_in = static_cast<unsigned int>(ReadDataFromStream(from, *inBuff, static_cast<int>(BUFF_SIZE)));
@@ -369,13 +394,13 @@ bool DataHandler::compressData(QDataStream& from, QDataStream& to) {
     isError = false;
   }
   catch (const std::runtime_error &err) {
-    errorHandler->addErrorMessage("In function \"DataHandler::compressData\" " + QString(err.what()));
+    m_errorHandler->addErrorMessage("In function \"DataHandler::compressData\" " + QString(err.what()));
   }
   catch (std::bad_alloc) {
-    errorHandler->addErrorMessage("In function \"DataHandler::compressData\" allocating memory was failed.");
+    m_errorHandler->addErrorMessage("In function \"DataHandler::compressData\" allocating memory was failed.");
   }
   catch (...) {
-    errorHandler->addErrorMessage("In function \"DataHandler::compressData\" something went wrong.");
+    m_errorHandler->addErrorMessage("In function \"DataHandler::compressData\" something went wrong.");
   }
 
   deflateEnd(&stream);

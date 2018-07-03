@@ -14,30 +14,31 @@ public:
   ~DataHandler();
 
 signals:
-  void started();
-  void completed();
+  void runned();
+  void stopped();
   void failed();
+
+  void started(const QString &msg);
   void progressed(int value);
-  void breaked();
+  void completed();
 
 public slots:
   void run();
-  void sendProgress(int value);
 
 private:
-  QWidget *parent;
-  SettingsHandler *settingsHandler = nullptr;
-  ErrorHandler *errorHandler = nullptr;
-  QString fromFilePath;
-  QString toFilePath;
-  MODE mode;
+  QWidget *m_parent;
+  SettingsHandler *m_settingsHandler = nullptr;
+  ErrorHandler *m_errorHandler = nullptr;
+  QString m_fromFilePath;
+  QString m_toFilePath;
+  MODE m_mode;
 
   bool process(const QString &fromFilePath,  const QString &toFilePath, MODE mode);
 
-  void readDataFromBinStream(QDataStream& from, QVector<DataRow*>& to);
-  void writeDataToBinStream(QVector<DataRow*>& from, QDataStream& to);
-  void readDataFromTextStream(QTextStream& from, QVector<DataRow*>& to);
-  void writeDataToTextStream(QVector<DataRow*>& from, QTextStream& to);
+  bool readDataFromBinStream(QDataStream& from, QVector<DataRow*>& to);
+  bool writeDataToBinStream(QVector<DataRow*>& from, QDataStream& to);
+  bool readDataFromTextStream(QTextStream& from, QVector<DataRow*>& to);
+  bool writeDataToTextStream(QVector<DataRow*>& from, QTextStream& to);
   void deleteData(QVector<DataRow*>& dataRowsContainer);
   void mergeData(QVector<DataRow*>& from, QVector<DataRow*>& to);
   bool decryptData(QDataStream& from, QVector<DataRow*>& to);

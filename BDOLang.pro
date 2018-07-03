@@ -29,7 +29,6 @@ INCLUDEPATH += \
     src/ \
     src/data \
     src/elements \
-    src/events \
     src/global \
     src/handlers \
     src/interfaces \
@@ -51,8 +50,8 @@ SOURCES += \
     src/windows/ProcessingWindow.cpp \
     src/windows/SettingsWindow.cpp \
     src/windows/TranslatingWindow.cpp \
-    src/events/ChangeValueEvent.cpp \
-    src/data/TextDataReader.cpp
+    src/data/TextDataReader.cpp \
+    src/data/TextDataWriter.cpp
 
 HEADERS += \
     src/headers.hpp \
@@ -72,8 +71,8 @@ HEADERS += \
     src/windows/ProcessingWindow.hpp \
     src/windows/SettingsWindow.hpp \
     src/windows/TranslatingWindow.hpp \
-    src/events/ChangeValueEvent.hpp \
-    src/data/TextDataReader.hpp
+    src/data/TextDataReader.hpp \
+    src/data/TextDataWriter.hpp
 
 RESOURCES += \
     res/Res.qrc
