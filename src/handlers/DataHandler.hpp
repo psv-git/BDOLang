@@ -22,6 +22,7 @@ signals:
 
 public slots:
   void run();
+  void sendProgress(int value);
 
 private:
   QWidget *parent;
@@ -43,10 +44,6 @@ private:
   bool uncompressData(QDataStream& from, QDataStream& to);
   bool encryptData(QVector<DataRow*>& from, QDataStream& to);
   bool compressData(QDataStream& from, QDataStream& to);
-
-  int value = 0;
-
-  void test();
 
 };
 

@@ -113,71 +113,36 @@ void DataHandler::writeDataToBinStream(QVector<DataRow*>& from, QDataStream& to)
 }
 
 
+
+#include "TextDataReader.hpp"
 // read data rows from input text file
 void DataHandler::readDataFromTextStream(QTextStream& from, QVector<DataRow*>& to) {
-//  from.device()->seek(0);
-//  from.resetStatus();
-//  from.setAutoDetectUnicode(true);
-//  from.skipWhiteSpace();
+  QTimer *timer = new QTimer();
+  QThread *thread = new QThread();
+  TextDataReader *reader = new TextDataReader(from, to);
 
-//  QTimer *timer = new QTimer();
-//  QThread *thread = QThread::create(test());
+  connect(thread, SIGNAL(started()), timer, SLOT(start()));
+  connect(timer, SIGNAL(timeout()), reader, SLOT(process()));
+  connect(thread, SIGNAL(finished()), timer, SLOT(deleteLater()));
+  connect(thread, SIGNAL(finished()), reader, SLOT(deleteLater()));
 
-//  connect(timer, SIGNAL(timeout()), thread, SLOT(start()));
-//  connect(this, SIGNAL(progressed(int)), thread, SLOT(quit()));
-//  connect(this, SIGNAL(breaked()), timer, SLOT(stop()));
+  timer->setInterval(0);
+  timer->moveToThread(thread);
+  reader->moveToThread(thread);
 
-//  timer->setInterval(1000);
-//  timer->moveToThread(thread);
+  thread->start();
 
-//  connect(thread, SIGNAL(started()), timer, SLOT(start()));
-//  connect(thread, SIGNAL(finished()), timer, SLOT(deleteLater()));
-//  connect(thread, SIGNAL(finished()), thread, SLOT(deleteLater()));
+  // wait work complete and simultaneously get progress
+  do {
+    emit progressed(reader->getProgress());
+    Delay(100);
+  } while (!reader->isComplete());
 
-//  timer->start();
+  thread->quit();
+  thread->wait();
+}
 
-//  try {
-////    while (true) {
-//    qint64 fullSize = from.device()->size();
-//    DataRow* dataRow = new DataRow();
-//    if (!dataRow->readTextDataFrom(from)) throw false;
-//    qint64 currentSize = from.device()->pos();
-////      emit progressed(static_cast<int>(currentSize / fullSize)); // TODO:
-//    ChangeValueEvent *event = new ChangeValueEvent(currentSize / fullSize);
-//    QCoreApplication::postEvent(parent, event);
-//    to.push_back(dataRow);
-//    if (from.atEnd()) emit stop();
-////    }
-//  }
-//  catch (std::bad_alloc) {
-//    errorHandler->addErrorMessage("In function \"DataHandler::readDataFromTextStream\" allocating memory was failed.");
-//    throw std::runtime_error("read data from text stream was failed.");
-//  }
-//  catch (...) {
-//    throw std::runtime_error("read data from text stream was failed.");
-//  }
-//}
 
-//void DataHandler::test() {
-//  if (value == 100) emit breaked();
-//  else emit progressed(value++);
-//  try {
-//    qint64 fullSize = from.device()->size();
-//    DataRow* dataRow = new DataRow();
-//    if (!dataRow->readTextDataFrom(from)) throw false;
-//    qint64 currentSize = from.device()->pos();
-//    emit progressed(static_cast<int>(currentSize / fullSize)); // TODO:
-//    to.push_back(dataRow);
-//    if (from.atEnd()) emit breaked();
-//  }
-//  catch (std::bad_alloc) {
-//    errorHandler->addErrorMessage("In function \"DataHandler::readDataFromTextStream\" allocating memory was failed.");
-//    throw std::runtime_error("read data from text stream was failed.");
-//  }
-//  catch (...) {
-//    throw std::runtime_error("read data from text stream was failed.");
-//  }
-//}
 
 
 // write data rows to output text file

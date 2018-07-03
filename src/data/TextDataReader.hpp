@@ -2,24 +2,33 @@
 #define TEXTDATAREADER_HPP
 
 #include "ApplicationGlobal.hpp"
+#include <QMutex>
+
+class DataRow;
 
 
 class TextDataReader : public QObject {
 Q_OBJECT
 
 public:
-  explicit TextDataReader(QObject *parent = nullptr);
+  explicit TextDataReader(QTextStream& from, QVector<DataRow*>& to);
   ~TextDataReader();
 
+  bool isComplete();
+  int getProgress();
+
 signals:
-  void sendProgress(int val);
-  void sendEndOfStream();
 
 public slots:
-  void readDataFromStream(QTextStream& from, QVector<DataRow*>& to);
+  void process();
 
 private:
-  bool isInit = false;
+  QTextStream *from = nullptr;
+  QVector<DataRow*> *to = nullptr;
+
+  QMutex lock;
+  bool complete = false;
+  int progress = 0;
   qint64 fullSize = 0;
 
 };

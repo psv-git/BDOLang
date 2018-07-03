@@ -2,37 +2,39 @@
 #include "DataRow.hpp"
 
 
-TextDataReader::TextDataReader(QObject *parent) : QObject(parent) {}
+TextDataReader::TextDataReader(QTextStream& from, QVector<DataRow*>& to) {
+  TextDataReader::from = &from;
+  TextDataReader::to = &to;
+
+  from.device()->seek(0);
+  from.resetStatus();
+  from.setAutoDetectUnicode(true);
+  from.skipWhiteSpace();
+  fullSize = from.device()->size();
+}
 
 
 TextDataReader::~TextDataReader() {}
 
 // ============================================================================
 
-// read data rows from input text file
-void TextDataReader::readDataFromStream(QTextStream& from, QVector<DataRow*>& to) {
-  if (!isInit) {
-    from.device()->seek(0);
-    from.resetStatus();
-    from.setAutoDetectUnicode(true);
-    from.skipWhiteSpace();
-    isInit = true;
-    fullSize = from.device()->size();
-  }
+bool TextDataReader::isComplete() {
+  QMutexLocker locker(&lock);
+  return complete;
+}
 
-  try {
-    DataRow* dataRow = new DataRow();
-    if (!dataRow->readTextDataFrom(from)) throw false;
-    qint64 currentSize = from.device()->pos();
-    emit sendProgress(static_cast<int>(currentSize / fullSize));
-    to.push_back(dataRow);
-    if (from.atEnd()) emit sendEndOfStream();
-  }
-  catch (std::bad_alloc) {
-    ErrorHandler::getInstance().addErrorMessage("In function \"DataHandler::readDataFromTextStream\" allocating memory was failed.");
-    throw std::runtime_error("read data from text stream was failed.");
-  }
-  catch (...) {
-    throw std::runtime_error("read data from text stream was failed.");
-  }
+
+int TextDataReader::getProgress() {
+  return progress;
+}
+
+
+void TextDataReader::process() {
+  QMutexLocker locker(&lock);
+  DataRow* dataRow = new DataRow();
+  if (!dataRow->readTextDataFrom(*from)) throw false;
+  to->push_back(dataRow);
+  qint64 currentSize = from->device()->pos();
+  progress = (100 * currentSize) / fullSize;
+  if (from->atEnd()) complete = true;
 }

@@ -37,7 +37,11 @@ void ProcessingWindow::show(const QString &srcFilePath, const QString &targFileP
 //  QThread *thread = new QThread();
 //  QTimer *timer = new QTimer();
   DataHandler *dataHandler = new DataHandler(srcFilePath, targFilePath, mode);
+
   connect(dataHandler, SIGNAL(progressed(int)), ui->progressBar, SLOT(setValue(int)));
+  connect(dataHandler, SIGNAL(completed()), this, SLOT(complete()));
+  connect(dataHandler, SIGNAL(failed()), this, SLOT(error()));
+
   dataHandler->run();
 
 //  timer->setInterval(1000);
