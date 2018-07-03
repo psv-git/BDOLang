@@ -1,3 +1,5 @@
+#include <QThread>
+#include <QTimer>
 #include <QtZlib/zlib.h>
 #include "DataHandler.hpp"
 #include "DataRow.hpp"
@@ -7,7 +9,7 @@ const char* TMP_FILE_NAME = "./data/tmp.bss";
 
 // ============================================================================
 
-DataHandler::DataHandler(const QString &fromFilePath, const QString &toFilePath, MODE mode) : QObject(nullptr) {
+DataHandler::DataHandler(const QString &fromFilePath, const QString &toFilePath, MODE mode) {
   settingsHandler = &SettingsHandler::getInstance();
   errorHandler = &ErrorHandler::getInstance();
   DataHandler::fromFilePath = fromFilePath;
@@ -20,13 +22,11 @@ DataHandler::~DataHandler() {}
 
 // public slots ===============================================================
 
-void DataHandler::start() {
+void DataHandler::run() {
+  emit started();
   if (!process(fromFilePath, toFilePath, mode)) emit failed();
   emit completed();
 }
-
-
-void DataHandler::stop() {}
 
 // private methods ============================================================
 
@@ -52,7 +52,7 @@ bool DataHandler::process(const QString &fromFilePath, const QString &toFilePath
       QDataStream to(&toFile);
       readDataFromTextStream(from, originalRowsContainer);
       toFile.resize(0);
-      writeDataToBinStream(originalRowsContainer, to);
+//      writeDataToBinStream(originalRowsContainer, to);
     } else if (mode == MODE::MERGE_BIN) {
       QDataStream from(&fromFile);
       QDataStream to(&toFile);
@@ -115,26 +115,69 @@ void DataHandler::writeDataToBinStream(QVector<DataRow*>& from, QDataStream& to)
 
 // read data rows from input text file
 void DataHandler::readDataFromTextStream(QTextStream& from, QVector<DataRow*>& to) {
-  from.device()->seek(0);
-  from.resetStatus();
-  from.setAutoDetectUnicode(true);
-  from.skipWhiteSpace();
-  try {
-    while (true) {
-      DataRow* dataRow = new DataRow();
-      if (!dataRow->readTextDataFrom(from)) throw false;
-      to.push_back(dataRow);
-      if (from.atEnd()) break;
-    }
-  }
-  catch (std::bad_alloc) {
-    errorHandler->addErrorMessage("In function \"DataHandler::readDataFromTextStream\" allocating memory was failed.");
-    throw std::runtime_error("read data from text stream was failed.");
-  }
-  catch (...) {
-    throw std::runtime_error("read data from text stream was failed.");
-  }
-}
+//  from.device()->seek(0);
+//  from.resetStatus();
+//  from.setAutoDetectUnicode(true);
+//  from.skipWhiteSpace();
+
+//  QTimer *timer = new QTimer();
+//  QThread *thread = QThread::create(test());
+
+//  connect(timer, SIGNAL(timeout()), thread, SLOT(start()));
+//  connect(this, SIGNAL(progressed(int)), thread, SLOT(quit()));
+//  connect(this, SIGNAL(breaked()), timer, SLOT(stop()));
+
+//  timer->setInterval(1000);
+//  timer->moveToThread(thread);
+
+//  connect(thread, SIGNAL(started()), timer, SLOT(start()));
+//  connect(thread, SIGNAL(finished()), timer, SLOT(deleteLater()));
+//  connect(thread, SIGNAL(finished()), thread, SLOT(deleteLater()));
+
+//  timer->start();
+
+//  try {
+////    while (true) {
+//    qint64 fullSize = from.device()->size();
+//    DataRow* dataRow = new DataRow();
+//    if (!dataRow->readTextDataFrom(from)) throw false;
+//    qint64 currentSize = from.device()->pos();
+////      emit progressed(static_cast<int>(currentSize / fullSize)); // TODO:
+//    ChangeValueEvent *event = new ChangeValueEvent(currentSize / fullSize);
+//    QCoreApplication::postEvent(parent, event);
+//    to.push_back(dataRow);
+//    if (from.atEnd()) emit stop();
+////    }
+//  }
+//  catch (std::bad_alloc) {
+//    errorHandler->addErrorMessage("In function \"DataHandler::readDataFromTextStream\" allocating memory was failed.");
+//    throw std::runtime_error("read data from text stream was failed.");
+//  }
+//  catch (...) {
+//    throw std::runtime_error("read data from text stream was failed.");
+//  }
+//}
+
+//void DataHandler::test() {
+//  if (value == 100) emit breaked();
+//  else emit progressed(value++);
+//  try {
+//    qint64 fullSize = from.device()->size();
+//    DataRow* dataRow = new DataRow();
+//    if (!dataRow->readTextDataFrom(from)) throw false;
+//    qint64 currentSize = from.device()->pos();
+//    emit progressed(static_cast<int>(currentSize / fullSize)); // TODO:
+//    to.push_back(dataRow);
+//    if (from.atEnd()) emit breaked();
+//  }
+//  catch (std::bad_alloc) {
+//    errorHandler->addErrorMessage("In function \"DataHandler::readDataFromTextStream\" allocating memory was failed.");
+//    throw std::runtime_error("read data from text stream was failed.");
+//  }
+//  catch (...) {
+//    throw std::runtime_error("read data from text stream was failed.");
+//  }
+//}
 
 
 // write data rows to output text file
@@ -157,7 +200,6 @@ void DataHandler::writeDataToTextStream(QVector<DataRow*>& from, QTextStream& to
 void DataHandler::mergeData(QVector<DataRow*>& from, QVector<DataRow*>& to) {
   try {
     std::sort(to.begin(), to.end(), [](DataRow *ptr1, DataRow *ptr2) -> bool { return *ptr1 < *ptr2; }); // sorting rows by [sheet, id1, id2, id3, id4]
-
     // save sheets ranges
     QMap<unsigned long, QPair<int, int>> sheetsPositionsList; // [sheet, <begin index, end index>]
     unsigned long sheetValue;
@@ -171,13 +213,11 @@ void DataHandler::mergeData(QVector<DataRow*>& from, QVector<DataRow*>& to) {
       sheetValue = to.at(beg)->getSheet();
     }
     sheetsPositionsList.insert(sheetValue, qMakePair(beg, end));
-
     // get translated row and replace original row, if it was finded
     // if original row was not finded - translated row will skiped
     for (int i = 0; i < from.size(); i++) {
       sheetValue = from.at(i)->getSheet();
       QPair<int, int> indexes = sheetsPositionsList.value(sheetValue, qMakePair(0, to.size()));
-
       beg = indexes.first;
       end = indexes.second;
       do {

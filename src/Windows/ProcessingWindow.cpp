@@ -1,4 +1,5 @@
 #include <QThread>
+#include <QTimer>
 #include "ProcessingWindow.hpp"
 #include "ui_ProcessingWindow.h"
 #include "DataHandler.hpp"
@@ -17,46 +18,60 @@ ProcessingWindow::~ProcessingWindow() {
 
 // events =====================================================================
 
-void ProcessingWindow::closeEvent(QCloseEvent *event) {
-  // TODO: kill thread there
-  emit buttonClicked(MODE::CLOSE);
-  QWidget::closeEvent(event);
+bool ProcessingWindow::event(QEvent *event) {
+  if (event->type() == QEvent::Close) {
+    emit buttonClicked(MODE::CLOSE);
+  }
+  return QWidget::event(event);
 }
 
 // public slots ===============================================================
 
 void ProcessingWindow::show(const QString &srcFilePath, const QString &targFilePath, MODE mode) {
-  this->blockSignals(true);
+//  this->blockSignals(true);
   ui->exitButton->setEnabled(false);
   ui->messageLabel->setText("PROCESSING");
   QWidget::show();
 
   // work on another thread
-  thread = new QThread;
-  DataHandler* dataHandler = new DataHandler(srcFilePath, targFilePath, mode);
+//  QThread *thread = new QThread();
+//  QTimer *timer = new QTimer();
+  DataHandler *dataHandler = new DataHandler(srcFilePath, targFilePath, mode);
+  connect(dataHandler, SIGNAL(progressed(int)), ui->progressBar, SLOT(setValue(int)));
+  dataHandler->run();
 
-  dataHandler->moveToThread(thread);
-  connect(thread, SIGNAL(started()), dataHandler, SLOT(start()));
-  connect(thread, SIGNAL(finished()), thread, SLOT(deleteLater()));
-  connect(thread, SIGNAL(finished()), this, SLOT(complete()));
+//  timer->setInterval(1000);
 
-  connect(dataHandler, SIGNAL(failed()), this, SLOT(error()));
-  connect(dataHandler, SIGNAL(completed()), thread, SLOT(quit()));
-  connect(dataHandler, SIGNAL(completed()), dataHandler, SLOT(deleteLater()));
+//  connect(dataHandler, SIGNAL(progressed(int)), ui->progressBar, SLOT(setValue(int)));
+//  connect(dataHandler, SIGNAL(failed()), this, SLOT(error()));
+//  connect(dataHandler, SIGNAL(failed()), thread, SLOT(quit()));
+//  connect(dataHandler, SIGNAL(completed()), this, SLOT(complete()));
+//  connect(dataHandler, SIGNAL(completed()), thread, SLOT(quit()));
 
-  thread->start();
+//  connect(thread, SIGNAL(started()), timer, SLOT(start()));
+//  connect(thread, SIGNAL(finished()), timer, SLOT(deleteLater()));
+//  connect(thread, SIGNAL(finished()), dataHandler, SLOT(deleteLater()));
+
+//  connect(timer, SIGNAL(timeout()), dataHandler, SLOT(test()));
+
+//  dataHandler->moveToThread(thread);
+//  timer->moveToThread(thread);
+
+//  thread->start();
+
 }
 
 // private slots ==============================================================
 
-void ProcessingWindow::error() {
-  errorHandler->showMessage();
-}
-
 void ProcessingWindow::complete() {
   ui->exitButton->setEnabled(true);
   ui->messageLabel->setText("DONE");
-  this->blockSignals(false);
+//  this->blockSignals(false);
+}
+
+
+void ProcessingWindow::error() {
+  errorHandler->showMessage();
 }
 
 

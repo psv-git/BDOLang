@@ -14,14 +14,17 @@ public:
   ~DataHandler();
 
 signals:
-  void failed();
+  void started();
   void completed();
+  void failed();
+  void progressed(int value);
+  void breaked();
 
 public slots:
-  void start();
-  void stop();
+  void run();
 
 private:
+  QWidget *parent;
   SettingsHandler *settingsHandler = nullptr;
   ErrorHandler *errorHandler = nullptr;
   QString fromFilePath;
@@ -40,6 +43,10 @@ private:
   bool uncompressData(QDataStream& from, QDataStream& to);
   bool encryptData(QVector<DataRow*>& from, QDataStream& to);
   bool compressData(QDataStream& from, QDataStream& to);
+
+  int value = 0;
+
+  void test();
 
 };
 

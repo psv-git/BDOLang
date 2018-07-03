@@ -32,9 +32,6 @@ void MainWindow::buttonClick() {
   else if (objName == "ttbButton") emit buttonClicked(MODE::TEXT_TO_BIN);
   else if (objName == "mbButton") emit buttonClicked(MODE::MERGE_BIN);
   else if (objName == "mtButton") emit buttonClicked(MODE::MERGE_TEXT);
-  else if (objName == "cbsiButton") emit buttonClicked(MODE::COMP_BY_SIZE);
-  else if (objName == "cbstButton") emit buttonClicked(MODE::COMP_BY_STR);
-  else if (objName == "trButton") emit buttonClicked(MODE::TRANSLATE);
   else if (objName == "settingsButton") emit buttonClicked(MODE::SETTINGS);
   else if (objName == "exitButton") emit buttonClicked(MODE::EXIT);
 }
@@ -48,9 +45,6 @@ void MainWindow::initUi() {
   ui->ttbButton->setFont(settingsHandler->getFont("Liberation Sans", "Bold", 12));
   ui->mbButton->setFont(settingsHandler->getFont("Liberation Sans", "Bold", 12));
   ui->mtButton->setFont(settingsHandler->getFont("Liberation Sans", "Bold", 12));
-  ui->cbsiButton->setFont(settingsHandler->getFont("Liberation Sans", "Bold", 12));
-  ui->cbstButton->setFont(settingsHandler->getFont("Liberation Sans", "Bold", 12));
-  ui->trButton->setFont(settingsHandler->getFont("Liberation Sans", "Bold", 12));
   ui->settingsButton->setFont(settingsHandler->getFont("Liberation Sans", "Bold", 12));
   ui->exitButton->setFont(settingsHandler->getFont("Liberation Sans", "Bold", 12));
 
@@ -58,9 +52,6 @@ void MainWindow::initUi() {
   connect(ui->ttbButton, SIGNAL(released()), this, SLOT(buttonClick()));
   connect(ui->mbButton, SIGNAL(released()), this, SLOT(buttonClick()));
   connect(ui->mtButton, SIGNAL(released()), this, SLOT(buttonClick()));
-  connect(ui->cbsiButton, SIGNAL(released()), this, SLOT(buttonClick()));
-  connect(ui->cbstButton, SIGNAL(released()), this, SLOT(buttonClick()));
-  connect(ui->trButton, SIGNAL(released()), this, SLOT(buttonClick()));
   connect(ui->settingsButton, SIGNAL(released()), this, SLOT(buttonClick()));
   connect(ui->exitButton, SIGNAL(released()), this, SLOT(buttonClick()));
 

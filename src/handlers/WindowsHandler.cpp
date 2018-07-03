@@ -47,10 +47,8 @@ void WindowsHandler::buttonClick(MODE mode) {
 void WindowsHandler::buttonClick(const QString &srcFilePath, const QString &targFilePath) {
   chooseFilesWindow->hide();
   mainWindow->hide();
-  if (mode == MODE::BIN_TO_TEXT || mode == MODE::TEXT_TO_BIN || mode == MODE::MERGE_TEXT || mode == MODE::MERGE_BIN) {
-    if (!processingWindow) processingWindow = createWindow<ProcessingWindow>(this);
-    processingWindow->show(srcFilePath, targFilePath, mode);
-  }
+  if (!processingWindow) processingWindow = createWindow<ProcessingWindow>(this);
+  processingWindow->show(srcFilePath, targFilePath, mode);
 }
 
 // friend functions ===========================================================
