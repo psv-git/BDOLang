@@ -14,7 +14,7 @@
    <enum>Qt::NoContextMenu</enum>
   </property>
   <property name="windowTitle">
-   <string notr="true">BDOLang ver.0.1 alpha</string>
+   <string notr="true">BDOLang ver.0.2 alpha</string>
   </property>
   <widget class="QWidget" name="centralWidget">
    <property name="contextMenuPolicy">
