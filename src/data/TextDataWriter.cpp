@@ -4,12 +4,13 @@
 TextDataWriter::TextDataWriter(QVector<DataRow*>& from, QTextStream& to) {
   m_from = &from;
   m_to = &to;
-  m_maxCount = static_cast<qint64>(m_from->size());
 
   m_to->device()->seek(0);
   m_to->resetStatus();
   m_to->setCodec("UTF-8");
   m_to->setGenerateByteOrderMark(true);
+
+  m_maxCount = static_cast<qint64>(m_from->size());
 }
 
 
@@ -17,25 +18,24 @@ TextDataWriter::~TextDataWriter() {}
 
 // ============================================================================
 
-bool TextDataWriter::isComplete() {
+bool TextDataWriter::isComplete() const {
   return m_isComplete;
 }
 
 
-bool TextDataWriter::isError() {
+bool TextDataWriter::isError() const {
   return m_isError;
 }
 
 
-int TextDataWriter::getProgress() {
+int TextDataWriter::getProgress() const {
   return m_currentProgress;
 }
 
 
-void TextDataWriter::process() {
+void TextDataWriter::write() {
   try {
     if (!m_isError && !m_isComplete) {
-      QMutexLocker locker(&m_lock);
       m_from->at(m_counter)->writeTextDataTo(*m_to);
       m_counter++;
       m_currentProgress = static_cast<int>((100 * m_counter) / m_maxCount);

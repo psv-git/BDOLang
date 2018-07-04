@@ -1,5 +1,3 @@
-#include <QFileDialog>
-#include <QFileInfo>
 #include "ApplicationFunctions.hpp"
 #include "WindowsHandler.hpp"
 

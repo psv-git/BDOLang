@@ -1,5 +1,3 @@
-#include <QThread>
-#include <QTimer>
 #include "ProcessingWindow.hpp"
 #include "ui_ProcessingWindow.h"
 #include "DataHandler.hpp"
@@ -28,7 +26,6 @@ bool ProcessingWindow::event(QEvent *event) {
 // public slots ===============================================================
 
 void ProcessingWindow::show(const QString &srcFilePath, const QString &targFilePath, MODE mode) {
-//  this->blockSignals(true);
   m_ui->exitButton->setEnabled(false);
   QWidget::show();
 
@@ -51,9 +48,9 @@ void ProcessingWindow::start(const QString &msg) {
 
 
 void ProcessingWindow::stop() {
-  m_ui->exitButton->setEnabled(true);
+  m_ui->progressBar->setValue(100);
   m_ui->messageLabel->setText("DONE");
-//  this->blockSignals(false);
+  m_ui->exitButton->setEnabled(true);
 }
 
 

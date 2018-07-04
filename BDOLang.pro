@@ -52,7 +52,8 @@ SOURCES += \
     src/windows/TranslatingWindow.cpp \
     src/data/TextDataReader.cpp \
     src/data/TextDataWriter.cpp \
-    src/data/DataEncryptor.cpp
+    src/data/BinDataWriter.cpp \
+    src/data/DataCompressor.cpp
 
 HEADERS += \
     src/headers.hpp \
@@ -74,7 +75,8 @@ HEADERS += \
     src/windows/TranslatingWindow.hpp \
     src/data/TextDataReader.hpp \
     src/data/TextDataWriter.hpp \
-    src/data/DataEncryptor.hpp
+    src/data/BinDataWriter.hpp \
+    src/data/DataCompressor.hpp
 
 RESOURCES += \
     res/Res.qrc

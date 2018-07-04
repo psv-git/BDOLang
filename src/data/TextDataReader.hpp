@@ -12,12 +12,12 @@ public:
   explicit TextDataReader(QTextStream& from, QVector<DataRow*>& to);
   ~TextDataReader();
 
-  bool isComplete();
-  bool isError();
-  int getProgress();
+  bool isComplete() const;
+  bool isError() const;
+  int getProgress() const;
 
 public slots:
-  void process();
+  void read();
 
 private:
   QTextStream *m_from = nullptr;

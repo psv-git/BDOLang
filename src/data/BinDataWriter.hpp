@@ -1,16 +1,17 @@
-#ifndef TEXTDATAWRITER_HPP
-#define TEXTDATAWRITER_HPP
+#ifndef BINDATAWRITER_HPP
+#define BINDATAWRITER_HPP
+
 
 #include "ApplicationGlobal.hpp"
-#include "DataRow.hpp"
+class DataRow;
 
 
-class TextDataWriter : public QObject {
+class BinDataWriter : public QObject {
 Q_OBJECT
 
 public:
-  explicit TextDataWriter(QVector<DataRow*>& from, QTextStream& to);
-  ~TextDataWriter();
+  explicit BinDataWriter(QVector<DataRow*>& from, QDataStream& to);
+  ~BinDataWriter();
 
   bool isComplete() const;
   bool isError() const;
@@ -21,7 +22,7 @@ public slots:
 
 private:
   QVector<DataRow*> *m_from = nullptr;
-  QTextStream *m_to = nullptr;
+  QDataStream *m_to = nullptr;
 
   QMutex m_lock;
   bool m_isError = false;
@@ -33,4 +34,4 @@ private:
 };
 
 
-#endif // TEXTDATAWRITER_HPP
+#endif // BINDATAWRITER_HPP

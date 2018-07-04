@@ -28,7 +28,7 @@ template <typename V>
 int ReadDataFromStream(QDataStream& stream, V& var, int size = 0) {
   if (size == 0) size = static_cast<int>(sizeof(var));
   int count = stream.readRawData(reinterpret_cast<char*>(&var), size);
-  if (count < 0) throw std::ios_base::failure("read data from file was failed");
+  if (count < 0) throw std::ios_base::failure("reading data from file was failed");
   return count;
 }
 
@@ -37,7 +37,7 @@ template <typename V>
 int WriteDataToStream(QDataStream& stream, V& var, int size = 0) {
   if (size == 0) size = static_cast<int>(sizeof(var));
   int count = stream.writeRawData(reinterpret_cast<char*>(&var), size);
-  if (count < 0) throw std::ios_base::failure("write data to file was failed");
+  if (count < 0) throw std::ios_base::failure("writing data to file was failed");
   return count;
 }
 

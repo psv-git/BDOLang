@@ -4,12 +4,13 @@
 TextDataReader::TextDataReader(QTextStream& from, QVector<DataRow*>& to) {
   m_from = &from;
   m_to = &to;
-  m_fullSize = m_from->device()->size();
 
   m_from->device()->seek(0);
   m_from->resetStatus();
   m_from->setAutoDetectUnicode(true);
   m_from->skipWhiteSpace();
+
+  m_fullSize = m_from->device()->size();
 }
 
 
@@ -17,22 +18,22 @@ TextDataReader::~TextDataReader() {}
 
 // ============================================================================
 
-bool TextDataReader::isComplete() {
+bool TextDataReader::isComplete() const {
   return m_isComplete;
 }
 
 
-bool TextDataReader::isError() {
+bool TextDataReader::isError() const {
   return m_isError;
 }
 
 
-int TextDataReader::getProgress() {
+int TextDataReader::getProgress() const {
   return m_currentProgress;
 }
 
 
-void TextDataReader::process() {
+void TextDataReader::read() {
   try {
     if (!m_isError && !m_isComplete) {
       QMutexLocker locker(&m_lock);

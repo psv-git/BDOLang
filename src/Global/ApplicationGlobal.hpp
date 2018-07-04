@@ -7,7 +7,8 @@
 #include "LanguageHandler.hpp"
 
 
-enum class MODE  : int { MERGE_BIN, MERGE_TEXT, BIN_TO_TEXT, TEXT_TO_BIN, SETTINGS, CLOSE, EXIT, NONE };
+enum class MODE : int { MERGE_BIN, MERGE_TEXT, BIN_TO_TEXT, TEXT_TO_BIN, SETTINGS, CLOSE, EXIT, NONE };
+enum class PROCESS_MODE : int { ENCRYPT, DECRYPT, NONE };
 
 
 #endif // APPLICATIONGLOBAL_HPP
