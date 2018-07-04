@@ -7,7 +7,6 @@ class MainWindow;
 class ChooseFilesWindow;
 class SettingsWindow;
 class ProcessingWindow;
-class TranslatingWindow;
 
 
 class WindowsHandler : public QObject {
@@ -27,7 +26,6 @@ private:
   ChooseFilesWindow *chooseFilesWindow = nullptr;
   SettingsWindow *settingsWindow       = nullptr;
   ProcessingWindow *processingWindow   = nullptr;
-  TranslatingWindow *translatingWindow = nullptr;
 
   template <typename WT>
   friend WT* createWindow(WindowsHandler *wh);

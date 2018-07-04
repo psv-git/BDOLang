@@ -18,23 +18,34 @@ DataCompressor::~DataCompressor() {
   if (m_outBuff) delete[] m_outBuff;
 }
 
-// ============================================================================
+// public slots ===============================================================
+
+void DataCompressor::process() {
+  if (m_mode == PROCESS_MODE::DECRYPT) uncompressing();
+  if (m_mode == PROCESS_MODE::ENCRYPT) compressing();
+}
+
+// public methods =============================================================
 
 void DataCompressor::init() {
   try {
-    m_inBuff = new uint8_t[m_buffSize];
-    m_outBuff = new uint8_t[m_buffSize];
+    if (!m_isInit) {
+      m_inBuff = new uint8_t[m_buffSize];
+      m_outBuff = new uint8_t[m_buffSize];
 
-    if (m_mode == PROCESS_MODE::DECRYPT) {
-      ReadDataFromStream(*m_from, m_expectedUncompressedDataSize, 4);
-      m_fullSize = static_cast<qint64>(m_expectedUncompressedDataSize);
-      if (inflateInit(&m_stream) != Z_OK) throw std::runtime_error("inflate init was failed.");
-    }
-    if (m_mode == PROCESS_MODE::ENCRYPT) {
-      m_uncompressedDataSize = static_cast<unsigned long>(m_from->device()->size());
-      WriteDataToStream(*m_to, m_uncompressedDataSize, 4);
-      int level = SettingsHandler::getInstance().getSetting("", "compressing_level", 1).toInt();
-      if (deflateInit(&m_stream, level) != Z_OK) throw std::runtime_error("deflate init was failed.");
+      if (m_mode == PROCESS_MODE::DECRYPT) {
+        ReadDataFromStream(*m_from, m_expectedUncompressedDataSize, 4);
+        m_percentValue = static_cast<unsigned long>(m_expectedUncompressedDataSize / 100);
+        if (inflateInit(&m_stream) != Z_OK) throw std::runtime_error("inflate init was failed.");
+      }
+      if (m_mode == PROCESS_MODE::ENCRYPT) {
+        m_uncompressedDataSize = static_cast<unsigned long>(m_from->device()->size());
+        m_percentValue = static_cast<unsigned long>(m_uncompressedDataSize / 100);
+        WriteDataToStream(*m_to, m_uncompressedDataSize, 4);
+        int level = SettingsHandler::getInstance().getSetting("", "compressing_level", 1).toInt();
+        if (deflateInit(&m_stream, level) != Z_OK) throw std::runtime_error("deflate init was failed.");
+      }
+      m_isInit = true;
     }
   }
   catch (const std::runtime_error &err) {
@@ -66,15 +77,11 @@ int DataCompressor::getProgress() const {
   return m_currentProgress;
 }
 
-
-void DataCompressor::process() {
-  if (m_mode == PROCESS_MODE::DECRYPT) uncompressing();
-  if (m_mode == PROCESS_MODE::ENCRYPT) compressing();
-}
-
+// private methods ============================================================
 
 void DataCompressor::compressing() {
   try {
+    if (!m_isInit) throw std::runtime_error("class must be initializing before using.");
     if (!m_isError && !m_isComplete) {
       m_stream.avail_in = static_cast<unsigned int>(ReadDataFromStream(*m_from, *m_inBuff, static_cast<int>(m_buffSize)));
       m_stream.next_in = m_inBuff;
@@ -89,7 +96,7 @@ void DataCompressor::compressing() {
         if (have > 0) WriteDataToStream(*m_to, *m_outBuff, have);
       } while (m_stream.avail_out == 0);
       unsigned long currentSize = static_cast<unsigned long>(m_from->device()->pos());
-      m_currentProgress = static_cast<int>((100 * currentSize) / m_uncompressedDataSize);
+      m_currentProgress = static_cast<int>(currentSize / m_percentValue);
       if (flush == Z_FINISH) {
         m_isComplete = true;
         deflateEnd(&m_stream);
@@ -110,8 +117,9 @@ void DataCompressor::compressing() {
 
 void DataCompressor::uncompressing() {
   try {
+    if (!m_isInit) throw std::runtime_error("class must be initializing before using.");
     if (!m_isError && !m_isComplete) {
-      int result = ReadDataFromStream(*m_from, *inBuff, m_buffSize);
+      int result = ReadDataFromStream(*m_from, *m_inBuff, m_buffSize);
       m_stream.avail_in = static_cast<unsigned int>(result); // negative value get throw in read function
       m_stream.next_in = m_inBuff;
       if (m_stream.avail_in == 0) m_isComplete = true;
@@ -125,7 +133,7 @@ void DataCompressor::uncompressing() {
           m_uncompressedDataSize += have;
           if (have > 0) WriteDataToStream(*m_to, *m_outBuff, have); // write decompressed data to out file
         } while (m_stream.avail_out == 0);
-        m_currentProgress = static_cast<int>((100 * m_uncompressedDataSize) / m_expectedUncompressedDataSize);
+        m_currentProgress = static_cast<int>(m_uncompressedDataSize / m_percentValue);
         if (result == Z_STREAM_END) {
           m_isComplete = true;
           if (m_uncompressedDataSize != m_expectedUncompressedDataSize) throw std::runtime_error("bad decompressed data length.");

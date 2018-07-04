@@ -35,14 +35,12 @@ private:
 
   bool process(const QString &fromFilePath,  const QString &toFilePath, MODE mode);
 
-  bool readDataFromBinStream(QDataStream& from, QVector<DataRow*>& to);
-  bool writeDataToBinStream(QVector<DataRow*>& from, QDataStream& to);
-  bool readDataFromTextStream(QTextStream& from, QVector<DataRow*>& to);
-  bool writeDataToTextStream(QVector<DataRow*>& from, QTextStream& to);
-  bool mergeData(QVector<DataRow*>& from, QVector<DataRow*>& to);
-  bool decryptData(QDataStream& from, QVector<DataRow*>& to);
-  bool encryptData(QVector<DataRow*>& from, QDataStream& to);
-  bool processData(QDataStream& from, QDataStream& to, MODE mode);
+  bool cryptProcessing(QDataStream& stream, QVector<DataRow*>& data, PROCESS_MODE mode);
+  bool binProcessing(QDataStream& stream, QVector<DataRow*>& data, PROCESS_MODE mode);
+  bool textProcessing(QTextStream& stream, QVector<DataRow*>& data, PROCESS_MODE mode);
+  bool mergeProcessing(QVector<DataRow*>& from, QVector<DataRow*>& to);
+  bool compressProcessing(QDataStream& from, QDataStream& to, PROCESS_MODE mode);
+
   void deleteData(QVector<DataRow*>& dataRowsContainer);
 
 };

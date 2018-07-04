@@ -1,7 +1,6 @@
 #include "DataHandler.hpp"
-#include "TextDataReader.hpp"
-#include "TextDataWriter.hpp"
-#include "BinDataWriter.hpp"
+#include "TextDataProcessor.hpp"
+#include "BinDataProcessor.hpp"
 #include "DataCompressor.hpp"
 
 
@@ -44,30 +43,54 @@ bool DataHandler::process(const QString &fromFilePath, const QString &toFilePath
       QDataStream from(&fromFile);
       QTextStream to(&toFile);
       toFile.resize(0); // clean output file
-      if (!decryptData(from, originalRowsContainer)) throw std::runtime_error("decrypt data was failed");
-      if (!writeDataToTextStream(originalRowsContainer, to)) throw std::runtime_error("write data to text stream was failed");
+      if (!cryptProcessing(from, originalRowsContainer, PROCESS_MODE::DECRYPT)) {
+        throw std::runtime_error("decrypt data was failed");
+      }
+      if (!textProcessing(to, originalRowsContainer, PROCESS_MODE::WRITE)) {
+        throw std::runtime_error("write data to text stream was failed");
+      }
     } else if (mode == MODE::TEXT_TO_BIN) {
       QTextStream from(&fromFile);
       QDataStream to(&toFile);
-      toFile.resize(0); // clean output file
-      if (!readDataFromTextStream(from, originalRowsContainer)) throw std::runtime_error("read data from text stream was failed");
-      if (!encryptData(originalRowsContainer, to)) throw std::runtime_error("encrypt was failed");
+      toFile.resize(0);
+      if (!textProcessing(from, originalRowsContainer, PROCESS_MODE::READ)) {
+        throw std::runtime_error("read data from text stream was failed");
+      }
+      if (!cryptProcessing(to, originalRowsContainer, PROCESS_MODE::ENCRYPT)) {
+        throw std::runtime_error("encrypt was failed");
+      }
     } else if (mode == MODE::MERGE_BIN) {
       QDataStream from(&fromFile);
       QDataStream to(&toFile);
-      if (!decryptData(from, translatedRowsContainer)) throw std::runtime_error("decrypt data was failed");
-      if (!decryptData(to, originalRowsContainer)) throw std::runtime_error("decrypt data was failed");
-      if (!mergeData(translatedRowsContainer, originalRowsContainer)) throw std::runtime_error("merge data was failed");
+      if (!cryptProcessing(from, translatedRowsContainer, PROCESS_MODE::DECRYPT)) {
+        throw std::runtime_error("decrypt data was failed");
+      }
+      if (!cryptProcessing(to, originalRowsContainer, PROCESS_MODE::DECRYPT)) {
+        throw std::runtime_error("decrypt data was failed");
+      }
+      if (!mergeProcessing(translatedRowsContainer, originalRowsContainer)) {
+        throw std::runtime_error("merge data was failed");
+      }
       toFile.resize(0);
-      if (!encryptData(originalRowsContainer, to)) throw std::runtime_error("encrypt data was failed");
+      if (!cryptProcessing(to, originalRowsContainer, PROCESS_MODE::ENCRYPT)) {
+        throw std::runtime_error("encrypt data was failed");
+      }
     } else if (mode == MODE::MERGE_TEXT) {
       QTextStream from(&fromFile);
       QTextStream to(&toFile);
-      if (!readDataFromTextStream(from, translatedRowsContainer)) throw std::runtime_error("read data from text stream was failed");
-      if (!readDataFromTextStream(to, originalRowsContainer)) throw std::runtime_error("read data from text stream was failed");
-      if (!mergeData(translatedRowsContainer, originalRowsContainer)) throw std::runtime_error("merge data was failed");
+      if (!textProcessing(from, translatedRowsContainer, PROCESS_MODE::READ)) {
+        throw std::runtime_error("read data from text stream was failed");
+      }
+      if (!textProcessing(to, originalRowsContainer, PROCESS_MODE::READ)) {
+        throw std::runtime_error("read data from text stream was failed");
+      }
+      if (!mergeProcessing(translatedRowsContainer, originalRowsContainer)) {
+        throw std::runtime_error("merge data was failed");
+      }
       toFile.resize(0);
-      if (!writeDataToTextStream(originalRowsContainer, to)) throw std::runtime_error("write data to text stream was failed");
+      if (!textProcessing(to, originalRowsContainer, PROCESS_MODE::WRITE)) {
+        throw std::runtime_error("write data to text stream was failed");
+      }
     }
 
     isError = false;
@@ -96,8 +119,7 @@ bool DataHandler::process(const QString &fromFilePath, const QString &toFilePath
 
 // ============================================================================
 
-// read data from .loc file to data container
-bool DataHandler::cryptData(QDataStream& from, QVector<DataRow*>& to, PROCESS_MODE mode) {
+bool DataHandler::cryptProcessing(QDataStream& stream, QVector<DataRow*>& data, PROCESS_MODE mode) {
   bool isError = false;
   QFile tmpFile(TMP_FILE_NAME);
   QDataStream tmp(&tmpFile);
@@ -105,21 +127,22 @@ bool DataHandler::cryptData(QDataStream& from, QVector<DataRow*>& to, PROCESS_MO
     OpenFile(tmpFile, QIODevice::ReadWrite);
 
     if (mode == PROCESS_MODE::DECRYPT) {
-      if (!processData(from, tmp, PROCESS_MODE::DECRYPT)) throw std::runtime_error("uncompressing data was failed.");
-      if (!readDataFromBinStream(tmp, to)) throw std::runtime_error("reading bin data from stream was failed.");
-    }
-    if (mode == PROCESS_MODE::ENCRYPT) {
-      if (!writeDataToBinStream(from, tmp)) throw std::runtime_error("writing bin data to stream was failed.");
-      if (!processData(tmp, to, PROCESS_MODE::ENCRYPT)) throw std::runtime_error("compressing data was failed.");
+      if (!compressProcessing(stream, tmp, mode)) throw std::runtime_error("uncompressing data was failed.");
+      if (!binProcessing(tmp, data, PROCESS_MODE::READ)) throw std::runtime_error("reading data from bin stream was failed.");
+    } else if (mode == PROCESS_MODE::ENCRYPT) {
+      if (!binProcessing(tmp, data, PROCESS_MODE::WRITE)) throw std::runtime_error("writing data to bin stream was failed.");
+      if (!compressProcessing(tmp, stream, mode)) throw std::runtime_error("compressing data was failed.");
+    } else {
+      throw std::runtime_error("unexpected compressing mode.");
     }
   }
   catch (const std::runtime_error &err) {
     isError = true;
-    m_errorHandler->addErrorMessage("In function \"DataHandler::decryptData\" " + QString(err.what()));
+    m_errorHandler->addErrorMessage("In function \"DataHandler::cryptProcessing\" " + QString(err.what()));
   }
   catch (...) {
     isError = true;
-    m_errorHandler->addErrorMessage("In function \"DataHandler::decryptData\" something went wrong.");
+    m_errorHandler->addErrorMessage("In function \"DataHandler::cryptProcessing\" something went wrong.");
   }
 
   try {
@@ -128,7 +151,7 @@ bool DataHandler::cryptData(QDataStream& from, QVector<DataRow*>& to, PROCESS_MO
   }
   catch (const std::runtime_error &err) {
     isError = true;
-    m_errorHandler->addErrorMessage("In function \"DataHandler::decryptData\" " + QString(err.what()));
+    m_errorHandler->addErrorMessage("In function \"DataHandler::cryptProcessing\" " + QString(err.what()));
   }
 
   return !isError;
@@ -136,45 +159,39 @@ bool DataHandler::cryptData(QDataStream& from, QVector<DataRow*>& to, PROCESS_MO
 
 // ============================================================================
 
-bool DataHandler::readDataFromBinStream(QDataStream& from, QVector<DataRow*>& to) {
-//  tmp.device()->reset();
-//    tmp.resetStatus();
-//    while (true) {
-//      DataRow* dataRow = new DataRow();
-//      dataRow->readBinDataFrom(tmp);
-//      to.push_back(dataRow);
-//      if (tmp.atEnd()) break;
-//    }
-//    isError = false;
-}
+bool DataHandler::binProcessing(QDataStream& stream, QVector<DataRow*>& data, PROCESS_MODE mode) {
+  if (mode == PROCESS_MODE::READ) {
+    emit started("READING BIN DATA");
+  } else if (mode == PROCESS_MODE::WRITE) {
+    emit started("WRITING BIN DATA");
+  } else {
+    return false;
+  }
 
-
-bool DataHandler::writeDataToBinStream(QVector<DataRow*>& from, QDataStream& to) {
-  emit started("WRITING BIN DATA");
   bool isError = false;
-  QTimer timer;
   QThread thread;
-  BinDataWriter writer(from, to);
+  QTimer timer;
+  BinDataProcessor processor(stream, data, mode);
 
   connect(&thread, SIGNAL(started()), &timer, SLOT(start()));
-  connect(&timer, SIGNAL(timeout()), &writer, SLOT(write()));
+  connect(&timer, SIGNAL(timeout()), &processor, SLOT(process()));
   connect(&thread, SIGNAL(finished()), &timer, SLOT(stop()));
 
   timer.setInterval(0);
   timer.moveToThread(&thread);
-  writer.moveToThread(&thread);
+  processor.moveToThread(&thread);
 
   thread.start();
 
   // wait work complete and simultaneously get progress status
   do {
-    emit progressed(writer.getProgress());
-    if (writer.isError()) {
+    emit progressed(processor.getProgress());
+    if (processor.isError()) {
       isError = true;
       break;
     }
     Delay(10);
-  } while (!writer.isComplete());
+  } while (!processor.isComplete());
 
   thread.quit();
   thread.wait();
@@ -183,32 +200,39 @@ bool DataHandler::writeDataToBinStream(QVector<DataRow*>& from, QDataStream& to)
 }
 
 
-bool DataHandler::readDataFromTextStream(QTextStream& from, QVector<DataRow*>& to) {
-  emit started("READING TEXT DATA");
+bool DataHandler::textProcessing(QTextStream& stream, QVector<DataRow*>& data, PROCESS_MODE mode) {
+  if (mode == PROCESS_MODE::READ) {
+    emit started("READING TEXT DATA");
+  } else if (mode == PROCESS_MODE::WRITE) {
+    emit started("WRITING TEXT DATA");
+  } else {
+    return false;
+  }
+
   bool isError = false;
   QThread thread;
   QTimer timer;
-  TextDataReader reader(from, to);
+  TextDataProcessor processor(stream, data, mode);
 
   connect(&thread, SIGNAL(started()), &timer, SLOT(start()));
-  connect(&timer, SIGNAL(timeout()), &reader, SLOT(read()));
+  connect(&timer, SIGNAL(timeout()), &processor, SLOT(process()));
   connect(&thread, SIGNAL(finished()), &timer, SLOT(stop()));
 
   timer.setInterval(0);
   timer.moveToThread(&thread);
-  reader.moveToThread(&thread);
+  processor.moveToThread(&thread);
 
   thread.start();
 
   // wait work complete and simultaneously get progress status
   do {
-    emit progressed(reader.getProgress());
-    if (reader.isError()) {
+    emit progressed(processor.getProgress());
+    if (processor.isError()) {
       isError = true;
       break;
     }
     Delay(10);
-  } while (!reader.isComplete());
+  } while (!processor.isComplete());
 
   thread.quit();
   thread.wait();
@@ -216,42 +240,9 @@ bool DataHandler::readDataFromTextStream(QTextStream& from, QVector<DataRow*>& t
   return !isError;
 }
 
+// ============================================================================
 
-bool DataHandler::writeDataToTextStream(QVector<DataRow*>& from, QTextStream& to) {
-  emit started("WRITING TEXT DATA");
-  bool isError = false;
-  QTimer timer;
-  QThread thread;
-  TextDataWriter writer(from, to);
-
-  connect(&thread, SIGNAL(started()), &timer, SLOT(start()));
-  connect(&timer, SIGNAL(timeout()), &writer, SLOT(write()));
-  connect(&thread, SIGNAL(finished()), &timer, SLOT(stop()));
-
-  timer.setInterval(0);
-  timer.moveToThread(&thread);
-  writer.moveToThread(&thread);
-
-  thread.start();
-
-  // wait work complete and simultaneously get progress status
-  do {
-    emit progressed(writer.getProgress());
-    if (writer.isError()) {
-      isError = true;
-      break;
-    }
-    Delay(10);
-  } while (!writer.isComplete());
-
-  thread.quit();
-  thread.wait();
-
-  return !isError;
-}
-
-
-bool DataHandler::mergeData(QVector<DataRow*>& from, QVector<DataRow*>& to) {
+bool DataHandler::mergeProcessing(QVector<DataRow*>& from, QVector<DataRow*>& to) {
   emit started("MERGING DATA");
   try {
     std::sort(to.begin(), to.end(), [](DataRow *ptr1, DataRow *ptr2) -> bool { return *ptr1 < *ptr2; }); // sorting rows by [sheet, id1, id2, id3, id4]
@@ -295,6 +286,14 @@ bool DataHandler::mergeData(QVector<DataRow*>& from, QVector<DataRow*>& to) {
 // ============================================================================
 
 bool DataHandler::compressProcessing(QDataStream& from, QDataStream& to, PROCESS_MODE mode) {
+  if (mode == PROCESS_MODE::DECRYPT) {
+    emit started("UNCOMPRESSING BIN DATA");
+  } else if (mode == PROCESS_MODE::ENCRYPT) {
+    emit started("COMPRESSING BIN DATA");
+  } else {
+    return false;
+  }
+
   bool isError = false;
   QTimer timer;
   QThread thread;
@@ -304,14 +303,7 @@ bool DataHandler::compressProcessing(QDataStream& from, QDataStream& to, PROCESS
   connect(&timer, SIGNAL(timeout()), &compressor, SLOT(process()));
   connect(&thread, SIGNAL(finished()), &timer, SLOT(stop()));
 
-  if (mode == PROCESS_MODE::DECRYPT) {
-    emit started("UNCOMPRESSING BIN DATA");
-  }
-  if (mode == PROCESS_MODE::ENCRYPT) {
-    emit started("COMPRESSING BIN DATA");
-  }
-
-  compressor.init()
+  compressor.init();
   timer.setInterval(0);
   timer.moveToThread(&thread);
   compressor.moveToThread(&thread);

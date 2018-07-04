@@ -3,7 +3,6 @@
 #include "ChooseFilesWindow.hpp"
 #include "SettingsWindow.hpp"
 #include "ProcessingWindow.hpp"
-#include "TranslatingWindow.hpp"
 
 
 WindowsHandler::WindowsHandler(QObject *parent) : QObject(parent) {
@@ -18,7 +17,6 @@ WindowsHandler::~WindowsHandler() {
   if (chooseFilesWindow) delete chooseFilesWindow;
   if (settingsWindow)    delete settingsWindow;
   if (processingWindow)  delete processingWindow;
-  if (translatingWindow) delete translatingWindow;
 }
 
 // public slots ===============================================================

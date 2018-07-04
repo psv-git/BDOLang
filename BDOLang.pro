@@ -37,6 +37,9 @@ INCLUDEPATH += \
 SOURCES += \
     src/main.cpp \
     src/data/DataRow.cpp \
+    src/data/DataCompressor.cpp \
+    src/data/TextDataProcessor.cpp \
+    src/data/BinDataProcessor.cpp \
     src/elements/CustomComboBox.cpp \
     src/elements/LanguageWidget.cpp \
     src/global/ApplicationFunctions.cpp \
@@ -48,16 +51,14 @@ SOURCES += \
     src/windows/ChooseFilesWindow.cpp \
     src/windows/MainWindow.cpp \
     src/windows/ProcessingWindow.cpp \
-    src/windows/SettingsWindow.cpp \
-    src/windows/TranslatingWindow.cpp \
-    src/data/TextDataReader.cpp \
-    src/data/TextDataWriter.cpp \
-    src/data/BinDataWriter.cpp \
-    src/data/DataCompressor.cpp
+    src/windows/SettingsWindow.cpp
 
 HEADERS += \
     src/headers.hpp \
     src/data/DataRow.hpp \
+    src/data/DataCompressor.hpp \
+    src/data/TextDataProcessor.hpp \
+    src/data/BinDataProcessor.hpp \
     src/elements/CustomComboBox.hpp \
     src/elements/LanguageWidget.hpp \
     src/global/ApplicationFunctions.hpp \
@@ -71,12 +72,7 @@ HEADERS += \
     src/windows/ChooseFilesWindow.hpp \
     src/windows/MainWindow.hpp \
     src/windows/ProcessingWindow.hpp \
-    src/windows/SettingsWindow.hpp \
-    src/windows/TranslatingWindow.hpp \
-    src/data/TextDataReader.hpp \
-    src/data/TextDataWriter.hpp \
-    src/data/BinDataWriter.hpp \
-    src/data/DataCompressor.hpp
+    src/windows/SettingsWindow.hpp
 
 RESOURCES += \
     res/Res.qrc
@@ -87,8 +83,7 @@ FORMS += \
     src/forms/LanguageWidget.ui \
     src/forms/MainWindow.ui \
     src/forms/ProcessingWindow.ui \
-    src/forms/SettingsWindow.ui \
-    src/forms/TranslatingWindow.ui
+    src/forms/SettingsWindow.ui
 
 DISTFILES += \
     res/fonts/LiberationMono-Bold.ttf \

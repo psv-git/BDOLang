@@ -13,7 +13,7 @@ public:
   explicit DataCompressor(QDataStream& from, QDataStream& to, PROCESS_MODE mode);
   ~DataCompressor();
 
-  void init(MODE mode);
+  void init();
 
   bool isComplete() const;
   bool isError() const;
@@ -27,8 +27,10 @@ private:
   QDataStream *m_from = nullptr;
   QDataStream *m_to = nullptr;
 
+  bool m_isInit = false;
   bool m_isComplete = false;
   bool m_isError = false;
+
   unsigned int m_buffSize = 16384;
   uint8_t *m_inBuff = nullptr;
   uint8_t *m_outBuff = nullptr;
@@ -36,6 +38,7 @@ private:
 
   unsigned long m_expectedUncompressedDataSize = 0;
   unsigned long m_uncompressedDataSize = 0;
+  unsigned long m_percentValue = 0;
   int m_currentProgress = 0;
 
   void compressing();
