@@ -1,7 +1,9 @@
 #include "DataHandler.hpp"
+#include "DataRow.hpp"
 #include "TextDataProcessor.hpp"
 #include "BinDataProcessor.hpp"
 #include "DataCompressor.hpp"
+#include "MergeDataProcessor.hpp"
 
 
 const char* TMP_FILE_NAME = "./data/tmp.bss";
@@ -244,43 +246,37 @@ bool DataHandler::textProcessing(QTextStream& stream, QVector<DataRow*>& data, P
 
 bool DataHandler::mergeProcessing(QVector<DataRow*>& from, QVector<DataRow*>& to) {
   emit started("MERGING DATA");
-  try {
-    std::sort(to.begin(), to.end(), [](DataRow *ptr1, DataRow *ptr2) -> bool { return *ptr1 < *ptr2; }); // sorting rows by [sheet, id1, id2, id3, id4]
-    // save sheets ranges
-    QMap<unsigned long, QPair<int, int>> sheetsPositionsList; // [sheet, <begin index, end index>]
-    unsigned long sheetValue;
-    int beg = 0, end = 0;
-    sheetValue = to.at(beg)->getSheet();
-    for (beg, end; end < to.size(); end++) {
-      if (sheetValue != to.at(end)->getSheet()) {
-        sheetsPositionsList.insert(sheetValue, qMakePair(beg, end));
-        beg = end;
-      }
-      sheetValue = to.at(beg)->getSheet();
+
+  std::sort(to.begin(), to.end(), [](DataRow *ptr1, DataRow *ptr2) -> bool { return *ptr1 < *ptr2; });
+
+  bool isError = false;
+  QTimer timer;
+  QThread thread;
+  MergeDataProcessor processor(from, to);
+
+  connect(&thread, SIGNAL(started()), &timer, SLOT(start()));
+  connect(&timer, SIGNAL(timeout()), &processor, SLOT(process()));
+  connect(&thread, SIGNAL(finished()), &timer, SLOT(stop()));
+
+  timer.setInterval(0);
+  timer.moveToThread(&thread);
+  processor.moveToThread(&thread);
+  thread.start();
+
+  // wait work complete and simultaneously get progress status
+  do {
+    emit progressed(processor.getProgress());
+    if (processor.isError()) {
+      isError = true;
+      break;
     }
-    sheetsPositionsList.insert(sheetValue, qMakePair(beg, end));
-    // get translated row and replace original row, if it was finded
-    // if original row was not finded - translated row will skiped
-    for (int i = 0; i < from.size(); i++) {
-      sheetValue = from.at(i)->getSheet();
-      QPair<int, int> indexes = sheetsPositionsList.value(sheetValue, qMakePair(0, to.size()));
-      beg = indexes.first;
-      end = indexes.second;
-      do {
-        int ind = beg + (end - beg) / 2;
-        if (*from.at(i) == *to.at(ind)) {
-          to[ind]->setString(from.at(i)->getString());
-          break;
-        }
-        if (*from.at(i) < *to.at(ind)) end = ind;
-        else beg = ind;
-      } while (beg != end);
-    }
-  }
-  catch (...) {
-    throw std::runtime_error("merging data was failed.");
-  }
-  return true;
+    Delay(10);
+  } while (!processor.isComplete());
+
+  thread.quit();
+  thread.wait();
+
+  return !isError;
 }
 
 // ============================================================================

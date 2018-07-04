@@ -1,4 +1,5 @@
 #include "TextDataProcessor.hpp"
+#include "DataRow.hpp"
 
 
 TextDataProcessor::TextDataProcessor(QTextStream& stream, QVector<DataRow*>& data, PROCESS_MODE mode) {
@@ -16,9 +17,10 @@ TextDataProcessor::TextDataProcessor(QTextStream& stream, QVector<DataRow*>& dat
   if (mode == PROCESS_MODE::WRITE) {
     m_stream->setCodec("UTF-8");
     m_stream->setGenerateByteOrderMark(true);
-    m_maxCount = static_cast<qint64>(m_data->size());
-    m_percentValue = static_cast<qint64>(m_maxCount / 100);
+    m_stepCount = static_cast<qint64>(m_data->size());
+    m_percentValue = static_cast<qint64>(m_stepCount / 100);
   }
+  if (m_percentValue == 0) m_percentValue = 1;
 }
 
 
@@ -78,10 +80,10 @@ void TextDataProcessor::read() {
 void TextDataProcessor::write() {
   try {
     if (!m_isError && !m_isComplete) {
-      m_data->at(m_counter)->writeTextDataTo(*m_stream);
-      m_counter++;
-      m_currentProgress = static_cast<int>(m_counter / m_percentValue);
-      if (m_counter == m_maxCount) m_isComplete = true;
+      m_data->at(m_stepCounter)->writeTextDataTo(*m_stream);
+      m_stepCounter++;
+      m_currentProgress = static_cast<int>(m_stepCounter / m_percentValue);
+      if (m_stepCounter == m_stepCount) m_isComplete = true;
     }
   }
   catch (const std::runtime_error &err) {

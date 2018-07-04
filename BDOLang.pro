@@ -40,6 +40,7 @@ SOURCES += \
     src/data/DataCompressor.cpp \
     src/data/TextDataProcessor.cpp \
     src/data/BinDataProcessor.cpp \
+    src/data/MergeDataProcessor.cpp \
     src/elements/CustomComboBox.cpp \
     src/elements/LanguageWidget.cpp \
     src/global/ApplicationFunctions.cpp \
@@ -59,6 +60,7 @@ HEADERS += \
     src/data/DataCompressor.hpp \
     src/data/TextDataProcessor.hpp \
     src/data/BinDataProcessor.hpp \
+    src/data/MergeDataProcessor.hpp \
     src/elements/CustomComboBox.hpp \
     src/elements/LanguageWidget.hpp \
     src/global/ApplicationFunctions.hpp \

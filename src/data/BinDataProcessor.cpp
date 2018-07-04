@@ -13,9 +13,10 @@ BinDataProcessor::BinDataProcessor(QDataStream& stream, QVector<DataRow*>& data,
     m_percentValue = m_stream->device()->size() / 100;
   }
   if (mode == PROCESS_MODE::WRITE) {
-    m_maxCount = static_cast<qint64>(m_data->size());
-    m_percentValue = static_cast<qint64>(m_maxCount / 100);
+    m_stepCount = static_cast<qint64>(m_data->size());
+    m_percentValue = static_cast<qint64>(m_stepCount / 100);
   }
+  if (m_percentValue == 0) m_percentValue = 1;
 }
 
 
@@ -75,10 +76,10 @@ void BinDataProcessor::read() {
 void BinDataProcessor::write() {
   try {
     if (!m_isError && !m_isComplete) {
-      m_data->at(m_counter)->writeBinDataTo(*m_stream);
-      m_counter++;
-      m_currentProgress = static_cast<int>(m_counter / m_percentValue);
-      if (m_counter == m_maxCount) m_isComplete = true;
+      m_data->at(m_stepCounter)->writeBinDataTo(*m_stream);
+      m_stepCounter++;
+      m_currentProgress = static_cast<int>(m_stepCounter / m_percentValue);
+      if (m_stepCounter == m_stepCount) m_isComplete = true;
     }
   }
   catch (const std::runtime_error &err) {

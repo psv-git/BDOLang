@@ -3,6 +3,7 @@
 
 
 #include "ApplicationGlobal.hpp"
+
 class DataRow;
 
 
@@ -28,8 +29,8 @@ private:
   bool m_isError = false;
   bool m_isComplete = false;
 
-  qint64 m_counter = 0;
-  qint64 m_maxCount = 0;
+  qint64 m_stepCounter = 0;
+  qint64 m_stepCount = 0;
   qint64 m_percentValue = 0;
   int m_currentProgress = 0;
 
