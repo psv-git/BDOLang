@@ -14,7 +14,7 @@
    <enum>Qt::NoContextMenu</enum>
   </property>
   <property name="windowTitle">
-   <string notr="true">BDOLang v.0.2a</string>
+   <string notr="true">BDOLang v.1.0</string>
   </property>
   <property name="windowIcon">
    <iconset resource="../../res/Res.qrc">
