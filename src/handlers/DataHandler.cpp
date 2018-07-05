@@ -41,6 +41,8 @@ bool DataHandler::process(const QString &fromFilePath, const QString &toFilePath
     OpenFile(fromFile, QIODevice::ReadOnly);
     OpenFile(toFile, QIODevice::ReadWrite);
 
+    if (fromFile.atEnd()) throw std::runtime_error("input file is empty");
+
     if (mode == MODE::BIN_TO_TEXT) {
       QDataStream from(&fromFile);
       QTextStream to(&toFile);
@@ -327,4 +329,5 @@ void DataHandler::deleteData(QVector<DataRow*>& dataRowsContainer) {
   for (int i = 0; i < dataRowsContainer.size(); i++) {
     delete dataRowsContainer[i];
   }
+  dataRowsContainer.clear();
 }

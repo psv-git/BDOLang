@@ -3,26 +3,26 @@
 #include "WindowsHandler.hpp"
 
 
-MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
-  settingsHandler = &SettingsHandler::getInstance();
+MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), m_ui(new Ui::MainWindow) {
+  m_settingsHandler = &SettingsHandler::getInstance();
   initUi();
 }
 
 
 MainWindow::~MainWindow() {
-  delete ui;
+  delete m_ui;
 }
 
 // public slots ===============================================================
 
 void MainWindow::unlockWindow() {
-  ui->glass->hide();
+  m_ui->glass->hide();
 }
 
 // private slots ==============================================================
 
 void MainWindow::lockWindow() {
-  ui->glass->show();
+  m_ui->glass->show();
 }
 
 void MainWindow::buttonClick() {
@@ -39,21 +39,21 @@ void MainWindow::buttonClick() {
 // private methods ============================================================
 
 void MainWindow::initUi() {
-  ui->setupUi(this);
+  m_ui->setupUi(this);
 
-  ui->bttButton->setFont(settingsHandler->getFont("Liberation Sans", "Bold", 12));
-  ui->ttbButton->setFont(settingsHandler->getFont("Liberation Sans", "Bold", 12));
-  ui->mbButton->setFont(settingsHandler->getFont("Liberation Sans", "Bold", 12));
-  ui->mtButton->setFont(settingsHandler->getFont("Liberation Sans", "Bold", 12));
-  ui->settingsButton->setFont(settingsHandler->getFont("Liberation Sans", "Bold", 12));
-  ui->exitButton->setFont(settingsHandler->getFont("Liberation Sans", "Bold", 12));
+  m_ui->bttButton->setFont(m_settingsHandler->getFont("Liberation Sans", "Bold", 12));
+  m_ui->ttbButton->setFont(m_settingsHandler->getFont("Liberation Sans", "Bold", 12));
+  m_ui->mbButton->setFont(m_settingsHandler->getFont("Liberation Sans", "Bold", 12));
+  m_ui->mtButton->setFont(m_settingsHandler->getFont("Liberation Sans", "Bold", 12));
+  m_ui->settingsButton->setFont(m_settingsHandler->getFont("Liberation Sans", "Bold", 12));
+  m_ui->exitButton->setFont(m_settingsHandler->getFont("Liberation Sans", "Bold", 12));
 
-  connect(ui->bttButton, SIGNAL(released()), this, SLOT(buttonClick()));
-  connect(ui->ttbButton, SIGNAL(released()), this, SLOT(buttonClick()));
-  connect(ui->mbButton, SIGNAL(released()), this, SLOT(buttonClick()));
-  connect(ui->mtButton, SIGNAL(released()), this, SLOT(buttonClick()));
-  connect(ui->settingsButton, SIGNAL(released()), this, SLOT(buttonClick()));
-  connect(ui->exitButton, SIGNAL(released()), this, SLOT(buttonClick()));
+  connect(m_ui->bttButton, SIGNAL(released()), this, SLOT(buttonClick()));
+  connect(m_ui->ttbButton, SIGNAL(released()), this, SLOT(buttonClick()));
+  connect(m_ui->mbButton, SIGNAL(released()), this, SLOT(buttonClick()));
+  connect(m_ui->mtButton, SIGNAL(released()), this, SLOT(buttonClick()));
+  connect(m_ui->settingsButton, SIGNAL(released()), this, SLOT(buttonClick()));
+  connect(m_ui->exitButton, SIGNAL(released()), this, SLOT(buttonClick()));
 
   connect(this, SIGNAL(buttonClicked(MODE)), this, SLOT(lockWindow()));
 

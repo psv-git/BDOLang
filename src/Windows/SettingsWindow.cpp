@@ -4,18 +4,18 @@
 #include "LanguageWidget.hpp"
 
 
-SettingsWindow::SettingsWindow(QWidget *parent) : QWidget(parent), ui(new Ui::SettingsWindow) {
-  settingsHandler = &SettingsHandler::getInstance();
-  languageHandler = &LanguageHandler::getInstance();
-  languageHandler->setHandledObject(this);
+SettingsWindow::SettingsWindow(QWidget *parent) : QWidget(parent), m_ui(new Ui::SettingsWindow) {
+  m_settingsHandler = &SettingsHandler::getInstance();
+  m_languageHandler = &LanguageHandler::getInstance();
+  m_languageHandler->setHandledObject(this);
   initUi();
 }
 
 
 SettingsWindow::~SettingsWindow() {
-  delete ui;
-  for (int i = 0; i < languageWidgetsList.size(); i++) {
-    if (!languageWidgetsList.at(i)) delete languageWidgetsList[i];
+  delete m_ui;
+  for (int i = 0; i < m_languageWidgetsList.size(); i++) {
+    if (!m_languageWidgetsList.at(i)) delete m_languageWidgetsList[i];
   }
 }
 
@@ -29,16 +29,16 @@ void SettingsWindow::closeEvent(QCloseEvent *event) {
 // public slots ===============================================================
 
 void SettingsWindow::show() {
-  ui->compressingBox->setValue(settingsHandler->getSetting("", "compressing_level", 1).toInt());
-  ui->dataPathEdit->setText(settingsHandler->getSetting("", "data_path", DEFAULT_SETTINGS.dataDirectoryName).toString());
+  m_ui->compressingBox->setValue(m_settingsHandler->getSetting("", "compressing_level", 1).toInt());
+  m_ui->dataPathEdit->setText(m_settingsHandler->getSetting("", "data_path", DEFAULT_SETTINGS.dataDirectoryName).toString());
   QWidget::show();
 }
 
 // public methods =============================================================
 
 void SettingsWindow::updateLanguage() {
-  for (int i = 0; i < languageWidgetsList.size(); i++) {
-    languageWidgetsList[i]->updateLanguage();
+  for (int i = 0; i < m_languageWidgetsList.size(); i++) {
+    m_languageWidgetsList[i]->updateLanguage();
   }
 }
 
@@ -49,20 +49,20 @@ void SettingsWindow::buttonClick() {
   QString objName = obj->objectName();
   if (objName == "addButton") addLanguageWidget(true, LANG::EMPTY, "", "");
   else if (objName == "deleteButton") deleteLanguageWidgets();
-  else if (objName == "dataPathButton") ui->dataPathEdit->setText(GetDirectoryPath(tr("Choose directory")));
+  else if (objName == "dataPathButton") m_ui->dataPathEdit->setText(GetDirectoryPath(tr("Choose directory")));
   else if (objName == "cancelButton") emit buttonClicked(MODE::CLOSE);
   else if (objName == "saveButton") {
     // save compressing level
-    settingsHandler->setSetting("", "compressing_level", ui->compressingBox->getValue());
+    m_settingsHandler->setSetting("", "compressing_level", m_ui->compressingBox->getValue());
     // save data path
-    QString tmp = ui->dataPathEdit->text();
+    QString tmp = m_ui->dataPathEdit->text();
     if (tmp.isEmpty()) tmp = DEFAULT_SETTINGS.dataDirectoryName;
-    settingsHandler->setSetting("", "data_path", tmp);
+    m_settingsHandler->setSetting("", "data_path", tmp);
     // save language widgets
-    for (int i = 0; i < languageWidgetsList.size(); i++) {
-      languageWidgetsList[i]->save();
+    for (int i = 0; i < m_languageWidgetsList.size(); i++) {
+      m_languageWidgetsList[i]->save();
     }
-    settingsHandler->saveSettings();
+    m_settingsHandler->saveSettings();
     emit buttonClicked(MODE::CLOSE);
   }
 }
@@ -70,40 +70,40 @@ void SettingsWindow::buttonClick() {
 // private methods ============================================================
 
 void SettingsWindow::initUi() {
-  ui->setupUi(this);
+  m_ui->setupUi(this);
 
-  ui->addButton->setFont(settingsHandler->getFont("Liberation Sans", "Bold", 12));
-  ui->deleteButton->setFont(settingsHandler->getFont("Liberation Sans", "Bold", 12));
+  m_ui->addButton->setFont(m_settingsHandler->getFont("Liberation Sans", "Bold", 12));
+  m_ui->deleteButton->setFont(m_settingsHandler->getFont("Liberation Sans", "Bold", 12));
 
-  ui->dataPathLabel->setFont(settingsHandler->getFont("Liberation Sans", "Bold", 11));
-  ui->dataPathEdit->setFont(settingsHandler->getFont("Liberation Mono", "Regular", 10));
-  ui->dataPathButton->setFont(settingsHandler->getFont("Liberation Sans", "Bold", 12));
+  m_ui->dataPathLabel->setFont(m_settingsHandler->getFont("Liberation Sans", "Bold", 11));
+  m_ui->dataPathEdit->setFont(m_settingsHandler->getFont("Liberation Mono", "Regular", 10));
+  m_ui->dataPathButton->setFont(m_settingsHandler->getFont("Liberation Sans", "Bold", 12));
 
-  ui->compressingLabel->setFont(settingsHandler->getFont("Liberation Sans", "Bold", 11));
-  ui->compressingBox->setFont(settingsHandler->getFont("Liberation Sans", "Bold", 12));
+  m_ui->compressingLabel->setFont(m_settingsHandler->getFont("Liberation Sans", "Bold", 11));
+  m_ui->compressingBox->setFont(m_settingsHandler->getFont("Liberation Sans", "Bold", 12));
 
-  ui->aboutEdit->setFont(settingsHandler->getFont("Liberation Sans", "Bold", 11));
+  m_ui->aboutEdit->setFont(m_settingsHandler->getFont("Liberation Sans", "Bold", 11));
 
-  ui->saveButton->setFont(settingsHandler->getFont("Liberation Sans", "Bold", 12));
-  ui->cancelButton->setFont(settingsHandler->getFont("Liberation Sans", "Bold", 12));
+  m_ui->saveButton->setFont(m_settingsHandler->getFont("Liberation Sans", "Bold", 12));
+  m_ui->cancelButton->setFont(m_settingsHandler->getFont("Liberation Sans", "Bold", 12));
 
-  connect(ui->saveButton, SIGNAL(released()), this, SLOT(buttonClick()));
-  connect(ui->cancelButton, SIGNAL(released()), this, SLOT(buttonClick()));
-  connect(ui->addButton, SIGNAL(released()), this, SLOT(buttonClick()));
-  connect(ui->deleteButton, SIGNAL(released()), this, SLOT(buttonClick()));
-  connect(ui->dataPathButton, SIGNAL(released()), this, SLOT(buttonClick()));
+  connect(m_ui->saveButton, SIGNAL(released()), this, SLOT(buttonClick()));
+  connect(m_ui->cancelButton, SIGNAL(released()), this, SLOT(buttonClick()));
+  connect(m_ui->addButton, SIGNAL(released()), this, SLOT(buttonClick()));
+  connect(m_ui->deleteButton, SIGNAL(released()), this, SLOT(buttonClick()));
+  connect(m_ui->dataPathButton, SIGNAL(released()), this, SLOT(buttonClick()));
 
   addLanguageWidgets();
 }
 
 
 void SettingsWindow::addLanguageWidgets() {
-  QStringList groups = settingsHandler->getGroups();
+  QStringList groups = m_settingsHandler->getGroups();
   for (int i = 0; i < groups.size(); i++) {
-    LANG language = languageHandler->toLang(groups[i]);
+    LANG language = m_languageHandler->toLang(groups[i]);
     if (language != LANG::NONE) {
-      QString locFileName = settingsHandler->getSetting(groups[i], "loc_file_name", "").toString();
-      QString textFileName = settingsHandler->getSetting(groups[i], "text_file_name", "").toString();
+      QString locFileName = m_settingsHandler->getSetting(groups[i], "loc_file_name", "").toString();
+      QString textFileName = m_settingsHandler->getSetting(groups[i], "text_file_name", "").toString();
       addLanguageWidget(true, language, locFileName, textFileName);
     }
   }
@@ -112,22 +112,22 @@ void SettingsWindow::addLanguageWidgets() {
 
 void SettingsWindow::addLanguageWidget(bool deletable, LANG language, const QString &locFileName, const QString &textFileName) {
   LanguageWidget *lw = new LanguageWidget();
-  languageWidgetsList.push_back(lw);
+  m_languageWidgetsList.push_back(lw);
   lw->setDeletable(deletable);
   lw->setLanguage(language);
   lw->setLocFileName(locFileName);
   lw->setTextFileName(textFileName);
   Delay(0); // used for smooth render added widget; i have no idea how it work
-  ui->scrollAreaContents->layout()->addWidget(lw);
+  m_ui->scrollAreaContents->layout()->addWidget(lw);
 }
 
 
 void SettingsWindow::deleteLanguageWidgets() {
-  for (auto it = languageWidgetsList.begin(); it != languageWidgetsList.end();) {
+  for (auto it = m_languageWidgetsList.begin(); it != m_languageWidgetsList.end();) {
     if ((*it)->needToDelete()) {
-      ui->scrollAreaContents->layout()->removeWidget(*it);
+      m_ui->scrollAreaContents->layout()->removeWidget(*it);
       delete *it;
-      it = languageWidgetsList.erase(it);
+      it = m_languageWidgetsList.erase(it);
     } else it++;
   }
 }

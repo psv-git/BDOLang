@@ -2,72 +2,72 @@
 #include "ui_LanguageWidget.h"
 
 
-LanguageWidget::LanguageWidget(QWidget *parent) : QWidget(parent), ui(new Ui::LanguageWidget) {
-  settingsHandler = &SettingsHandler::getInstance();
-  languageHandler = &LanguageHandler::getInstance();
+LanguageWidget::LanguageWidget(QWidget *parent) : QWidget(parent), m_ui(new Ui::LanguageWidget) {
+  m_settingsHandler = &SettingsHandler::getInstance();
+  m_languageHandler = &LanguageHandler::getInstance();
   initUi();
 }
 
 
 LanguageWidget::~LanguageWidget() {
   if (needToDelete()) {
-    languageHandler->unblockLanguage(currentLanguage);
-    settingsHandler->removeSetting(languageHandler->toString(currentLanguage));
+    m_languageHandler->unblockLanguage(m_currentLanguage);
+    m_settingsHandler->removeSetting(m_languageHandler->toString(m_currentLanguage));
   }
-  delete ui;
+  delete m_ui;
 }
 
 // public methods =============================================================
 
 bool LanguageWidget::needToDelete() {
-  return ui->deletableCheckBox->isChecked();
+  return m_ui->deletableCheckBox->isChecked();
 }
 
 
 void LanguageWidget::setDeletable(bool value) {
-  ui->deletableCheckBox->setEnabled(value);
-  ui->languageComboBox->setEnabled(value);
+  m_ui->deletableCheckBox->setEnabled(value);
+  m_ui->languageComboBox->setEnabled(value);
 }
 
 
 void LanguageWidget::setLanguage(LANG language) {
-  if (!languageHandler->isLanguageBlocked(language)) {
-    currentLanguage = language;
-    int index = ui->languageComboBox->findData(language);
-    ui->languageComboBox->setCurrentIndex(index);
-    languageHandler->blockLanguage(language);
+  if (!m_languageHandler->isLanguageBlocked(language)) {
+    m_currentLanguage = language;
+    int index = m_ui->languageComboBox->findData(language);
+    m_ui->languageComboBox->setCurrentIndex(index);
+    m_languageHandler->blockLanguage(language);
   }
 }
 
 
 void LanguageWidget::setLocFileName(const QString &fileName) {
-  ui->locFileNameEdit->setText(fileName);
+  m_ui->locFileNameEdit->setText(fileName);
 }
 
 
 void LanguageWidget::setTextFileName(const QString &fileName) {
-  ui->textFileNameEdit->setText(fileName);
+  m_ui->textFileNameEdit->setText(fileName);
 }
 
 
 void LanguageWidget::save() {
-  if (currentLanguage != LANG::EMPTY) {
-    if (!ui->locFileNameEdit->text().isEmpty() && !ui->textFileNameEdit->text().isEmpty()) {
-      settingsHandler->setSetting(languageHandler->toString(currentLanguage), "loc_file_name", ui->locFileNameEdit->text());
-      settingsHandler->setSetting(languageHandler->toString(currentLanguage), "text_file_name", ui->textFileNameEdit->text());
+  if (m_currentLanguage != LANG::EMPTY) {
+    if (!m_ui->locFileNameEdit->text().isEmpty() && !m_ui->textFileNameEdit->text().isEmpty()) {
+      m_settingsHandler->setSetting(m_languageHandler->toString(m_currentLanguage), "loc_file_name", m_ui->locFileNameEdit->text());
+      m_settingsHandler->setSetting(m_languageHandler->toString(m_currentLanguage), "text_file_name", m_ui->textFileNameEdit->text());
     }
   }
 }
 
 
 void LanguageWidget::updateLanguage() {
-  LANG language = languageHandler->getLastChangedLanguage();
-  if (language != currentLanguage) {
-    if (languageHandler->isWasBlocking()) {
-      int index = ui->languageComboBox->findData(language);
-      ui->languageComboBox->removeItem(index);
+  LANG language = m_languageHandler->getLastChangedLanguage();
+  if (language != m_currentLanguage) {
+    if (m_languageHandler->isWasBlocking()) {
+      int index = m_ui->languageComboBox->findData(language);
+      m_ui->languageComboBox->removeItem(index);
     } else {
-      ui->languageComboBox->addItem(languageHandler->toString(language), language);
+      m_ui->languageComboBox->addItem(m_languageHandler->toString(language), language);
     }
   }
 }
@@ -75,41 +75,41 @@ void LanguageWidget::updateLanguage() {
 // private slots ==============================================================
 
 void LanguageWidget::update() {
-  languageHandler->unblockLanguage(currentLanguage);
-  currentLanguage = qvariant_cast<LANG>(ui->languageComboBox->currentData());
-  languageHandler->blockLanguage(currentLanguage);
+  m_languageHandler->unblockLanguage(m_currentLanguage);
+  m_currentLanguage = qvariant_cast<LANG>(m_ui->languageComboBox->currentData());
+  m_languageHandler->blockLanguage(m_currentLanguage);
 }
 
 
 void LanguageWidget::buttonClick() {
   QObject *obj = QObject::sender();
   QString objName = obj->objectName();
-  if (objName == "locFileNameButton") ui->locFileNameEdit->setText(GetFileName(tr("Choose file"), tr("Files extensions (*)")));
-  else ui->textFileNameEdit->setText(GetFileName(tr("Choose file"), tr("Files extensions (*)")));
+  if (objName == "locFileNameButton") m_ui->locFileNameEdit->setText(GetFileName(tr("Choose file"), tr("Files extensions (*)")));
+  else m_ui->textFileNameEdit->setText(GetFileName(tr("Choose file"), tr("Files extensions (*)")));
 }
 
 // private methods ============================================================
 
 void LanguageWidget::initUi() {
-  ui->setupUi(this);
+  m_ui->setupUi(this);
 
-  ui->languageLabel->setFont(settingsHandler->getFont("Liberation Sans", "Bold", 11));
-  ui->languageComboBox->setFont(settingsHandler->getFont("Liberation Sans", "Bold", 12));
+  m_ui->languageLabel->setFont(m_settingsHandler->getFont("Liberation Sans", "Bold", 11));
+  m_ui->languageComboBox->setFont(m_settingsHandler->getFont("Liberation Sans", "Bold", 12));
 
-  ui->locFileNameLabel->setFont(settingsHandler->getFont("Liberation Sans", "Bold", 11));
-  ui->locFileNameEdit->setFont(settingsHandler->getFont("Liberation Mono", "Regular", 10));
-  ui->locFileNameButton->setFont(settingsHandler->getFont("Liberation Sans", "Bold", 12));
+  m_ui->locFileNameLabel->setFont(m_settingsHandler->getFont("Liberation Sans", "Bold", 11));
+  m_ui->locFileNameEdit->setFont(m_settingsHandler->getFont("Liberation Mono", "Regular", 10));
+  m_ui->locFileNameButton->setFont(m_settingsHandler->getFont("Liberation Sans", "Bold", 12));
 
-  ui->textFileNameLabel->setFont(settingsHandler->getFont("Liberation Sans", "Bold", 11));
-  ui->textFileNameEdit->setFont(settingsHandler->getFont("Liberation Mono", "Regular", 10));
-  ui->textFileNameButton->setFont(settingsHandler->getFont("Liberation Sans", "Bold", 12));
+  m_ui->textFileNameLabel->setFont(m_settingsHandler->getFont("Liberation Sans", "Bold", 11));
+  m_ui->textFileNameEdit->setFont(m_settingsHandler->getFont("Liberation Mono", "Regular", 10));
+  m_ui->textFileNameButton->setFont(m_settingsHandler->getFont("Liberation Sans", "Bold", 12));
 
-  connect(ui->languageComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(update()));
-  connect(ui->locFileNameButton, SIGNAL(released()), this, SLOT(buttonClick()));
-  connect(ui->textFileNameButton, SIGNAL(released()), this, SLOT(buttonClick()));
+  connect(m_ui->languageComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(update()));
+  connect(m_ui->locFileNameButton, SIGNAL(released()), this, SLOT(buttonClick()));
+  connect(m_ui->textFileNameButton, SIGNAL(released()), this, SLOT(buttonClick()));
 
   // add possible languages into combo box
-  for (LANG language : languageHandler->getAllLanguages().keys()) {
-    if (!languageHandler->isLanguageBlocked(language)) ui->languageComboBox->addItem(languageHandler->getAllLanguages().value(language), language);
+  for (LANG language : m_languageHandler->getAllLanguages().keys()) {
+    if (!m_languageHandler->isLanguageBlocked(language)) m_ui->languageComboBox->addItem(m_languageHandler->getAllLanguages().value(language), language);
   }
 }

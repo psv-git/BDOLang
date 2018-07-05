@@ -5,23 +5,23 @@
 
 
 LanguageHandler::LanguageHandler() {
-  languagesMap.insert(LANG::EMPTY, "");
-  languagesMap.insert(LANG::EN, "EN");
-  languagesMap.insert(LANG::AR, "AR");
-  languagesMap.insert(LANG::BE, "BE");
-  languagesMap.insert(LANG::EL, "EL");
-  languagesMap.insert(LANG::DA, "DA");
-  languagesMap.insert(LANG::IW, "IW");
-  languagesMap.insert(LANG::ES, "ES");
-  languagesMap.insert(LANG::IT, "IT");
-  languagesMap.insert(LANG::ZH, "ZH");
-  languagesMap.insert(LANG::KO, "KO");
-  languagesMap.insert(LANG::DE, "DE");
-  languagesMap.insert(LANG::RU, "RU");
-  languagesMap.insert(LANG::TR, "TR");
-  languagesMap.insert(LANG::UK, "UK");
-  languagesMap.insert(LANG::FR, "FR");
-  languagesMap.insert(LANG::JA, "JA");
+  m_languagesMap.insert(LANG::EMPTY, "");
+  m_languagesMap.insert(LANG::EN, "EN");
+  m_languagesMap.insert(LANG::AR, "AR");
+  m_languagesMap.insert(LANG::BE, "BE");
+  m_languagesMap.insert(LANG::EL, "EL");
+  m_languagesMap.insert(LANG::DA, "DA");
+  m_languagesMap.insert(LANG::IW, "IW");
+  m_languagesMap.insert(LANG::ES, "ES");
+  m_languagesMap.insert(LANG::IT, "IT");
+  m_languagesMap.insert(LANG::ZH, "ZH");
+  m_languagesMap.insert(LANG::KO, "KO");
+  m_languagesMap.insert(LANG::DE, "DE");
+  m_languagesMap.insert(LANG::RU, "RU");
+  m_languagesMap.insert(LANG::TR, "TR");
+  m_languagesMap.insert(LANG::UK, "UK");
+  m_languagesMap.insert(LANG::FR, "FR");
+  m_languagesMap.insert(LANG::JA, "JA");
 }
 
 
@@ -30,20 +30,20 @@ LanguageHandler::~LanguageHandler() {}
 // public methods =============================================================
 
 void LanguageHandler::setHandledObject(ILanguageHandled *handledObject) {
-  handledObjectsList.push_back(handledObject);
+  m_handledObjectsList.push_back(handledObject);
 }
 
 
 const QMap<LANG, QString>& LanguageHandler::getAllLanguages() const {
-  return languagesMap;
+  return m_languagesMap;
 }
 
 
 const QStringList LanguageHandler::getAllowedLanguages() const {
   QStringList allowedLanguagesMap;
-  for (auto language : languagesMap.keys()) {
+  for (auto language : m_languagesMap.keys()) {
     if (isLanguageBlocked(language)) {
-      allowedLanguagesMap.push_back(languagesMap.value(language, ""));
+      allowedLanguagesMap.push_back(m_languagesMap.value(language, ""));
     }
   }
   return allowedLanguagesMap;
@@ -51,38 +51,38 @@ const QStringList LanguageHandler::getAllowedLanguages() const {
 
 
 bool LanguageHandler::isWasBlocking() const {
-  return wasBlocking;
+  return m_wasBlocking;
 }
 
 
 LANG LanguageHandler::getLastChangedLanguage() const {
-  return lastChangedLanguage;
+  return m_lastChangedLanguage;
 }
 
 
 LANG LanguageHandler::toLang(const QString &language) const {
-  return languagesMap.key(language, LANG::NONE);
+  return m_languagesMap.key(language, LANG::NONE);
 }
 
 
 const QString LanguageHandler::toString(LANG language) const {
-  return languagesMap.value(language, "");
+  return m_languagesMap.value(language, "");
 }
 
 
 bool LanguageHandler::isLanguageBlocked(LANG language) const {
-  return blockedLanguagesList.contains(language);
+  return m_blockedLanguagesList.contains(language);
 }
 
 
 void LanguageHandler::blockLanguage(LANG language) {
   if (language != LANG::EMPTY) {
-    if (!blockedLanguagesList.contains(language)) {
-      wasBlocking = true;
-      lastChangedLanguage = language;
-      blockedLanguagesList.push_back(language);
-      for (int i = 0; i < handledObjectsList.size(); i++) {
-        handledObjectsList[i]->updateLanguage();
+    if (!m_blockedLanguagesList.contains(language)) {
+      m_wasBlocking = true;
+      m_lastChangedLanguage = language;
+      m_blockedLanguagesList.push_back(language);
+      for (int i = 0; i < m_handledObjectsList.size(); i++) {
+        m_handledObjectsList[i]->updateLanguage();
       }
     }
   }
@@ -91,11 +91,11 @@ void LanguageHandler::blockLanguage(LANG language) {
 
 void LanguageHandler::unblockLanguage(LANG language) {
   if (language != LANG::EMPTY) {
-    wasBlocking = false;
-    lastChangedLanguage = language;
-    blockedLanguagesList.removeOne(language);
-    for (int i = 0; i < handledObjectsList.size(); i++) {
-      handledObjectsList[i]->updateLanguage();
+    m_wasBlocking = false;
+    m_lastChangedLanguage = language;
+    m_blockedLanguagesList.removeOne(language);
+    for (int i = 0; i < m_handledObjectsList.size(); i++) {
+      m_handledObjectsList[i]->updateLanguage();
     }
   }
 }

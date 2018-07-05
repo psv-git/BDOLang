@@ -19,8 +19,8 @@ class SettingsHandler {
 
 public:
   static SettingsHandler& getInstance() {
-    static SettingsHandler instance;
-    return instance;
+    static SettingsHandler m_instance;
+    return m_instance;
   }
 
   SettingsHandler(SettingsHandler const&) = delete;
@@ -41,8 +41,8 @@ private:
   SettingsHandler();
   ~SettingsHandler();
 
-  QSettings *settings = nullptr;
-  QFontDatabase *fontsList = nullptr;
+  QSettings *m_settings = nullptr;
+  QFontDatabase *m_fontsList = nullptr;
 
 };
 

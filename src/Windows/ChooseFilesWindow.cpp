@@ -2,15 +2,15 @@
 #include "ui_ChooseFilesWindow.h"
 
 
-ChooseFilesWindow::ChooseFilesWindow(QWidget *parent) : QWidget(parent), ui(new Ui::ChooseFilesWindow) {
-  settingsHandler = &SettingsHandler::getInstance();
-  languageHandler = &LanguageHandler::getInstance();
+ChooseFilesWindow::ChooseFilesWindow(QWidget *parent) : QWidget(parent), m_ui(new Ui::ChooseFilesWindow) {
+  m_settingsHandler = &SettingsHandler::getInstance();
+  m_languageHandler = &LanguageHandler::getInstance();
   initUi();
 }
 
 
 ChooseFilesWindow::~ChooseFilesWindow() {
-  delete ui;
+  delete m_ui;
 }
 
 // events =====================================================================
@@ -23,7 +23,7 @@ void ChooseFilesWindow::closeEvent(QCloseEvent *event) {
 // public slots ===============================================================
 
 void ChooseFilesWindow::show(MODE mode) {
-  ChooseFilesWindow::mode = mode;
+  m_mode = mode;
   addAllowedLanguages();
   update();
   QWidget::show();
@@ -32,34 +32,34 @@ void ChooseFilesWindow::show(MODE mode) {
 // private slots ==============================================================
 
 void ChooseFilesWindow::update() {
-  QString dataPath = settingsHandler->getSetting("", "data_path", DEFAULT_SETTINGS.dataDirectoryName).toString();
+  QString dataPath = m_settingsHandler->getSetting("", "data_path", DEFAULT_SETTINGS.dataDirectoryName).toString();
   if (dataPath.back() != '/') dataPath += '/';
   QString sourcePath, targetPath;
 
-  if (mode == MODE::BIN_TO_TEXT) {
-    ui->sourcePathLabel->setText("Choose path to .loc file:");
-    ui->targetPathLabel->setText("Choose path to text file:");
-    sourcePath = settingsHandler->getSetting(ui->sourceLanguageComboBox->currentText(), "loc_file_name", "").toString();
-    targetPath = settingsHandler->getSetting(ui->targetLanguageComboBox->currentText(), "text_file_name", "").toString();
-  } else if (mode == MODE::TEXT_TO_BIN) {
-    ui->sourcePathLabel->setText("Choose path to text file:");
-    ui->targetPathLabel->setText("Choose path to .loc file:");
-    sourcePath = settingsHandler->getSetting(ui->sourceLanguageComboBox->currentText(), "text_file_name", "").toString();
-    targetPath = settingsHandler->getSetting(ui->targetLanguageComboBox->currentText(), "loc_file_name", "").toString();
-  } else if (mode == MODE::MERGE_BIN) {
-    ui->sourcePathLabel->setText("Choose path to translated .loc file:");
-    ui->targetPathLabel->setText("Choose path to original .loc file (WILL BE REWRITE):");
-    sourcePath = settingsHandler->getSetting(ui->sourceLanguageComboBox->currentText(), "loc_file_name", "").toString();
-    targetPath = settingsHandler->getSetting(ui->targetLanguageComboBox->currentText(), "loc_file_name", "").toString();
-  } else if (mode == MODE::MERGE_TEXT) {
-    ui->sourcePathLabel->setText("Choose path to translated text file:");
-    ui->targetPathLabel->setText("Choose path to original text file (WILL BE REWRITE):");
-    sourcePath = settingsHandler->getSetting(ui->sourceLanguageComboBox->currentText(), "text_file_name", "").toString();
-    targetPath = settingsHandler->getSetting(ui->targetLanguageComboBox->currentText(), "text_file_name", "").toString();
+  if (m_mode == MODE::BIN_TO_TEXT) {
+    m_ui->sourcePathLabel->setText("Choose path to .loc file:");
+    m_ui->targetPathLabel->setText("Choose path to text file:");
+    sourcePath = m_settingsHandler->getSetting(m_ui->sourceLanguageComboBox->currentText(), "loc_file_name", "").toString();
+    targetPath = m_settingsHandler->getSetting(m_ui->targetLanguageComboBox->currentText(), "text_file_name", "").toString();
+  } else if (m_mode == MODE::TEXT_TO_BIN) {
+    m_ui->sourcePathLabel->setText("Choose path to text file:");
+    m_ui->targetPathLabel->setText("Choose path to .loc file:");
+    sourcePath = m_settingsHandler->getSetting(m_ui->sourceLanguageComboBox->currentText(), "text_file_name", "").toString();
+    targetPath = m_settingsHandler->getSetting(m_ui->targetLanguageComboBox->currentText(), "loc_file_name", "").toString();
+  } else if (m_mode == MODE::MERGE_BIN) {
+    m_ui->sourcePathLabel->setText("Choose path to translated .loc file:");
+    m_ui->targetPathLabel->setText("Choose path to original .loc file (WILL BE REWRITE):");
+    sourcePath = m_settingsHandler->getSetting(m_ui->sourceLanguageComboBox->currentText(), "loc_file_name", "").toString();
+    targetPath = m_settingsHandler->getSetting(m_ui->targetLanguageComboBox->currentText(), "loc_file_name", "").toString();
+  } else if (m_mode == MODE::MERGE_TEXT) {
+    m_ui->sourcePathLabel->setText("Choose path to translated text file:");
+    m_ui->targetPathLabel->setText("Choose path to original text file (WILL BE REWRITE):");
+    sourcePath = m_settingsHandler->getSetting(m_ui->sourceLanguageComboBox->currentText(), "text_file_name", "").toString();
+    targetPath = m_settingsHandler->getSetting(m_ui->targetLanguageComboBox->currentText(), "text_file_name", "").toString();
   }
 
-  ui->sourcePathEdit->setText(dataPath + sourcePath);
-  ui->targetPathEdit->setText(dataPath + targetPath);
+  m_ui->sourcePathEdit->setText(dataPath + sourcePath);
+  m_ui->targetPathEdit->setText(dataPath + targetPath);
 }
 
 
@@ -68,12 +68,12 @@ void ChooseFilesWindow::buttonClick () {
   QString objName = obj->objectName();
   if (objName == "cancelButton") emit buttonClicked(MODE::CLOSE);
   else if (objName == "sourcePathButton") {
-    ui->sourcePathEdit->setText(GetFilePath(tr("Open file"), tr("Files extensions (*)")));
+    m_ui->sourcePathEdit->setText(GetFilePath(tr("Open file"), tr("Files extensions (*)")));
   } else if (objName == "targetPathButton") {
-    ui->targetPathEdit->setText(GetFilePath(tr("Open file"), tr("Files extensions (*)")));
+    m_ui->targetPathEdit->setText(GetFilePath(tr("Open file"), tr("Files extensions (*)")));
   } else if (objName == "okButton") {
-    QString srcFilePath(ui->sourcePathEdit->text());
-    QString targFilePath(ui->targetPathEdit->text());
+    QString srcFilePath(m_ui->sourcePathEdit->text());
+    QString targFilePath(m_ui->targetPathEdit->text());
     emit buttonClicked(srcFilePath, targFilePath);
   }
 }
@@ -81,36 +81,36 @@ void ChooseFilesWindow::buttonClick () {
 // private methods ============================================================
 
 void ChooseFilesWindow::initUi() {
-  ui->setupUi(this);
+  m_ui->setupUi(this);
 
-  ui->sourcePathLabel->setFont(settingsHandler->getFont("Liberation Sans", "Bold", 11));
-  ui->sourcePathEdit->setFont(settingsHandler->getFont("Liberation Mono", "Regular", 10));
-  ui->sourcePathButton->setFont(settingsHandler->getFont("Liberation Sans", "Bold", 12));
-  ui->sourceLanguageComboBox->setFont(settingsHandler->getFont("Liberation Sans", "Bold", 12));
+  m_ui->sourcePathLabel->setFont(m_settingsHandler->getFont("Liberation Sans", "Bold", 11));
+  m_ui->sourcePathEdit->setFont(m_settingsHandler->getFont("Liberation Mono", "Regular", 10));
+  m_ui->sourcePathButton->setFont(m_settingsHandler->getFont("Liberation Sans", "Bold", 12));
+  m_ui->sourceLanguageComboBox->setFont(m_settingsHandler->getFont("Liberation Sans", "Bold", 12));
 
-  ui->targetPathLabel->setFont(settingsHandler->getFont("Liberation Sans", "Bold", 11));
-  ui->targetPathEdit->setFont(settingsHandler->getFont("Liberation Mono", "Regular", 10));
-  ui->targetPathButton->setFont(settingsHandler->getFont("Liberation Sans", "Bold", 12));
-  ui->targetLanguageComboBox->setFont(settingsHandler->getFont("Liberation Sans", "Bold", 12));
+  m_ui->targetPathLabel->setFont(m_settingsHandler->getFont("Liberation Sans", "Bold", 11));
+  m_ui->targetPathEdit->setFont(m_settingsHandler->getFont("Liberation Mono", "Regular", 10));
+  m_ui->targetPathButton->setFont(m_settingsHandler->getFont("Liberation Sans", "Bold", 12));
+  m_ui->targetLanguageComboBox->setFont(m_settingsHandler->getFont("Liberation Sans", "Bold", 12));
 
-  ui->okButton->setFont(settingsHandler->getFont("Liberation Sans", "Bold", 12));
-  ui->cancelButton->setFont(settingsHandler->getFont("Liberation Sans", "Bold", 12));
+  m_ui->okButton->setFont(m_settingsHandler->getFont("Liberation Sans", "Bold", 12));
+  m_ui->cancelButton->setFont(m_settingsHandler->getFont("Liberation Sans", "Bold", 12));
 
-  connect(ui->okButton, SIGNAL(released()), this, SLOT(buttonClick()));
-  connect(ui->cancelButton, SIGNAL(released()), this, SLOT(buttonClick()));
-  connect(ui->sourcePathButton, SIGNAL(released()), this, SLOT(buttonClick()));
-  connect(ui->targetPathButton, SIGNAL(released()), this, SLOT(buttonClick()));
-  connect(ui->sourceLanguageComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(update()));
-  connect(ui->targetLanguageComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(update()));
+  connect(m_ui->okButton, SIGNAL(released()), this, SLOT(buttonClick()));
+  connect(m_ui->cancelButton, SIGNAL(released()), this, SLOT(buttonClick()));
+  connect(m_ui->sourcePathButton, SIGNAL(released()), this, SLOT(buttonClick()));
+  connect(m_ui->targetPathButton, SIGNAL(released()), this, SLOT(buttonClick()));
+  connect(m_ui->sourceLanguageComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(update()));
+  connect(m_ui->targetLanguageComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(update()));
 }
 
 
 void ChooseFilesWindow::addAllowedLanguages() {
-  ui->sourceLanguageComboBox->clear();
-  ui->targetLanguageComboBox->clear();
-  QStringList allowedLanguages = languageHandler->getAllowedLanguages();
+  m_ui->sourceLanguageComboBox->clear();
+  m_ui->targetLanguageComboBox->clear();
+  QStringList allowedLanguages = m_languageHandler->getAllowedLanguages();
   for (int i = 0; i < allowedLanguages.size(); i++) {
-    ui->sourceLanguageComboBox->addItem(allowedLanguages[i]);
-    ui->targetLanguageComboBox->addItem(allowedLanguages[i]);
+    m_ui->sourceLanguageComboBox->addItem(allowedLanguages[i]);
+    m_ui->targetLanguageComboBox->addItem(allowedLanguages[i]);
   }
 }

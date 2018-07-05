@@ -15,8 +15,8 @@ class LanguageHandler {
 
 public:
   static LanguageHandler& getInstance() {
-    static LanguageHandler instance;
-    return instance;
+    static LanguageHandler m_instance;
+    return m_instance;
   }
 
   LanguageHandler(LanguageHandler const&) = delete;
@@ -41,13 +41,11 @@ private:
   LanguageHandler();
   ~LanguageHandler();
 
-  QVector<ILanguageHandled*> handledObjectsList;
-
-  QMap<LANG, QString> languagesMap;
-  QVector<LANG> blockedLanguagesList;
-
-  LANG lastChangedLanguage = LANG::EMPTY;
-  bool wasBlocking = false; // is last change was blocking or unblocking?
+  QVector<ILanguageHandled*> m_handledObjectsList;
+  QMap<LANG, QString> m_languagesMap;
+  QVector<LANG> m_blockedLanguagesList;
+  LANG m_lastChangedLanguage = LANG::EMPTY;
+  bool m_wasBlocking = false; // is last change was blocking or unblocking?
 
 };
 

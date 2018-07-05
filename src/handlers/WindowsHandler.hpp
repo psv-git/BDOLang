@@ -21,11 +21,11 @@ public slots:
   void buttonClick(const QString &srcFilePath, const QString &targFilePath);
 
 private:
-  MODE mode                            = MODE::NONE;
-  MainWindow *mainWindow               = nullptr;
-  ChooseFilesWindow *chooseFilesWindow = nullptr;
-  SettingsWindow *settingsWindow       = nullptr;
-  ProcessingWindow *processingWindow   = nullptr;
+  MODE m_mode = MODE::NONE;
+  MainWindow *m_mainWindow = nullptr;
+  ChooseFilesWindow *m_chooseFilesWindow = nullptr;
+  SettingsWindow *m_settingsWindow = nullptr;
+  ProcessingWindow *m_processingWindow = nullptr;
 
   template <typename WT>
   friend WT* createWindow(WindowsHandler *wh);

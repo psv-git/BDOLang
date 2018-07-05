@@ -35,6 +35,9 @@ private:
 
   void initUi();
 
+  void blockWindow();
+  void unblockWindow();
+
 };
 
 

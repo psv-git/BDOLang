@@ -11,8 +11,8 @@ Q_OBJECT
 
 public:
   static ErrorHandler& getInstance() {
-    static ErrorHandler instance;
-    return instance;
+    static ErrorHandler m_instance;
+    return m_instance;
   }
 
   ErrorHandler(ErrorHandler const&) = delete;
@@ -30,8 +30,8 @@ private:
   ErrorHandler(QWidget *parent = nullptr);
   ~ErrorHandler();
 
-  Ui::ErrorWindow *ui = nullptr;
-  QStringList errorsMessagesList;
+  Ui::ErrorWindow *m_ui = nullptr;
+  QStringList m_errorsMessagesList;
 
 };
 

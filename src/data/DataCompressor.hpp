@@ -1,9 +1,7 @@
 #ifndef DATACOMPRESSOR_HPP
 #define DATACOMPRESSOR_HPP
 
-
 #include "ApplicationGlobal.hpp"
-#include "DataRow.hpp"
 
 
 class DataCompressor : public QObject {

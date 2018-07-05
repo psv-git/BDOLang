@@ -64,7 +64,7 @@ void DataRow::readBinDataFrom(QDataStream& input) {
     ReadDataFromStream(input, wch);
     ReadDataFromStream(input, wch);
   }
-  catch (const std::ios_base::failure &err) { throw; }
+  catch (const std::ios_base::failure &err) { throw err; }
   catch (...) { throw false; }
 }
 
@@ -91,7 +91,7 @@ void DataRow::writeBinDataTo(QDataStream& output) {
     WriteDataToStream(output, wch);
     WriteDataToStream(output, wch);
   }
-  catch (const std::ios_base::failure &err) { throw; }
+  catch (const std::ios_base::failure &err) { throw err; }
   catch (...) { throw false; }
 }
 
@@ -112,7 +112,7 @@ void DataRow::readTextDataFrom(QTextStream& input) {
     QRegularExpression rempat("(^\t\"|\r|\"$)");
     m_string.remove(rempat); // remove tabulation, quotes, CR
   }
-  catch (const std::ios_base::failure &err) { throw; }
+  catch (const std::ios_base::failure &err) { throw err; }
   catch (...) { throw false; }
 }
 
@@ -129,6 +129,6 @@ void DataRow::writeTextDataTo(QTextStream& output) {
 
     if (output.status() == QTextStream::WriteFailed) throw std::ios_base::failure("write data from file was failed.");
   }
-  catch (const std::ios_base::failure &err) { throw; }
+  catch (const std::ios_base::failure &err) { throw err; }
   catch (...) { throw false; }
 }

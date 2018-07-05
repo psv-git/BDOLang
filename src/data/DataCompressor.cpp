@@ -1,4 +1,5 @@
 #include "DataCompressor.hpp"
+#include "DataRow.hpp"
 
 
 DataCompressor::DataCompressor(QDataStream& from, QDataStream& to, PROCESS_MODE mode) {
@@ -22,7 +23,7 @@ DataCompressor::~DataCompressor() {
 
 void DataCompressor::process() {
   if (m_mode == PROCESS_MODE::DECRYPT) uncompressing();
-  if (m_mode == PROCESS_MODE::ENCRYPT) compressing();
+  else if (m_mode == PROCESS_MODE::ENCRYPT) compressing();
 }
 
 // public methods =============================================================
@@ -36,9 +37,9 @@ void DataCompressor::init() {
       if (m_mode == PROCESS_MODE::DECRYPT) {
         ReadDataFromStream(*m_from, m_expectedUncompressedDataSize, 4);
         m_percentValue = static_cast<unsigned long>(m_expectedUncompressedDataSize / 100);
+        if (m_percentValue == 0) m_percentValue = 1;
         if (inflateInit(&m_stream) != Z_OK) throw std::runtime_error("inflate init was failed.");
-      }
-      if (m_mode == PROCESS_MODE::ENCRYPT) {
+      } else if (m_mode == PROCESS_MODE::ENCRYPT) {
         m_uncompressedDataSize = static_cast<unsigned long>(m_from->device()->size());
         m_percentValue = static_cast<unsigned long>(m_uncompressedDataSize / 100);
         WriteDataToStream(*m_to, m_uncompressedDataSize, 4);
@@ -79,45 +80,9 @@ int DataCompressor::getProgress() const {
 
 // private methods ============================================================
 
-void DataCompressor::compressing() {
-  try {
-    if (!m_isInit) throw std::runtime_error("class must be initializing before using.");
-    if (!m_isError && !m_isComplete) {
-      m_stream.avail_in = static_cast<unsigned int>(ReadDataFromStream(*m_from, *m_inBuff, static_cast<int>(m_buffSize)));
-      m_stream.next_in = m_inBuff;
-      int flush = (m_from->device()->atEnd()) ? Z_FINISH : Z_NO_FLUSH;
-      int result = Z_OK;
-      do {
-        m_stream.avail_out = m_buffSize;
-        m_stream.next_out = m_outBuff;
-        int result = deflate(&m_stream, flush);
-        if (result == Z_STREAM_ERROR || result == Z_BUF_ERROR) throw std::runtime_error("deflate was failed.");
-        int have = static_cast<int>(m_buffSize - m_stream.avail_out);
-        if (have > 0) WriteDataToStream(*m_to, *m_outBuff, have);
-      } while (m_stream.avail_out == 0);
-      unsigned long currentSize = static_cast<unsigned long>(m_from->device()->pos());
-      m_currentProgress = static_cast<int>(currentSize / m_percentValue);
-      if (flush == Z_FINISH) {
-        m_isComplete = true;
-        deflateEnd(&m_stream);
-        if (result != Z_STREAM_END) throw std::runtime_error("compressed was failed.");
-      }
-    }
-  }
-  catch (const std::runtime_error &err) {
-    m_isError = true;
-    ErrorHandler::getInstance().addErrorMessage("In function \"DataCompressor::process\" " + QString(err.what()));
-  }
-  catch (...) {
-    m_isError = true;
-    ErrorHandler::getInstance().addErrorMessage("In function \"DataCompressor::process\" something went wrong.");
-  }
-}
-
-
 void DataCompressor::uncompressing() {
   try {
-    if (!m_isInit) throw std::runtime_error("class must be initializing before using.");
+    if (!m_isInit) throw std::runtime_error("class must be initialized before using.");
     if (!m_isError && !m_isComplete) {
       int result = ReadDataFromStream(*m_from, *m_inBuff, m_buffSize);
       m_stream.avail_in = static_cast<unsigned int>(result); // negative value get throw in read function
@@ -135,18 +100,59 @@ void DataCompressor::uncompressing() {
         } while (m_stream.avail_out == 0);
         m_currentProgress = static_cast<int>(m_uncompressedDataSize / m_percentValue);
         if (result == Z_STREAM_END) {
-          m_isComplete = true;
           if (m_uncompressedDataSize != m_expectedUncompressedDataSize) throw std::runtime_error("bad decompressed data length.");
+          m_isComplete = true;
+          inflateEnd(&m_stream);
         }
       }
     }
   }
   catch (const std::runtime_error &err) {
     m_isError = true;
+    inflateEnd(&m_stream);
     ErrorHandler::getInstance().addErrorMessage("In function \"DataCompressor::process\" " + QString(err.what()));
   }
   catch (...) {
     m_isError = true;
+    inflateEnd(&m_stream);
+    ErrorHandler::getInstance().addErrorMessage("In function \"DataCompressor::process\" something went wrong.");
+  }
+}
+
+
+void DataCompressor::compressing() {
+  try {
+    if (!m_isInit) throw std::runtime_error("class must be initialized before using.");
+    if (!m_isError && !m_isComplete) {
+      m_stream.avail_in = static_cast<unsigned int>(ReadDataFromStream(*m_from, *m_inBuff, static_cast<int>(m_buffSize)));
+      m_stream.next_in = m_inBuff;
+      int flush = (m_from->device()->atEnd()) ? Z_FINISH : Z_NO_FLUSH;
+      int result = Z_OK;
+      do {
+        m_stream.avail_out = m_buffSize;
+        m_stream.next_out = m_outBuff;
+        result = deflate(&m_stream, flush);
+        if (result == Z_STREAM_ERROR || result == Z_BUF_ERROR) throw std::runtime_error("deflate was failed.");
+        int have = static_cast<int>(m_buffSize - m_stream.avail_out);
+        if (have > 0) WriteDataToStream(*m_to, *m_outBuff, have);
+      } while (m_stream.avail_out == 0);
+      unsigned long currentSize = static_cast<unsigned long>(m_from->device()->pos());
+      m_currentProgress = static_cast<int>(currentSize / m_percentValue);
+      if (flush == Z_FINISH) {
+        if (result != Z_STREAM_END) throw std::runtime_error("compressed was failed.");
+        m_isComplete = true;
+        deflateEnd(&m_stream);
+      }
+    }
+  }
+  catch (const std::runtime_error &err) {
+    m_isError = true;
+    deflateEnd(&m_stream);
+    ErrorHandler::getInstance().addErrorMessage("In function \"DataCompressor::process\" " + QString(err.what()));
+  }
+  catch (...) {
+    m_isError = true;
+    deflateEnd(&m_stream);
     ErrorHandler::getInstance().addErrorMessage("In function \"DataCompressor::process\" something went wrong.");
   }
 }

@@ -6,71 +6,74 @@
 
 
 WindowsHandler::WindowsHandler(QObject *parent) : QObject(parent) {
-  mainWindow = createWindow<MainWindow>(this);
-  settingsWindow = createWindow<SettingsWindow>(this);
-  mainWindow->show();
+  m_mainWindow = createWindow<MainWindow>(this);
+  m_settingsWindow = createWindow<SettingsWindow>(this);
+  m_chooseFilesWindow = createWindow<ChooseFilesWindow>(this);
+  m_processingWindow = createWindow<ProcessingWindow>(this);
+  m_mainWindow->show();
 }
 
 
 WindowsHandler::~WindowsHandler() {
-  if (mainWindow)        delete mainWindow;
-  if (chooseFilesWindow) delete chooseFilesWindow;
-  if (settingsWindow)    delete settingsWindow;
-  if (processingWindow)  delete processingWindow;
+  if (m_mainWindow) delete m_mainWindow;
+  if (m_chooseFilesWindow) delete m_chooseFilesWindow;
+  if (m_settingsWindow) delete m_settingsWindow;
+  if (m_processingWindow) delete m_processingWindow;
 }
 
 // public slots ===============================================================
 
 void WindowsHandler::buttonClick(MODE mode) {
-  WindowsHandler::mode = mode; // save mode from main window
+  m_mode = mode; // save mode from main window
   QObject *sender = QObject::sender();
-  if (sender == mainWindow) {
+  if (sender == m_mainWindow) {
     if (mode == MODE::EXIT) QApplication::quit();
-    if (mode == MODE::SETTINGS) settingsWindow->show();
-    else {
-     if (!chooseFilesWindow) chooseFilesWindow = createWindow<ChooseFilesWindow>(this);
-     chooseFilesWindow->show(mode);
-    }
-  } else if (sender == chooseFilesWindow) {
-    chooseFilesWindow->hide();
-  } else if (sender == settingsWindow) {
-    settingsWindow->hide();
-  } else if (sender == processingWindow) {
-    processingWindow->hide();
-    mainWindow->show();
+    if (mode == MODE::SETTINGS) m_settingsWindow->show();
+    else m_chooseFilesWindow->show(mode);
+  } else if (sender == m_chooseFilesWindow) {
+    m_chooseFilesWindow->hide();
+  } else if (sender == m_settingsWindow) {
+    m_settingsWindow->hide();
+  } else if (sender == m_processingWindow) {
+    m_processingWindow->hide();
+    m_mainWindow->show();
   }
 }
 
 
 void WindowsHandler::buttonClick(const QString &srcFilePath, const QString &targFilePath) {
-  chooseFilesWindow->hide();
-  mainWindow->hide();
-  if (!processingWindow) processingWindow = createWindow<ProcessingWindow>(this);
-  processingWindow->show(srcFilePath, targFilePath, mode);
+  m_chooseFilesWindow->hide();
+  m_mainWindow->hide();
+  m_processingWindow->show(srcFilePath, targFilePath, m_mode);
 }
 
 // friend functions ===========================================================
 
 template <typename WT>
 WT*  createWindow(WindowsHandler *wh) {
-  WT *nw;
-  if (typeid(WT) == typeid(MainWindow)) {
-    nw = new WT();
-    nw->connect(nw, SIGNAL(buttonClicked(MODE)), wh, SLOT(buttonClick(MODE)));
-  } else if (typeid(WT) == typeid(ChooseFilesWindow)) {
-    nw = new WT();
-    nw->connect(nw, SIGNAL(buttonClicked(MODE)), wh, SLOT(buttonClick(MODE)));
-    nw->connect(nw, SIGNAL(buttonClicked(const QString&, const QString&)), wh, SLOT(buttonClick(const QString&, const QString&)));
-    nw->connect(nw, SIGNAL(buttonClicked(MODE)), wh->mainWindow, SLOT(unlockWindow()));
-  } else if (typeid(WT) == typeid(SettingsWindow)) {
-    nw = new WT();
-    nw->connect(nw, SIGNAL(buttonClicked(MODE)), wh, SLOT(buttonClick(MODE)));
-    nw->connect(nw, SIGNAL(buttonClicked(MODE)), wh->mainWindow, SLOT(unlockWindow()));
+  WT *nw = nullptr;
+  try {
+    if (typeid(WT) == typeid(MainWindow)) {
+      nw = new WT();
+      nw->connect(nw, SIGNAL(buttonClicked(MODE)), wh, SLOT(buttonClick(MODE)));
+    } else if (typeid(WT) == typeid(ChooseFilesWindow)) {
+      nw = new WT();
+      nw->connect(nw, SIGNAL(buttonClicked(MODE)), wh, SLOT(buttonClick(MODE)));
+      nw->connect(nw, SIGNAL(buttonClicked(const QString&, const QString&)), wh, SLOT(buttonClick(const QString&, const QString&)));
+      nw->connect(nw, SIGNAL(buttonClicked(MODE)), wh->m_mainWindow, SLOT(unlockWindow()));
+    } else if (typeid(WT) == typeid(SettingsWindow)) {
+      nw = new WT();
+      nw->connect(nw, SIGNAL(buttonClicked(MODE)), wh, SLOT(buttonClick(MODE)));
+      nw->connect(nw, SIGNAL(buttonClicked(MODE)), wh->m_mainWindow, SLOT(unlockWindow()));
+    }
+    else if (typeid(WT) == typeid(ProcessingWindow)) {
+      nw = new WT();
+      nw->connect(nw, SIGNAL(buttonClicked(MODE)), wh, SLOT(buttonClick(MODE)));
+      nw->connect(nw, SIGNAL(buttonClicked(MODE)), wh->m_mainWindow, SLOT(unlockWindow()));
+    }
   }
-  else if (typeid(WT) == typeid(ProcessingWindow)) {
-    nw = new WT();
-    nw->connect(nw, SIGNAL(buttonClicked(MODE)), wh, SLOT(buttonClick(MODE)));
-    nw->connect(nw, SIGNAL(buttonClicked(MODE)), wh->mainWindow, SLOT(unlockWindow()));
+  catch (...) {
+    QApplication::quit(); // close application if window creating was failed
   }
   return nw;
 }

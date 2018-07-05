@@ -29,11 +29,11 @@ private slots:
   void buttonClick();
 
 private:
-  Ui::SettingsWindow *ui = nullptr;
-  SettingsHandler *settingsHandler = nullptr;
-  LanguageHandler *languageHandler = nullptr;
+  Ui::SettingsWindow *m_ui = nullptr;
+  SettingsHandler *m_settingsHandler = nullptr;
+  LanguageHandler *m_languageHandler = nullptr;
 
-  QVector<LanguageWidget*> languageWidgetsList;
+  QVector<LanguageWidget*> m_languageWidgetsList;
 
   void initUi();
   void addLanguageWidgets();

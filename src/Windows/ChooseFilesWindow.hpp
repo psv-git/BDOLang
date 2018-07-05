@@ -27,10 +27,10 @@ private slots:
   void buttonClick();
 
 private:
-  Ui::ChooseFilesWindow *ui = nullptr;
-  SettingsHandler *settingsHandler = nullptr;
-  LanguageHandler *languageHandler = nullptr;
-  MODE mode = MODE::NONE;
+  Ui::ChooseFilesWindow *m_ui = nullptr;
+  SettingsHandler *m_settingsHandler = nullptr;
+  LanguageHandler *m_languageHandler = nullptr;
+  MODE m_mode = MODE::NONE;
 
   void initUi();
   void addAllowedLanguages();

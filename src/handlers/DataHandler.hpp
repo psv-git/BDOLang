@@ -1,7 +1,7 @@
 #ifndef DATAHANDLER_HPP
 #define DATAHANDLER_HPP
 
-#include "ApplicationFunctions.hpp"
+#include "ApplicationGlobal.hpp"
 
 class DataRow;
 

@@ -2,38 +2,38 @@
 #include "ui_ErrorWindow.h"
 
 
-ErrorHandler::ErrorHandler(QWidget *parent) : QWidget(parent), ui(new Ui::ErrorWindow) {
-  ui->setupUi(this);
+ErrorHandler::ErrorHandler(QWidget *parent) : QWidget(parent), m_ui(new Ui::ErrorWindow) {
+  m_ui->setupUi(this);
 
-  connect(ui->okButton, SIGNAL(released()), this, SLOT(buttonClick()));
+  connect(m_ui->okButton, SIGNAL(released()), this, SLOT(buttonClick()));
 }
 
 
 ErrorHandler::~ErrorHandler() {
-  delete ui;
+  delete m_ui;
 }
 
 // public slots ===============================================================
 
 void ErrorHandler::showMessage() {
   QString errorMessage;
-  for (int i = 0; i < errorsMessagesList.size(); i++) {
-    errorMessage += errorsMessagesList.at(i) + "\n";
+  for (int i = 0; i < m_errorsMessagesList.size(); i++) {
+    errorMessage += m_errorsMessagesList.at(i) + "\n";
   }
-  errorsMessagesList.clear();
-  ui->errorEdit->appendPlainText(errorMessage);
+  m_errorsMessagesList.clear();
+  m_ui->errorEdit->appendPlainText(errorMessage);
   this->show();
 }
 
 // public methods =============================================================
 
 void ErrorHandler::addErrorMessage(const QString &errorMessage) {
-  errorsMessagesList.push_back(errorMessage);
+  m_errorsMessagesList.push_back(errorMessage);
 }
 
 // private slots ==============================================================
 
 void ErrorHandler::buttonClick() {
-  ui->errorEdit->clear();
+  m_ui->errorEdit->clear();
   this->hide();
 }

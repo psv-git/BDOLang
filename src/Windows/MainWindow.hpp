@@ -25,8 +25,8 @@ private slots:
   void buttonClick();
 
 private:
-  Ui::MainWindow *ui = nullptr;
-  SettingsHandler *settingsHandler = nullptr;
+  Ui::MainWindow *m_ui = nullptr;
+  SettingsHandler *m_settingsHandler = nullptr;
 
   void initUi();
 

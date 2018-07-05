@@ -26,7 +26,7 @@ bool ProcessingWindow::event(QEvent *event) {
 // public slots ===============================================================
 
 void ProcessingWindow::show(const QString &srcFilePath, const QString &targFilePath, MODE mode) {
-  m_ui->exitButton->setEnabled(false);
+  blockWindow();
   QWidget::show();
 
   DataHandler dataHandler(srcFilePath, targFilePath, mode);
@@ -48,9 +48,9 @@ void ProcessingWindow::start(const QString &msg) {
 
 
 void ProcessingWindow::stop() {
+  unblockWindow();
   m_ui->progressBar->setValue(100);
   m_ui->messageLabel->setText("DONE");
-  m_ui->exitButton->setEnabled(true);
 }
 
 
@@ -72,4 +72,16 @@ void ProcessingWindow::initUi() {
   m_ui->exitButton->setFont(m_settingsHandler->getFont("Liberation Sans", "Bold", 12));
 
   connect(m_ui->exitButton, SIGNAL(released()), this, SLOT(buttonClick()));
+
+  setWindowFlags(Qt::Window | Qt::WindowTitleHint | Qt::CustomizeWindowHint);
+}
+
+
+void ProcessingWindow::blockWindow() {
+  m_ui->exitButton->setEnabled(false);
+}
+
+
+void ProcessingWindow::unblockWindow() {
+  m_ui->exitButton->setEnabled(true);
 }
