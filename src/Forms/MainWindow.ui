@@ -16,6 +16,10 @@
   <property name="windowTitle">
    <string notr="true">BDOLang v.0.2a</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="../../res/Res.qrc">
+    <normaloff>:/images/images/application-icon.png</normaloff>:/images/images/application-icon.png</iconset>
+  </property>
   <widget class="QWidget" name="centralWidget">
    <property name="contextMenuPolicy">
     <enum>Qt::NoContextMenu</enum>
@@ -402,7 +406,9 @@ background-color: rgba(0, 0, 0, 200);
   <tabstop>settingsButton</tabstop>
   <tabstop>exitButton</tabstop>
  </tabstops>
- <resources/>
+ <resources>
+  <include location="../../res/Res.qrc"/>
+ </resources>
  <connections/>
  <slots>
   <slot>onButtonClick()</slot>

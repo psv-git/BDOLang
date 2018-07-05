@@ -3,6 +3,7 @@
         <file>images/checked-checkbox.png</file>
         <file>images/unchecked-checkbox.png</file>
         <file>images/disabled-checkbox.png</file>
+        <file>images/application-icon.png</file>
     </qresource>
     <qresource prefix="/fonts">
         <file>fonts/LiberationMono-Bold.ttf</file>

@@ -31,6 +31,10 @@
   <property name="windowTitle">
    <string>Open files</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="../../res/Res.qrc">
+    <normaloff>:/images/images/application-icon.png</normaloff>:/images/images/application-icon.png</iconset>
+  </property>
   <property name="styleSheet">
    <string notr="true">QWidget {
 	background-color: rgb(230, 230, 230);
@@ -538,6 +542,8 @@ QPushButton:disabled {
   <tabstop>okButton</tabstop>
   <tabstop>cancelButton</tabstop>
  </tabstops>
- <resources/>
+ <resources>
+  <include location="../../res/Res.qrc"/>
+ </resources>
  <connections/>
 </ui>
