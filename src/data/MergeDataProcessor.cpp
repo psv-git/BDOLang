@@ -75,8 +75,16 @@ void MergeDataProcessor::replaceTranslation() {
       QPair<int, int> indexes = m_sheetsPositionsList.value(m_sheetValue, qMakePair(0, m_to->size()));
       m_beg = indexes.first;
       m_end = indexes.second;
-      do {
 
+//      working apriory (very slow)
+//      for (int i = 0; i < m_to->size(); i++) {
+//        if (*m_from->at(m_index) == *m_to->at(i)) {
+//          m_to->at(i)->setString(m_from->at(m_index)->getString());
+//          break;
+//        }
+//      }
+
+      do {
         int range = m_end - m_beg;
         int mid = m_beg + range / 2; // on each step we are divide range on half space
 
@@ -91,8 +99,8 @@ void MergeDataProcessor::replaceTranslation() {
           if (range == 1) m_beg = m_end;
           else m_beg = mid;
         }
-
       } while (true);
+
       m_stepCounter++;
       m_currentProgress = static_cast<int>(m_stepCounter / m_percentValue);
       m_index++;
