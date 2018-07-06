@@ -21,7 +21,7 @@ MergeDataProcessor::~MergeDataProcessor() {}
 
 void MergeDataProcessor::process() {
   if (m_operationNumber == 1) saveSheetsRanges();
-  if (m_operationNumber == 2) replaceTranslation();
+  else if (m_operationNumber == 2) replaceTranslation();
 }
 
 // public methods =============================================================
@@ -76,14 +76,23 @@ void MergeDataProcessor::replaceTranslation() {
       m_beg = indexes.first;
       m_end = indexes.second;
       do {
-        int i = m_beg + ((m_end - m_beg) / 2);
-        if (*m_from->at(m_index) == *m_to->at(i)) {
-          m_to->at(i)->setString(m_from->at(m_index)->getString());
+
+        int range = m_end - m_beg;
+        int mid = m_beg + range / 2; // on each step we are divide range on half space
+
+        if (*m_from->at(m_index) == *m_to->at(mid)) {
+          m_to->at(mid)->setString(m_from->at(m_index)->getString());
           break;
+        } else if (*m_from->at(m_index) < *m_to->at(mid)) {
+          m_end = mid;
+          if (m_beg == m_end) break;
+        } else {
+          if (m_beg == m_end) break;
+          if (range == 1) m_beg = m_end;
+          else m_beg = mid;
         }
-        if (*m_from->at(m_index) < *m_to->at(i)) m_end = i;
-        else m_beg = i;
-      } while (m_beg != m_end);
+
+      } while (true);
       m_stepCounter++;
       m_currentProgress = static_cast<int>(m_stepCounter / m_percentValue);
       m_index++;
