@@ -91,6 +91,8 @@ void SettingsWindow::initUi() {
   connect(m_ui->deleteButton, SIGNAL(released()), this, SLOT(buttonClick()));
   connect(m_ui->dataPathButton, SIGNAL(released()), this, SLOT(buttonClick()));
 
+  setWindowFlags(Qt::Window | Qt::WindowTitleHint | Qt::CustomizeWindowHint);
+
   addLanguageWidgets();
 }
 

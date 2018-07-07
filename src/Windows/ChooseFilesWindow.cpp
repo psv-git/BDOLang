@@ -104,6 +104,8 @@ void ChooseFilesWindow::initUi() {
   connect(m_ui->targetPathButton, SIGNAL(released()), this, SLOT(buttonClick()));
   connect(m_ui->sourceLanguageComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(update()));
   connect(m_ui->targetLanguageComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(update()));
+
+  setWindowFlags(Qt::Window | Qt::WindowTitleHint | Qt::CustomizeWindowHint);
 }
 
 
