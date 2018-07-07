@@ -1,7 +1,7 @@
 #ifndef SETTINGSWINDOW_HPP
 #define SETTINGSWINDOW_HPP
 
-#include "ApplicationFunctions.hpp"
+#include "GlobalClasses.hpp"
 #include "ILanguageHandled.hpp"
 
 namespace Ui { class SettingsWindow; }
@@ -30,9 +30,6 @@ private slots:
 
 private:
   Ui::SettingsWindow *m_ui = nullptr;
-  SettingsHandler *m_settingsHandler = nullptr;
-  LanguageHandler *m_languageHandler = nullptr;
-
   QVector<LanguageWidget*> m_languageWidgetsList;
 
   void initUi();

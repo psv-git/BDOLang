@@ -1,7 +1,7 @@
 #ifndef ERRORHANDLER_HPP
 #define ERRORHANDLER_HPP
 
-#include "headers.hpp"
+#include "GlobalFunctions.hpp"
 
 namespace Ui { class ErrorWindow; }
 
@@ -32,6 +32,8 @@ private:
 
   Ui::ErrorWindow *m_ui = nullptr;
   QStringList m_errorsMessagesList;
+
+  void initUi();
 
 };
 

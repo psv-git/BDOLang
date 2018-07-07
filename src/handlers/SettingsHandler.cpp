@@ -1,15 +1,5 @@
-#include <QSettings>
-#include <QFontDatabase>
 #include "SettingsHandler.hpp"
 
-
-const DefaultSettings DEFAULT_SETTINGS {
-  1,
-  "data",
-  "config.ini"
-};
-
-//=============================================================================
 
 SettingsHandler::SettingsHandler() {
   m_settings = new QSettings(DEFAULT_SETTINGS.configFileName, QSettings::IniFormat);

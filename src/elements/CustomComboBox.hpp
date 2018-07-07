@@ -1,7 +1,6 @@
 #ifndef CUSTOMCOMBOBOX_HPP
 #define CUSTOMCOMBOBOX_HPP
 
-#include "ApplicationGlobal.hpp"
 #include <QComboBox>
 
 

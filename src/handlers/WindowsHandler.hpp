@@ -1,7 +1,7 @@
 #ifndef WINDOWSHANDLER_HPP
 #define WINDOWSHANDLER_HPP
 
-#include "ApplicationGlobal.hpp"
+#include "GlobalVariables.hpp"
 
 class MainWindow;
 class ChooseFilesWindow;

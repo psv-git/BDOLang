@@ -1,7 +1,7 @@
 #ifndef CHOOSEFILESWINDOW_HPP
 #define CHOOSEFILESWINDOW_HPP
 
-#include "ApplicationFunctions.hpp"
+#include "GlobalClasses.hpp"
 
 namespace Ui { class ChooseFilesWindow; }
 
@@ -13,7 +13,7 @@ public:
   explicit ChooseFilesWindow(QWidget *parent = nullptr);
   ~ChooseFilesWindow();
 
-  void closeEvent(QCloseEvent *event);
+  bool event(QEvent* event);
 
 signals:
   void buttonClicked(MODE);
@@ -28,8 +28,6 @@ private slots:
 
 private:
   Ui::ChooseFilesWindow *m_ui = nullptr;
-  SettingsHandler *m_settingsHandler = nullptr;
-  LanguageHandler *m_languageHandler = nullptr;
   MODE m_mode = MODE::NONE;
   LANG m_language = LANG::NONE;
 

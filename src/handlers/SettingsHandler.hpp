@@ -1,18 +1,7 @@
 #ifndef SETTINGSHANDLER_HPP
 #define SETTINGSHANDLER_HPP
 
-#include "headers.hpp"
-class QSettings;
-class QFontDatabase;
-
-
-struct DefaultSettings {
-  int compressingLevel;
-  QString dataDirectoryName;
-  QString configFileName;
-};
-
-extern const DefaultSettings DEFAULT_SETTINGS;
+#include "GlobalFunctions.hpp"
 
 
 class SettingsHandler {

@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -45,12 +45,13 @@ SOURCES += \
     src/data/MergeDataProcessor.cpp \
     src/elements/CustomComboBox.cpp \
     src/elements/LanguageWidget.cpp \
-    src/global/ApplicationFunctions.cpp \
+    src/global/GlobalFunctions.cpp \
     src/handlers/ErrorHandler.cpp \
     src/handlers/LanguageHandler.cpp \
     src/handlers/SettingsHandler.cpp \
     src/handlers/WindowsHandler.cpp \
     src/handlers/DataHandler.cpp \
+    src/handlers/LogHandler.cpp \
     src/windows/ChooseFilesWindow.cpp \
     src/windows/MainWindow.cpp \
     src/windows/ProcessingWindow.cpp \
@@ -65,13 +66,15 @@ HEADERS += \
     src/data/MergeDataProcessor.hpp \
     src/elements/CustomComboBox.hpp \
     src/elements/LanguageWidget.hpp \
-    src/global/ApplicationFunctions.hpp \
-    src/global/ApplicationGlobal.hpp \
+    src/global/GlobalVariables.hpp \
+    src/global/GlobalFunctions.hpp \
+    src/global/GlobalClasses.hpp \
     src/handlers/ErrorHandler.hpp \
     src/handlers/LanguageHandler.hpp \
     src/handlers/SettingsHandler.hpp \
     src/handlers/WindowsHandler.hpp \
     src/handlers/DataHandler.hpp \
+    src/handlers/LogHandler.hpp \
     src/interfaces/ILanguageHandled.hpp \
     src/windows/ChooseFilesWindow.hpp \
     src/windows/MainWindow.hpp \

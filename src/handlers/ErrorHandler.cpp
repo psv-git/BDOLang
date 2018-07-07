@@ -3,9 +3,7 @@
 
 
 ErrorHandler::ErrorHandler(QWidget *parent) : QWidget(parent), m_ui(new Ui::ErrorWindow) {
-  m_ui->setupUi(this);
-
-  connect(m_ui->okButton, SIGNAL(released()), this, SLOT(buttonClick()));
+  initUi();
 }
 
 
@@ -36,4 +34,11 @@ void ErrorHandler::addErrorMessage(const QString &errorMessage) {
 void ErrorHandler::buttonClick() {
   m_ui->errorEdit->clear();
   this->hide();
+}
+
+// ptivate methods ============================================================
+
+void ErrorHandler::initUi() {
+  m_ui->setupUi(this);
+  connect(m_ui->okButton, SIGNAL(released()), this, SLOT(buttonClick()));
 }

@@ -1,7 +1,7 @@
 #ifndef MERGEDATAPROCESSOR_HPP
 #define MERGEDATAPROCESSOR_HPP
 
-#include "ApplicationGlobal.hpp"
+#include "GlobalClasses.hpp"
 
 class DataRow;
 
@@ -34,15 +34,13 @@ private:
   qint64 m_percentValue = 0;
   int m_currentProgress = 0;
 
-  // saveRanges variables
+  // saveSheetsRanges variables
   QMap<unsigned long, QPair<int, int>> m_sheetsPositionsList;
   unsigned long m_sheetValue = 0;
   int m_beg = 0;
   int m_end = 0;
-
-  // replace variables
+  // replaceTranslation variables
   int m_index = 0;
-
 
   void saveSheetsRanges();
   void replaceTranslation();

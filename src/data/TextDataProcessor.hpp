@@ -1,7 +1,7 @@
 #ifndef TEXTDATAPROCESSOR_HPP
 #define TEXTDATAPROCESSOR_HPP
 
-#include "ApplicationGlobal.hpp"
+#include "GlobalClasses.hpp"
 
 class DataRow;
 

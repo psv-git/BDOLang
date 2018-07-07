@@ -11,8 +11,6 @@ const char* TMP_FILE_NAME = "./data/tmp.bss";
 // ============================================================================
 
 DataHandler::DataHandler(const QString &fromFilePath, const QString &toFilePath, LANG language, MODE mode) {
-  m_settingsHandler = &SettingsHandler::getInstance();
-  m_errorHandler = &ErrorHandler::getInstance();
   m_fromFilePath = fromFilePath;
   m_toFilePath = toFilePath;
   m_language = language;
@@ -101,10 +99,10 @@ bool DataHandler::process() {
     isError = false;
   }
   catch (const std::runtime_error &err) {
-    m_errorHandler->addErrorMessage("In function \"DataHandler::process\" " + QString(err.what()));
+    ErrorHandler::getInstance().addErrorMessage("In function \"DataHandler::process\" " + QString(err.what()));
   }
   catch (...) {
-    m_errorHandler->addErrorMessage("In function \"DataHandler::process\" processing data was failed.");
+    ErrorHandler::getInstance().addErrorMessage("In function \"DataHandler::process\" processing data was failed.");
   }
 
   try {
@@ -113,7 +111,7 @@ bool DataHandler::process() {
   }
   catch (const std::runtime_error &err) {
     isError = true;
-    m_errorHandler->addErrorMessage("In function \"DataHandler::process\" " + QString(err.what()));
+    ErrorHandler::getInstance().addErrorMessage("In function \"DataHandler::process\" " + QString(err.what()));
   }
 
   deleteData(originalRowsContainer);
@@ -143,11 +141,11 @@ bool DataHandler::cryptProcessing(QDataStream& stream, QVector<DataRow*>& data, 
   }
   catch (const std::runtime_error &err) {
     isError = true;
-    m_errorHandler->addErrorMessage("In function \"DataHandler::cryptProcessing\" " + QString(err.what()));
+    ErrorHandler::getInstance().addErrorMessage("In function \"DataHandler::cryptProcessing\" " + QString(err.what()));
   }
   catch (...) {
     isError = true;
-    m_errorHandler->addErrorMessage("In function \"DataHandler::cryptProcessing\" something went wrong.");
+    ErrorHandler::getInstance().addErrorMessage("In function \"DataHandler::cryptProcessing\" something went wrong.");
   }
 
   try {
@@ -156,7 +154,7 @@ bool DataHandler::cryptProcessing(QDataStream& stream, QVector<DataRow*>& data, 
   }
   catch (const std::runtime_error &err) {
     isError = true;
-    m_errorHandler->addErrorMessage("In function \"DataHandler::cryptProcessing\" " + QString(err.what()));
+    ErrorHandler::getInstance().addErrorMessage("In function \"DataHandler::cryptProcessing\" " + QString(err.what()));
   }
 
   return !isError;

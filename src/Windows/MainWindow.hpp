@@ -1,8 +1,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include "ApplicationGlobal.hpp"
-#include <QMainWindow>
+#include "GlobalClasses.hpp"
 
 namespace Ui { class MainWindow; }
 
@@ -26,7 +25,6 @@ private slots:
 
 private:
   Ui::MainWindow *m_ui = nullptr;
-  SettingsHandler *m_settingsHandler = nullptr;
 
   void initUi();
 

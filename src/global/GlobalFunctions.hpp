@@ -1,7 +1,9 @@
 #ifndef APPLICATIONFUNCTIONS_HPP
 #define APPLICATIONFUNCTIONS_HPP
 
-#include "ApplicationGlobal.hpp"
+// THIS FILE INCLUDED IN GlobalClasses.hpp
+
+#include "GlobalVariables.hpp"
 
 
 // service ====================================================================

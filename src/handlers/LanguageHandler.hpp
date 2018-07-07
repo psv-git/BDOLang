@@ -1,11 +1,7 @@
 #ifndef LANGUAGEHANDLER_HPP
 #define LANGUAGEHANDLER_HPP
 
-#include "headers.hpp"
-
-
-enum LANG : int { EMPTY, EN, AR, BE, EL, DA, IW, ES, IT, ZH, KO, DE, RU, TR, UK, FR, JA, NONE };
-Q_DECLARE_METATYPE(LANG)
+#include "GlobalFunctions.hpp"
 
 class LanguageWidget;
 class ILanguageHandled;

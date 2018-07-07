@@ -40,10 +40,23 @@ bool operator == (const DataRow& row1, const DataRow& row2) {
 
 // getters/setters ============================================================
 
-unsigned long  DataRow::getSheet() const { return m_sheet; }
-const QString DataRow::getString() const { return m_string; }
+unsigned long  DataRow::getSheet() const {
+  return m_sheet;
+}
 
-void DataRow::setString(const QString &string) { m_string = string; }
+
+const QString DataRow::getString() const {
+  return m_string;
+}
+
+
+const QString DataRow::getFullString() const {
+  return QString("%1 %2 %3 %4 %5 ").arg(m_sheet).arg(m_id1).arg(m_id2).arg(m_id3.solid).arg(m_id4.solid) + m_string;
+}
+
+void DataRow::setString(const QString &string) {
+  m_string = string;
+}
 
 // public methods =============================================================
 

@@ -5,9 +5,7 @@
 
 
 SettingsWindow::SettingsWindow(QWidget *parent) : QWidget(parent), m_ui(new Ui::SettingsWindow) {
-  m_settingsHandler = &SettingsHandler::getInstance();
-  m_languageHandler = &LanguageHandler::getInstance();
-  m_languageHandler->setHandledObject(this);
+  LanguageHandler::getInstance().setHandledObject(this);
   initUi();
 }
 
@@ -29,8 +27,8 @@ void SettingsWindow::closeEvent(QCloseEvent *event) {
 // public slots ===============================================================
 
 void SettingsWindow::show() {
-  m_ui->compressingBox->setValue(m_settingsHandler->getSetting("", "compressing_level", 1).toInt());
-  m_ui->dataPathEdit->setText(m_settingsHandler->getSetting("", "data_path", DEFAULT_SETTINGS.dataDirectoryName).toString());
+  m_ui->compressingBox->setValue(SettingsHandler::getInstance().getSetting("", "compressing_level", 1).toInt());
+  m_ui->dataPathEdit->setText(SettingsHandler::getInstance().getSetting("", "data_path", DEFAULT_SETTINGS.dataDirectoryName).toString());
   QWidget::show();
 }
 
@@ -53,16 +51,16 @@ void SettingsWindow::buttonClick() {
   else if (objName == "cancelButton") emit buttonClicked(MODE::CLOSE);
   else if (objName == "saveButton") {
     // save compressing level
-    m_settingsHandler->setSetting("", "compressing_level", m_ui->compressingBox->getValue());
+    SettingsHandler::getInstance().setSetting("", "compressing_level", m_ui->compressingBox->getValue());
     // save data path
     QString tmp = m_ui->dataPathEdit->text();
     if (tmp.isEmpty()) tmp = DEFAULT_SETTINGS.dataDirectoryName;
-    m_settingsHandler->setSetting("", "data_path", tmp);
+    SettingsHandler::getInstance().setSetting("", "data_path", tmp);
     // save language widgets
     for (int i = 0; i < m_languageWidgetsList.size(); i++) {
       m_languageWidgetsList[i]->save();
     }
-    m_settingsHandler->saveSettings();
+    SettingsHandler::getInstance().saveSettings();
     emit buttonClicked(MODE::CLOSE);
   }
 }
@@ -72,20 +70,20 @@ void SettingsWindow::buttonClick() {
 void SettingsWindow::initUi() {
   m_ui->setupUi(this);
 
-  m_ui->addButton->setFont(m_settingsHandler->getFont("Liberation Sans", "Bold", 12));
-  m_ui->deleteButton->setFont(m_settingsHandler->getFont("Liberation Sans", "Bold", 12));
+  m_ui->addButton->setFont(SettingsHandler::getInstance().getFont("Liberation Sans", "Bold", 12));
+  m_ui->deleteButton->setFont(SettingsHandler::getInstance().getFont("Liberation Sans", "Bold", 12));
 
-  m_ui->dataPathLabel->setFont(m_settingsHandler->getFont("Liberation Sans", "Bold", 11));
-  m_ui->dataPathEdit->setFont(m_settingsHandler->getFont("Liberation Mono", "Regular", 10));
-  m_ui->dataPathButton->setFont(m_settingsHandler->getFont("Liberation Sans", "Bold", 12));
+  m_ui->dataPathLabel->setFont(SettingsHandler::getInstance().getFont("Liberation Sans", "Bold", 11));
+  m_ui->dataPathEdit->setFont(SettingsHandler::getInstance().getFont("Liberation Mono", "Regular", 10));
+  m_ui->dataPathButton->setFont(SettingsHandler::getInstance().getFont("Liberation Sans", "Bold", 12));
 
-  m_ui->compressingLabel->setFont(m_settingsHandler->getFont("Liberation Sans", "Bold", 11));
-  m_ui->compressingBox->setFont(m_settingsHandler->getFont("Liberation Sans", "Bold", 12));
+  m_ui->compressingLabel->setFont(SettingsHandler::getInstance().getFont("Liberation Sans", "Bold", 11));
+  m_ui->compressingBox->setFont(SettingsHandler::getInstance().getFont("Liberation Sans", "Bold", 12));
 
-  m_ui->aboutEdit->setFont(m_settingsHandler->getFont("Liberation Sans", "Bold", 11));
+  m_ui->aboutEdit->setFont(SettingsHandler::getInstance().getFont("Liberation Sans", "Bold", 11));
 
-  m_ui->saveButton->setFont(m_settingsHandler->getFont("Liberation Sans", "Bold", 12));
-  m_ui->cancelButton->setFont(m_settingsHandler->getFont("Liberation Sans", "Bold", 12));
+  m_ui->saveButton->setFont(SettingsHandler::getInstance().getFont("Liberation Sans", "Bold", 12));
+  m_ui->cancelButton->setFont(SettingsHandler::getInstance().getFont("Liberation Sans", "Bold", 12));
 
   connect(m_ui->saveButton, SIGNAL(released()), this, SLOT(buttonClick()));
   connect(m_ui->cancelButton, SIGNAL(released()), this, SLOT(buttonClick()));
@@ -98,12 +96,12 @@ void SettingsWindow::initUi() {
 
 
 void SettingsWindow::addLanguageWidgets() {
-  QStringList groups = m_settingsHandler->getGroups();
+  QStringList groups = SettingsHandler::getInstance().getGroups();
   for (int i = 0; i < groups.size(); i++) {
-    LANG language = m_languageHandler->toLang(groups[i]);
+    LANG language = LanguageHandler::getInstance().toLang(groups[i]);
     if (language != LANG::NONE) {
-      QString locFileName = m_settingsHandler->getSetting(groups[i], "loc_file_name", "").toString();
-      QString textFileName = m_settingsHandler->getSetting(groups[i], "text_file_name", "").toString();
+      QString locFileName = SettingsHandler::getInstance().getSetting(groups[i], "loc_file_name", "").toString();
+      QString textFileName = SettingsHandler::getInstance().getSetting(groups[i], "text_file_name", "").toString();
       addLanguageWidget(true, language, locFileName, textFileName);
     }
   }

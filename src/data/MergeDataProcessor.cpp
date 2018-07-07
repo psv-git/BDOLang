@@ -96,6 +96,8 @@ void MergeDataProcessor::replaceTranslation() {
           if (m_sourceLanguage == LANG::RU) {
             if (m_from->at(m_index)->isCyrillic() && !m_from->at(m_index)->isLink()) {
               m_to->at(mid)->setString(m_from->at(m_index)->getString());
+            } else {
+              LogHandler::getInstance().addLogMessage("[MERGE] String \"" + m_from->at(m_index)->getFullString() + "\" was skipped.\n");
             }
           } else {
             m_to->at(mid)->setString(m_from->at(m_index)->getString());
@@ -114,7 +116,10 @@ void MergeDataProcessor::replaceTranslation() {
       m_stepCounter++;
       m_currentProgress = static_cast<int>(m_stepCounter / m_percentValue);
       m_index++;
-      if (m_index == m_from->size()) m_isComplete = true;
+      if (m_index == m_from->size()) {
+        m_isComplete = true;
+        LogHandler::getInstance().saveLog();
+      }
     }
   }
   catch (...) {

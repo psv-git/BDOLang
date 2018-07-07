@@ -1,7 +1,7 @@
 #ifndef DATAHANDLER_HPP
 #define DATAHANDLER_HPP
 
-#include "ApplicationGlobal.hpp"
+#include "GlobalClasses.hpp"
 
 class DataRow;
 
@@ -27,8 +27,6 @@ public slots:
 
 private:
   QWidget *m_parent;
-  SettingsHandler *m_settingsHandler = nullptr;
-  ErrorHandler *m_errorHandler = nullptr;
   QString m_fromFilePath;
   QString m_toFilePath;
   MODE m_mode = MODE::NONE;

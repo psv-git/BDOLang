@@ -4,8 +4,6 @@
 
 
 ProcessingWindow::ProcessingWindow(QWidget *parent) : QWidget(parent), m_ui(new Ui::ProcessingWindow) {
-  m_settingsHandler = &SettingsHandler::getInstance();
-  m_errorHandler = &ErrorHandler::getInstance();
   initUi();
 }
 
@@ -55,7 +53,7 @@ void ProcessingWindow::stop() {
 
 
 void ProcessingWindow::fail() {
-  m_errorHandler->showMessage();
+  ErrorHandler::getInstance().showMessage();
 }
 
 
@@ -68,8 +66,8 @@ void ProcessingWindow::buttonClick() {
 void ProcessingWindow::initUi() {
   m_ui->setupUi(this);
 
-  m_ui->messageLabel->setFont(m_settingsHandler->getFont("Liberation Sans", "Bold", 20));
-  m_ui->exitButton->setFont(m_settingsHandler->getFont("Liberation Sans", "Bold", 12));
+  m_ui->messageLabel->setFont(SettingsHandler::getInstance().getFont("Liberation Sans", "Bold", 20));
+  m_ui->exitButton->setFont(SettingsHandler::getInstance().getFont("Liberation Sans", "Bold", 12));
 
   connect(m_ui->exitButton, SIGNAL(released()), this, SLOT(buttonClick()));
 

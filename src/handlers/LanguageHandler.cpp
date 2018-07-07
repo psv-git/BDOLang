@@ -1,5 +1,4 @@
 #include "LanguageHandler.hpp"
-#include "SettingsWindow.hpp"
 #include "LanguageWidget.hpp"
 #include "ILanguageHandled.hpp"
 

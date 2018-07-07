@@ -6,9 +6,21 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>545</width>
-    <height>430</height>
+    <width>550</width>
+    <height>435</height>
    </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>550</width>
+    <height>435</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>550</width>
+    <height>435</height>
+   </size>
   </property>
   <property name="contextMenuPolicy">
    <enum>Qt::NoContextMenu</enum>
@@ -36,8 +48,8 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>360</y>
-      <width>525</width>
+      <y>365</y>
+      <width>530</width>
       <height>60</height>
      </rect>
     </property>
@@ -109,7 +121,7 @@ QPushButton:disabled {
      </property>
      <property name="geometry">
       <rect>
-       <x>285</x>
+       <x>290</x>
        <y>10</y>
        <width>230</width>
        <height>40</height>
@@ -151,7 +163,7 @@ QPushButton:disabled {
      <rect>
       <x>10</x>
       <y>10</y>
-      <width>525</width>
+      <width>530</width>
       <height>60</height>
      </rect>
     </property>
@@ -217,7 +229,7 @@ QPushButton:disabled {
     <widget class="QPushButton" name="ttbButton">
      <property name="geometry">
       <rect>
-       <x>285</x>
+       <x>290</x>
        <y>10</y>
        <width>230</width>
        <height>40</height>
@@ -259,7 +271,7 @@ QPushButton:disabled {
      <rect>
       <x>10</x>
       <y>80</y>
-      <width>525</width>
+      <width>530</width>
       <height>60</height>
      </rect>
     </property>
@@ -328,7 +340,7 @@ QPushButton:disabled {
      </property>
      <property name="geometry">
       <rect>
-       <x>285</x>
+       <x>290</x>
        <y>10</y>
        <width>230</width>
        <height>40</height>
@@ -365,6 +377,75 @@ QPushButton:disabled {
      </property>
     </widget>
    </widget>
+   <widget class="QFrame" name="frame3">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>150</y>
+      <width>530</width>
+      <height>60</height>
+     </rect>
+    </property>
+    <property name="contextMenuPolicy">
+     <enum>Qt::NoContextMenu</enum>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QFrame {
+	background-color: rgb(190, 190, 190);
+	
+	border: 1px solid  rgb(100, 100, 100);
+	border-radius: 2px;
+}</string>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::StyledPanel</enum>
+    </property>
+    <property name="frameShadow">
+     <enum>QFrame::Raised</enum>
+    </property>
+    <widget class="QPushButton" name="ftsButton">
+     <property name="enabled">
+      <bool>true</bool>
+     </property>
+     <property name="geometry">
+      <rect>
+       <x>150</x>
+       <y>10</y>
+       <width>230</width>
+       <height>40</height>
+      </rect>
+     </property>
+     <property name="focusPolicy">
+      <enum>Qt::StrongFocus</enum>
+     </property>
+     <property name="contextMenuPolicy">
+      <enum>Qt::NoContextMenu</enum>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton {
+	font: 75 12pt &quot;Liberation Sans&quot;;
+	color: rgb(255, 255, 255);
+
+	background-color: rgb(150, 150, 150);
+
+	border: 1px solid  rgb(100, 100, 100);
+	border-radius: 2px;
+}
+
+QPushButton:hover {
+	background-color: rgb(160, 160, 160);
+}
+
+QPushButton:disabled {
+	background-color: rgb(190, 190, 190);
+}
+</string>
+     </property>
+     <property name="text">
+      <string>FILL FILE TO SIZE</string>
+     </property>
+    </widget>
+   </widget>
    <widget class="QFrame" name="glass">
     <property name="enabled">
      <bool>true</bool>
@@ -373,8 +454,8 @@ QPushButton:disabled {
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>545</width>
-      <height>430</height>
+      <width>550</width>
+      <height>435</height>
      </rect>
     </property>
     <property name="contextMenuPolicy">

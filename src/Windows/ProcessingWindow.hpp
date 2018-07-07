@@ -1,7 +1,7 @@
 #ifndef PROCESSINGWINDOW_HPP
 #define PROCESSINGWINDOW_HPP
 
-#include "ApplicationGlobal.hpp"
+#include "GlobalClasses.hpp"
 
 namespace Ui { class ProcessingWindow; }
 
@@ -30,11 +30,8 @@ private slots:
 
 private:
   Ui::ProcessingWindow *m_ui = nullptr;
-  SettingsHandler *m_settingsHandler = nullptr;
-  ErrorHandler *m_errorHandler = nullptr;
 
   void initUi();
-
   void blockWindow();
   void unblockWindow();
 

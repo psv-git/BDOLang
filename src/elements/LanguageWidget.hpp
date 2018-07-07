@@ -1,7 +1,7 @@
 #ifndef LANGUAGEWIDGET_HPP
 #define LANGUAGEWIDGET_HPP
 
-#include "ApplicationFunctions.hpp"
+#include "GlobalClasses.hpp"
 
 namespace Ui { class LanguageWidget; }
 
@@ -28,8 +28,6 @@ private slots:
 
 private:
   Ui::LanguageWidget *m_ui = nullptr;
-  SettingsHandler *m_settingsHandler = nullptr;
-  LanguageHandler *m_languageHandler = nullptr;
   LANG m_currentLanguage = LANG::EMPTY;
 
   void initUi();

@@ -1,7 +1,7 @@
 #ifndef DATAROW_HPP
 #define DATAROW_HPP
 
-#include "ApplicationFunctions.hpp"
+#include "GlobalFunctions.hpp"
 
 
 union uint8_16 {
@@ -21,6 +21,7 @@ public:
 
   unsigned long getSheet() const;
   const QString getString() const;
+  const QString getFullString() const;
 
   void setString(const QString &string);
 
