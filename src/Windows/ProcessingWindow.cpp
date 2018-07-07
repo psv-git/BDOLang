@@ -25,11 +25,11 @@ bool ProcessingWindow::event(QEvent *event) {
 
 // public slots ===============================================================
 
-void ProcessingWindow::show(const QString &srcFilePath, const QString &targFilePath, MODE mode) {
+void ProcessingWindow::show(const QString &srcFilePath, const QString &targFilePath, LANG language, MODE mode) {
   blockWindow();
   QWidget::show();
 
-  DataHandler dataHandler(srcFilePath, targFilePath, mode);
+  DataHandler dataHandler(srcFilePath, targFilePath, language, mode);
 
   connect(&dataHandler, SIGNAL(started(QString)), this, SLOT(start(QString)));
   connect(&dataHandler, SIGNAL(progressed(int)), m_ui->progressBar, SLOT(setValue(int)));

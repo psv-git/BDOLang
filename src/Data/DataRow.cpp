@@ -1,8 +1,11 @@
 #include "DataRow.hpp"
 
 
+// this UTF-16BE codes
 const char16_t CR_CODE = 0x000D;
 const char16_t LF_CODE = 0x000A;
+const char16_t CYR_BEG_CODE = 0x0400;
+const char16_t CYR_END_CODE = 0x04FF;
 
 // ============================================================================
 
@@ -43,6 +46,23 @@ const QString DataRow::getString() const { return m_string; }
 void DataRow::setString(const QString &string) { m_string = string; }
 
 // public methods =============================================================
+
+bool DataRow::isCyrillic() {
+  for (int i = 0; i < m_string.size(); i++) {
+    QChar symbol = m_string.at(i);
+    if (symbol.unicode() >= CYR_BEG_CODE && symbol.unicode() <= CYR_END_CODE) {
+      return true;
+    }
+  }
+  return false;
+}
+
+
+bool DataRow::isLink() {
+  if (m_string.indexOf("http") == 0) return true;
+  return false;
+}
+
 
 // read from input stream (binary mode)
 void DataRow::readBinDataFrom(QDataStream& input) {

@@ -10,11 +10,12 @@ const char* TMP_FILE_NAME = "./data/tmp.bss";
 
 // ============================================================================
 
-DataHandler::DataHandler(const QString &fromFilePath, const QString &toFilePath, MODE mode) {
+DataHandler::DataHandler(const QString &fromFilePath, const QString &toFilePath, LANG language, MODE mode) {
   m_settingsHandler = &SettingsHandler::getInstance();
   m_errorHandler = &ErrorHandler::getInstance();
   m_fromFilePath = fromFilePath;
   m_toFilePath = toFilePath;
+  m_language = language;
   m_mode = mode;
 }
 
@@ -25,16 +26,16 @@ DataHandler::~DataHandler() {}
 
 void DataHandler::run() {
   emit runned();
-  if (!process(m_fromFilePath, m_toFilePath, m_mode)) emit failed();
+  if (!process()) emit failed();
   emit stopped();
 }
 
 // private methods ============================================================
 
-bool DataHandler::process(const QString &fromFilePath, const QString &toFilePath, MODE mode) {
+bool DataHandler::process() {
   bool isError = true;
-  QFile fromFile(fromFilePath);
-  QFile toFile(toFilePath);
+  QFile fromFile(m_fromFilePath);
+  QFile toFile(m_toFilePath);
   QVector<DataRow*> originalRowsContainer;
   QVector<DataRow*> translatedRowsContainer;
   try {
@@ -43,7 +44,7 @@ bool DataHandler::process(const QString &fromFilePath, const QString &toFilePath
 
     if (fromFile.atEnd()) throw std::runtime_error("input file is empty");
 
-    if (mode == MODE::BIN_TO_TEXT) {
+    if (m_mode == MODE::BIN_TO_TEXT) {
       QDataStream from(&fromFile);
       QTextStream to(&toFile);
       toFile.resize(0); // clean output file
@@ -53,7 +54,7 @@ bool DataHandler::process(const QString &fromFilePath, const QString &toFilePath
       if (!textProcessing(to, originalRowsContainer, PROCESS_MODE::WRITE)) {
         throw std::runtime_error("write data to text stream was failed");
       }
-    } else if (mode == MODE::TEXT_TO_BIN) {
+    } else if (m_mode == MODE::TEXT_TO_BIN) {
       QTextStream from(&fromFile);
       QDataStream to(&toFile);
       toFile.resize(0);
@@ -63,7 +64,7 @@ bool DataHandler::process(const QString &fromFilePath, const QString &toFilePath
       if (!cryptProcessing(to, originalRowsContainer, PROCESS_MODE::ENCRYPT)) {
         throw std::runtime_error("encrypt was failed");
       }
-    } else if (mode == MODE::MERGE_BIN) {
+    } else if (m_mode == MODE::MERGE_BIN) {
       QDataStream from(&fromFile);
       QDataStream to(&toFile);
       if (!cryptProcessing(from, translatedRowsContainer, PROCESS_MODE::DECRYPT)) {
@@ -79,7 +80,7 @@ bool DataHandler::process(const QString &fromFilePath, const QString &toFilePath
       if (!cryptProcessing(to, originalRowsContainer, PROCESS_MODE::ENCRYPT)) {
         throw std::runtime_error("encrypt data was failed");
       }
-    } else if (mode == MODE::MERGE_TEXT) {
+    } else if (m_mode == MODE::MERGE_TEXT) {
       QTextStream from(&fromFile);
       QTextStream to(&toFile);
       if (!textProcessing(from, translatedRowsContainer, PROCESS_MODE::READ)) {
@@ -254,7 +255,7 @@ bool DataHandler::mergeProcessing(QVector<DataRow*>& from, QVector<DataRow*>& to
   bool isError = false;
   QTimer timer;
   QThread thread;
-  MergeDataProcessor processor(from, to);
+  MergeDataProcessor processor(from, to, m_language);
 
   connect(&thread, SIGNAL(started()), &timer, SLOT(start()));
   connect(&timer, SIGNAL(timeout()), &processor, SLOT(process()));

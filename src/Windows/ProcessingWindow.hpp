@@ -20,7 +20,7 @@ signals:
   void buttonClicked(MODE mode);
 
 public slots:
-  void show(const QString &srcFilePath, const QString &targFilePath, MODE mode);
+  void show(const QString &srcFilePath, const QString &targFilePath, LANG language, MODE mode);
 
 private slots:
   void start(const QString &msg);

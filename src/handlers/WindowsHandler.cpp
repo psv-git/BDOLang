@@ -41,10 +41,10 @@ void WindowsHandler::buttonClick(MODE mode) {
 }
 
 
-void WindowsHandler::buttonClick(const QString &srcFilePath, const QString &targFilePath) {
+void WindowsHandler::buttonClick(const QString &srcFilePath, const QString &targFilePath, LANG language) {
   m_chooseFilesWindow->hide();
   m_mainWindow->hide();
-  m_processingWindow->show(srcFilePath, targFilePath, m_mode);
+  m_processingWindow->show(srcFilePath, targFilePath, language, m_mode);
 }
 
 // friend functions ===========================================================
@@ -59,7 +59,7 @@ WT*  createWindow(WindowsHandler *wh) {
     } else if (typeid(WT) == typeid(ChooseFilesWindow)) {
       nw = new WT();
       nw->connect(nw, SIGNAL(buttonClicked(MODE)), wh, SLOT(buttonClick(MODE)));
-      nw->connect(nw, SIGNAL(buttonClicked(const QString&, const QString&)), wh, SLOT(buttonClick(const QString&, const QString&)));
+      nw->connect(nw, SIGNAL(buttonClicked(const QString&, const QString&, LANG)), wh, SLOT(buttonClick(const QString&, const QString&, LANG)));
       nw->connect(nw, SIGNAL(buttonClicked(MODE)), wh->m_mainWindow, SLOT(unlockWindow()));
     } else if (typeid(WT) == typeid(SettingsWindow)) {
       nw = new WT();

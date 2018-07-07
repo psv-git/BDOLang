@@ -2,9 +2,10 @@
 #include "DataRow.hpp"
 
 
-MergeDataProcessor::MergeDataProcessor(QVector<DataRow*>& from, QVector<DataRow*>& to) {
+MergeDataProcessor::MergeDataProcessor(QVector<DataRow*>& from, QVector<DataRow*>& to, LANG sourceLanguage) {
   m_from = &from;
   m_to = &to;
+  m_sourceLanguage = sourceLanguage;
 
   m_stepCount = m_from->size() + m_to->size();
   m_percentValue = static_cast<qint64>(m_stepCount / 100);
@@ -76,7 +77,7 @@ void MergeDataProcessor::replaceTranslation() {
       m_beg = indexes.first;
       m_end = indexes.second;
 
-//      working apriory (very slow)
+//      standart search (very slow)
 //      for (int i = 0; i < m_to->size(); i++) {
 //        if (*m_from->at(m_index) == *m_to->at(i)) {
 //          m_to->at(i)->setString(m_from->at(m_index)->getString());
@@ -84,19 +85,28 @@ void MergeDataProcessor::replaceTranslation() {
 //        }
 //      }
 
+      // binary search
       do {
         int range = m_end - m_beg;
         int mid = m_beg + range / 2; // on each step we are divide range on half space
 
         if (*m_from->at(m_index) == *m_to->at(mid)) {
-          m_to->at(mid)->setString(m_from->at(m_index)->getString());
+          // this check added for skip other language and links in cyrillic translated file
+          // it may be deleted or extended
+          if (m_sourceLanguage == LANG::RU) {
+            if (m_from->at(m_index)->isCyrillic() && !m_from->at(m_index)->isLink()) {
+              m_to->at(mid)->setString(m_from->at(m_index)->getString());
+            }
+          } else {
+            m_to->at(mid)->setString(m_from->at(m_index)->getString());
+          }
           break;
         } else if (*m_from->at(m_index) < *m_to->at(mid)) {
           m_end = mid;
           if (m_beg == m_end) break;
         } else {
           if (m_beg == m_end) break;
-          if (range == 1) m_beg = m_end;
+          if (range == 1) m_beg = m_end; // need last iteration for check m_end position
           else m_beg = mid;
         }
       } while (true);

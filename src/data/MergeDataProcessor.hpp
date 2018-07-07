@@ -10,7 +10,7 @@ class MergeDataProcessor : public QObject {
 Q_OBJECT
 
 public:
-  explicit MergeDataProcessor(QVector<DataRow*>& from, QVector<DataRow*>& to);
+  explicit MergeDataProcessor(QVector<DataRow*>& from, QVector<DataRow*>& to, LANG sourceLanguage);
   ~MergeDataProcessor();
 
   bool isComplete() const;
@@ -23,6 +23,7 @@ public slots:
 private:
   QVector<DataRow*> *m_from = nullptr;
   QVector<DataRow*> *m_to = nullptr;
+  LANG m_sourceLanguage = LANG::NONE;
 
   int m_operationNumber = 1; // trigger to switch operation
   bool m_isError = false;

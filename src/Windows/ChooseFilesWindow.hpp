@@ -17,7 +17,7 @@ public:
 
 signals:
   void buttonClicked(MODE);
-  void buttonClicked(const QString &srcFilePath, const QString &targFilePath);
+  void buttonClicked(const QString &srcFilePath, const QString &targFilePath, LANG language);
 
 public slots:
   void show(MODE mode);
@@ -31,6 +31,7 @@ private:
   SettingsHandler *m_settingsHandler = nullptr;
   LanguageHandler *m_languageHandler = nullptr;
   MODE m_mode = MODE::NONE;
+  LANG m_language = LANG::NONE;
 
   void initUi();
   void addAllowedLanguages();

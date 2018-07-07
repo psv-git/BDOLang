@@ -18,7 +18,7 @@ public:
 
 public slots:
   void buttonClick(MODE mode);
-  void buttonClick(const QString &srcFilePath, const QString &targFilePath);
+  void buttonClick(const QString &srcFilePath, const QString &targFilePath, LANG language);
 
 private:
   MODE m_mode = MODE::NONE;

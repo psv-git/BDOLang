@@ -24,6 +24,9 @@ public:
 
   void setString(const QString &string);
 
+  bool isCyrillic();
+  bool isLink();
+
   void readBinDataFrom(QDataStream& input);
   void writeBinDataTo(QDataStream& output);
   void readTextDataFrom(QTextStream& input);

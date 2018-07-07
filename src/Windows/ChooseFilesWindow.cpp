@@ -47,11 +47,13 @@ void ChooseFilesWindow::update() {
     sourcePath = m_settingsHandler->getSetting(m_ui->sourceLanguageComboBox->currentText(), "text_file_name", "").toString();
     targetPath = m_settingsHandler->getSetting(m_ui->targetLanguageComboBox->currentText(), "loc_file_name", "").toString();
   } else if (m_mode == MODE::MERGE_BIN) {
+    m_language = m_languageHandler->toLang(m_ui->sourceLanguageComboBox->currentText());
     m_ui->sourcePathLabel->setText("Choose path to translated .loc file:");
     m_ui->targetPathLabel->setText("Choose path to original .loc file (WILL BE REWRITE):");
     sourcePath = m_settingsHandler->getSetting(m_ui->sourceLanguageComboBox->currentText(), "loc_file_name", "").toString();
     targetPath = m_settingsHandler->getSetting(m_ui->targetLanguageComboBox->currentText(), "loc_file_name", "").toString();
   } else if (m_mode == MODE::MERGE_TEXT) {
+    m_language = m_languageHandler->toLang(m_ui->sourceLanguageComboBox->currentText());
     m_ui->sourcePathLabel->setText("Choose path to translated text file:");
     m_ui->targetPathLabel->setText("Choose path to original text file (WILL BE REWRITE):");
     sourcePath = m_settingsHandler->getSetting(m_ui->sourceLanguageComboBox->currentText(), "text_file_name", "").toString();
@@ -74,7 +76,7 @@ void ChooseFilesWindow::buttonClick () {
   } else if (objName == "okButton") {
     QString srcFilePath(m_ui->sourcePathEdit->text());
     QString targFilePath(m_ui->targetPathEdit->text());
-    emit buttonClicked(srcFilePath, targFilePath);
+    emit buttonClicked(srcFilePath, targFilePath, m_language);
   }
 }
 

@@ -10,7 +10,7 @@ class DataHandler : public QObject {
 Q_OBJECT
 
 public:
-  DataHandler(const QString &fromFilePath, const QString &toFilePath, MODE mode);
+  DataHandler(const QString &fromFilePath, const QString &toFilePath, LANG language, MODE mode);
   ~DataHandler();
 
 signals:
@@ -31,9 +31,10 @@ private:
   ErrorHandler *m_errorHandler = nullptr;
   QString m_fromFilePath;
   QString m_toFilePath;
-  MODE m_mode;
+  MODE m_mode = MODE::NONE;
+  LANG m_language = LANG::NONE;
 
-  bool process(const QString &fromFilePath,  const QString &toFilePath, MODE mode);
+  bool process();
 
   bool cryptProcessing(QDataStream& stream, QVector<DataRow*>& data, PROCESS_MODE mode);
   bool binProcessing(QDataStream& stream, QVector<DataRow*>& data, PROCESS_MODE mode);
