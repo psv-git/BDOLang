@@ -43,6 +43,7 @@ SOURCES += \
     src/data/TextDataProcessor.cpp \
     src/data/BinDataProcessor.cpp \
     src/data/MergeDataProcessor.cpp \
+    src/data/FileFiller.cpp \
     src/elements/CustomComboBox.cpp \
     src/elements/LanguageWidget.cpp \
     src/global/GlobalFunctions.cpp \
@@ -64,6 +65,7 @@ HEADERS += \
     src/data/TextDataProcessor.hpp \
     src/data/BinDataProcessor.hpp \
     src/data/MergeDataProcessor.hpp \
+    src/data/FileFiller.hpp \
     src/elements/CustomComboBox.hpp \
     src/elements/LanguageWidget.hpp \
     src/global/GlobalVariables.hpp \

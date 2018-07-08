@@ -58,6 +58,11 @@ void ChooseFilesWindow::update() {
     m_ui->targetPathLabel->setText("Choose path to original text file (WILL BE REWRITE):");
     sourcePath = SettingsHandler::getInstance().getSetting(m_ui->sourceLanguageComboBox->currentText(), "text_file_name", "").toString();
     targetPath = SettingsHandler::getInstance().getSetting(m_ui->targetLanguageComboBox->currentText(), "text_file_name", "").toString();
+  } else if (m_mode == MODE::FILL_TO_SIZE) {
+    m_ui->sourcePathLabel->setText("Choose path to file that have target size:");
+    m_ui->targetPathLabel->setText("Choose path to file that will be filled to size:");
+    m_ui->sourceLanguageComboBox->clear();
+    m_ui->targetLanguageComboBox->clear();
   }
 
   m_ui->sourcePathEdit->setText(dataPath + sourcePath);

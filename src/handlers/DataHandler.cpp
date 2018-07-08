@@ -4,6 +4,7 @@
 #include "BinDataProcessor.hpp"
 #include "DataCompressor.hpp"
 #include "MergeDataProcessor.hpp"
+#include "FileFiller.hpp"
 
 
 const char* TMP_FILE_NAME = "./data/tmp.bss";
@@ -38,61 +39,71 @@ bool DataHandler::process() {
   QVector<DataRow*> translatedRowsContainer;
   try {
     OpenFile(fromFile, QIODevice::ReadOnly);
-    OpenFile(toFile, QIODevice::ReadWrite);
 
     if (fromFile.atEnd()) throw std::runtime_error("input file is empty");
 
     if (m_mode == MODE::BIN_TO_TEXT) {
+      OpenFile(toFile, QIODevice::WriteOnly);
       QDataStream from(&fromFile);
       QTextStream to(&toFile);
       toFile.resize(0); // clean output file
       if (!cryptProcessing(from, originalRowsContainer, PROCESS_MODE::DECRYPT)) {
-        throw std::runtime_error("decrypt data was failed");
+        throw std::runtime_error("decrypting data was failed");
       }
       if (!textProcessing(to, originalRowsContainer, PROCESS_MODE::WRITE)) {
-        throw std::runtime_error("write data to text stream was failed");
+        throw std::runtime_error("writing data to text stream was failed");
       }
     } else if (m_mode == MODE::TEXT_TO_BIN) {
+      OpenFile(toFile, QIODevice::WriteOnly);
       QTextStream from(&fromFile);
       QDataStream to(&toFile);
       toFile.resize(0);
       if (!textProcessing(from, originalRowsContainer, PROCESS_MODE::READ)) {
-        throw std::runtime_error("read data from text stream was failed");
+        throw std::runtime_error("reading data from text stream was failed");
       }
       if (!cryptProcessing(to, originalRowsContainer, PROCESS_MODE::ENCRYPT)) {
-        throw std::runtime_error("encrypt was failed");
+        throw std::runtime_error("encrypting data was failed");
       }
     } else if (m_mode == MODE::MERGE_BIN) {
+      OpenFile(toFile, QIODevice::ReadWrite);
       QDataStream from(&fromFile);
       QDataStream to(&toFile);
       if (!cryptProcessing(from, translatedRowsContainer, PROCESS_MODE::DECRYPT)) {
-        throw std::runtime_error("decrypt data was failed");
+        throw std::runtime_error("decrypting data was failed");
       }
       if (!cryptProcessing(to, originalRowsContainer, PROCESS_MODE::DECRYPT)) {
-        throw std::runtime_error("decrypt data was failed");
+        throw std::runtime_error("decrypting data was failed");
       }
       if (!mergeProcessing(translatedRowsContainer, originalRowsContainer)) {
-        throw std::runtime_error("merge data was failed");
+        throw std::runtime_error("merging data was failed");
       }
       toFile.resize(0);
       if (!cryptProcessing(to, originalRowsContainer, PROCESS_MODE::ENCRYPT)) {
-        throw std::runtime_error("encrypt data was failed");
+        throw std::runtime_error("encrypting data was failed");
       }
     } else if (m_mode == MODE::MERGE_TEXT) {
+      OpenFile(toFile, QIODevice::ReadWrite);
       QTextStream from(&fromFile);
       QTextStream to(&toFile);
       if (!textProcessing(from, translatedRowsContainer, PROCESS_MODE::READ)) {
-        throw std::runtime_error("read data from text stream was failed");
+        throw std::runtime_error("reading data from text stream was failed");
       }
       if (!textProcessing(to, originalRowsContainer, PROCESS_MODE::READ)) {
-        throw std::runtime_error("read data from text stream was failed");
+        throw std::runtime_error("reading data from text stream was failed");
       }
       if (!mergeProcessing(translatedRowsContainer, originalRowsContainer)) {
-        throw std::runtime_error("merge data was failed");
+        throw std::runtime_error("merging data was failed");
       }
       toFile.resize(0);
       if (!textProcessing(to, originalRowsContainer, PROCESS_MODE::WRITE)) {
-        throw std::runtime_error("write data to text stream was failed");
+        throw std::runtime_error("writing data to text stream was failed");
+      }
+    } else if (m_mode == MODE::FILL_TO_SIZE) {
+      OpenFile(toFile, QIODevice::Append);
+      QDataStream from(&fromFile);
+      QDataStream to(&toFile);
+      if (!fillProcessing(from, to)) {
+        throw std::runtime_error("filling file was failed");
       }
     }
 
@@ -315,6 +326,41 @@ bool DataHandler::compressProcessing(QDataStream& from, QDataStream& to, PROCESS
     }
     Delay(10);
   } while (!compressor.isComplete());
+
+  thread.quit();
+  thread.wait();
+
+  return !isError;
+}
+
+// ============================================================================
+
+bool DataHandler::fillProcessing(QDataStream& from, QDataStream& to) {
+  emit started("FILLING FILE TO SIZE");
+
+  bool isError = false;
+  QTimer timer;
+  QThread thread;
+  FileFiller filler(from, to);
+
+  connect(&thread, SIGNAL(started()), &timer, SLOT(start()));
+  connect(&timer, SIGNAL(timeout()), &filler, SLOT(process()));
+  connect(&thread, SIGNAL(finished()), &timer, SLOT(stop()));
+
+  timer.setInterval(0);
+  timer.moveToThread(&thread);
+  filler.moveToThread(&thread);
+  thread.start();
+
+  // wait work complete and simultaneously get progress status
+  do {
+    emit progressed(filler.getProgress());
+    if (filler.isError()) {
+      isError = true;
+      break;
+    }
+    Delay(10);
+  } while (!filler.isComplete());
 
   thread.quit();
   thread.wait();

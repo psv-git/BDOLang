@@ -30,6 +30,7 @@ void MainWindow::buttonClick() {
   else if (objName == "ttbButton") emit buttonClicked(MODE::TEXT_TO_BIN);
   else if (objName == "mbButton") emit buttonClicked(MODE::MERGE_BIN);
   else if (objName == "mtButton") emit buttonClicked(MODE::MERGE_TEXT);
+  else if (objName == "ftsButton") emit buttonClicked(MODE::FILL_TO_SIZE);
   else if (objName == "settingsButton") emit buttonClicked(MODE::SETTINGS);
   else if (objName == "exitButton") emit buttonClicked(MODE::EXIT);
 }
@@ -43,6 +44,7 @@ void MainWindow::initUi() {
   m_ui->ttbButton->setFont(SettingsHandler::getInstance().getFont("Liberation Sans", "Bold", 12));
   m_ui->mbButton->setFont(SettingsHandler::getInstance().getFont("Liberation Sans", "Bold", 12));
   m_ui->mtButton->setFont(SettingsHandler::getInstance().getFont("Liberation Sans", "Bold", 12));
+  m_ui->ftsButton->setFont(SettingsHandler::getInstance().getFont("Liberation Sans", "Bold", 12));
   m_ui->settingsButton->setFont(SettingsHandler::getInstance().getFont("Liberation Sans", "Bold", 12));
   m_ui->exitButton->setFont(SettingsHandler::getInstance().getFont("Liberation Sans", "Bold", 12));
 
@@ -50,6 +52,7 @@ void MainWindow::initUi() {
   connect(m_ui->ttbButton, SIGNAL(released()), this, SLOT(buttonClick()));
   connect(m_ui->mbButton, SIGNAL(released()), this, SLOT(buttonClick()));
   connect(m_ui->mtButton, SIGNAL(released()), this, SLOT(buttonClick()));
+  connect(m_ui->ftsButton, SIGNAL(released()), this, SLOT(buttonClick()));
   connect(m_ui->settingsButton, SIGNAL(released()), this, SLOT(buttonClick()));
   connect(m_ui->exitButton, SIGNAL(released()), this, SLOT(buttonClick()));
 

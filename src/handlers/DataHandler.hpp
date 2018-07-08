@@ -39,6 +39,7 @@ private:
   bool textProcessing(QTextStream& stream, QVector<DataRow*>& data, PROCESS_MODE mode);
   bool mergeProcessing(QVector<DataRow*>& from, QVector<DataRow*>& to);
   bool compressProcessing(QDataStream& from, QDataStream& to, PROCESS_MODE mode);
+  bool fillProcessing(QDataStream& from, QDataStream& to);
 
   void deleteData(QVector<DataRow*>& dataRowsContainer);
 
