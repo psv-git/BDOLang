@@ -34,7 +34,6 @@
   <property name="styleSheet">
    <string notr="true">QWidget {
 	background-color: rgb(190, 190, 190);
-	border-bottom: 1px solid  rgb(100, 100, 100);
 }
 </string>
   </property>
@@ -73,18 +72,18 @@
 	font: 75 12pt &quot;Liberation Sans&quot;;
 	color: rgb(255, 255, 255);
 
-	background-color: rgb(150, 150, 150);
+	background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 0.67,  stop: 0 rgb(150,150, 150), stop: 1 rgb(100, 100, 100));
 
-	border: 1px solid  rgb(100, 100, 100);
+	border: 1px solid  rgb(0, 0, 0);
 	border-radius: 2px;
 }
 
 QPushButton:hover {
-	background-color: rgb(160, 160, 160);
+	background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 0.67,  stop: 0 rgb(180,180, 180), stop: 1 rgb(120, 120, 120));
 }
 
 QPushButton:disabled {
-	background-color: rgb(190, 190, 190);
+	background-color: rgb(150, 150, 150);
 }
 </string>
    </property>
@@ -120,7 +119,7 @@ QPushButton:disabled {
 
 	background-color: rgb(255, 255, 255);
 
-	border: 1px solid  rgb(100, 100, 100);
+	border: 1px solid  rgb(0, 0, 0);
 	border-radius: 2px;
 }
 </string>
@@ -189,7 +188,7 @@ QPushButton:disabled {
 
 	background-color: rgb(255, 255, 255);
 
-	border: 1px solid  rgb(100, 100, 100);
+	border: 1px solid  rgb(0, 0, 0);
 	border-radius: 2px;
 }
 </string>
@@ -286,18 +285,18 @@ QCheckBox:indicator:unchecked:disabled {
 	font: 75 12pt &quot;Liberation Sans&quot;;
 	color: rgb(255, 255, 255);
 
-	background-color: rgb(150, 150, 150);
+	background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 0.67,  stop: 0 rgb(150,150, 150), stop: 1 rgb(100, 100, 100));
 
-	border: 1px solid  rgb(100, 100, 100);
+	border: 1px solid  rgb(0, 0, 0);
 	border-radius: 2px;
 }
 
 QPushButton:hover {
-	background-color: rgb(160, 160, 160);
+	background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 0.67,  stop: 0 rgb(180,180, 180), stop: 1 rgb(120, 120, 120));
 }
 
 QPushButton:disabled {
-	background-color: rgb(190, 190, 190);
+	background-color: rgb(150, 150, 150);
 }
 </string>
    </property>
@@ -400,7 +399,7 @@ QPushButton:disabled {
 
 	background-color: rgb(150, 150, 150);
 
-	border: 1px solid  rgb(100, 100, 100);
+	border: 1px solid  rgb(0, 0, 0);
 	border-radius: 2px;
 }
 

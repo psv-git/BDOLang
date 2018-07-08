@@ -57,7 +57,7 @@
     <string notr="true">QFrame {
 	background-color: rgb(190, 190, 190);
 	
-	border: 1px solid  rgb(100, 100, 100);
+	border: 1px solid  rgb(0, 0, 0);
 	border-radius: 2px;
 }
 </string>
@@ -66,7 +66,13 @@
     <enum>QFrame::StyledPanel</enum>
    </property>
    <property name="frameShadow">
-    <enum>QFrame::Raised</enum>
+    <enum>QFrame::Sunken</enum>
+   </property>
+   <property name="lineWidth">
+    <number>5</number>
+   </property>
+   <property name="midLineWidth">
+    <number>2</number>
    </property>
    <widget class="QProgressBar" name="progressBar">
     <property name="geometry">
@@ -143,7 +149,7 @@
     <string notr="true">QFrame {
 	background-color: rgb(190, 190, 190);
 	
-	border: 1px solid  rgb(100, 100, 100);
+	border: 1px solid  rgb(0, 0, 0);
 	border-radius: 2px;
 }
 </string>
@@ -152,7 +158,13 @@
     <enum>QFrame::StyledPanel</enum>
    </property>
    <property name="frameShadow">
-    <enum>QFrame::Raised</enum>
+    <enum>QFrame::Sunken</enum>
+   </property>
+   <property name="lineWidth">
+    <number>5</number>
+   </property>
+   <property name="midLineWidth">
+    <number>2</number>
    </property>
    <widget class="QPushButton" name="exitButton">
     <property name="enabled">
@@ -177,18 +189,18 @@
 	font: 75 12pt &quot;Liberation Sans&quot;;
 	color: rgb(255, 255, 255);
 
-	background-color: rgb(0, 150, 0);
+	background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 0.67,  stop: 0 rgb(0, 180, 0), stop: 1 rgb(0, 80, 0));
 
-	border: 1px solid  rgb(0, 50, 0);
+	border: 1px solid  rgb(0, 0, 0);
 	border-radius: 2px;
 }
 
 QPushButton:hover {
-	background-color: rgb(0, 180, 0);
+	background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 0.67,  stop: 0 rgb(0, 200, 0), stop: 1 rgb(0, 110, 0));
 }
 
 QPushButton:disabled {
-	background-color: rgb(100, 150, 100);
+	background-color: rgb(150, 180, 150);
 }
 </string>
     </property>
