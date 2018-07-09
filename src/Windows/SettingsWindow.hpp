@@ -17,7 +17,7 @@ public:
   virtual void updateLanguage();
 
 protected:
-  void closeEvent(QCloseEvent *event);
+  bool event(QEvent *event);
 
 signals:
   void buttonClicked(MODE mode);

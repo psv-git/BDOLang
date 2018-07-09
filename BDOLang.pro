@@ -46,6 +46,7 @@ SOURCES += \
     src/data/FileFiller.cpp \
     src/elements/CustomComboBox.cpp \
     src/elements/LanguageWidget.cpp \
+    src/elements/CustomTextEdit.cpp \
     src/global/GlobalFunctions.cpp \
     src/handlers/ErrorHandler.cpp \
     src/handlers/LanguageHandler.cpp \
@@ -68,6 +69,7 @@ HEADERS += \
     src/data/FileFiller.hpp \
     src/elements/CustomComboBox.hpp \
     src/elements/LanguageWidget.hpp \
+    src/elements/CustomTextEdit.hpp \
     src/global/GlobalVariables.hpp \
     src/global/GlobalFunctions.hpp \
     src/global/GlobalClasses.hpp \

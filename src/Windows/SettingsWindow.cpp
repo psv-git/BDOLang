@@ -1,6 +1,7 @@
 #include "SettingsWindow.hpp"
 #include "ui_SettingsWindow.h"
 #include "CustomComboBox.hpp"
+#include "CustomTextEdit.hpp"
 #include "LanguageWidget.hpp"
 
 
@@ -19,9 +20,11 @@ SettingsWindow::~SettingsWindow() {
 
 // events =====================================================================
 
-void SettingsWindow::closeEvent(QCloseEvent *event) {
-  emit buttonClicked(MODE::CLOSE);
-  QWidget::closeEvent(event);
+bool SettingsWindow::event(QEvent *event) {
+  if (event->type() == QEvent::Close) {
+    emit buttonClicked(MODE::CLOSE);
+  }
+  return QWidget::event(event);
 }
 
 // public slots ===============================================================

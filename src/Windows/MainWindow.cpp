@@ -48,6 +48,10 @@ void MainWindow::initUi() {
   m_ui->settingsButton->setFont(SettingsHandler::getInstance().getFont("Liberation Sans", "Bold", 12));
   m_ui->exitButton->setFont(SettingsHandler::getInstance().getFont("Liberation Sans", "Bold", 12));
 
+  m_ui->label1->setFont(SettingsHandler::getInstance().getFont("Liberation Sans", "Regular", 10));
+  m_ui->label2->setFont(SettingsHandler::getInstance().getFont("Liberation Sans", "Regular", 10));
+  m_ui->label3->setFont(SettingsHandler::getInstance().getFont("Liberation Sans", "Regular", 10));
+
   connect(m_ui->bttButton, SIGNAL(released()), this, SLOT(buttonClick()));
   connect(m_ui->ttbButton, SIGNAL(released()), this, SLOT(buttonClick()));
   connect(m_ui->mbButton, SIGNAL(released()), this, SLOT(buttonClick()));

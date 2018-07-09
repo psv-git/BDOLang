@@ -495,7 +495,7 @@ QPushButton:disabled {
 </string>
     </property>
     <property name="text">
-     <string>CANCEL</string>
+     <string>X</string>
     </property>
    </widget>
    <widget class="QPushButton" name="okButton">
@@ -537,7 +537,7 @@ QPushButton:disabled {
 </string>
     </property>
     <property name="text">
-     <string>OK</string>
+     <string>V</string>
     </property>
    </widget>
   </widget>

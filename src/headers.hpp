@@ -6,6 +6,8 @@
 #include <QApplication>
 #include <QMainWindow>
 #include <QFileDialog>
+#include <QDesktopServices>
+#include <QMouseEvent>
 #include <QSettings>
 #include <QFontDatabase>
 #include <QTimer>
@@ -20,8 +22,8 @@
 #include <algorithm>
 
 // debug
-#include <QDebug>
-#include <iostream>
+//#include <QDebug>
+//#include <iostream>
 
 
 #endif // HEADERS_HPP
