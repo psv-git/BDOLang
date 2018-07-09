@@ -1,3 +1,6 @@
+# Copyright 2018 PSV LGPL-3.0
+
+
 #-------------------------------------------------
 #
 # Project created by QtCreator 2018-06-30T00:18:46
