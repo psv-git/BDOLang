@@ -1,7 +1,5 @@
-### LOC TO TEXT - Конвертирует .loc файл в текстовый файл.
+Program for localization Black Desert Online.
 
-### TEXT TO LOC - Конвертирует текстовый файл в .loc файл.
+For download see release section.
 
-### MERGE LOC FILES - Производит слияние двух .loc файлов в один.
-
-### MERGE TEXT FILES - Производит слияние двух текстовых файлов в один.
+If you want more features or finded a bug - send me letter or add new issue.
