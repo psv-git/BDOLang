@@ -1,3 +1,6 @@
+// Copyright (c) 2018 PSV
+// https://github.com/psv-git
+
 #ifndef ERRORHANDLER_HPP
 #define ERRORHANDLER_HPP
 

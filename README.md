@@ -4,4 +4,5 @@
 
 ## If you want more features or finded a bug - send me letter or add new issue.
 
-Copyright 2018 PSV LGPL-3.0
+Created by using QtCreator 4.6.2 (Qt 5.10.1)
+Copyright (c) 2018 PSV LGPL-3.0

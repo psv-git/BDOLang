@@ -1,3 +1,6 @@
+// Copyright (c) 2018 PSV
+// https://github.com/psv-git
+
 #include "DataHandler.hpp"
 #include "DataRow.hpp"
 #include "TextDataProcessor.hpp"

@@ -1,5 +1,5 @@
-# Copyright 2018 PSV LGPL-3.0
-
+# Copyright (c) 2018 PSV
+# https://github.com/psv-git
 
 #-------------------------------------------------
 #

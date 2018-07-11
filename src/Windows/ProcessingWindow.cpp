@@ -1,3 +1,6 @@
+// Copyright (c) 2018 PSV
+// https://github.com/psv-git
+
 #include "ProcessingWindow.hpp"
 #include "ui_ProcessingWindow.h"
 #include "DataHandler.hpp"

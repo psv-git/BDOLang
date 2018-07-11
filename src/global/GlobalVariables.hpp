@@ -1,3 +1,6 @@
+// Copyright (c) 2018 PSV
+// https://github.com/psv-git
+
 #ifndef APPLICATIONGLOBAL_HPP
 #define APPLICATIONGLOBAL_HPP
 

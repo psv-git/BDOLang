@@ -1,3 +1,6 @@
+// Copyright (c) 2018 PSV
+// https://github.com/psv-git
+
 #include "GlobalFunctions.hpp"
 
 
@@ -11,13 +14,13 @@ void Delay(int ms) {
 
 // paths & files ======================================================================
 
-const QString GetDirectoryPath(const QString &title) {
-  return QFileDialog::getExistingDirectory(nullptr, title, "/.", QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
+QString GetRootPath() {
+  return QDir::currentPath();
 }
 
 
-QString GetRootPath() {
-  return QDir::currentPath();
+const QString GetDirectoryPath(const QString &title) {
+  return QFileDialog::getExistingDirectory(nullptr, title, "/.", QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
 }
 
 

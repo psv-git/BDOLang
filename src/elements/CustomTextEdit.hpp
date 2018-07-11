@@ -1,3 +1,6 @@
+// Copyright (c) 2018 PSV
+// https://github.com/psv-git
+
 #ifndef CUSTOMTEXTEDIT_HPP
 #define CUSTOMTEXTEDIT_HPP
 

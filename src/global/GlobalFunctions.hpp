@@ -1,5 +1,8 @@
-#ifndef APPLICATIONFUNCTIONS_HPP
-#define APPLICATIONFUNCTIONS_HPP
+// Copyright (c) 2018 PSV
+// https://github.com/psv-git
+
+#ifndef GLOBALFUNCTIONS_HPP
+#define GLOBALFUNCTIONS_HPP
 
 // THIS FILE INCLUDED IN GlobalClasses.hpp
 
@@ -8,15 +11,13 @@
 
 // service ====================================================================
 
-int RunApplication(int argc, char *argv[]);
-
 void Delay(int ms);
 
 // paths & files ======================================================================
 
-const QString GetDirectoryPath(const QString &title);
 QString GetRootPath();
 
+const QString GetDirectoryPath(const QString &title);
 const QString GetFilePath(const QString &title, const QString &extStr);
 const QString GetFileName(const QString &title, const QString &extStr);
 
@@ -44,4 +45,4 @@ int WriteDataToStream(QDataStream& stream, V& var, int size = 0) {
 }
 
 
-#endif // APPLICATIONFUNCTIONS_HPP
+#endif // GLOBALFUNCTIONS_HPP

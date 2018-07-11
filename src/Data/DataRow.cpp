@@ -1,7 +1,10 @@
+// Copyright (c) 2018 PSV
+// https://github.com/psv-git
+
 #include "DataRow.hpp"
 
 
-// this UTF-16BE codes
+// UTF-16BE symbol codes
 const char16_t CR_CODE = 0x000D;
 const char16_t LF_CODE = 0x000A;
 const char16_t CYR_BEG_CODE = 0x0400;

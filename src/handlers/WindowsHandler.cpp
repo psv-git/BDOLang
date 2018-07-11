@@ -1,3 +1,6 @@
+// Copyright (c) 2018 PSV
+// https://github.com/psv-git
+
 #include "WindowsHandler.hpp"
 #include "MainWindow.hpp"
 #include "ChooseFilesWindow.hpp"

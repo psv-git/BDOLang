@@ -1,3 +1,6 @@
+// Copyright (c) 2018 PSV
+// https://github.com/psv-git
+
 #include "SettingsWindow.hpp"
 #include "ui_SettingsWindow.h"
 #include "CustomComboBox.hpp"
