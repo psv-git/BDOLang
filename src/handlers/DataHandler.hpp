@@ -1,4 +1,4 @@
-// Copyright (c) 2018 PSV
+// Copyright (c) 2018 PSV LGPL-3.0
 // https://github.com/psv-git
 
 #ifndef DATAHANDLER_HPP

@@ -1,3 +1,6 @@
+// Copyright (c) 2018 PSV LGPL-3.0
+// https://github.com/psv-git
+
 #ifndef PROCESSINGWINDOW_HPP
 #define PROCESSINGWINDOW_HPP
 
