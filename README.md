@@ -1,8 +1,8 @@
+# ! Im no longer playng to BDO. So, I have not a client and I cant fix this program. You can fork it if you want. !
+
 # Program for localization Black Desert Online.
 
 For download see release section.
-
-If you finded a bug - add new issue.
 
 ## Contribution:
 ### Liberation fonts - https://pagure.io/liberation-fonts
