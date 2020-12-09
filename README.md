@@ -2,8 +2,6 @@
 
 ## Program for localization Black Desert Online.
 
-For download see release section.
-
 ### Contribution:
 #### Liberation fonts - https://pagure.io/liberation-fonts
 
